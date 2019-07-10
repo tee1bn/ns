@@ -9,7 +9,7 @@ include 'includes/auth_header.php';?>
                     <h3 class="box-title mb-3">Sign In</h3>
 
                                 
-                    <?php if($this->inputError('user_login') != '' ):?>
+                    <?php if(@$this->inputError('user_login') != '' ):?>
                        <center class="alert alert-danger" >
                         <?=$this->inputError('user_login');?>
                        </center>

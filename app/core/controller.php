@@ -304,7 +304,7 @@ if ($response == true) {
 			foreach ($data as $key => $value) { $$key = $value ;}
 			$view_path = explode('/', $view);
 			array_pop($view_path);
-
+				$view_folder = '';
 			foreach ($view_path as $key => $folder) {
 
 				$view_folder .= $folder.'/' ;
@@ -316,8 +316,8 @@ if ($response == true) {
 			$currency		= Config::currency();
 			$project_name	= Config::project_name();
 			$domain			= Config::domain();
-			$asset 			= $domain."/template/".Config::views_template()."/assets";
-			$logo 			=	"$asset/images/branding/dove7.png";
+			$asset 			= $domain."/template/".Config::views_template()."/app-assets";
+			$logo 			=	"$asset/images/logo/nsw-t.png";
 			$fav_icon 			=	$logo;
 			$this_folder	= $domain."/template/".Config::views_template()."/$view_folder";
 			$websocket_url	= "$host:3000";
@@ -331,8 +331,6 @@ if ($response == true) {
 			define("$this_folder", 	$this_folder, 	true);
 			define("domain", 	$domain, 	true);
 			define("project_name", 	$project_name, 	true);
-			define("$includes_dir", 	$includes_dir, 	true);
-			define("accessor",	$accessor, 	true);
 			define("asset", 	$asset, 	true);
 			define("logo", 	$logo, 	true);
 			define("fav_icon", 	$fav_icon, 	true);
