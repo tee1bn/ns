@@ -317,6 +317,7 @@ if ($response == true) {
 			$project_name	= Config::project_name();
 			$domain			= Config::domain();
 			$asset 			= $domain."/template/".Config::views_template()."/app-assets";
+			$general_asset 			= $domain."/template/".Config::views_template()."/system_assets";
 			$logo 			=	"$asset/images/logo/nsw-t.png";
 			$fav_icon 			=	$logo;
 			$this_folder	= $domain."/template/".Config::views_template()."/$view_folder";
@@ -332,6 +333,7 @@ if ($response == true) {
 			define("domain", 	$domain, 	true);
 			define("project_name", 	$project_name, 	true);
 			define("asset", 	$asset, 	true);
+			define("general_asset", 	$general_asset, 	true);
 			define("logo", 	$logo, 	true);
 			define("fav_icon", 	$fav_icon, 	true);
 			define("websocket_url", $websocket_url, 	true);

@@ -420,7 +420,6 @@ class UserController extends controller
 
 	public function index()
 	{
-		Redirect::to('user/subscription');
 		$settings = SiteSettings::site_settings();
 		$this->view('auth/dashboard', compact('settings'));
 	}
@@ -435,8 +434,6 @@ class UserController extends controller
 
 	public function dashboard()
 	{
-
-		Redirect::to('user/shop');
 
 		$settings = SiteSettings::site_settings();
 		$this->view('auth/dashboard', compact('settings'));

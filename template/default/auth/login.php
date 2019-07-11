@@ -1,59 +1,48 @@
-
-<?php 
-$page_title = 'Login';
+<?php
+$page_title = "Login";
 include 'includes/auth_header.php';?>
 
 
-                <form
-                     data-toggle="validator"  class="form-horizontal form-material" id="loginform" action="<?=domain;?>/login/authenticate" method="post">
-                    <h3 class="box-title mb-3">Sign In</h3>
-
-                                
-                    <?php if(@$this->inputError('user_login') != '' ):?>
-                       <center class="alert alert-danger" >
-                        <?=$this->inputError('user_login');?>
-                       </center>
-                    <?php endif;?>
-
-                    
-                    <div class="form-group ">
-                        <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Username or Email" name="user"> </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12">
-                            <input class="form-control" type="password" name="password" required="" placeholder="Password"> </div>
-                    </div>
-
-                          <div class="g-recaptcha form-group" data-sitekey="<?=SiteSettings::site_settings()['google_re_captcha_site_key'];?>"></div>
-
-                    <div class="form-group">
-                        <div class="col-md-12">
-                           <!--  <div class="checkbox checkbox-primary float-left pt-0">
-                                <input id="checkbox-signup" type="checkbox">
-                                <label for="checkbox-signup"> Remember me </label>
-                            </div> --> 
-                            <a href="<?=domain;?>/forgot-password" id="to-recover" class="text-dark float-right"><i class="fa fa-lock mr-1"></i> Forgot pwd?</a> </div>
-                    </div>
 
 
+					<h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>Log in</span></h6>
+				</div>
+				<div class="card-content">	
+					<div class="card-body" style="padding-top: 0px;">
+  						<form data-toggle="validator"  class="form-horizontal form-simple" id="loginform" action="<?=domain;?>/login/authenticate" method="post">
 
+		                    <?php if(@$this->inputError('user_login') != '' ):?>
+		                       <center class="alert alert-danger" >
+		                        <?=$this->inputError('user_login');?>
+		                       </center>
+		                    <?php endif;?>
+		  							
+							<fieldset class="form-group position-relative has-icon-left mb-1">
+								<input type="text" class="form-control form-control-lg" 
+								placeholder="Username or Email" name="user" >
+								<div class="form-control-position">
+								    <i class="ft-user"></i>
+								</div>
+							</fieldset>
 
-                    <div class="form-group text-center mt-3">
-                        <div class="col-xs-12">
-                            <button class="btn btn-success btn-lg btn-block text-uppercase waves-effect waves-light" type="submit">Log In</button>
-                        </div>
-                    </div>
-
-
-                    <div class="form-group mb-0">
-                        <div class="col-sm-12 text-center">
-                            <p>Don't have an account? <a href="<?=domain;?>/register" class="text-success ml-1"><b>Sign Up</b></a></p>
-                        </div>
-                    </div>
-                </form>
-
-
-
-
-<?php include 'includes/auth_footer.php';?>
+							<fieldset class="form-group position-relative has-icon-left">
+								<input type="password" class="form-control form-control-lg" name="password" placeholder="Enter Password" required>
+								<div class="form-control-position">
+								    <i class="fa fa-key"></i>
+								</div>
+							</fieldset>
+							<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="ft-unlock"></i> Login</button>
+						</form>
+					</div>
+					<p class="text-center">Don't have an account ? <a href="<?=domain;?>/register" class="card-link">Register</a></p>
+					<p class="text-center"> <a href="<?=domain;?>/forgot-password" class="card-link"> Forgot Password ?</a></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+        </div>
+      </div>
+    </div>
+    <!-- END: Content-->
+<?php include 'includes/auth_footer.php';

@@ -1,38 +1,24 @@
 
 
+    <!-- BEGIN: Vendor JS-->
+    <script src="<?=asset;?>/vendors/js/vendors.min.js"></script>
 
-            </div>
-          </div>
-        </div>
-        
-    </section>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- ============================================================== -->
-    <!-- All Jquery -->
 
-    <!-- ============================================================== -->
-    <script src="<?=asset;?>/plugins/jquery/jquery.min.js"></script>
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="<?=asset;?>/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="<?=asset;?>/plugins/bootstrap/js/bootstrap.min.js"></script>
-    
-        <script src="<?=$this_folder;?>/js/validator.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="<?=$this_folder;?>/js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
-    <script src="<?=$this_folder;?>/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="<?=$this_folder;?>/js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="<?=asset;?>/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <!--Custom JavaScript -->
-    <script src="<?=$this_folder;?>/js/custom.min.js"></script>
-    <!-- ============================================================== -->
-    <!-- Style switcher -->
-    <!-- ============================================================== -->
-    <script src="<?=asset;?>/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-</body>
+    <script src="<?=general_asset;?>/validator.min.js"></script>
+    <!-- BEGIN Vendor JS-->
 
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="<?=asset;?>/vendors/js/forms/validation/jqBootstrapValidation.js"></script>
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="<?=asset;?>/js/core/app-menu.min.js"></script>
+    <script src="<?=asset;?>/js/core/app.min.js"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="<?=asset;?>/js/scripts/forms/form-login-register.min.js"></script>
+    <!-- END: Page JS-->
+
+  </body>
 </html>

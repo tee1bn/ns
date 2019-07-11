@@ -1,51 +1,46 @@
-  
-                <!-- ============================================================== -->
-                <!-- End Right sidebar -->
-                <!-- ============================================================== -->
-            </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer">
-                © <?=date("Y");?> <?=project_name;?> <?=$this->getsitecredit();?>
-            </footer>
-            <!-- ============================================================== -->
-            <!-- End footer -->
-            <!-- ============================================================== -->
-        </div>
 
 
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
-    </div>
-
-    <!-- Bootstrap tether Core JavaScript -->
-    <script src="<?=asset;?>/plugins/bootstrap/js/popper.min.js"></script>
-    <script src="<?=asset;?>/plugins/bootstrap/js/bootstrap.min.js"></script>
-    <!-- slimscrollbar scrollbar JavaScript -->
-    <script src="<?=$this_folder;?>/js/jquery.slimscroll.js"></script>
-    <!--Wave Effects -->
-    <script src="<?=$this_folder;?>/js/waves.js"></script>
-    <!--Menu sidebar -->
-    <script src="<?=$this_folder;?>/js/sidebarmenu.js"></script>
-    <!--stickey kit -->
-    <script src="<?=asset;?>/plugins/sticky-kit-master/dist/sticky-kit.min.js"></script>
-    <!--Custom JavaScript -->
-    <script src="<?=$this_folder;?>/js/custom.min.js"></script>
-    <!-- ============================================================== -->
-
-    <!-- This is data table -->
-    <script src="<?=asset;?>/plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-
-    <!-- Style switcher -->
-    <!-- ============================================================== -->
-    <script src="<?=asset;?>/plugins/styleswitcher/jQuery.style.switcher.js"></script>
-
-</body>
 
 
+    <div class="sidenav-overlay"></div>
+    <div class="drag-target"></div>
+
+    <!-- BEGIN: Footer-->
+    <footer class="footer footer-static footer-light navbar-border">
+      <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright  &copy; <?=date("Y");?> <a class="text-bold-800 grey darken-2" href="<?=domain;?>" target="_blank"><?=project_name;?>      </a></span><span class="float-md-right d-none d-lg-block">Built By <a>Gitstar Digital</a></span></p>
+    </footer>
+    <!-- END: Footer-->
+
+
+    <!-- BEGIN: Vendor JS-->
+    <script src="<?=$asset;?>/vendors/js/vendors.min.js"></script>
+    <!-- BEGIN Vendor JS-->
+
+    <!-- BEGIN: Page Vendor JS-->
+    <script src="<?=$asset;?>/vendors/js/extensions/jquery.knob.min.js"></script>
+    <script src="<?=$asset;?>/js/scripts/extensions/knob.min.js"></script>
+    <script src="<?=$asset;?>/vendors/js/charts/raphael-min.js"></script>
+    <script src="<?=$asset;?>/vendors/js/charts/morris.min.js"></script>
+    <script src="<?=$asset;?>/vendors/js/charts/jvector/jquery-jvectormap-2.0.3.min.js"></script>
+    <script src="<?=$asset;?>/vendors/js/charts/jvector/jquery-jvectormap-world-mill.js"></script>
+    <script src="<?=$asset;?>/data/jvector/visitor-data.js"></script>
+    <script src="<?=$asset;?>/vendors/js/charts/chart.min.js"></script>
+    <script src="<?=$asset;?>/vendors/js/charts/jquery.sparkline.min.js"></script>
+    <script src="<?=$asset;?>/vendors/js/extensions/unslider-min.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/core/colors/palette-climacon.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/fonts/simple-line-icons/style.min.css">
+    <!-- END: Page Vendor JS-->
+
+    <!-- BEGIN: Theme JS-->
+    <script src="<?=$asset;?>/js/core/app-menu.min.js"></script>
+    <script src="<?=$asset;?>/js/core/app.min.js"></script>
+    <script src="<?=$asset;?>/js/scripts/customizer.min.js"></script>
+    <!-- END: Theme JS-->
+
+    <!-- BEGIN: Page JS-->
+    <script src="<?=$asset;?>/js/scripts/pages/dashboard-analytics.min.js"></script>
+    <!-- END: Page JS-->
+
+  </body>
+  <!-- END: Body-->
 </html>

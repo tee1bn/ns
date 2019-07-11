@@ -156,7 +156,7 @@ class home extends controller
 	public function index($page=null)
 	{	
 
-		$this->view('html/index');
+		$this->view('auth/index');
 
 	}
 
