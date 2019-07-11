@@ -332,7 +332,7 @@ class UserController extends controller
 
 	public function profile()
 	{
-		$this->view('auth/profile');
+		$this->view('auth/blank');
 	}
 
 

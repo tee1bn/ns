@@ -42,12 +42,13 @@
   <body class="vertical-layout vertical-menu 1-column   blank-page blank-page" data-open="click" data-menu="vertical-menu" data-col="1-column">
     <!-- BEGIN: Content-->
     <div class="app-content content">
-      <div class="content-wrapper">
+      <div class="content-wrapper" style="overflow-y: scroll;">
         <div class="content-header row">
         </div>
-        <div class="content-body"><section class="flexbox-container">
+        <div class="content-body" >
+            <section class="flexbox-container">
     <div class="col-12 d-flex align-items-center justify-content-center">
-        <div class="col-lg-4 col-md-8 col-10 box-shadow-2 p-0">
+        <div class="col-md-7 box-shadow-2 p-0">
 			<div class="card border-grey border-lighten-3 px-2 py-2 m-0">
 				<div class="card-header border-0">
 					<div class="card-title text-center">

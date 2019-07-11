@@ -9,7 +9,7 @@
     <meta name="description" content="<?=@$page_description;?>">
     <meta name="keywords" content="<?=@$page_keywords;?>">
     <meta name="author" content="<?=$page_author;?>">
-    <title><?=@$page_title;?></title>
+    <title><?=@$page_title;?> | <?=project_name;?></title>
     <link rel="apple-touch-icon" href="<?=$logo;?>">
     <link rel="shortcut icon" type="image/x-icon" href="<?=$logo;?>">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
@@ -67,7 +67,7 @@
               <li class="nav-item d-none d-md-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li>
               <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"><i class="ficon ft-search"></i></a>
                 <div class="search-input">
-                  <input class="input" type="text" placeholder="Explore Stack...">
+                  <input class="input" type="text" placeholder="Explore <?=project_name;?>...">
                 </div>
               </li>
             </ul>
@@ -169,12 +169,10 @@
                     <i></i></span><span class="user-name"><?=$auth->fullname;?></span></a>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="user-profile.html">
-                    <i class="ft-user"></i> Edit 
+                  <a class="dropdown-item" href="<?=domain;?>/user/profile">
+                    <i class="ft-user"></i> Profile 
                   </a>
-                  <a class="dropdown-item" href="app-email.html"><i class="ft-mail"></i> My Inbox</a>
-                  <a class="dropdown-item" href="user-cards.html"><i class="ft-check-square"></i> Task</a>
-                  <a class="dropdown-item" href="app-chat.html"><i class="ft-message-square"></i> Chats</a>
+                  <a class="dropdown-item" href="<?=domain;?>/user/account"><i class="ft-settings"></i> Account</a>
                   <div class="dropdown-divider"></div><a class="dropdown-item" href="<?=domain;?>/login/logout">
                     <i class="ft-power"></i> Logout</a>
                 </div>

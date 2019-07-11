@@ -354,7 +354,6 @@ public static function generate_phone_code_for($user_id)
 public function generate_username_from_email($email)
 {
  	$username = explode('@', $email)[0];
-
 	$i = 1;
  do{
  	$loop_username = ($i==1)? "$username" :"$username".($i-1);

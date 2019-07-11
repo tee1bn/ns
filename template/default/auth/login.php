@@ -31,6 +31,18 @@ include 'includes/auth_header.php';?>
 								    <i class="fa fa-key"></i>
 								</div>
 							</fieldset>
+
+							<fieldset class="form-group position-relative has-icon-left">
+
+								<div 
+									class="g-recaptcha form-group" data-sitekey="<?=SiteSettings::site_settings()['google_re_captcha_site_key'];?>">
+								</div>
+
+
+							</fieldset>
+
+
+
 							<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="ft-unlock"></i> Login</button>
 						</form>
 					</div>

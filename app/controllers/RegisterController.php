@@ -247,38 +247,19 @@ if (Input::exists('user_registration') || true) {
 					],
 
 		'phone' =>[
-				'required'=> true,
-				'max'=> '32',
-				'min'=> '2',
-					],
-		/*
-		'bank_name' =>[
-					'required'=> true,
-					'max'=> '32',
-					'min'=> '2',
-						],
-
-		'bank_account_name' =>[
 				// 'required'=> true,
 				'max'=> '32',
 				'min'=> '2',
 					],
-
-		'bank_account_number' =>[
-				// 'required'=> true,
-				'numeric'=> true,
-				'max'=> '32',
-				'min'=> '2',
-					],
-		*/
-
+	
+/*
 		'username' => [
 						'required'=> true,
 						'min'=> 3,
 						'one_word'=> true,
 						'no_special_character'=> true,
 						'unique'=> 'User',
-					],
+					],*/
 
 
 		'email' => [
@@ -328,11 +309,12 @@ if (Input::exists('user_registration') || true) {
 	 	$user_details 				=  Input::all();
 	 	$user_details['referred_by'] 	=  $referred_by ;
 	 	$user_details['introduced_by'] 	=  $introduced_by ;
+	 	$user_details['username'] 	=  $username ;
 
 	 	$user_details['email_verification'] = MIS::random_string()  ;
 
  		
- 		 $new_user  					=  User::create($user_details);
+ 		 $new_user  =  User::create($user_details);
 	
 		 $new_user->update(['mlm_id' => $new_user->id]) ;
 
@@ -354,7 +336,7 @@ if (Input::exists('user_registration') || true) {
  		}
  }else{
 
- 	Session::putFlash('danger', "Please try again ");
+ 	Session::putFlash('danger', Input::inputErrors());
 
 print_r($this->validator->errors());
 

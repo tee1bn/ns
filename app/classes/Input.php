@@ -132,7 +132,6 @@ public function inputError($field)
 
 		public static function old($item)
 		{
-
 			return Session::get('inputs')[$item];
 		}
 
