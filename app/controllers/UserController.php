@@ -275,9 +275,11 @@ class UserController extends controller
     {
     	if (Input::exists() || true) {
 
+    		$auth = $this->auth();
+
 	    	Testimonials::create([
-	    						'attester' => $this->auth()->lastname.' '. $this->auth()->firstname,
-								  'user_id'	 => $this->auth()->id, 
+	    						'attester' => $auth->lastname.' '. $auth->firstname,
+								  'user_id'	 => $auth->id, 
 								  'content'  =>Input::get('testimony')]);
 
 	    	Session::putFlash('success','Testimony created successfully. awaiting approval');
@@ -314,9 +316,9 @@ class UserController extends controller
 
 
 
-	public function write_testimony()
+	public function testimony()
 	{
-		$this->view('auth/write-testimony');
+		$this->view('auth/testimony');
 	}
 
 
@@ -332,7 +334,7 @@ class UserController extends controller
 
 	public function profile()
 	{
-		$this->view('auth/blank');
+		$this->view('auth/profile');
 	}
 
 

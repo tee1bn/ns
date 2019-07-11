@@ -172,7 +172,7 @@
                   <a class="dropdown-item" href="<?=domain;?>/user/profile">
                     <i class="ft-user"></i> Profile 
                   </a>
-                  <a class="dropdown-item" href="<?=domain;?>/user/account"><i class="ft-settings"></i> Account</a>
+                  <a class="dropdown-item" href="<?=domain;?>/user/accounts"><i class="ft-settings"></i> Account</a>
                   <div class="dropdown-divider"></div><a class="dropdown-item" href="<?=domain;?>/login/logout">
                     <i class="ft-power"></i> Logout</a>
                 </div>
@@ -183,6 +183,14 @@
       </div>
     </nav>
     <!-- END: Header-->
+
+    <style>
+      
+    .card-group,.card-header{
+
+    border: 1px solid #c985294a;
+    }
+    </style>
 
 
   <?php include 'sidebar.php';?>

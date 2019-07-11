@@ -43,7 +43,7 @@ class GenealogyController extends controller
 
                 $user_    =  User::find($user_id); 
                 $recruiter = User::where('mlm_id', $user_->$type)->first()->username ;    
-
+               $output ='';
             $output .= '<div  class="col-sm-1 col-xs-1   refer-people" align="center">
                           <a href="'.Config::domain().'/genealogy/'.$route.'/'.$user_->username.'" data-toggle="tooltip" title="Upline:  '.ucfirst($recruiter).'">
                           ';
@@ -167,7 +167,7 @@ class GenealogyController extends controller
 			}
 		}else{
 			$requested_user 	= User::where('username' ,$user_id)->first();
-			$user_id 	= $requested_user->id;
+			@$user_id 	= $requested_user->id;
 
 			if ($requested_user == null) {
 				if ($this->auth()) {

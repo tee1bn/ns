@@ -254,8 +254,8 @@ public static function generate_phone_code_for($user_id)
     {
 
              $status = (($this->blocked_on == null) )
-              ? "<span type='span' class='label label-xs label-success'>Active</span>":
-               "<span type='span' class='label label-xs label-danger'>Blocked</span>";
+              ? "<span type='span' class='badge badge-xs badge-success'>Active</span>":
+               "<span type='span' class='badge badge-xs badge-danger'>Blocked</span>";
 
                return $status;
     }

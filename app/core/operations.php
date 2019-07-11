@@ -30,7 +30,7 @@ public function pagination_links($data, $per_page)
 		$prev_page = "<li class='page-item'><a class='page-link' href='?page=$page_prev'>Prev</a></li>";
 		$next_page = "<li class='page-item'><a class='page-link' href='?page=$page_next'>Next</a></li>";
 
-
+		$link = '';
 		for ($i=1; $i <= $no_of_pages; $i++) { 
 
 		if($current_page == $i){ $active = 'active';}elseif (!  isset($current_page) && ($i == 1)) { $active = 'active';}else{ $active = '';}
