@@ -39,7 +39,7 @@
               
             <li><a class="menu-item" href="<?=domain;?>/user/testimony"><i class="fa fa-certificate"></i>Testimonials</a></li>
 
-            <li><a class="menu-item" href="content-grid.html"><i class="fa fa-bullhorn"></i>News</a></li>
+            <li><a class="menu-item" href="<?=domain;?>/user/broadcast"><i class="fa fa-bullhorn"></i>News</a></li>
 
             <!-- <li><a class="menu-item" href="content-grid.html"><i class="fa fa-certificate"></i>Support</a></li> -->
 

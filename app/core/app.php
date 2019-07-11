@@ -32,6 +32,7 @@
 			if(! file_exists('app/controllers/'. $controller_filename .'.php')){
 
 				echo "This controller does not exist: $controller_filename";
+				Redirect::to('error');
 				// return;
 			}
 

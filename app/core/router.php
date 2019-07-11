@@ -13,13 +13,13 @@ $router =[
 	'login' 			=> 'LoginController',
 	'verify' 			=> 'VerificationController',
 	'shop' 				=> 'shopController',
+	'error' 				=> 'ErrorController',
 
 	'test' => 'test/home',
 
 
 
 	'cms_api' => 'CmsApiController',
-
 	'guest' 	=> 'GuestController',
 	'terms' 	=> 'TermsController',
 	'genealogy' => 'GenealogyController',

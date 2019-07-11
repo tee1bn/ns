@@ -36,10 +36,33 @@ $page_title = "Testimonial";
         </div>
          <div class="card-content">
       <div class="card-body">
-          <div class="card-text">
-              <p>Image gallery grid with photo-swipe integration. Display images in 4-2-1 columns and photo-swipe provides gallery features.</p>
-              <p>Please read the photo-swipe gallery <a href="http://photoswipe.com/documentation/getting-started.html" target="_blank">documentation</a> for usage information.</p>
-          </div>
+
+                                      <table id="myTable" class="table table-hover">
+                                        <thead>
+                                            <th>Sn</th>
+                                            <th style="width: 60%;">Letter</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody>
+                                            <?php $i=1; foreach ($auth->testimonies as $testimony) :?>
+                                            <tr>
+                                                <td><?=$i;?></td>
+                                                <td><?=$testimony->content;?></td>
+                                                <td><?=$testimony->status();?></td>
+                                                <td><?=$testimony->created_at->toFormattedDateString();?></td>
+                                                <td>
+                                                    <a href="<?=domain;?>/user/edit-testimony/<?=$testimony->id;?>" class="btn btn-secondary btn-xs">Edit
+                                                    </a>
+                                            </td>
+                                            </tr>
+                                            <?php $i++; endforeach ;?>
+                                        </tbody>
+                                    </table>
+
+
+
       </div>
     </div>
       </section>

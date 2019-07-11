@@ -22,7 +22,7 @@
                 $submit_btn = $($form).find(':submit');
                 $($submit_btn).attr("disabled", true);
                 $($submit_btn).append(" <i class='fa fa-spinner fa-spin'></i>");
-
+                $("#page_preloader").css('display', 'block');
 
                   $function =  $($form).attr('data-function');
                   
@@ -34,8 +34,8 @@
                         processData: false, // NEEDED, DON'T OMIT THIS
                         cache: false,
                         success: function(data) {                                                      
+                            $("#page_preloader").css('display', 'none');
                             window.notify();
-
                             if (typeof(window[$function])=='function') {
                                 window[$function](data);
                             }

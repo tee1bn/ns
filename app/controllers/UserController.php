@@ -277,7 +277,7 @@ class UserController extends controller
 
     		$auth = $this->auth();
 
-	    	Testimonials::create([
+	    	$testimony = Testimonials::create([
 	    						'attester' => $auth->lastname.' '. $auth->firstname,
 								  'user_id'	 => $auth->id, 
 								  'content'  =>Input::get('testimony')]);
@@ -285,7 +285,7 @@ class UserController extends controller
 	    	Session::putFlash('success','Testimony created successfully. awaiting approval');
 
     	}
-    	Redirect::back();
+    	Redirect::to("user/edit_testimony/{$testimony->id}");
     }
 
 
@@ -296,11 +296,11 @@ class UserController extends controller
 		$testimony = Testimonials::find($testimony_id);
 			if (($testimony != null) && ($testimony->user_id == $this->auth()->id)) {
 
-						$this->view('auth/edit-testimony', ['testimony'=>$testimony ]);
+						$this->view('auth/edit_testimony', ['testimony'=>$testimony ]);
 						return;
 			}else{
-				// Session::putFlash('','Invalid Request');
-				Redirect::to('user/write_testimony');
+				Session::putFlash('danger','Invalid Request');
+				Redirect::back();
 			}
 
 		}

@@ -192,5 +192,11 @@
     }
     </style>
 
+<script>
+    $(function() {
+        $('#myTable').DataTable();
+    });
+</script>
 
   <?php include 'sidebar.php';?>
+  
