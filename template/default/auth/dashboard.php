@@ -1,6 +1,16 @@
 <?php
 $page_title = "Dashboard";
  include 'includes/header.php';?>
+  <?php
+
+
+    $settings = SiteSettings::site_settings();
+    $min_withdrawal = $settings['minimum_withdrawal'];      
+    $balance = $auth->available_balance();
+    $withdrawable_balance =  $settings['withdrawable_percent'] * 0.01 * $balance;      
+    ;?>
+
+
 
 
     <!-- BEGIN: Content-->
@@ -32,11 +42,13 @@ $page_title = "Dashboard";
             <div class="card-content">
                 <div class="media align-items-stretch">
                     <div class="p-2 text-center bg-primary bg-darken-2">
-                        <i class="icon-camera font-large-2 white"></i>
+                        <i class="icon-arrow-up font-large-2 white"></i>
                     </div>
                     <div class="p-2 bg-gradient-x-primary white media-body">
-                        <h5>Products</h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-plus"></i> 28</h5>
+                        <h5>Upline</h5>
+                        <h5 class="text-bold-400 mb-0"><i class="ft-pus"></i> 
+                          <?=@$auth->referred_members_uplines(1)[1]['username'];?>
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -47,11 +59,14 @@ $page_title = "Dashboard";
             <div class="card-content">
                 <div class="media align-items-stretch">
                     <div class="p-2 text-center bg-danger bg-darken-2">
-                        <i class="icon-user font-large-2 white"></i>
+                        <i class="ft-briefcase font-large-2 white"></i>
                     </div>
                     <div class="p-2 bg-gradient-x-danger white media-body">
-                        <h5>New Users</h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-arrow-up"></i>1,238</h5>
+                        <h5>Package</h5>
+                        <small class="text-bold-400 mb-0"><i class="ft-c"></i>    
+                          Your package will show here
+                        <!-- <?=$auth->subscription->package_type;?> -->
+                        </small>
                     </div>
                 </div>
             </div>
@@ -62,11 +77,13 @@ $page_title = "Dashboard";
             <div class="card-content">
                 <div class="media align-items-stretch">
                     <div class="p-2 text-center bg-warning bg-darken-2">
-                        <i class="icon-basket-loaded font-large-2 white"></i>
+                        <i class="fa fa-sitemap font-large-2 white"></i>
                     </div>
                     <div class="p-2 bg-gradient-x-warning white media-body">
-                        <h5>New Orders</h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-arrow-down"></i> 4,658</h5>
+                        <h5>Referrals</h5>
+                        <h5 class="text-bold-400 mb-0"><i class="ft-uses"></i>    
+                          <?=count($auth->referred_members_downlines(1)[1]);?> 
+                        </h5>
                     </div>
                 </div>
             </div>
@@ -80,8 +97,8 @@ $page_title = "Dashboard";
                         <i class="icon-wallet font-large-2 white"></i>
                     </div>
                     <div class="p-2 bg-gradient-x-success white media-body">
-                        <h5>Total Profit</h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-arrow-up"></i> 5.6 M</h5>
+                        <h5>Wallet</h5>
+                        <h5 class="text-bold-400 mb-0"> <?=$currency;?> <?=MIS::money_format($balance);?></h5>
                     </div>
                 </div>
             </div>
@@ -95,7 +112,7 @@ $page_title = "Dashboard";
 
       <section id="video-gallery" class="card">
         <div class="card-header">
-          <h4 class="card-title">Dashboard</h4>
+          <h4 class="card-title">News</h4>
           <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
               <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -105,28 +122,26 @@ $page_title = "Dashboard";
             </div>
         </div>
          <div class="card-content">
-      <div class="card-body">
-          <div class="card-text">
-              <p>Image gallery grid with photo-swipe integration. Display images in 4-2-1 columns and photo-swipe provides gallery features.</p>
-              <p>Please read the photo-swipe gallery <a href="http://photoswipe.com/documentation/getting-started.html" target="_blank">documentation</a> for usage information.</p>
-          </div>
+      <div class="card-body row">
+
+        <table class="table mb-0">
+                        <thead>
+                            <tr>
+                                <!-- <th>Goals</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>The lastest news will show here</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+
+        
       </div>
     </div>
       </section>
-
-
-    <!--   <section id="video-gallery" class="card">
-        <div class="card-header">
-          <h4 class="card-title">blank</h4>
-          <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-              <div class="heading-elements">
-                <ul class="list-inline mb-0">
-                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                </ul>
-            </div>
-        </div>
-      </section> -->
 
 
         </div>
@@ -135,3 +150,4 @@ $page_title = "Dashboard";
     <!-- END: Content-->
 
 <?php include 'includes/footer.php';?>
+
