@@ -318,7 +318,7 @@ if ($response == true) {
 			$domain			= Config::domain();
 			$asset 			= $domain."/template/".Config::views_template()."/app-assets";
 			$general_asset 			= $domain."/template/".Config::views_template()."/system_assets";
-			$logo 			=	"$asset/images/logo/nsw-t.png";
+			$logo 			= Config::logo();
 			$fav_icon 			=	$logo;
 			$this_folder	= $domain."/template/".Config::views_template()."/$view_folder";
 			$websocket_url	= "$host:3000";

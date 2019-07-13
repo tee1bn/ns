@@ -232,6 +232,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'Admin' => __DIR__ . '/../..' . '/app/models/Admin.php',
         'AvailableCurrency' => __DIR__ . '/../..' . '/app/models/AvailableCurrency.php',
         'BroadCast' => __DIR__ . '/../..' . '/app/models/BroadCast.php',
+        'Company' => __DIR__ . '/../..' . '/app/models/Company.php',
         'Config' => __DIR__ . '/../..' . '/app/classes/Config.php',
         'Input' => __DIR__ . '/../..' . '/app/classes/Input.php',
         'LevelIncomeReport' => __DIR__ . '/../..' . '/app/models/LevelIncomeReport.php',

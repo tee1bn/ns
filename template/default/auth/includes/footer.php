@@ -16,6 +16,20 @@
     <script src="<?=$asset;?>/vendors/js/vendors.min.js"></script>
     <!-- BEGIN Vendor JS-->
 
+
+    <!-- datatables -->
+   <!-- BEGIN: Page Vendor JS-->
+    <script src="<?=asset;?>/vendors/js/tables/datatable/datatables.min.js"></script>
+    <script src="<?=asset;?>/vendors/js/tables/datatable/dataTables.buttons.min.js"></script>
+    <script src="<?=asset;?>/vendors/js/tables/buttons.flash.min.js"></script>
+    <script src="<?=asset;?>/vendors/js/tables/jszip.min.js"></script>
+    <script src="<?=asset;?>/vendors/js/tables/pdfmake.min.js"></script>
+    <script src="<?=asset;?>/vendors/js/tables/vfs_fonts.js"></script>
+    <script src="<?=asset;?>/vendors/js/tables/buttons.html5.min.js"></script>
+    <script src="<?=asset;?>/vendors/js/tables/buttons.print.min.js"></script>
+    <!-- END: Page Vendor JS-->    <!-- datatables -->
+
+
     <!-- BEGIN: Page Vendor JS-->
     <script src="<?=$asset;?>/vendors/js/extensions/jquery.knob.min.js"></script>
     <script src="<?=$asset;?>/js/scripts/extensions/knob.min.js"></script>

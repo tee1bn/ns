@@ -63,9 +63,10 @@ class UserController extends controller
 
 
 
-	public function checkout()
+	public function company()
 	{
-		# code...
+		$company = $this->auth()->company;
+		$this->view('auth/company', compact('company'));
 	}
 
 

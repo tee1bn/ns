@@ -18,13 +18,8 @@ class home extends controller
 
 	public function test2()
 	{
-		echo "<pre>";
-
-		$note  =  $this->auth()->unseen_notifications();
-
-
-		print_r($note->toArray());
-
+		
+		
 
 	}
 

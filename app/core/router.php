@@ -13,11 +13,11 @@ $router =[
 	'login' 			=> 'LoginController',
 	'verify' 			=> 'VerificationController',
 	'shop' 				=> 'shopController',
-	'error' 				=> 'ErrorController',
+	'error' 			=> 'ErrorController',
 
 	'test' => 'test/home',
 
-
+	'company' => 'api/CompanyController',
 
 	'cms_api' => 'CmsApiController',
 	'guest' 	=> 'GuestController',
@@ -33,11 +33,15 @@ $router =[
 	'testing' => 'testingController',
 
 
+
+
+
+
+
 	#admin
 	'admin-dashboard' => 'AdminDashboardController', 
 	'admin' => 'AdminController', 
 	'admin-profile' => 'AdminProfileController', 
 	'admin-products' => 'AdminProductsController', 
-	'razor-pay' => 'RazorPayController', 
 ];
 

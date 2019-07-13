@@ -4,7 +4,6 @@
 
 
 /**
- * this class is the default controller of our application,
  * 
 */
 class home extends controller

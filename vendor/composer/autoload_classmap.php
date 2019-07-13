@@ -9,6 +9,7 @@ return array(
     'Admin' => $baseDir . '/app/models/Admin.php',
     'AvailableCurrency' => $baseDir . '/app/models/AvailableCurrency.php',
     'BroadCast' => $baseDir . '/app/models/BroadCast.php',
+    'Company' => $baseDir . '/app/models/Company.php',
     'Config' => $baseDir . '/app/classes/Config.php',
     'Input' => $baseDir . '/app/classes/Input.php',
     'LevelIncomeReport' => $baseDir . '/app/models/LevelIncomeReport.php',

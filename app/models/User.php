@@ -60,6 +60,12 @@ class User extends Eloquent
 
 
 
+    public function company()
+    {
+
+    	return $this->hasOne('Company', 'user_id');
+    }
+
 
     public function unseen_notifications()
     {

@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html class="loading" lang="en" data-textdirection="ltr">
+<html ng-app="app" class="loading" lang="en" data-textdirection="ltr">
   <!-- BEGIN: Head-->
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -15,6 +15,8 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 
     <!-- BEGIN: Vendor CSS-->
+
+    <link rel="stylesheet" type="text/css" href="<?=asset;?>/vendors/css/tables/datatable/datatables.min.css">    
     <link rel="stylesheet" type="text/css" href="<?=$asset;?>/vendors/css/vendors.min.css">
     <link rel="stylesheet" type="text/css" href="<?=$asset;?>/vendors/css/charts/jquery-jvectormap-2.0.3.css">
     <link rel="stylesheet" type="text/css" href="<?=$asset;?>/vendors/css/charts/morris.css">
@@ -39,9 +41,24 @@
     <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     <!-- END: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="<?=asset;?>/fonts/feather/style.min.css">
-
+    <script src="<?=asset;?>/js/jquery1.12.min.js"></script>
   </head>
   <!-- END: Head-->
+
+
+    <script src="<?=asset;?>/angulars/angularjs.js"></script>
+    <script src="<?=asset;?>/angulars/angular-sanitize.js"></script>
+    <script>
+        let $base_url = "<?=domain;?>";
+        var app = angular.module('app', ['ngSanitize']);
+    </script>
+
+
+
+
+
+
+
 
   <!-- BEGIN: Body-->
   <body class="vertical-layout vertical-menu 2-columns   fixed-navbar" data-open="click" data-menu="vertical-menu" data-col="2-columns">
@@ -172,6 +189,7 @@
                   <a class="dropdown-item" href="<?=domain;?>/user/profile">
                     <i class="ft-user"></i> Profile 
                   </a>
+                  <a class="dropdown-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> Company</a>
                   <a class="dropdown-item" href="<?=domain;?>/user/accounts"><i class="ft-settings"></i> Account</a>
                   <div class="dropdown-divider"></div><a class="dropdown-item" href="<?=domain;?>/login/logout">
                     <i class="ft-power"></i> Logout</a>

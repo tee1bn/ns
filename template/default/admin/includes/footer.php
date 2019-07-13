@@ -25,7 +25,6 @@
 
 
 
-    <script src="<?=asset;?>/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="<?=asset;?>/plugins/bootstrap/js/popper.min.js"></script>
     <script src="<?=asset;?>/plugins/bootstrap/js/bootstrap.min.js"></script>
