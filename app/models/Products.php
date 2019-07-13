@@ -194,8 +194,6 @@ class Products extends Eloquent
 		$refined_file = MIS::refine_multiple_files($files);
 
 
-
-
 		$i = 0;
 		foreach ($refined_file as  $file) {
 

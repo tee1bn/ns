@@ -124,18 +124,47 @@ $page_title = "Dashboard";
          <div class="card-content">
       <div class="card-body row">
 
+        <div class="col-md-12">
+            <div class="card" style="height: 508px;">
+                <div class="card-content">
+                  
+                    <ul class="list-group list-group-flush">
+                     
+                           <?php $i=1; foreach (BroadCast::live()->take(3) as $broadcast) :?>
+                     
+                        <li class="list-group-item">
+                            <span class="badge badge-pill bg-primary float-right">
+                                <?=$broadcast->created_at->toFormattedDateString();?></span>
+                            <?=$broadcast->broadcast_message;?>
+                        </li>
+                        
+
+
+                        <?php $i++; endforeach ;?>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+<!-- 
+
         <table class="table mb-0">
                         <thead>
                             <tr>
-                                <!-- <th>Goals</th> -->
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>The lastest news will show here</td>
-                            </tr>
+
+                        <?php $i=1; foreach (BroadCast::live() as $broadcast) :?>
+                        <tr>
+                            <td><?=$broadcast->broadcast_message;?></td>
+                            <td><?=$broadcast->created_at->toFormattedDateString();?></td>
+                        </tr>
+                        <?php $i++; endforeach ;?>
+
+
                         </tbody>
-                    </table>
+                    </table> -->
 
 
         

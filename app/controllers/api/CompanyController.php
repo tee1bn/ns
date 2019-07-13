@@ -13,7 +13,42 @@ class CompanyController extends controller
 
 	}
 
+	public function delete_document($key)
+	{
+		$company = $this->auth()->company;
+		$response = $company->delete_document($key);
+		header("content-type:application/json");
 
+		echo json_encode(compact('response'));
+
+
+	}
+
+
+	public function upload_company_supporting_document()
+	{
+
+		$company = $this->auth()->company;
+		$files =  MIS::refine_multiple_files($_FILES['files']);
+
+		$combined_files = array_combine($_POST['label'], $files);
+
+		$response = $company->upload_documents($combined_files);
+
+
+		// Redirect::back();
+	}
+
+	public function fetch_company_list()
+	{
+		$company = $this->auth()->company;
+		header("content-type:application/json");
+
+		 $documents = ($company->documents);
+
+		 echo  json_encode(compact('documents'));
+
+	}
 
 
 	public function update_company_logo()
@@ -35,7 +70,6 @@ class CompanyController extends controller
 		$directory = 'uploads/companies/logo';
 		$handle = new Upload($file['profile_pix']);
 
-		// $company = Company::find($_POST['company_id']);
 
 		$auth = $this->auth();
 		if ($auth->company == null) {
@@ -48,13 +82,12 @@ class CompanyController extends controller
 			$company = $auth->company;
 		}
 
-
-
-
 	                //if it is image, generate thumbnail
 	                if (explode('/', $handle->file_src_mime)[0] == 'image') {
 						$handle->Process($directory);
 				 		$original_file  = $directory.'/'.$handle->file_dst_name;
+	                }else{
+	                	return;
 	                }
 
 				if ($company->logo != Config::default_profile_pix()) {
@@ -85,10 +118,6 @@ class CompanyController extends controller
 
 			$company = $auth->company;
 		}
-
-
-		
-
 
 
 				$this->validator()->check(Input::all() , array(

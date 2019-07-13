@@ -4,7 +4,7 @@ $page_title = "Company";
     <script src="<?=asset;?>/angulars/company_documents.js"></script>
 
     <!-- BEGIN: Content-->
-    <div ng-controller="CompanyController" class="app-content content">
+    <div ng-controller="CompanyController" class="app-content content" ng-cloak>
       <div class="content-wrapper">
         <div class="content-header row">
           <div class="content-header-left col-md-6 col-12 mb-2">
@@ -13,22 +13,28 @@ $page_title = "Company";
             <h3 class="content-header-title mb-0">Company</h3>
           </div>
           
-         <!--  <div class="content-header-right col-md-6 col-12">
+          <div class="content-header-right col-md-6 col-12">
             <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-              <div class="btn-group" role="group">
-                <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> Settings</button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
-              </div><a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="ft-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="ft-pie-chart"></i></a>
+              <a class="btn btn-outline-primary" href="javascript:void(0);" 
+              data-toggle="modal" data-backdrop="static"
+               data-target="#upload_company_supporting_document" >+<i class="ft-file"></i>Upload</a>
+              <a ng-click="$list.attempt_request_for_review();" class="btn btn-outline-primary" href="javascript:void(0);"><i class="ft-pie-chart"></i> Request Review</a>
             </div>
-          </div> -->
+          </div>
         </div>
         <div class="content-body">
 
 
+          <script>
+              refresh_page = function(){
+                  angular.element($('#document_form')).scope().fetch_page_content();
+              }
+          </script>
+
 
                                   <!-- The Modal -->
 <div class="modal" id="upload_company_supporting_document">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg" >
     <div class="modal-content">
 
       <!-- Modal Header -->
@@ -38,17 +44,22 @@ $page_title = "Company";
 
       </div>
 
+
+
       <!-- Modal body -->
-        <form id="re" class="col-md-12" action="<?=domain;?>/accounts/upload_company_supporting_document" method="post" >  
+        <form id="document_form" data-function="refresh_page"  class="col-md-12 ajax_form" enctype="multipart/form-data" 
+        action="<?=domain;?>/company/upload_company_supporting_document" method="post" >  
           <div class="modal-body">
             <style>
               td{padding:0px !important;}
             </style>
 
 
+
                               <button type="button" class="btn btn-secondary float-right btn-sm" 
                               ng-click="$list.add_component();">+Add Document</button>
                                 <br>
+                                <i class="card-text"> *All documents will be verified.</i>
                                 <br>
                                    <table class="table table-hover table-condensed">
 
@@ -59,11 +70,12 @@ $page_title = "Company";
                                         </tr>
                                       </thead>
                                       <tbody>
-                                        <tr ng-repeat="(key, $hospital) in $list.$data">
+                                        <tr ng-repeat="(key, $hospital) in $list.$active_list">
                                          <td>
                                             <input 
                                                 placeholder="Name" required="" 
-                                               class="form-control" type=""  ng-model="$list.$data[$index].name" name=""></td>
+                                               class="form-control" type=""  
+                                                name="label[]"></td>
 
                                           <td>
 
@@ -72,10 +84,8 @@ $page_title = "Company";
                                                      
                                             <input 
                                                 placeholder="Name" required="" 
-                                               class="form-control" type="file"  ng-model="$list.$data[$index].file"
-                                                name="">
-
-                                        
+                                               class="form-control" type="file" 
+                                                name="files[]">                                        
                                                       <span class="input-group-btn">
                                                         <button ng-click="$list.delete_component($hospital);"
                                                          class="btn btn-default" type="button">
@@ -89,10 +99,9 @@ $page_title = "Company";
                                       </tbody>
                                     </table>
 
-                
           <!-- Modal footer -->
           <div class="modal-footer">
-                    <button type="submit" class="btn btn-success" >Save</button>
+                    <button ng-hide="$list.$active_list.length==0" type="submit" class="btn btn-success" >Save</button>
             <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
           </div>
 
@@ -103,7 +112,10 @@ $page_title = "Company";
   </div>
 </div>
 
-
+<div class="alert alert-danger mb-2" role="alert">
+              <strong>NOTE!</strong> Please fill all details accurately and request review for approval
+               <a href="javascript:void(0);" ng-click="$list.attempt_request_for_review();" class="alert-link">Request Review</a>
+            </div>
 
       <section id="video-gallery" class="card">
         <div class="card-header">
@@ -111,9 +123,8 @@ $page_title = "Company";
           <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
               <div class="heading-elements">
                 <ul class="list-inline mb-0">
-                    <li  data-toggle="modal" data-backdrop="static" data-target="#upload_company_supporting_document" 
-                    title="Upload supporting company documents"><a>
-                      <i  class="float-right ft-paperclip fa-2x"></i></a>
+                    <li>
+                      <a class="btn btn-sm btn-success">Request Review</a>
                     </li>
                 </ul>
             </div>
@@ -152,6 +163,42 @@ $page_title = "Company";
                                       <input type="hidden" name="company_id" value="<?=$company->id;?>">
                                     </form>
 
+                                    <hr>
+
+
+                                    <div class="col-md-12">
+      <div class="card" style="height: 508px;">
+        <div class="card-content">
+          <div class="card-body">
+            <h4 cla5s="card-title">Documents 
+
+              <button  data-toggle="modal" data-backdrop="static" data-target="#upload_company_supporting_document" 
+                    title="Upload supporting company documents"  class="float-right ft-paperclip btn btn-sm btn-secondary"
+                     style="font-size: 20px;">
+              </button>
+            </h4>
+          </div>
+
+
+          
+
+          <ul class="list-group list-group-flush">
+            <li ng-repeat="(key, $doc) in $list.$lists" class="list-group-item" style="text-transform: capitalize;">
+              <a href="javascript:void(0);" ng-click="$list.attempt_delete($doc, key);"
+              class="fa fa-trash text-danger float-right" style="font-size: 20px;"><i class=""></i></a>
+              <a target="_blank" href="<?=domain;?>/{{$doc.files}}"><b>{{$doc.label}}</b></a>
+            </li>
+          
+          </ul>
+         <!--  <div class="card-body">
+            <a href="javascript:void(0);" data-toggle="modal" data-backdrop="static" data-target="#upload_company_supporting_document" 
+                    title="Upload supporting company documents" class="card-link">Upload Documents</a>
+          </div> -->
+        </div>
+      </div>
+    </div>
+
+
                                 </div>
 
                                 <div class="col-md-8" style="
@@ -168,12 +215,12 @@ $page_title = "Company";
                                             action="<?=domain;?>/company/update_company" method="post">
                                               <div class="form-group">
                                                 <label for="name" class="pull-left">Name *</label>
-                                                  <input type="text" required="" name="name" value="<?=$company->name;?>"  class="form-control" value="">
+                                                  <input type="text" required="" name="name" value="<?=$company->name;?>"  class="form-control" placeholder="Your Company Name" >
                                               </div>
 
                                               <div class="form-group">
                                                     <label for="address" class="pull-left">Address *</label>
-                                                    <input type="text" name="address"  value="<?=$company->address;?>" id="address" class="form-control">
+                                                    <input type="text" name="address"  value="<?=$company->address;?>" id="address" class="form-control" placeholder="Your Company ddress" >
                                               </div>
 
 
@@ -184,7 +231,7 @@ $page_title = "Company";
                                                 <label for="email" class="pull-left">Official Email Address<sup>*</sup></label>
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                                     <span class="input-group-btn input-group-prepend"></span>
-                                                    <input id="tch3" name="office_email"   value="<?=$company->office_email;?>"
+                                                    <input id="tch3" name="office_email" placeholder="Your Official Email Address"  value="<?=$company->office_email;?>"
                                                       data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
                                                     <span class="input-group-btn input-group-append">
                                                         <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
@@ -199,7 +246,7 @@ $page_title = "Company";
                                                 <label for="office_phone" class="pull-left">Official Phone<sup>*</sup></label>
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                                     <span class="input-group-btn input-group-prepend"></span>
-                                                    <input id="tch3" name="office_phone"   value="<?=$company->office_phone;?>"
+                                                    <input id="tch3" name="office_phone"  placeholder="Your Official Phone"  value="<?=$company->office_phone;?>"
                                                       data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
                                                     <span class="input-group-btn input-group-append">
                                                         <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
@@ -214,7 +261,7 @@ $page_title = "Company";
 
 
                                             <div class="form-group">
-                                                <label for="rc_number" class="pull-left">Registration Number <sup></sup></label>
+                                                <label for="rc_number" placeholder="Your Company Registration Number"  class="pull-left">Registration Number <sup></sup></label>
                                                 <input type="text" name="rc_number" class="form-control"  value="<?=$company->rc_number;?>">
                                           </div>
 

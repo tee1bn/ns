@@ -19,7 +19,12 @@ class home extends controller
 	public function test2()
 	{
 		
-		
+		$company = $this->auth()->company;
+
+		echo "<pre>";
+		print_r(($company->documents));
+		echo "</pre>";
+
 
 	}
 
@@ -151,8 +156,7 @@ class home extends controller
 	public function index($page=null)
 	{	
 
-		$this->view('auth/index');
-
+		Redirect::to('login');
 	}
 
 

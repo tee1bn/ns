@@ -11,6 +11,10 @@
               </li>
 
               <li>
+                <a class="menu-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> My Company</a>
+              </li>
+
+              <li>
                 <a class="menu-item" href="<?=domain;?>/user/profile"><i class="ft-user"></i> My Profile</a>
               </li>
 
