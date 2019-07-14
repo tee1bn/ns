@@ -7,7 +7,7 @@ class MIS
 {
 	
 	
-	public function money_format($string)
+	public static function money_format($string)
 	{
 		return number_format("$string",2);		
 	}

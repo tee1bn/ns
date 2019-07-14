@@ -18,13 +18,13 @@ public function admin()
 
 
 
-public function live()
+public static function live()
 {
 	return BroadCast::where('status', 1)->latest()->get();
 }
 
 
-public function latest_broadcast()
+public  static function latest_broadcast()
 {
 	return BroadCast::live()->first();
 }
