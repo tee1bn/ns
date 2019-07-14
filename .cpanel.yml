@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/ Home / network software /public_html/ns 
+    - export DEPLOYPATH=/Home/networksoftware/public_html 
     - /bin/cp -r * $DEPLOYPATH
