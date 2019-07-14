@@ -1,7 +1,8 @@
 <?php include 'includes/header.php';?>
 
 
-      <span style="text-transform: capitalize; color: #203864"><?=$data['name'];?></span>! Thank you for signing up!</td></tr></tbody></table>
+      <span style="text-transform: capitalize; color: #203864"><?=$data['name'];?></span>!
+      </td></tr></tbody></table>
 
 
     <div style="font-family: Arial, sans-serif; line-height: 20px; color: #444444; font-size: 13px;">
