@@ -34,9 +34,9 @@ public function latest_broadcast()
 public function status()
 {
 	if ($this->status == 1) {
-		return '<span class="btn-xs btn btn-success">Live</span>';
+		return '<a class="btn btn-sm btn-success">Live</a>';
 	}else{
-		return '<span class="btn-xs btn btn-danger">Not Live</span>';
+		return '<a class="btn btn-sm btn-danger">Not Live</a>';
 
 	}
 }

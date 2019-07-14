@@ -69,16 +69,13 @@
 
 
       }
-
-
-
     </script>
     
 
 <script src="<?=domain;?>/app/others/js/ajax-form.js"></script>
 
 <!-- Modal -->
-<div id="confirmation_dialog" style="display: none;" data-backdrop="static" class="modal fade" role="dialog">
+<div id="confirmation_dialog" style="display: none;"  class="modal fade" role="dialog">
   <div class="modal-dialog" style="display: block;">
 
     <!-- Modal content-->

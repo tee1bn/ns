@@ -16,7 +16,7 @@ $page_title = "Testimonial";
           <div class="content-header-right col-md-6 col-12">
             <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
               <div class="btn-group" role="group">
-              </div><a class="btn btn-outline-primary" href="<?=domain;?>/user/create_testimonial"><i class="ft-plus"></i> Write</a>
+              </div><a class="btn btn-outline-primary" href="<?=domain;?>/admin/create_testimonial"><i class="ft-plus"></i> Write</a>
               <!-- <a class="btn btn-outline-primary" href="timeline-center.html"><i class="ft-pie-chart"></i></a> -->
             </div>
           </div>
@@ -37,31 +37,48 @@ $page_title = "Testimonial";
          <div class="card-content">
       <div class="card-body">
 
-                                      <table id="myTable" class="table table-hover">
+                                    <table id="myTable" class="table table-hover">
                                         <thead>
                                             <th>Sn</th>
+                                            <th>Attester</th>
                                             <th style="width: 60%;">Letter</th>
                                             <th>Status</th>
                                             <th>Date</th>
                                             <th></th>
                                         </thead>
                                         <tbody>
-                                            <?php $i=1; foreach ($auth->testimonies as $testimony) :?>
+                                            <?php $i=1; foreach (Testimonials::all() as $testimony) :?>
                                             <tr>
                                                 <td><?=$i;?></td>
+                                                <td><?=$testimony->attester;?></td>
                                                 <td><?=$testimony->content;?></td>
                                                 <td><?=$testimony->status();?></td>
-                                                <td><?=$testimony->created_at->toFormattedDateString();?></td>
+                                                <td><span class="badge badge-primary">
+                                                    <?=$testimony->created_at;?></span></td>
                                                 <td>
-                                                    <a href="<?=domain;?>/user/edit-testimony/<?=$testimony->id;?>" class="btn btn-secondary btn-xs">Edit
+
+                                                    <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+
+
+
+
+
+                                                    <a href="<?=domain;?>/admin/edit-testimony/<?=$testimony->id;?>" class="btn btn-outline-primary btn-sm">Edit
                                                     </a>
+
+                                                      <a href="<?=domain;?>/admin/approve_testimonial/<?=$testimony->id;?>" class="btn btn-secondary btn-sm">Toogle Approval
+                                                    </a>
+
+                                                    <a href="<?=domain;?>/admin/delete_testimonial/<?=$testimony->id;?>" class="btn btn-danger btn-sm">Delete
+                                                    </a>
+                                                                                                
+                                                    </div>
+
                                             </td>
                                             </tr>
                                             <?php $i++; endforeach ;?>
                                         </tbody>
                                     </table>
-
-
 
       </div>
     </div>

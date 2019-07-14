@@ -26,10 +26,10 @@ public function user()
 public function status()
 {
 	if ($this->approval_status) {
-		$status = "<label class='label label-success'>Approved</label>";
+		$status = "<span class='badge badge-success'>Approved</span>";
 	}else{
-		
-		$status = "<label class='label label-danger'>Not Approved</label>";
+
+		$status = "<span class='badge badge-danger'>Not Approved</span>";
 	}
 
 	return $status;

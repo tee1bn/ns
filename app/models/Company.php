@@ -159,6 +159,69 @@ class Company extends Eloquent
     	return true;
 	}
 
+	public function getApprovalConfirmationAttribute()
+	{
+		return "Are you sure you want to Approve: <b> {$this->name}</b>";
+	}
+
+	public function getDeclineConfirmationAttribute()
+	{
+		return "Are you sure you want to Decline: <b> {$this->name}</b>";
+	}
+
+	public function is_approved()
+	{
+		return $this->approval_status == 'approved';
+	}
+
+
+	public function is_declined()
+	{
+		return $this->approval_status == 'declined';
+	}
+
+	
+	public function approve()
+	{
+
+		DB::beginTransaction();
+
+		try{
+		$this->update(['approval_status' => 'approved']);
+
+			DB::commit();
+			Session::putFlash("success","Approved Successfully");
+			return true;
+		} catch (Exception $e) {
+			DB::rollback();
+			Session::putFlash("danger","Somthing went wrong.");
+			return false;
+			
+		}
+
+	}
+
+	public function decline()
+	{
+
+		DB::beginTransaction();
+
+		try{
+		$this->update(['approval_status' => 'declined']);
+
+			DB::commit();
+			Session::putFlash("success","Declined Successfully");
+			return true;
+		} catch (Exception $e) {
+			DB::rollback();
+			Session::putFlash("danger","Somthing went wrong.");
+			return false;
+			
+		}
+
+	}
+
+
 	public function getApprovalAttribute()
     {
 
@@ -176,8 +239,6 @@ class Company extends Eloquent
     				break;
 
     			default:
-
-
 	              $status = "<span type='span' class='badge badge-xs badge-warning'>Filling</span>";
     				break;
     		}

@@ -180,18 +180,19 @@
               </li> -->
 
 
+
               <li class="dropdown dropdown-user nav-item">
                 <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
-                  <span class="avatar avatar-online"><img src="<?=domain;?>/<?=$auth->profilepic;?>" alt="avatar">
-                    <i></i></span><span class="user-name"><?=$auth->fullname;?></span></a>
+                  <span class="avatar avatar-online"><img src="<?=domain;?>/<?=$this->admin()->profilepic;?>" alt="avatar">
+                    <i></i></span><span class="user-name"><?=$this->admin()->fullname;?></span></a>
 
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a class="dropdown-item" href="<?=domain;?>/user/profile">
+                  <a class="dropdown-item" href="<?=domain;?>/admin/profile/<?=$this->admin()->id;?>">
                     <i class="ft-user"></i> Profile 
                   </a>
-                  <a class="dropdown-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> Company</a>
-                  <a class="dropdown-item" href="<?=domain;?>/user/accounts"><i class="ft-settings"></i> Account</a>
-                  <div class="dropdown-divider"></div><a class="dropdown-item" href="<?=domain;?>/login/logout">
+                  <!-- <a class="dropdown-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> Company</a> -->
+                  <a class="dropdown-item" href="<?=domain;?>/admin/accounts"><i class="ft-settings"></i> Account</a>
+                  <div class="dropdown-divider"></div><a class="dropdown-item" href="<?=domain;?>/login/logout/admin">
                     <i class="ft-power"></i> Logout</a>
                 </div>
               </li>

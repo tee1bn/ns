@@ -19,7 +19,29 @@ $page_title = "Company";
               data-toggle="modal"
                data-target="#upload_company_supporting_document" >+<i class="ft-file"></i>Upload</a>
               <a ng-click="$list.attempt_request_for_review();" class="btn btn-outline-primary" href="javascript:void(0);"><i class="ft-pie-chart"></i> Request Review</a>
+
+            <?php if ($this->admin()):?>
+
+                            <?php if (!$company->is_approved()):?>
+                              <a  class="btn btn-outline-primary"  href="javascript:void;"  onclick="$confirm_dialog = 
+                                new ConfirmationDialog('<?=domain;?>/admin/approve-company/<?=$company->id;?>', '<?=$company->ApprovalConfirmation;?></b>')">
+                                        <span type='span' class='label label-xs label-primary'>Approve</span>
+                                      </a>
+                            <?php endif;?>
+
+
+                            <?php if (!$company->is_declined()):?>
+                              <a  class="btn btn-outline-primary"  href="javascript:void;"  onclick="$confirm_dialog = 
+                                new ConfirmationDialog('<?=domain;?>/admin/decline-company/<?=$company->id;?>','<?=$company->DeclineConfirmation;?>')">
+                                        <span type='span' class='label label-xs label-primary'>Decline</span>
+                                      </a>
+                            <?php endif;?>
+
+
+            <?php endif ;?>
             </div>
+
+
           </div>
         </div>
         <div class="content-body">

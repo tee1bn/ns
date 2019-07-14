@@ -265,14 +265,14 @@ class UserController extends controller
 							]);
 
 
-    	Session::putFlash('success','Letter of Happiness updated successfully. Awaiting approval');
+    	Session::putFlash('success','Testimonial updated successfully. Awaiting approval');
 
     	Redirect::back();
     }
 
 
 
-	 public function create_testimonial()
+	public function create_testimonial()
     {
     	if (Input::exists() || true) {
 
@@ -282,8 +282,6 @@ class UserController extends controller
 	    						'attester' => $auth->lastname.' '. $auth->firstname,
 								  'user_id'	 => $auth->id, 
 								  'content'  =>Input::get('testimony')]);
-
-	    	Session::putFlash('success','Testimony created successfully. awaiting approval');
 
     	}
     	Redirect::to("user/edit_testimony/{$testimony->id}");

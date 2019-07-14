@@ -32,7 +32,8 @@ class LoginController extends controller
 	{
 
 	if(/*Input::exists('admin_login')*/ true){
-
+		
+		 	// MIS::verify_google_captcha();
 
 		$trial = Admin::where('email', Input::get('user'))->first();
 
@@ -63,7 +64,7 @@ class LoginController extends controller
 			Redirect::to('admin-dashboard');
 
 }else{
-			Session::putFlash('danger','Invalid Credentials');
+
 			$this->validator()->addError('credentials' , "<i class='fa fa-exclamation-triangle'></i> Invalid Credentials.");
 
 			Redirect::to(''.Config::admin_url());

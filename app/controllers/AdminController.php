@@ -48,7 +48,51 @@ class AdminController extends controller
 	}
 
 
+	public function view_company($company_id= null)
+	{
+		$company = Company::find($company_id);
 
+		if ($company == null) {
+			Redirect::back();
+		}
+
+		$owner = $company->user;
+
+		$this->user_profile($owner->id);
+
+		Redirect::to('user/company')	;
+
+	}
+
+	public function decline_company($company_id= null)
+	{
+		$company = Company::find($company_id);
+
+		if ($company == null) {
+			Redirect::back();
+		}
+
+
+		$company->decline();
+
+		Redirect::back();
+
+	}
+
+	public function approve_company($company_id= null)
+	{
+		$company = Company::find($company_id);
+
+		if ($company == null) {
+			Redirect::back();
+		}
+
+
+		$company->approve();
+
+		Redirect::back();
+
+	}
 
 	public function fetch_subscription()
 	{
@@ -279,10 +323,10 @@ class AdminController extends controller
 	}
 
 
-	public function write_testimony()
+	public function testimony()
 	{
 
-		$this->view('admin/write-testimony');
+		$this->view('admin/testimony');
 	}
 
 	public function edit_testimony($testimony_id =null)
@@ -291,7 +335,7 @@ class AdminController extends controller
 		$testimony = Testimonials::find($testimony_id);
 			if (($testimony != null) ) {
 
-						$this->view('admin/edit-testimony', ['testimony'=>$testimony ]);
+						$this->view('admin/edit_testimony', ['testimony'=>$testimony ]);
 						return;
 			}else{
 				Redirect::to();
@@ -451,7 +495,7 @@ class AdminController extends controller
 		if ($news->status) {
 
 		$update = $news->update(['status' => 0 ]);
-		Session::putFlash('flash', 'News unpublished succesfully');
+		Session::putFlash('success', 'News unpublished succesfully');
 
 
 		}else{
@@ -530,14 +574,12 @@ class AdminController extends controller
 
     	if (Input::exists() || true) {
 
-	    	Testimonials::create([
+	    	$testimony = Testimonials::create([
 	    						'attester' => Input::get('attester'),
 								  'content'  =>Input::get('testimony')]);
 
-	    	Session::putFlash('success','Testimony created successfully. Awaiting approval');
-
     	}
-    	Redirect::back();
+    	Redirect::to("admin/edit_testimony/{$testimony->id}");
     }
 
 
@@ -605,7 +647,7 @@ class AdminController extends controller
 							]);
 
 
-    	Session::putFlash('success','Letter of Happiness updated successfully. Awaiting approval');
+    	Session::putFlash('success','Testimonial updated successfully. Awaiting approval');
 
     	Redirect::back();
     }
@@ -619,9 +661,16 @@ class AdminController extends controller
 			$this->view('admin/support', ['support_tickets' => $support_tickets]);  
 	}
 
+
+
 	public function users(){
 		$this->view('admin/users');
+	}
 
+
+
+	public function companies(){
+		$this->view('admin/companies');
 	}
 
 

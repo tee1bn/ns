@@ -54,17 +54,14 @@ $page_title = "Profile";
     margin-bottom: 20px;
     border: 1px solid #14181f42;
     padding: 19px;">
-                                    <form class="form-horizontal ajax_form" id="p_form" method="post" enctype="multipart/form-data" action="<?=domain;?>/user-profile/update_profile_picture">
+                                   <form class="form-horizontal" id="p_form" method="post" enctype="multipart/form-data" action="<?=domain;?>/user-profile/update_profile_picture">
                                       <div class="user-profile-image" align="center" style="">
-                                        <img id="myImage" src="<?=domain;?>/<?=$auth->profilepic;?>" alt="your-image" class="full_pro_pix" />
+                                        <img id="myImage" src="<?=domain;?>/<?=$admin->profilepic;?>" alt="your-image" class="full_pro_pix" />
                                         <input type='file' name="profile_pix" onchange="form.submit();" id="uploadImage" style="display:none ;" />
-                                        <h4><?=ucfirst($auth->username);?></h4>
-                                        <h4><?=ucfirst($auth->fullname);?></h4>
-                                        <?=$auth->activeStatus;?>
-                                        <label for="uploadImage" class="btn btn-secondary " style=""> Change Picture</label>
-                                        <span class="label label-primary">
-                                            <!-- <?=$auth->subscription->package_type;?> -->
-                                        </span>
+                                        <h4><?=ucfirst($admin->username);?></h4>
+                                        <h4><?=ucfirst($admin->fullname);?></h4>
+                                        <?=$admin->activeStatus;?>
+                                        <!-- <label for="uploadImage" class="btn btn-secondary " style=""> Change Picture</label> -->
                                         <br>
                                         <!-- <span class="text-danger">*click update profile to apply change</span> -->
                                       </div>
@@ -78,29 +75,29 @@ $page_title = "Profile";
 
 
                                         <div class="card-body card-body-bordered collapse show" id="demo1" >
-                                            <form id="profile_form"
-                                            class="ajax_form" 
-                                            action="<?=domain;?>/user-profile/update_profile" method="post">
+                                          
+                                            <form class="ajax_form" action="<?=domain;?>/admin-profile/updateAdminProfile/<?=$admin->id;?>" method="post">
+                                              <input type="hidden" name="admin_id" value="">
                                               <div class="form-group">
                                                 <label for="username" class="pull-left">Username *</label>
-                                                  <input type="text" name="username" disabled="disabled" value="<?=$auth->username;?>" id="username" class="form-control" value="">
+                                                  <input type="text" name="username"  value="<?=$admin->username;?>" id="username" class="form-control" value="">
                                               </div>
 
                                               <div class="form-group">
                                                     <label for="firstName" class="pull-left">First Name *</label>
-                                                    <input type="text" name="firstname"  value="<?=$auth->firstname;?>" id="firstName" class="form-control">
+                                                    <input type="text" name="firstname"  value="<?=$admin->firstname;?>" id="firstName" class="form-control">
                                               </div>
 
                                               <div class="form-group">
                                                     <label for="lastName" class="pull-left">Last Name <sup>*</sup></label>
-                                                    <input type="text" name="lastname" id="lastName" class="form-control"  value="<?=$auth->lastname;?>">
+                                                    <input type="text" name="lastname" id="lastName" class="form-control"  value="<?=$admin->lastname;?>">
                                               </div>
 
                                             <div class="form-group">
                                                 <label for="email" class="pull-left">Email Address<sup>*</sup></label>
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                                     <span class="input-group-btn input-group-prepend"></span>
-                                                    <input id="tch3" name="email"   value="<?=$auth->email;?>"
+                                                    <input id="tch3" name="email"   value="<?=$admin->email;?>"
                                                       data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
                                                     <span class="input-group-btn input-group-append">
                                                         <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
@@ -115,7 +112,7 @@ $page_title = "Profile";
                                                 <label for="phone" class="pull-left">Phone<sup>*</sup></label>
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                                     <span class="input-group-btn input-group-prepend"></span>
-                                                    <input id="tch3" name="phone"   value="<?=$auth->phone;?>"
+                                                    <input id="tch3" name="phone"   value="<?=$admin->phone;?>"
                                                       data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
                                                     <span class="input-group-btn input-group-append">
                                                         <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
@@ -123,36 +120,16 @@ $page_title = "Profile";
                                                 </div> 
                                             </div>                                        
                                         
-                                            
-                                           <!--    <div class="form-group">
-                                                  <label for="bank_name" class="pull-left">Bank Name <sup>*</sup></label>
-                                                  <input type="" name="bank_name"  value="<?=$auth->bank_name;?>" id="bank_name" class="form-control" >
-                                              </div>
-
-                                                
-                                            
-                                              <div class="form-group">
-                                                 <label for="bank_account_name" class="pull-left">Bank Account Name<sup></sup></label>
-                                                  <input type="bank_account_name" name="bank_account_name"  value="<?=$auth->bank_account_name;?>" id="bank_account_name" class="form-control" >
-                                              </div>
-
-                                            
-                                            
-
-                                            
-                                              <div class="form-group">
-                                                 <label for="bank_account_number" class="pull-left">Bank Account Number <sup></sup></label>
-                                                  <input type="bank_account_number" name="bank_account_number"  value="<?=$auth->bank_account_number;?>" id="bank_account_number" class="form-control" >
-                                              </div> -->
-
-
+                                           
                                               <div class="form-group">
 
-                                                    <button type="submit" class="btn btn-secondary btn-block btn-flat">Update Profile</button>
+                                                    <button type="submit" class="btn btn-secondary btn-block btn-flat">Save</button>
 
                                               </div>
                                             </form>
-                                           
+
+
+
                                         </div>
 
 

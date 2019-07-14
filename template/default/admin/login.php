@@ -9,13 +9,15 @@ include 'includes/auth_header.php';?>
 				</div>
 				<div class="card-content">	
 					<div class="card-body" style="padding-top: 0px;">
-  						<form data-toggle="validator"  class="form-horizontal form-simple" id="loginform" action="<?=domain;?>/login/authenticate" method="post">
+  						<form data-toggle="validator"  class="form-horizontal form-simple" id="loginform" action="<?=domain;?>/login/authenticateAdmin" method="post">
 
-		                    <?php if(@$this->inputError('user_login') != '' ):?>
-		                       <center class="alert alert-danger" >
-		                        <?=$this->inputError('user_login');?>
-		                       </center>
-		                    <?php endif;?>
+
+			                <?php if(@$this->inputError('credentials') != '' ):?>
+			                   <center class="alert alert-danger" >
+			                    <?=$this->inputError('credentials');?>
+			                   </center>
+			                <?php endif;?>
+                
 		  							
 							<fieldset class="form-group position-relative has-icon-left mb-1">
 								<input type="text" class="form-control form-control-lg" 
@@ -46,9 +48,9 @@ include 'includes/auth_header.php';?>
 							<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="ft-unlock"></i> Login</button>
 						</form>
 					</div>
-					<p class="text-center">Don't have an account ? <a href="<?=domain;?>/register" class="card-link">Register</a></p>
+<!-- 					<p class="text-center">Don't have an account ? <a href="<?=domain;?>/register" class="card-link">Register</a></p>
 					<p class="text-center"> <a href="<?=domain;?>/forgot-password" class="card-link"> Forgot Password ?</a></p>
-				</div>
+ -->				</div>
 			</div>
 		</div>
 	</div>

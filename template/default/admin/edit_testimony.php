@@ -39,8 +39,16 @@ $page_title = "Testimonial";
                                 <form
                                 id="testimony_edit"
                                 class="ajax_form"
-                                 action="<?=domain;?>/user/update_testimonial" method="post" >
+                                 action="<?=domain;?>/admin/update_testimonial" method="post" >
                                     <input type="hidden" name="testimony_id" value="<?=$testimony->id;?>">
+
+
+
+                                    <div class="">
+                                      <input required="" class="form-control textarea" name="attester" placeholder="Enter Attester Name">
+                                    </div>
+
+
 
                                   <div class="form-group">
                                     <div class="">
