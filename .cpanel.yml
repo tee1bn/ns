@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home2/poolscom/public_html/ns 
+    - export DEPLOYPATH=/ Home / network software /public_html/ns 
     - /bin/cp -r * $DEPLOYPATH
