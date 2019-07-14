@@ -123,6 +123,17 @@ class VerificationController extends controller
 
 
 
+	public function company()
+	{
+
+
+		$company = $this->auth()->company;
+		Session::putFlash('info', "You must fill your company profile and submit for verification");
+		$this->view('auth/company', compact('company'));
+	}
+
+
+
 
 
 	public function email()

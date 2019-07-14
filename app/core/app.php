@@ -22,7 +22,7 @@
 
 			if (! array_key_exists($url[0], $router)) {
 
-				echo "This url is not routed";
+				// echo "This url is not routed";
 				// return;
 			}
 
@@ -31,7 +31,7 @@
 			  $controller_filename = @$router["$url[0]"];
 			if(! file_exists('app/controllers/'. $controller_filename .'.php')){
 
-				echo "This controller does not exist: $controller_filename";
+				// echo "This controller does not exist: $controller_filename";
 				// Redirect::to('error');
 				// return;
 			}
