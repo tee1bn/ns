@@ -16,7 +16,7 @@ $page_title = "Company";
           <div class="content-header-right col-md-6 col-12">
             <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
               <a class="btn btn-outline-primary" href="javascript:void(0);" 
-              data-toggle="modal" data-backdrop="static"
+              data-toggle="modal"
                data-target="#upload_company_supporting_document" >+<i class="ft-file"></i>Upload</a>
               <a ng-click="$list.attempt_request_for_review();" class="btn btn-outline-primary" href="javascript:void(0);"><i class="ft-pie-chart"></i> Request Review</a>
             </div>
@@ -124,7 +124,8 @@ $page_title = "Company";
               <div class="heading-elements">
                 <ul class="list-inline mb-0">
                     <li>
-                      <a class="btn btn-sm btn-success">Request Review</a>
+                      <a class="btn btn-sm btn-success" href="javascript:void(0);" ng-click="$list.attempt_request_for_review();">
+                      Request Review</a>
                     </li>
                 </ul>
             </div>
@@ -172,7 +173,7 @@ $page_title = "Company";
           <div class="card-body">
             <h4 cla5s="card-title">Documents 
 
-              <button  data-toggle="modal" data-backdrop="static" data-target="#upload_company_supporting_document" 
+              <button  data-toggle="modal" data-target="#upload_company_supporting_document" 
                     title="Upload supporting company documents"  class="float-right ft-paperclip btn btn-sm btn-secondary"
                      style="font-size: 20px;">
               </button>
@@ -191,7 +192,7 @@ $page_title = "Company";
           
           </ul>
          <!--  <div class="card-body">
-            <a href="javascript:void(0);" data-toggle="modal" data-backdrop="static" data-target="#upload_company_supporting_document" 
+            <a href="javascript:void(0);" data-toggle="modal" data-target="#upload_company_supporting_document" 
                     title="Upload supporting company documents" class="card-link">Upload Documents</a>
           </div> -->
         </div>

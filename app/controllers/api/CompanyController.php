@@ -13,6 +13,25 @@ class CompanyController extends controller
 
 	}
 
+
+
+
+
+
+
+
+	public function request_for_review()
+	{
+		$company = $this->auth()->company;
+		$response = $company->request_for_review();
+		header("content-type:application/json");
+
+		echo json_encode(compact('response'));
+
+
+	}
+
+
 	public function delete_document($key)
 	{
 		$company = $this->auth()->company;
@@ -46,7 +65,7 @@ class CompanyController extends controller
 
 		 $documents = ($company->documents);
 
-		 echo  json_encode(compact('documents'));
+		 echo  json_encode(compact('documents', 'company'));
 
 	}
 

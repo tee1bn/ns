@@ -68,7 +68,7 @@
                         success: function(data) {
 
                                 angular.element($('#document_form')).scope().fetch_page_content();                         
-                       
+                                
                                 window.notify();
                               
                         },
@@ -148,6 +148,11 @@
                                     $scope.$list = new List($data.documents);  
 
                                     console.log($scope.$list);
+
+                                    if ($data.company.approval_status=='verifying') {
+                                         $('button').hide();
+                                         $("form :input").prop("disabled", true);                  
+                                    }
 
                                     $("#page_preloader").css('display', 'none');
                         });

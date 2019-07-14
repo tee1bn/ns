@@ -36,6 +36,28 @@ class Company extends Eloquent
 
 
 
+	public function request_for_review()
+	{
+
+		DB::beginTransaction();
+
+		try {
+			
+			$this->update(['approval_status' => 'verifying']);
+
+			DB::commit();
+			Session::putFlash("success","Your Company is being verified");
+			return true;
+		} catch (Exception $e) {
+			DB::rollback();
+			Session::putFlash("danger","Could not complete request ");
+			return false;
+		}
+
+
+	}
+
+
 	public function delete_document($key)
 	{
 
@@ -149,10 +171,14 @@ class Company extends Eloquent
 	              $status = "<span type='span' class='badge badge-xs badge-danger'>Declined</span>";
     				break;
 
+    			case 'verifying':
+	              $status = "<span type='span' class='badge badge-xs badge-info'>Verifying</span>";
+    				break;
+
     			default:
 
 
-	              $status = "<span type='span' class='badge badge-xs badge-info'>Verifying</span>";
+	              $status = "<span type='span' class='badge badge-xs badge-warning'>Filling</span>";
     				break;
     		}
 
