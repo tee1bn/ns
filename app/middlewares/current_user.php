@@ -43,6 +43,12 @@ class current_user extends controller
 	public function must_have_verified_company()
 	{	
 		$company = $this->auth()->company;
+		if ($company == null) {
+			$company =  Company::create(['user_id'=>$this->auth()->id]);
+		}
+
+
+
 
 		if (($this->setting['company_verification'] == 1) && (! $company->is_approved())) {
 

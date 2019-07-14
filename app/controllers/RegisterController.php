@@ -150,9 +150,9 @@ public function verify_email()
 
 	ob_start();
 
- $user =  $this->auth();
- $name =  $user->firstname;
- $email = $user->email;
+		 $user =  $this->auth();
+		 $name =  $user->firstname;
+		 $email = $user->email;
 
 		$subject 	= 'EMAIL VERIFICATION';
  		$body 		= $this->buildView('emails/email-verification', [
@@ -164,8 +164,8 @@ public function verify_email()
 
 		$to 		= $email;
 
-		$email_verification_token = $auth->email_verification ;
-		$email = $auth->email ;
+		$email_verification_token = $user->email_verification ;
+		$email = $user->email ;
 
 
 
