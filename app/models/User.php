@@ -1106,7 +1106,7 @@ public function referred_members_uplines($level ='')
 
 	public static function referred_members_downlines_optimised( array $recruiters=[], $page=1, $per_page = 'all')
 	{
-    	$skip = ($page - 1)* $per_page;
+    	@$skip = ($page - 1)* $per_page;
 
 
     	$sql_query = self::whereIn('referred_by' , $recruiters);

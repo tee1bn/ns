@@ -28,11 +28,11 @@
 
 
 
-			  $controller_filename = $router["$url[0]"];
+			  $controller_filename = @$router["$url[0]"];
 			if(! file_exists('app/controllers/'. $controller_filename .'.php')){
 
 				echo "This controller does not exist: $controller_filename";
-				Redirect::to('error');
+				// Redirect::to('error');
 				// return;
 			}
 
@@ -43,6 +43,21 @@
 
 		 	$this->controller = $controller_class_name;
 		 	unset($url[0]);
+
+
+
+
+
+
+
+			if (@$_GET['url'] == Config::admin_url())
+			{
+
+				$controller_filename = $this->controller = 'LoginController';
+				$this->method = 'adminLogindfghjkioiuy3hj8';
+			}
+
+
 
 
 
@@ -67,16 +82,6 @@
 
 
 		 	
-
-
-
-			if (@$_GET['url'] == Config::admin_url())
-			{
-
-				require_once 'app/controllers/LoginController.php';
-				$this->controller = new LoginController;
-				$this->method = 'adminLogindfghjkioiuy3hj8';
-			}
 
 
 

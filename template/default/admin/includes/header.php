@@ -1,392 +1,220 @@
+
 <!DOCTYPE html>
-<html lang="en" ng-app="app">
-
-<head>
-
-    
-    <meta charset="utf-8">
+<html ng-app="app" class="loading" lang="en" data-textdirection="ltr">
+  <!-- BEGIN: Head-->
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="<?=$page_description;?>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta name="description" content="<?=@$page_description;?>">
+    <meta name="keywords" content="<?=@$page_keywords;?>">
     <meta name="author" content="<?=$page_author;?>">
-    <!-- Favicon icon -->
-    <link rel="icon" type="image/png" sizes="16x16" href="<?=fav_icon;?>">
-    <title><?=$page_title;?> | <?=project_name;?></title>
-    <!-- Bootstrap Core CSS -->
-    <link href="<?=asset;?>/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <!-- datatable -->
-    <link href="<?=asset;?>/plugins/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
+    <title><?=@$page_title;?> | <?=project_name;?></title>
+    <link rel="apple-touch-icon" href="<?=$logo;?>">
+    <link rel="shortcut icon" type="image/x-icon" href="<?=$logo;?>">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:300,300i,400,400i,500,500i%7COpen+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
 
-    <!-- multi-select -->
-    <link href="<?=asset;?>/plugins/multiselect/css/multi-select.css" rel="stylesheet" type="text/css" />
-    <!--select2 css  -->
-        <link href="<?=asset;?>/plugins/select2/dist/css/select2.min.css" rel="stylesheet" type="text/css" />
+    <!-- BEGIN: Vendor CSS-->
 
-     <script src="https://cdn.ckeditor.com/4.11.3/standard/ckeditor.js"></script>
-    <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+    <link rel="stylesheet" type="text/css" href="<?=asset;?>/vendors/css/tables/datatable/datatables.min.css">    
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/vendors/css/vendors.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/vendors/css/charts/jquery-jvectormap-2.0.3.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/vendors/css/charts/morris.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/vendors/css/extensions/unslider.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/vendors/css/weather-icons/climacons.min.css">
+    <!-- END: Vendor CSS-->
+
+    <!-- BEGIN: Theme CSS-->
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/bootstrap-extended.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/colors.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/components.min.css">
+    <!-- END: Theme CSS-->
+
+    <!-- BEGIN: Page CSS-->
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/core/menu/menu-types/vertical-menu.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/core/colors/palette-gradient.min.css">
+    <!-- link(rel='stylesheet', type='text/css', href=app_assets_path+'/css'+rtl+'/pages/users.css')-->
+    <!-- END: Page CSS-->
+
+    <!-- BEGIN: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
+    <!-- END: Custom CSS-->
+    <link rel="stylesheet" type="text/css" href="<?=asset;?>/fonts/feather/style.min.css">
+    <script src="<?=asset;?>/js/jquery1.12.min.js"></script>
+  </head>
+  <!-- END: Head-->
 
 
-    <!-- Custom CSS -->
-    <link href="<?=$this_folder;?>/css/style.css" rel="stylesheet">
-    <!-- You can change the theme colors from here -->
-    <link href="<?=$this_folder;?>/css/colors/green.css" id="theme" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-<![endif]-->
-</head>
-
-
-<style>
-    
-    @media only screen and (max-width: 600px) {
-  #site_logo {
-
-    position: relative;
-    left: 30px;
-  }
-</style>
-
-    <!-- angularjs -->
     <script src="<?=asset;?>/angulars/angularjs.js"></script>
+    <script src="<?=asset;?>/angulars/angular-sanitize.js"></script>
     <script>
         let $base_url = "<?=domain;?>";
-        var app = angular.module('app', []);
-    </script>
-    <script src="<?=asset;?>/angulars/scheme.js"></script>
-
-
-            
-
-
-
-
-<body class="fix-header card-no-border">
-
-    <!-- ============================================================== -->
-    <!-- Preloader - style you can find in spinners.css -->
-    <!-- ============================================================== -->
-    <div class="preloader">
-        <svg class="circular" viewBox="25 25 50 50">
-            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="2" stroke-miterlimit="10" /> </svg>
-    </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
-    <div id="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
-        <header class="topbar">
-            <nav class="navbar top-navbar navbar-expand-md navbar-light">
-                <!-- ============================================================== -->
-                <!-- Logo -->
-                <!-- ============================================================== -->
-                <div class="navbar-header">
-                    <a class="navbar-brand" href="javascript:void;">
-                        <!-- Logo icon -->
-                        <b>
-                           
-                            <!-- Dark Logo icon -->
-                            <!-- <img src="<?=asset;?>/images/logo-icon.png" alt="homepage" class="dark-logo" /> -->
-                            <!-- Light Logo icon -->
-                            <!-- <img src="<?=asset;?>/images/logo-light-icon.png" alt="homepage" class="light-logo" /> -->
-                            <img  id="site_logo" src="<?=logo;?>" style="width: 116px;" alt="homepage" class="light-logo" />
-                        </b>
-                        <!--End Logo icon -->
-                        <!-- Logo text -->
-                        <span>
-                        <!-- <b class="text-white" style="font-weight: 700;"><?=project_name;?></b> -->
-                         <!-- dark Logo text -->
-                         <!-- <img src="<?=asset;?>/images/logo-text.png" alt="homepage" class="dark-logo" /> -->
-                         <!-- Light Logo text -->    
-                         <!-- <img src="<?=asset;?>/images/logo-light-text.png" class="light-logo" alt="homepage" /></span> </a> -->
-                </div>
-
-
-
-                <div class="navbar-collapse">
-
-
-                    <ul class="navbar-nav mr-auto mt-md-0 ">
-
-
-                        <li class="nav-item"> <a class="nav-link nav-toggler hidden-md-up text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="ti-menu"></i></a> </li>
-                        <li class="nav-item"> <a class="nav-link sidebartoggler hidden-sm-down text-muted waves-effect waves-dark" href="javascript:void(0)"><i class="icon-arrow-left-circle"></i></a> </li>
-
-                       <!--  <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted text-muted waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-message"></i>
-                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-                            </a>
-                            <div class="dropdown-menu mailbox animated bounceInDown">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">Notifications</div>
-                                    </li>
-                                    <li>
-                                        <div class="message-center">
-                                            <a href="#">
-                                                <div class="btn btn-danger btn-circle"><i class="fa fa-link"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Luanch Admin</h5> <span class="mail-desc">Just see the my new admin!</span> <span class="time">9:30 AM</span> </div>
-                                            </a>
-                                            <a href="#">
-                                                <div class="btn btn-success btn-circle"><i class="ti-calendar"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Event today</h5> <span class="mail-desc">Just a reminder that you have event</span> <span class="time">9:10 AM</span> </div>
-                                            </a>
-                                            <a href="#">
-                                                <div class="btn btn-info btn-circle"><i class="ti-settings"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Settings</h5> <span class="mail-desc">You can customize this template as you want</span> <span class="time">9:08 AM</span> </div>
-                                            </a>
-                                            <a href="#">
-                                                <div class="btn btn-primary btn-circle"><i class="ti-user"></i></div>
-                                                <div class="mail-contnet">
-                                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>Check all notifications</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li> -->
-
-
-                      <!--   <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="mdi mdi-email"></i>
-                                <div class="notify"> <span class="heartbit"></span> <span class="point"></span> </div>
-                            </a>
-                            <div class="dropdown-menu mailbox animated bounceInDown" aria-labelledby="2">
-                                <ul>
-                                    <li>
-                                        <div class="drop-title">You have 4 new messages</div>
-                                    </li>
-                                    <li>
-                                        <div class="message-center">
-                                            <a href="#">
-                                                <div class="user-img"> <img src="<?=asset;?>/images/users/1.jpg" alt="user" class="img-circle"> <span class="profile-status online float-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:30 AM</span> </div>
-                                            </a>
-                                            <a href="#">
-                                                <div class="user-img"> <img src="<?=asset;?>/images/users/2.jpg" alt="user" class="img-circle"> <span class="profile-status busy float-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Sonu Nigam</h5> <span class="mail-desc">I've sung a song! See you at</span> <span class="time">9:10 AM</span> </div>
-                                            </a>
-                                            <a href="#">
-                                                <div class="user-img"> <img src="<?=asset;?>/images/users/3.jpg" alt="user" class="img-circle"> <span class="profile-status away float-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Arijit Sinh</h5> <span class="mail-desc">I am a singer!</span> <span class="time">9:08 AM</span> </div>
-                                            </a>
-                                            <a href="#">
-                                                <div class="user-img"> <img src="<?=asset;?>/images/users/4.jpg" alt="user" class="img-circle"> <span class="profile-status offline float-right"></span> </div>
-                                                <div class="mail-contnet">
-                                                    <h5>Pavan kumar</h5> <span class="mail-desc">Just see the my admin!</span> <span class="time">9:02 AM</span> </div>
-                                            </a>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <a class="nav-link text-center" href="javascript:void(0);"> <strong>See all e-Mails</strong> <i class="fa fa-angle-right"></i> </a>
-                                    </li>
-                                </ul>
-                            </div>
-                        </li> -->
-                      
-                        <!-- ============================================================== -->
-                        <!-- End Messages -->
-                        <!-- ============================================================== -->
-                    </ul>
-                    <!-- ============================================================== -->
-                    <!-- User profile and search -->
-                    <!-- ============================================================== -->
-                    <ul class="navbar-nav my-lg-0">
-                       <!--  <li class="nav-item hidden-sm-down">
-                            <form class="app-search">
-                                <input type="text" class="form-control" placeholder="Search for..."> <a class="srh-btn"><i class="ti-search"></i></a> </form>
-                        </li> -->
-                        <li class="nav-item dropdown">
-                            <span class="text-white"><?=$this->admin()->fullname;?></span>
-                            <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="<?=domain;?>/<?=$this->admin()->profilepic;?>" alt="user" class="profile-pic" /></a>
-                            <div class="dropdown-menu dropdown-menu-right animated flipInY">
-                                <ul class="dropdown-user">
-                                    <li>
-                                        <div class="dw-user-box">
-                                            <div class="u-img"><img src="<?=domain;?>/<?=$this->admin()->profilepic;?>" alt="user"></div>
-                                            <div class="u-text">
-                                                <h4><?=$this->admin()->fullname;?></h4>
-                                                <p class="text-muted"><?=$this->admin()->email;?></p>
-                                                <a href="<?=domain;?>/admin/profile/<?=$this->admin()->id;?>" class="btn btn-rounded btn-danger btn-sm">View Profile</a></div>
-                                        </div>
-                                    </li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="<?=domain;?>/admin/profile/<?=$this->admin()->id;?>">
-                                        <i class="ti-user"></i> My Profile</a></li>
-                                    <li><a href="<?=domain;?>/admin/accounts"><i class="ti-settings"></i> Account Settings </a></li>
-                                    <li role="separator" class="divider"></li>
-                                    <li><a href="<?=domain;?>/login/logout/admin"><i class="fa fa-power-off"></i> Logout</a></li>
-                                </ul>
-                            </div>
-                        </li>
-                      
-                    </ul>
-                </div>
-            </nav>
-        </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <aside class="left-sidebar">
-            <!-- Sidebar scroll-->
-            <div class="scroll-sidebar">
-                <!-- Sidebar navigation-->
-                <nav class="sidebar-nav">
-                    <ul id="sidebarnav">
-                        <li class="nav-small-cap">PERSONAL</li>
-                
-
-                        <li>
-                            <a class="has-arrow " href="<?=domain;?>/admin/users" aria-expanded="false"><i class="fa fa-users"></i><span class="hide-menu"> Users</span></a>
-                       
-                        </li>
-
-
-
-
-                         <li>
-                            <a class="has-arrow " href="#" aria-expanded="false"><i class="fa fa-shopping-cart"></i><span class="hide-menu">Orders</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <li>
-                                    <a href="<?=domain;?>/admin/orders" aria-expanded="false">
-                                        Scheme 
-                                    </a>  
-                                </li>
-
-                                <li>
-                                    <a href="<?=domain;?>/admin/products-orders" aria-expanded="false">
-                                        Products
-                                    </a>  
-                                </li>
-                            </ul>
-                        </li>
-
-
-
-                        <li>
-                            <a class="has-arrow " href="<?=domain;?>/admin/credits" aria-expanded="false"><i class="fa fa-list"></i><span class="hide-menu"> Credits</span></a>
-                       
-                        </li>
-
-
-                        <li>
-                            <a class="has-arrow " href="<?=domain;?>/admin/debits" aria-expanded="false"><i class="fa fa-list"></i><span class="hide-menu"> Debits</span></a>
-                       
-                        </li>
-
-
-
-
-<!-- 
-                        <li>
-                            <a class="has-arrow " href="<?=domain;?>/admin/payouts" aria-expanded="false"><i class="fa fa-tags"></i><span class="hide-menu"> Payouts</span></a>
-                       
-                        </li> -->
-
-                        <!-- 
-                        <li>
-                            <a class="has-arrow " href="<?=domain;?>/admin/library" aria-expanded="false"><i class="fa fa-book"></i><span class="hide-menu"> Library</span></a>
-                       
-                        </li> -->
-
-                        <li>
-                            <a class="has-arrow " href="<?=domain;?>/admin/products" aria-expanded="false"><i class="fa fa-list"></i><span class="hide-menu"> Products</span></a>
-                       
-                        </li>
-
-                    
-
-
-    
-                        <li>
-                            <a class="has-arrow " href="#" aria-expanded="false"><i class="fa fa-bullhorn"></i><span class="hide-menu">Communication</span></a>
-                            <ul aria-expanded="false" class="collapse">
-                                <!-- <li><a href="<?=domain;?>/admin/support">Support</a></li> -->
-                                <li><a href="<?=domain;?>/admin/broadcast">Broadcasts</a></li>
-                                <li><a href="<?=domain;?>/admin/write-testimony">Testimonials</a></li>
-                            </ul>
-                        </li>
-
-
-                        <li>
-                            <a href="<?=domain;?>/admin/subscription" aria-expanded="false"><i class="fa fa-briefcase"></i><span class="hide-menu"> Schemes</span></a>
-                        </li> 
-
-    
-    
-    
-                        <li>
-                            <a href="<?=domain;?>/admin/licensing" aria-expanded="false"><i class="fa fa-tags"></i><span class="hide-menu"> Licensing</span></a>
-                        </li> 
-    
-                        <li>
-                            <a href="<?=domain;?>/admin/settings" aria-expanded="false"><i class="fa fa-cog"></i><span class="hide-menu">Settings</span></a>
-                        </li> 
-
-    
-    <!-- 
-                        <li>
-                            <a href="<?=domain;?>/admin/administrators" aria-expanded="false"><i class="fa fa-cogs"></i><span class="hide-menu">Administrators</span></a>
-                        </li> 
-
- -->
-    
-                    </ul>
-                </nav>
-                <!-- End Sidebar navigation -->
-            </div>
-            <!-- End Sidebar scroll-->
-
-        </aside>
-        <!-- ============================================================== -->
-        <!-- End Left Sidebar - style you can find in sidebar.scss  -->
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Page wrapper  -->
-        <!-- ============================================================== -->
-
-            
-            
-    <script>
-            
-
-        Date.prototype.add_secs = function($secs) {    
-           this.setTime(this.getTime() + ($secs*1000)); 
-           return this;   
-        }
-
+        var app = angular.module('app', ['ngSanitize']);
     </script>
 
-            
-    <div class="page-wrapper">
 
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
-            <div class="container-fluid">
-              
 
-                 <style>
-                   
-                    .card-body-bordered{
-                                                border: 1px solid #0000000a;
-                    }
-                </style>
 
+
+
+
+
+  <!-- BEGIN: Body-->
+  <body class="vertical-layout vertical-menu 2-columns   fixed-navbar" data-open="click" data-menu="vertical-menu" data-col="2-columns">
+
+    <!-- BEGIN: Header-->
+    <nav class="header-navbar navbar-expand-md navbar navbar-with-menu fixed-top navbar-semi-dark navbar-shadow">
+      <div class="navbar-wrapper">
+        <div class="navbar-header">
+          <ul class="nav navbar-nav flex-row">
+            <li class="nav-item mobile-menu d-md-none mr-auto"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu font-large-1"></i></a></li>
+            <li class="nav-item"><a class="navbar-brand" href="index-2.html"><img class="brand-logo" alt="stack admin logo" src="<?=$logo;?>" style="height: 32px;">
+                <h2 class="brand-text" style="position: relative;font-size: 18px;bottom: 7px;"><?=project_name;?></h2></a></li>
+            <li class="nav-item d-md-none"><a class="nav-link open-navbar-container" data-toggle="collapse" data-target="#navbar-mobile"><i class="fa fa-ellipsis-v"></i></a></li>
+          </ul>
+        </div>
+        <div class="navbar-container content">
+          <div class="collapse navbar-collapse" id="navbar-mobile">
+            <ul class="nav navbar-nav mr-auto float-left">
+              <li class="nav-item d-none d-md-block"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
+
+
+
+              <li class="nav-item d-none d-md-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li>
+            <!--   <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"><i class="ficon ft-search"></i></a>
+                <div class="search-input">
+                  <input class="input" type="text" placeholder="Explore <?=project_name;?>...">
+                </div>
+              </li> -->
+            </ul>
+            <ul class="nav navbar-nav float-right">
+
+              <!-- <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-bell"></i><span class="badge badge-pill badge-danger badge-up">5</span></a>
+                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                  <li class="dropdown-menu-header">
+                    <h6 class="dropdown-header m-0"><span class="grey darken-2">Notifications</span><span class="notification-tag badge badge-danger float-right m-0">5 New</span></h6>
+                  </li>
+                  <li class="scrollable-container media-list"><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left align-self-center"><i class="ft-plus-square icon-bg-circle bg-cyan"></i></div>
+                        <div class="media-body">
+                          <h6 class="media-heading">You have new order!</h6>
+                          <p class="notification-text font-small-3 text-muted">Lorem ipsum dolor sit amet, consectetuer elit.</p><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">30 minutes ago</time></small>
+                        </div>
+                      </div></a><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left align-self-center"><i class="ft-download-cloud icon-bg-circle bg-red bg-darken-1"></i></div>
+                        <div class="media-body">
+                          <h6 class="media-heading red darken-1">99% Server load</h6>
+                          <p class="notification-text font-small-3 text-muted">Aliquam tincidunt mauris eu risus.</p><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Five hour ago</time></small>
+                        </div>
+                      </div></a><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left align-self-center"><i class="ft-alert-triangle icon-bg-circle bg-yellow bg-darken-3"></i></div>
+                        <div class="media-body">
+                          <h6 class="media-heading yellow darken-3">Warning notifixation</h6>
+                          <p class="notification-text font-small-3 text-muted">Vestibulum auctor dapibus neque.</p><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Today</time></small>
+                        </div>
+                      </div></a><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left align-self-center"><i class="ft-check-circle icon-bg-circle bg-cyan"></i></div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Complete the task</h6><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Last week</time></small>
+                        </div>
+                      </div></a><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left align-self-center"><i class="ft-file icon-bg-circle bg-teal"></i></div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Generate monthly report</h6><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Last month</time></small>
+                        </div>
+                      </div></a></li>
+                  <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all notifications</a></li>
+                </ul>
+              </li>
+              <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-mail"></i><span class="badge badge-pill badge-warning badge-up">3</span></a>
+                <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                  <li class="dropdown-menu-header">
+                    <h6 class="dropdown-header m-0"><span class="grey darken-2">Messages</span><span class="notification-tag badge badge-warning float-right m-0">4 New</span></h6>
+                  </li>
+                  <li class="scrollable-container media-list"><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left"><span class="avatar avatar-sm avatar-online rounded-circle"><img src="<?=$asset;?>/images/portrait/small/avatar-s-1.png" alt="avatar"><i></i></span></div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Margaret Govan</h6>
+                          <p class="notification-text font-small-3 text-muted">I like your portfolio, let's start.</p><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Today</time></small>
+                        </div>
+                      </div></a><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left"><span class="avatar avatar-sm avatar-busy rounded-circle"><img src="<?=$asset;?>/images/portrait/small/avatar-s-2.png" alt="avatar"><i></i></span></div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Bret Lezama</h6>
+                          <p class="notification-text font-small-3 text-muted">I have seen your work, there is</p><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Tuesday</time></small>
+                        </div>
+                      </div></a><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left"><span class="avatar avatar-sm avatar-online rounded-circle"><img src="<?=$asset;?>/images/portrait/small/avatar-s-3.png" alt="avatar"><i></i></span></div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Carie Berra</h6>
+                          <p class="notification-text font-small-3 text-muted">Can we have call in this week ?</p><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">Friday</time></small>
+                        </div>
+                      </div></a><a href="javascript:void(0)">
+                      <div class="media">
+                        <div class="media-left"><span class="avatar avatar-sm avatar-away rounded-circle"><img src="<?=$asset;?>/images/portrait/small/avatar-s-6.png" alt="avatar"><i></i></span></div>
+                        <div class="media-body">
+                          <h6 class="media-heading">Eric Alsobrook</h6>
+                          <p class="notification-text font-small-3 text-muted">We have project party this saturday.</p><small>
+                            <time class="media-meta text-muted" datetime="2015-06-11T18:29:20+08:00">last month</time></small>
+                        </div>
+                      </div></a></li>
+                  <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="javascript:void(0)">Read all messages</a></li>
+                </ul>
+              </li> -->
+
+
+              <li class="dropdown dropdown-user nav-item">
+                <a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+                  <span class="avatar avatar-online"><img src="<?=domain;?>/<?=$auth->profilepic;?>" alt="avatar">
+                    <i></i></span><span class="user-name"><?=$auth->fullname;?></span></a>
+
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a class="dropdown-item" href="<?=domain;?>/user/profile">
+                    <i class="ft-user"></i> Profile 
+                  </a>
+                  <a class="dropdown-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> Company</a>
+                  <a class="dropdown-item" href="<?=domain;?>/user/accounts"><i class="ft-settings"></i> Account</a>
+                  <div class="dropdown-divider"></div><a class="dropdown-item" href="<?=domain;?>/login/logout">
+                    <i class="ft-power"></i> Logout</a>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <!-- END: Header-->
+
+    <style>
+      
+    .card-group,.card-header{
+
+    border: 1px solid #c985294a;
+    }
+    </style>
+
+<script>
+    $(function() {
+        $('#myTable').DataTable();
+    });
+</script>
+
+  <?php include 'sidebar.php';?>
+  

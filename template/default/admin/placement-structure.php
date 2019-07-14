@@ -1,33 +1,46 @@
 <?php
 
-
     $user   =  User::find($user_id);
-    $upline = $user->referred_members_uplines(1)[1];
-
-$page_title = "Team Tree";
+    @$upline = $user->referred_members_uplines(1)[1];
+$page_title = "Placement Tree";
  include 'includes/header.php';?>
 
 
-    
-                <!-- ============================================================== -->
-                <!-- Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <div class="row page-titles">
-                    <div class="col-md-6 col-8 align-self-center">
-                        <h3 class="text-themecolor mb-0 mt-0">Team Tree</h3>
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="javascript:void(0)">Home</a></li>
-                            <li class="breadcrumb-item active">Team Tree</li>
-                        </ol>
-                    </div>
-                </div>
-                <!-- ============================================================== -->
-                <!-- End Bread crumb and right sidebar toggle -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Start Page Content -->
-                <!-- ============================================================== -->
-                   <div class="row">
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+      <div class="content-wrapper">
+        <div class="content-header row">
+          <div class="content-header-left col-md-6 col-12 mb-2">
+            <?php include 'includes/breadcrumb.php';?>
+
+            <h3 class="content-header-title mb-0">Placement Tree</h3>
+          </div>
+          
+         <!--  <div class="content-header-right col-md-6 col-12">
+            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+              <div class="btn-group" role="group">
+                <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> Settings</button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
+              </div><a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="ft-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="ft-pie-chart"></i></a>
+            </div>
+          </div> -->
+        </div>
+        <div class="content-body">
+
+      <section id="video-gallery" class="card">
+        <div class="card-header">
+          <h4 class="card-title">Placement Tree</h4>
+          <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+              <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                </ul>
+            </div>
+        </div>
+         <div class="card-content">
+      <div class="card-body">
+                           <div class="row">
                         <div class="referral col-md-6" align="center">
                             <a href="<?=domain;?>/genealogy/placement/<?=$upline['username'];?>">
                                 <img src="<?=domain;?>/<?=$user->profilepic;?>" style="border-radius: 70%;height: 50px;"
@@ -36,9 +49,16 @@ $page_title = "Team Tree";
                                     <h4>Me</h4>
                                 <?php else:?>
                                 <h4><?=$user->lastname;?> <?=$user->firstname;?><br>
-                                 Level: <?=$user->rank;?></h4>
+                                 <!-- Level: <?=$user->rank;?> -->
+                                </h4>
                                 <?php endif;?>
                           </a>
+
+
+                            <?=$ref_link =$this->auth()->referral_link();?>
+                            <button onclick="copy_text('<?=$ref_link;?>');" class="btn btn-success">Copy Link</button>
+                            <br>
+                            <br>
                       </div>
 
                     </div>
@@ -50,10 +70,12 @@ $page_title = "Team Tree";
     border-radius: 100%;
     width: 50px;
     }
+
 </style>
+
 <?php
 
-$downlines = $user->referred_members_downlines(3);
+$downlines = $user->referred_members_downlines(5);
 
 $ordinal = [
               1=> 'First Level - Direct Referrals',
@@ -64,9 +86,10 @@ $ordinal = [
               6=> 'Sixth Level - Referrals of Fifth Level Referrals',
             ];
 
-for ($level=1; $level <=3 ; $level++) :
+for ($level=1; $level <=5; $level++) :
 
       $count = count($downlines[$level]);
+      $message= '';
   if ( $count == 0) {
     $message = '<div class="" align="center">
                 <b>No records found</b>
@@ -81,6 +104,7 @@ for ($level=1; $level <=3 ; $level++) :
 
   ?>
 
+
       <div class="card-group" >
         <div class="card card-default">
           <div class="card-header">
@@ -90,16 +114,15 @@ for ($level=1; $level <=3 ; $level++) :
             <span class="badge badge-danger pull-right"> <?=$count;?></span>
             </h4>
           </div>
-          <div id="collapse<?=$level;?>" class="card-collapse collapse show <?=($level==1)?'':'';?>">
+          <div id="collapse<?=$level;?>" class="card-collapse collapse  <?=($level==1)?'':'';?>">
             <div class="card-body">
              
               <div class="row">
 
 
    <?php
-
-        echo $message;
-         foreach ($downlines[$level] as $user){
+        echo "$message";
+         foreach (@$downlines[$level] as $user){
           echo  $this->showThisDownine($user['id'], 'referred_by');
         }
         ;?>
@@ -119,13 +142,30 @@ for ($level=1; $level <=3 ; $level++) :
 <?php endfor ;?>
 
               
-                <!-- ============================================================== -->
-                <!-- End PAge Content -->
-                <!-- ============================================================== -->
-                <!-- ============================================================== -->
-                <!-- Right sidebar -->
-                <!-- ============================================================== -->
-                <!-- .right-sidebar -->
+
+
+
+
+
+
+
+
+
+
+
+
+
+
           
+      </div>
+    </div>
+      </section>
+
+
+
+        </div>
+      </div>
+    </div>
+    <!-- END: Content-->
 
 <?php include 'includes/footer.php';?>

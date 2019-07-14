@@ -58,7 +58,7 @@ $page_title = "Placement Team List";
                           Downline Level <span class="badge badge-danger"> <?=$level_of_referral;?> </span>
                         <span class="caret"></span></button>
                         <ul class="dropdown-menu">
-                         <?php for ($i=1; $i <=3 ; $i++):?>
+                         <?php for ($i=1; $i <=5 ; $i++):?>
                               <li>
                                 <a class="dropdown-item" href="<?=domain;?>/genealogy/placement_list/<?=$user->username;?>/<?=$i;?>">
                                 Level <?=$i;?>

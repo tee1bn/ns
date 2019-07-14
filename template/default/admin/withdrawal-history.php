@@ -1,5 +1,5 @@
 <?php
-$page_title = "Account Settings";
+$page_title = "Withdrawals";
  include 'includes/header.php';?>
 
 
@@ -10,7 +10,7 @@ $page_title = "Account Settings";
           <div class="content-header-left col-md-6 col-12 mb-2">
             <?php include 'includes/breadcrumb.php';?>
 
-            <h3 class="content-header-title mb-0">Account Settings</h3>
+            <h3 class="content-header-title mb-0">Withdrawals</h3>
           </div>
           
          <!--  <div class="content-header-right col-md-6 col-12">
@@ -26,7 +26,7 @@ $page_title = "Account Settings";
 
       <section id="video-gallery" class="card">
         <div class="card-header">
-          <h4 class="card-title">Change Password</h4>
+          <h4 class="card-title">Withdrawals</h4>
           <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
               <div class="heading-elements">
                 <ul class="list-inline mb-0">
@@ -37,42 +37,27 @@ $page_title = "Account Settings";
         </div>
          <div class="card-content">
       <div class="card-body">
-        
-
-                                                           
-         <form  method="post" action="<?=domain;?>/user-profile/change_password" style="padding: 10px;">
-              <?=@$this->csrf_field('change_password');?>
-                <div class="form-group">
-               <input type="password" name="current_password" class="form-control" placeholder="Current Password">
-                  <span class="text-danger"><?=@$this->inputError('current_password');?></span>
-                </div>
-
-                <div class="form-group">
-                  <input type="password"  name="new_password" class="form-control" placeholder="New Password">
-                <span class="text-danger"><?=@$this->inputError('new_password');?></span>
-                </div>
-
-                <div class="form-group">
-                  <input type="password" name="confirm_password" class="form-control" placeholder="Confirm password">
-                  <span class="text-danger"><?=@$this->inputError('confirm_password');?></span>
-               </div>
-
-                <div class="row">
-                  <div class="col-sm-6">
-                    <button type="submit" class="btn btn-success btn-block btn-flat">Submit</button>
-                  </div>
-                  <!-- /.col -->
-                </div>
-            </form>
-
-
-
-
-
-
+          <div class="card-text">
+              <p>Image gallery grid with photo-swipe integration. Display images in 4-2-1 columns and photo-swipe provides gallery features.</p>
+              <p>Please read the photo-swipe gallery <a href="http://photoswipe.com/documentation/getting-started.html" target="_blank">documentation</a> for usage information.</p>
+          </div>
       </div>
     </div>
       </section>
+
+
+    <!--   <section id="video-gallery" class="card">
+        <div class="card-header">
+          <h4 class="card-title">Withdrawals</h4>
+          <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+              <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                </ul>
+            </div>
+        </div>
+      </section> -->
 
 
         </div>
