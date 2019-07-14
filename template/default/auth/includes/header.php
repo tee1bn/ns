@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
     <meta name="description" content="<?=@$page_description;?>">
     <meta name="keywords" content="<?=@$page_keywords;?>">
-    <meta name="author" content="<?=$page_author;?>">
+    <meta name="author" content="<?=@$page_author;?>">
     <title><?=@$page_title;?> | <?=project_name;?></title>
     <link rel="apple-touch-icon" href="<?=$logo;?>">
     <link rel="shortcut icon" type="image/x-icon" href="<?=$logo;?>">
@@ -51,6 +51,10 @@
     <script>
         let $base_url = "<?=domain;?>";
         var app = angular.module('app', ['ngSanitize']);
+        
+/*       var console = {};
+        console.log = function(){};
+*/
     </script>
 
 

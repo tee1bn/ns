@@ -164,8 +164,8 @@ public function verify_email()
 
 		$to 		= $email;
 
-		$email_verification_token = $this->auth()->email_verification ;
-		$email = $this->auth()->email ;
+		$email_verification_token = $auth->email_verification ;
+		$email = $auth->email ;
 
 
 
@@ -182,7 +182,6 @@ public function verify_email()
 ob_end_clean();
 
 	if ($status) {
-
 		Session::putFlash('success', "Verification Mail Sent!");
 	}else{
 		Session::putFlash('danger', "Verification Mail Could not Send.");

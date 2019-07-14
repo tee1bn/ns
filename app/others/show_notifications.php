@@ -69,7 +69,6 @@
           });
       }
 
-    perform_automatching();
 
     notify = function () {
   $.ajax({

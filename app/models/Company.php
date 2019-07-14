@@ -106,8 +106,9 @@ class Company extends Eloquent
 				$handle = new Upload ($file);
 
 
-						$file_type = explode('/', $handle->file_src_mime)[0];
-		                if (($file_type == 'image' ) ||($file_type == 'video' ) ) {
+
+					$file_type = explode('/', $handle->file_src_mime);
+		                if (($handle->file_src_mime == 'application/pdf' ) ||($file_type == 'image' ) ) {
 
 		                	$handle->Process($directory);
 		                	$file_path = $directory.'/'.$handle->file_dst_name;
@@ -116,6 +117,11 @@ class Company extends Eloquent
 								$new_file[$i]['label'] = $label;
 
 								array_unshift($documents, $new_file[$i]);
+		                }else{
+
+							Session::putFlash("danger","only .pdf format allowed");
+		                	throw new Exception("Only Pdf is allowed ", 1);
+		                	
 		                }
 		                $i++;
 			}

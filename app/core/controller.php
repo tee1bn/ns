@@ -337,7 +337,7 @@ if ($response == true) {
 			define("logo", 	$logo, 	true);
 			define("fav_icon", 	$fav_icon, 	true);
 			define("websocket_url", $websocket_url, 	true);
-
+			echo'<link rel="canonical" href="http://gitstardigital.com/"/>';
 			require_once "template/".Config::views_template()."/{$view}.php" ;
 			require_once "app/others/confirmation_dialog.php" ; 
 			require_once "app/others/show_notifications.php" ; 

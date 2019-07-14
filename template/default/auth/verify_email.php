@@ -1,5 +1,5 @@
 <?php
-$page_title = "Forgot Password";
+$page_title = "Verify Email";
 include 'includes/auth_header.php';?>
 
 
