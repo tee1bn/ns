@@ -135,7 +135,7 @@ $page_title = "Company";
 </div>
 
 <div class="alert alert-danger mb-2" role="alert">
-              <strong>NOTE!</strong> Please fill all details accurately and request review for approval
+              <strong>NOTE!</strong> Please fill all details accurately providing legal documents. Then, request review for approval
                <a href="javascript:void(0);" ng-click="$list.attempt_request_for_review();" class="alert-link">Request Review</a>
             </div>
 
