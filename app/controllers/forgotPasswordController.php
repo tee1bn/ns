@@ -125,6 +125,8 @@ $password_reset =	PasswordReset::where('email', $email)->where('token', $token)-
 
 public function send_link()
 {
+
+		 	MIS::verify_google_captcha();
 	print_r($_POST);
 $email = Input::get('user');
 $user = User::where('email', $email )->first();
