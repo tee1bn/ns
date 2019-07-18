@@ -227,7 +227,7 @@ public function generate_phone_code_for($user_id)
 if (Input::exists('user_registration') || true) {
 		print_r(Input::all());
 
-		// MIS::verify_google_captcha();
+		MIS::verify_google_captcha();
 
 
 
