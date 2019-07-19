@@ -107,7 +107,8 @@ class Company extends Eloquent
 
 
 
-					$file_type = explode('/', $handle->file_src_mime);
+					$file_type = explode('/', $handle->file_src_mime)[0];
+
 		                if (($handle->file_src_mime == 'application/pdf' ) ||($file_type == 'image' ) ) {
 
 		                	$handle->Process($directory);
