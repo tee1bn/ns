@@ -32,7 +32,7 @@ include 'includes/auth_header.php';?>
 
 
 
-							<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="ft-unlock"></i> Reset Passoword</button>
+							<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="ft-unlock"></i> Reset Password</button>
 						</form>
 					</div>
 					<p class="text-center">Don't have an account ? <a href="<?=domain;?>/register" class="card-link">Register</a></p>
