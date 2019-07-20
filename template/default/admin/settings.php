@@ -142,7 +142,7 @@ $page_title = "Settings";
                        </div>
 
                             </div>
-                            <div class="card-body row collapse show" id="pools_settings">
+                            <div class="card-body row collapse" id="pools_settings">
                               
                               <table class="table">
                                 <thead>

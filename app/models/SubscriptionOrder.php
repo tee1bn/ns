@@ -144,7 +144,7 @@ class SubscriptionOrder extends Eloquent
 		 // print_r($tree);
 
 		 foreach ($tree as $level => $upline) {
-		 		     $amount_earned = $settings[$level]['packages'] * 0.01 * $detail['price'];
+		 		     $amount_earned = $settings[$level]['packages'] * 0.01 * $detail['commission_price'];
 					 $comment = "{$detail[package_type]} Package Level {$level} Bonus";
 
 					 if ($level == 0) {

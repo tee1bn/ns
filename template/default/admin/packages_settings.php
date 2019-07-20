@@ -52,6 +52,7 @@ $page_title = "Packages Settings";
                                             <th>SN</th>
                                             <th>Plan</th>
                                             <th>Price(<?=$currency;?>)</th>
+                                            <th title="Amount on which Commission is calculated">Commission Price(<?=$currency;?>)</th>
                                             <th>VAT (%)</th>
                                             <th>Features <small class="text-danger">*separated commas</small></th>
                                             <th>Hierarchy</th>
@@ -77,6 +78,10 @@ $page_title = "Packages Settings";
                                        
                                                 <td>
                                                     <input style="width: 55px;" type="number" step="0.01" value="<?=$plan->price;?>" name="plan[<?=$plan->id;?>][price]">
+                                                </td>
+                                       
+                                                <td>
+                                                    <input style="width: 55px;" type="number" step="0.01" value="<?=$plan->commission_price;?>" name="plan[<?=$plan->id;?>][commission_price]">
                                                 </td>
                                        
                                                 <td>
