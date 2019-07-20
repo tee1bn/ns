@@ -164,10 +164,11 @@ class AdminController extends controller
 
 	}
 
-	public function subscription()
+
+	public function packages_settings()
 	{
 
-		$this->view('admin/subscription');
+		$this->view('admin/packages_settings');
 
 	}
 

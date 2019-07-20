@@ -41,7 +41,9 @@
           <li class=" navigation-header"><span>ADMINISTRATION</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
           </li>
               
+
             <li><a class="menu-item" href="<?=domain;?>/admin/settings"><i class="fa fa-cog"></i>Settings</a></li>
+            <li><a class="menu-item" href="<?=domain;?>/admin/packages-settings"><i class="fa fa-briefcase"></i>Packages</a></li>
 
 
 
