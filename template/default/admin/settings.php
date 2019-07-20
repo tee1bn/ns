@@ -58,7 +58,7 @@ $page_title = "Settings";
 
                                               
                                 <div class="text-center col-12">
-                                    <button class="btn btn-success" type="submit">Update 
+                                    <button ng-show="$site_settings.length != 0" class="btn btn-success" type="submit">Update 
                                         <i class="fa fa-cog"></i></button>
                                 </div>
                               </form>
@@ -115,7 +115,7 @@ $page_title = "Settings";
                                 <textarea style="display: none;" name="content">{{$commission_settings}}</textarea>
 
                                 <div class="text-center col-12">
-                                    <button class="btn btn-success" type="submit">Update <i class="fa fa-cog"></i></button>
+                                    <button ng-show="$commission_settings.length != 0" class="btn btn-success" type="submit">Update <i class="fa fa-cog"></i></button>
                                 </div>
                               </form>
 
@@ -173,7 +173,7 @@ $page_title = "Settings";
                                 <textarea style="display: none;" name="content">{{$pools_settings}}</textarea>
 
                                 <div class="text-center col-12">
-                                    <button class="btn btn-success" type="submit">Update <i class="fa fa-cog"></i></button>
+                                    <button ng-show="$pools_settings.length != 0" class="btn btn-success" type="submit">Update <i class="fa fa-cog"></i></button>
                                 </div>
                               </form>
 
