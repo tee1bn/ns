@@ -62,11 +62,12 @@ $page_title = "Dashboard";
                         <i class="ft-briefcase font-large-2 white"></i>
                     </div>
                     <div class="p-2 bg-gradient-x-danger white media-body">
+                        <a href="<?=domain;?>/user/package" class="text-white">
                         <h5>Package</h5>
                         <small class="text-bold-400 mb-0"><i class="ft-c"></i>    
-                          Your package will show here
-                        <!-- <?=$auth->subscription->package_type;?> -->
+                        <?=@$auth->Sub;?>
                         </small>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -97,8 +98,10 @@ $page_title = "Dashboard";
                         <i class="icon-wallet font-large-2 white"></i>
                     </div>
                     <div class="p-2 bg-gradient-x-success white media-body">
+                        <a href="<?=domain;?>/user/earnings" class="text-white">
                         <h5>Wallet</h5>
                         <h5 class="text-bold-400 mb-0"> <?=$currency;?> <?=MIS::money_format($balance);?></h5>
+                        </a>
                     </div>
                 </div>
             </div>

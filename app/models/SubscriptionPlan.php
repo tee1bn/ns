@@ -31,10 +31,10 @@ class SubscriptionPlan extends Eloquent
 
 	public function getFinalcostAttribute()
 	{
-		return (0.01 * $this->percent_vat * $this->price);
+		return (0.01 * $this->percent_vat * $this->price) + $this->price;
 	}
-	
-	
+
+
 
 
 
@@ -57,13 +57,13 @@ class SubscriptionPlan extends Eloquent
 			$new_sub 		= self::find($subscription_id);
 
 
-			$cost 	=  ($previous_sub->price ==null) ?  $new_sub->price  : ($new_sub->price - (int)$previous_sub->price) ;
+			$cost 	=  (@$previous_sub->Finalcost ==null) ?  $new_sub->Finalcost  : ($new_sub->Finalcost - (int)$previous_sub->Finalcost) ;
 
 
 		
 
 
-			$previous_hierachy = ($previous_sub->hierarchy != null) ? $previous_sub->hierarchy : $new_sub->hierarchy ;
+			$previous_hierachy = (@$previous_sub->hierarchy != null) ? $previous_sub->hierarchy : $new_sub->hierarchy ;
 
 
 					//ensure this is not downgrade
@@ -71,8 +71,7 @@ class SubscriptionPlan extends Eloquent
 
 					Session::putFlash('danger', 
 						"You cannot downgrade your subscription to {$new_sub->package_type}.");
-					throw new Exception("Error Processing Request", 1);
-
+						return;
 				}
 
 					//ensure no request is existing for the month
@@ -84,7 +83,6 @@ class SubscriptionPlan extends Eloquent
 						// throw new Exception("You already have a request on {$new_sub->package_type}", 1);
 
 						return $existing_requests->first();
-
 				}
 
 
@@ -97,10 +95,16 @@ class SubscriptionPlan extends Eloquent
 				if (SubscriptionOrder::user_has_pending_order($user_id, $new_sub->id)) {
 					Session::putFlash('danger', 
 						"You have pending order for {$new_sub->package_type}.");
-					throw new Exception("You have pending order for {$new_sub->package_type}.", 1);
+						return;
+					// throw new Exception("You have pending order for {$new_sub->package_type}.", 1);
 				}
 
+					//delete unseful orders
+				 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();
+
+
 				$new_order =  SubscriptionOrder::create_order($subscription_id, $user_id, $cost);
+
 			}
 
 			DB::commit();

@@ -38,7 +38,7 @@ $page_title = "Package";
                   <div class="card-body">
                     <h4 class="card-title"><?=$subscription->package_type;?></h4>
                     <h6 class="card-subtitle text-muted"> <b class="float-right">
-                      <?=$currency;?><?=MIS::money_format($subscription->price);?> /Month</b>
+                      <?=$currency;?><?=MIS::money_format($subscription->price);?><!--  /Month --></b>
                     </h6> 
                   </div>
 
@@ -59,9 +59,10 @@ $page_title = "Package";
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
                       method="post"
-                      class="ajax_for"
+                      class="ajax_form"
+                      data-function="initiate_payment"
                       action="<?=domain;?>/user/create_upgrade_request">
-                      <input type="" name="subscription_id" value="<?=$subscription->id;?>">
+                      <input type="hidden" name="subscription_id" value="<?=$subscription->id;?>">
                     <button href="#" class="btn btn-outline-teal">Buy</button>
                     </form>
 
@@ -72,20 +73,12 @@ $page_title = "Package";
           <?php endforeach;?>
               </div>
 
-
-    <!--   <section id="video-gallery" class="card">
-        <div class="card-header">
-          <h4 class="card-title">Package</h4>
-          <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-              <div class="heading-elements">
-                <ul class="list-inline mb-0">
-                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                </ul>
-            </div>
-        </div>
-      </section> -->
-
+              <script>
+                initiate_payment= function($subscription_order){
+                  alert("Thank you. You will be able to complete the process after we integrate a payment method");
+                  return;
+                }
+              </script>
 
         </div>
       </div>

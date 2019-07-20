@@ -15,6 +15,10 @@
                 <a class="menu-item" href="<?=domain;?>/admin/companies"><i class="fa fa-building-o"></i> Companies</a>
               </li>
 
+              <li>
+                <a class="menu-item" href="<?=domain;?>/admin/orders"><i class="fa fa-list"></i>Package Orders</a>
+              </li>
+
         <!--       <li class=" nav-item"><a href="#"><i class="icon-wallet"></i><span class="menu-title" data-i18n=""> Wallet</span></a>
             <ul class="menu-content">
               <li><a class="menu-item" href="<?=domain;?>/admin/credits"> Credits</a>

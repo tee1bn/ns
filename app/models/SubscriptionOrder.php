@@ -4,7 +4,6 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Capsule\Manager as DB;
-use Razorpay\Api\Api;
 
 
 class SubscriptionOrder extends Eloquent 
@@ -13,8 +12,6 @@ class SubscriptionOrder extends Eloquent
 	protected $fillable = [
 							'plan_id',
 							 'user_id',
-							 'razorpay_order_id',
-							 'razorpay_response',
 							 'payment_proof',
 							 'price',
 							 'sent_email',
@@ -26,16 +23,7 @@ class SubscriptionOrder extends Eloquent
 	protected $table = 'subscription_payment_orders';
 
 
-	public function getpaystacktotalAttribute()
-	{
-		return $this->plandetails['price'] * 100;
-	}
 
-
-	public function razorpay_amount_payable()
-	{
-		return  intval(100 * round($this->price));
-	}
 
 	public function mark_as_paid()
 	{	
@@ -54,9 +42,9 @@ class SubscriptionOrder extends Eloquent
 
 			$url =  "user/scheme";
 			$heading = $this->payment_plan->package_type." Upgrade";
-			$short_message = "See Details of Current Scheme.";
+			$short_message = "See Details of Current Package.";
 			$message="";
-			Notifications::create_notification(
+/*			Notifications::create_notification(
 											$this->user_id,
 											$url, 
 											$heading, 
@@ -64,7 +52,7 @@ class SubscriptionOrder extends Eloquent
 											$short_message
 											);
 
-			DB::commit();
+*/			DB::commit();
 			Session::putFlash('success', 'Order marked as completed');
 			return true;
 		} catch (Exception $e) {
@@ -204,19 +192,15 @@ class SubscriptionOrder extends Eloquent
 					->where('paid_at', '=' ,null)->count();
 	}
 
+
+
 	public static function create_order($plan_id , $user_id, $price, $start_of_next_month=null)
 	{
 		if ($start_of_next_month == null) {
 			$start_of_next_month = date('Y-m-d H:i:s');
 		}else{
 
-		}
-
-
-	 
-
-		$razor_api  = Orders::razorpay_api();
-
+	}
 
 
 		$payment_plan = SubscriptionPlan::find($plan_id);
@@ -227,24 +211,6 @@ class SubscriptionOrder extends Eloquent
 								 'details'		=> json_encode($payment_plan),
 								 'created_at'	=> $start_of_next_month
 							]);
-
-
-
-
-			$razorpay_amount_payable = 	intval(100 * round($new_payment_order->price));
-
-
-		 	$order = $razor_api->order->create(array(
-			  'receipt' => $new_payment_order->id,
-			  'amount' => $razorpay_amount_payable,
-			  'currency' => 'INR',
-			  'payment_capture' =>  1
-			  )
-			);
-
-
-		 	$razorpay_order_id = $order->id;
-		 	$new_payment_order->update(['razorpay_order_id' => $razorpay_order_id]);
 
 
 

@@ -169,8 +169,6 @@ class UserController extends controller
 
 
 
-		return;
-
 		$subscription_id = $_POST['subscription_id'];
 		
 		$response = SubscriptionPlan::create_subscription_request($subscription_id, $this->auth()->id);
