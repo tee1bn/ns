@@ -130,26 +130,17 @@ class User extends Eloquent
 
 
 
-
-    public function is_qualified_for_commission($month)
+    //must have package able to receive level commission
+    public function is_qualified_for_commission($level)
     {
+    	$eligible_level =  $this->subscription->downline_commission_level;
 
-    	return true; // by defualt
+    	if ($eligible_level >= $level) {
+    		return true;
+    	}
 
-		$settings= SiteSettings::site_settings();
-		$payment_day = $this->subscription_payment_date($month, true);
+    	return false;
 
-	
-		$qualified_day = $settings['active_day_of_the_month'];
-		if ($payment_day != null) {
-
-			if ($payment_day <= $qualified_day) {
-				return true;
-			}
-
-		}
-    	
-		return false;
     }
 
 
@@ -1053,7 +1044,7 @@ public function enroller_all_uplines()
 public function referred_members_uplines($level ='')
 {
 		//first include self
-		$this_user_uplines[0] = $this->toArray();
+		$this_user_uplines[0] = $this;
 		$upline = $this->referred_by;
 
 		for ($iteration= 1; $iteration <= $level ; $iteration++) { 
@@ -1062,7 +1053,7 @@ public function referred_members_uplines($level ='')
 
 		if ($upline_here != null) {
 			
-			$this_user_uplines[$iteration] = $upline_here->toArray();
+			$this_user_uplines[$iteration] = $upline_here;
 		}else{
 			break;
 		}

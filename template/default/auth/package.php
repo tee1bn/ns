@@ -30,10 +30,14 @@ $page_title = "Package";
             }
           </style>
 
-              <div class="row">   
+
+
+
+              <div class="row match-height">   
           <?php foreach (SubscriptionPlan::available()->get() as  $subscription):?>
 
-              <div class="card col-md-4">   
+              <div class=" col-md-4">   
+              <div class="card">   
                  <div class="card-content">
                   <div class="card-body">
                     <h4 class="card-title"><?=$subscription->package_type;?></h4>
@@ -44,7 +48,7 @@ $page_title = "Package";
 
                         <div class="card-body">
                       <!-- <h6 class="card-subtitle text-muted">Support card subtitle</h6> -->
-                    <p class="card-text">Exlcuding VAT <?=$subscription->percent_vat;?>% </p>
+                    <p class="card-text">Exlcuding VAT <?=(int)$subscription->percent_vat;?>% </p>
                     <ul class="list-group list-group-flush">
                       <?php foreach ($subscription->featureslist as $feature):?>
 
@@ -69,6 +73,7 @@ $page_title = "Package";
                   </div>
                 </div>
               </div>
+            </div>
           
           <?php endforeach;?>
               </div>

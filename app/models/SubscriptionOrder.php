@@ -57,6 +57,7 @@ class SubscriptionOrder extends Eloquent
 			return true;
 		} catch (Exception $e) {
 			DB::rollback();
+			print_r($e->getMessage());
 			Session::putFlash('danger', 'Order could not mark as completed');
 		}
 
@@ -125,24 +126,41 @@ class SubscriptionOrder extends Eloquent
 	private function give_subscriber_upline_commission()
 	{
 
-		$settings= SiteSettings::site_settings();
+		$settings= SiteSettings::commission_settings();
 		$month 	 = date("F");
 		$user 	 = $this->user;
-		$upline  = User::where('mlm_id' , $user->referred_by)->first();
-		$amount  = $settings['percent_referral_bonus'] * 0.01 * $this->price;
-		$comment = "Referral Bonus";
 
 		$month_index = date('m');
 
 
-			/*
-			// ensure  upliner is qualified for commission
-			if (! $upline->is_qualified_for_commission($month_index)) {
-				return false;
-			}*/
+		$tree = $user->referred_members_uplines(3);
+		$detail = $this->plandetails;
 
 
-		$credit  = LevelIncomeReport::credit_user($upline['id'], $amount, $comment , $user->id);
+
+		 echo "<pre>";
+		 // print_r($detail);
+		 // print_r($settings);
+		 // print_r($tree);
+
+		 foreach ($tree as $level => $upline) {
+		 		     $amount_earned = $settings[$level]['packages'] * 0.01 * $detail['price'];
+					 $comment = "{$detail[package_type]} Package Level {$level} Bonus";
+
+					 if ($level == 0) {
+						 $comment = "{$detail[package_type]} Package self Bonus";
+					 }
+
+					// ensure  upliner is qualified for commission
+					if (! $upline->is_qualified_for_commission($level)) {
+							continue;
+					}
+					
+
+
+				$credit[]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+		 }
+
 		return $credit;
 	}
 

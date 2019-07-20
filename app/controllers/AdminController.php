@@ -320,7 +320,7 @@ class AdminController extends controller
 
 		$order = SubscriptionOrder::find($order_id);
 		$status = $order->mark_as_paid();
-		// Redirect::back();
+		Redirect::back();
 	}
 
 
