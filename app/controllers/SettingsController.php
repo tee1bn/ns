@@ -56,13 +56,14 @@ class SettingsController extends controller
 	}
 	
 
-	//to pull from db with angularjs
+
+
+
 	public function fetch_site_settings()
 	{
 		header("content-type:application/json");
 	echo (SiteSettings::where('criteria', 'site_settings')->first()->settings );
 	}
-
 
 	public function update_site_settings()
 	{			
@@ -71,6 +72,43 @@ class SettingsController extends controller
 			SiteSettings::where('criteria', 'site_settings')->first()
 			->update(['settings'=> $_POST['content'] ]);
 			Session::putFlash('success','Settings Updated Successfully!');
+	}
+	
+
+
+
+
+
+	public function fetch_commission_settings()
+	{
+		header("content-type:application/json");
+	echo (SiteSettings::where('criteria', 'commission_settings')->first()->settings );
+	}
+
+	public function update_commission_settings()
+	{			
+			print_r($_POST);
+
+			SiteSettings::where('criteria', 'commission_settings')->first()
+			->update(['settings'=> $_POST['content'] ]);
+			Session::putFlash('success','Commission Settings Updated Successfully!');
+	}
+	
+
+
+	public function fetch_pools_settings()
+	{
+		header("content-type:application/json");
+	echo (SiteSettings::where('criteria', 'pools_settings')->first()->settings );
+	}
+
+	public function update_pools_settings()
+	{			
+			print_r($_POST);
+
+			SiteSettings::where('criteria', 'pools_settings')->first()
+			->update(['settings'=> $_POST['content'] ]);
+			Session::putFlash('success','Pools Settings Updated Successfully!');
 	}
 	
 
@@ -105,45 +143,15 @@ class SettingsController extends controller
 
 
 
-	//to pull from db with angularjs
-	public function fetch_compensation_breakdown()
-	{
-		header("content-type:application/json");
-	echo (SiteSettings::where('criteria', 'compensation_breakdown')->first()->settings );
-	}
 
 
-	public function update_compensation_breakdown()
-	{			
-			print_r($_POST);
 
 
-			SiteSettings::where('criteria', 'compensation_breakdown')->first()
-			->update(['settings'=> $_POST['content'] ]);
-	
-
-		Session::putFlash('success','Compensation Break down Updated Successfully!');
-	}
-	
 
 
-	//to pull from db with angularjs
-	public function fetch_payout_structure()
-	{
-		header("content-type:application/json");
-	echo (SiteSettings::where('criteria', 'payout_structure')->first()->settings );
-	}
 
 
-	public function update_payout_structure()
-	{			
-			print_r($_POST);
 
-			SiteSettings::where('criteria', 'payout_structure')->first()
-			->update(['settings'=> $_POST['content'] ]);
-			Session::putFlash('success','Payout Structure Student Updated Successfully!');
-	}
-	
 
 
 

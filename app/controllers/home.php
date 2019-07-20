@@ -19,10 +19,43 @@ class home extends controller
 	public function test2()
 	{
 		
-		$company = $this->auth()->company;
 
 		echo "<pre>";
-		print_r(($company->documents));
+
+		$commission_settings= [
+
+
+				1 => [
+
+					'level' => 'pool 1',
+					'min_merchant_recruitment' => 100,
+					'percent_disagio' => 0.05,
+				],
+
+				2 => [
+
+					'level' => 'pool 2',
+					'min_merchant_recruitment' => 300,
+					'percent_disagio' => 0.1,
+				],
+
+				3 => [
+
+					'level' => 'pool 3',
+					'min_merchant_recruitment' => 5-0,
+					'percent_disagio' => 0.15,
+				],
+
+		];
+
+
+
+
+		print_r(json_encode($commission_settings));
+		// print_r(SiteSettings::commission_settings());
+
+
+
 		echo "</pre>";
 
 

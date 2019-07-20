@@ -19,6 +19,18 @@ class SiteSettings extends Eloquent
 
 	}
 
+	public static function commission_settings()
+	{
+		$settings = json_decode(self::where('criteria', 'commission_settings')->first()->settings, true);
+		return $settings;
+
+	}
+
+
+	
+	
+
+
 
 
 

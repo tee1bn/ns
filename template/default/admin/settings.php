@@ -28,7 +28,6 @@ $page_title = "Settings";
         </div>
         <div class="content-body">
 
-                <form >
                  <div class="row" >
                     <div class="col-12">
                         <div class="card">
@@ -43,26 +42,146 @@ $page_title = "Settings";
                        </div>
 
                             </div>
-                            <div class="card-body row collapse show" id="demo">
+                            <div class="card-body row collapse" id="demo">
 
-                                <div ng-repeat="($key, $setting) in $site_settings" class="form-group col-lg-6">
+                                <div ng-repeat="($key, $setting) in $site_settings" class="form-group col-md-6">
                                     <span class="badge badge-secondary">{{$index+1}}</span>
                                     <label>{{$key |replace: '_':' '}}</label>
                                     <input type="" placeholder="{{$key}}" ng-model="$site_settings[$key]" class="form-control">
                                 </div>                              
 
-                                
+
+
+                              <form action="<?=domain;?>/settings/update_site_settings" method="post" class="ajax_form" id="site_settings_form">
+
+                                <textarea style="display: none;" name="content">{{$site_settings}}</textarea>
+
+                                              
                                 <div class="text-center col-12">
-                                    <button class="btn btn-success" ng-click="update_site_settings()">Update 
+                                    <button class="btn btn-success" type="submit">Update 
                                         <i class="fa fa-cog"></i></button>
                                 </div>
+                              </form>
 
                              </div>
 
                         </div>
                     </div>
                 </div>
-            </form>
+
+              
+                 <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="card-header"  data-toggle="collapse" data-target="#commission_settings">
+                                <a href="javascript:void;" class="card-title">Commission Settings</a>
+                                 <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    </ul>
+                       </div>
+
+                            </div>
+                            <div class="card-body row collapse" id="commission_settings">
+
+
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>SN</th>
+                                    <th>Commission</th>
+                                    <th>License (%)</th>
+                                    <th>Packages (%)</th>
+                                    <th>Disagio (%)</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="(key, $commission_setting) in $commission_settings">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{$commission_setting.level}}</td>
+                                    <td contenteditable="true" ng-model="$commission_setting.license">{{$commission_setting.license}}</td>
+                                    <td contenteditable="true" ng-model="$commission_setting.packages">{{$commission_setting.packages}}</td>
+                                    <td contenteditable="true" ng-model="$commission_setting.disagio">{{$commission_setting.disagio}}</td>
+                                  </tr>
+                                
+                                </tbody>
+                              </table>
+
+                                
+                              <form action="<?=domain;?>/settings/update_commission_settings" method="post" class="ajax_form" id="commission_settings_form">
+
+                                <textarea style="display: none;" name="content">{{$commission_settings}}</textarea>
+
+                                <div class="text-center col-12">
+                                    <button class="btn btn-success" type="submit">Update <i class="fa fa-cog"></i></button>
+                                </div>
+                              </form>
+
+                             </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+              
+                 <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="card-header"  data-toggle="collapse" data-target="#pools_settings">
+                                <a href="javascript:void;" class="card-title">Pools Settings</a>
+                                 <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    </ul>
+                       </div>
+
+                            </div>
+                            <div class="card-body row collapse show" id="pools_settings">
+                              
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>SN</th>
+                                    <th>Level</th>
+                                    <th>Min Merchants </th>
+                                    <th>Disagio (%)</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="(key, $pools_setting) in $pools_settings">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{$pools_setting.level}}</td>
+                                    <td contenteditable="true" ng-model="$pools_setting.min_merchant_recruitment">    
+                                        {{$pools_setting.min_merchant_recruitment}}
+                                    </td>
+
+                                    <td contenteditable="true" ng-model="$pools_setting.percent_disagio">{{$pools_setting.percent_disagio}}</td>
+                                  </tr>
+                                
+                                </tbody>
+                              </table>
+
+                                
+                              <form action="<?=domain;?>/settings/update_pools_settings" method="post" class="ajax_form" id="commission_settings_form">
+
+                                <textarea style="display: none;" name="content">{{$pools_settings}}</textarea>
+
+                                <div class="text-center col-12">
+                                    <button class="btn btn-success" type="submit">Update <i class="fa fa-cog"></i></button>
+                                </div>
+                              </form>
+
+                             </div>
+
+                        </div>
+                    </div>
+                </div>
 
         </div>
       </div>

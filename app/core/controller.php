@@ -325,6 +325,7 @@ if ($response == true) {
 
 
 			$auth =  $this->auth();
+			$page_author =  "gitstardigital.com";
 
 			define("$auth", 	$auth, 	true);
 

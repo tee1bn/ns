@@ -75,7 +75,7 @@ $page_title = "Placement Tree";
 
 <?php
 
-$downlines = $user->referred_members_downlines(5);
+$downlines = $user->referred_members_downlines(3);
 
 $ordinal = [
               1=> 'First Level - Direct Referrals',
@@ -86,7 +86,7 @@ $ordinal = [
               6=> 'Sixth Level - Referrals of Fifth Level Referrals',
             ];
 
-for ($level=1; $level <=5; $level++) :
+for ($level=1; $level <=3; $level++) :
 
       $count = count($downlines[$level]);
       $message= '';

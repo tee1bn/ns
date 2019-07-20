@@ -9,11 +9,13 @@ class SubscriptionPlan extends Eloquent
 {
 	
 	protected $fillable = [
-							'package_type',
+							'package_type', //name
 							 'price' ,
+							 'commission_price' , // amount on which commission is calculated
+							 'downline_commission_level' ,
+							 'get_pool' , //whether user on this package qualify for pools commissions
+							 'percent_vat' , //percent of 'price' added to arrive at final cost.
 							 'hierarchy' ,
-							 'percent_off' ,
-							 'fund_source' ,
 							'features',
 							'availability',
 							'confirmation_message',
@@ -24,121 +26,18 @@ class SubscriptionPlan extends Eloquent
 
 
 
-	public static function fund_sources()
+
+
+	public function getFinalcostAttribute()
 	{
-		return ['cash', 'website'];
-
-
+		return (0.01 * $this->percent_vat * $this->price);
 	}
 
-
-	public function get_action()
-	{
-		$domain = Config::domain();
-		$action = "";
-
-		switch ($this->fund_source) {
-			case 'website':
-					$action = "$domain/user/create_secret_upgrade_request/{$this->id}";
-					$function = "complete_secret_upgrade";
-				break;
-			
-			case 'cash':
-					$action = "$domain/user/create_upgrade_request/{$this->id}";
-					$function = "complete_upgrade";
-				break;
-			
-			default:
-				# code...
-				break;
-		}
-
-		return compact('action','function');
-	}
-
-	public static function buyable_with($cost)
-	{
-		$all_prices =  self::available()->get()->pluck('price')->toArray();
-		$all_prices[] = $cost;
-		rsort($all_prices);
-		$price = $all_prices[1];
-
-		return self::where('price', $price)->where('availability', on)->first();
-
-
-	}
-
-
-
-
-
-
-	public static function create_secret_subscription_request($subscription_id, $user_id)
-	{
-			$user  			= User::find($user_id);
-			$previous_sub 	= self::find($user->account_plan);
-			$new_sub 		= self::find($subscription_id);
-
-
-			$cost 	=  ($previous_sub->price ==null) ?  $new_sub->price  : ($new_sub->price - (int)$previous_sub->price) ;
-            $balance = $user->available_balance();
-
-
-			$previous_hierachy = ($previous_sub->hierarchy != null) ? $previous_sub->hierarchy : $new_sub->hierarchy ;
-
-
-			DB::beginTransaction();
-
-			try {
-				
-
-					//ensure this is not downgrade
-				if ($new_sub->hierarchy  > $previous_hierachy  ) {
-
-					Session::putFlash('danger', "You cannot downgrade your subscription to {$new_sub->package_type}.");
-
-						return;					
-				}
-
-
-
-				if ($cost > $balance) {
-					Session::putFlash('danger', "This scheme unlocks only by commission earned by referring people. 
-						Right now you have insufficient balance. Earn more by referring to unlock <b> {$new_sub->package_type}</b>.");
-					return;
-				}
-
-
-
-				$new_order =  SubscriptionOrder::create_order($subscription_id, $user_id, $cost);
-				$new_order->mark_as_paid();
-
-
-
-				$debit =LevelIncomeReport::create_withdrawal_request($user->id, $cost, "{$new_sub->package_type} Upgrade" );
-				$debit->mark_withdrawal_paid();
-
-				DB::commit();
-				Session::putFlash('success', 
-					"CONGRATULATIONS!! You now own the secret MLM Scheme {$new_sub->package_type}.");
-			return $new_order;
-		} catch (Exception $e) {
-			DB::rollback();
-			print_r($e->getMessage());
-		}
-
-
-
-	}
 
 
 	public static function create_subscription_request($subscription_id, $user_id)
 	{	
-
-
 			$month = date('m');
-
-
 
 		DB::beginTransaction();
 
@@ -212,6 +111,8 @@ class SubscriptionPlan extends Eloquent
 
 		return false;
 	}
+
+	
 
 	public function is_available()
 	{
