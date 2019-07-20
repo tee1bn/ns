@@ -164,8 +164,14 @@ class UserController extends controller
 	}
 
 
-	public function create_upgrade_request($subscription_id)
+	public function create_upgrade_request($subscription_id=null)
 	{
+
+
+
+		return;
+
+		$subscription_id = $_POST['subscription_id'];
 		
 		$response = SubscriptionPlan::create_subscription_request($subscription_id, $this->auth()->id);
 
@@ -193,9 +199,9 @@ class UserController extends controller
 	}
 
 
-	public function subscription()
+	public function package()
 	{
-			$this->view('auth/subscription');
+			$this->view('auth/package');
 	}
 
 

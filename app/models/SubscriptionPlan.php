@@ -1,6 +1,7 @@
 <?php
 
 
+
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Capsule\Manager as DB;
 
@@ -32,6 +33,8 @@ class SubscriptionPlan extends Eloquent
 	{
 		return (0.01 * $this->percent_vat * $this->price);
 	}
+	
+	
 
 
 
