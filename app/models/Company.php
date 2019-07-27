@@ -15,6 +15,7 @@ class Company extends Eloquent
 				'address',
 				'office_email',
 				'office_phone',
+				'iban_number',
 				'pefcom_id',	//pension fund employer code
 				'rc_number',   //cac registration number
 				'bn_number',	//cac business registration number

@@ -65,7 +65,12 @@ class CompanyController extends controller
 
 		 $documents = ($company->documents);
 
-		 echo  json_encode(compact('documents', 'company'));
+		 	$disable_btn = 'false';
+		 if (($company->approval_status == 'verifying') && (! $this->admin())) {
+		 	$disable_btn = 'true';
+		 }
+
+		 echo  json_encode(compact('documents', 'company', 'disable_btn'));
 
 	}
 
@@ -127,6 +132,7 @@ class CompanyController extends controller
 		echo "<pre>";
 		print_r($_POST);
 
+
 		$auth = $this->auth();
 		if ($auth->company == null) {
 
@@ -149,6 +155,10 @@ class CompanyController extends controller
 							'address' =>[
 									'min'=> 3,
 										],
+
+							'iban_number' =>[
+									'min'=> 2,
+										],
 					));
 
 
@@ -165,30 +175,33 @@ class CompanyController extends controller
 										'name' => $_POST['name'],
 										'address' => $_POST['address'],
 										'office_email' => $_POST['office_email'],
+										'iban_number' => $_POST['iban_number'],
 										'office_phone' => $_POST['office_phone'],
 										'pefcom_id' => $_POST['pefcom_id'],
-										'created_by' => $this->auth()->id,
+										'created_by' => $auth->id,
 										'rc_number' => $_POST['rc_number']
 									]);
 		 	}else{
 
-			 	Company::updateOrCreate(['id' => $_POST['id']],
+		 		$existing_company = $auth->company;
+
+
+			 	$update = Company::updateOrCreate(['id' => $_POST['id']],
 			 							[
 										'name' => $_POST['name'],
 										'address' => $_POST['address'],
 										'office_email' => $_POST['office_email'],
 										'office_phone' => $_POST['office_phone'],
+										'iban_number' => $_POST['iban_number'],
 										'pefcom_id' => $_POST['pefcom_id'],
+										// 'approval_status' => 'verifying',
 										'rc_number' => $_POST['rc_number']
 									]);
-
-
-
 
 		 	}
 
 		 	Session::putFlash('success', "Changes saved successfully.");
-		 	Redirect::back();
+		 	// Redirect::back();
 		}
 
 

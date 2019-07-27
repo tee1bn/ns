@@ -57,10 +57,9 @@ class SubscriptionPlan extends Eloquent
 			$new_sub 		= self::find($subscription_id);
 
 
-			$cost 	=  (@$previous_sub->Finalcost ==null) ?  $new_sub->Finalcost  : ($new_sub->Finalcost - (int)$previous_sub->Finalcost) ;
+			// $cost =  (@$previous_sub->Finalcost ==null) ?  $new_sub->Finalcost  : ($new_sub->Finalcost - (int)$previous_sub->Finalcost) ;
 
-
-		
+			$cost = $new_sub->Finalcost;
 
 
 			$previous_hierachy = (@$previous_sub->hierarchy != null) ? $previous_sub->hierarchy : $new_sub->hierarchy ;
@@ -99,7 +98,7 @@ class SubscriptionPlan extends Eloquent
 					// throw new Exception("You have pending order for {$new_sub->package_type}.", 1);
 				}
 
-					//delete unseful orders
+					//delete unuseful orders
 				 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();
 
 

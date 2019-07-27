@@ -133,11 +133,12 @@ $page_title = "Company";
     </div>
   </div>
 </div>
-
-<div class="alert alert-danger mb-2" role="alert">
+            <?php if (!$company->is_approved()):?>
+            <div class="alert alert-danger mb-2" role="alert">
               <strong>NOTE!</strong> Please fill all details accurately providing legal documents. Then, request review for approval
                <a href="javascript:void(0);" ng-click="$list.attempt_request_for_review();" class="alert-link">Request Review</a>
             </div>
+            <?php endif;?>
 
       <section id="video-gallery" class="card">
         <div class="card-header">
@@ -270,6 +271,18 @@ $page_title = "Company";
                                                 <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
                                                     <span class="input-group-btn input-group-prepend"></span>
                                                     <input id="tch3" name="office_phone"  placeholder="Your Official Phone"  value="<?=$company->office_phone;?>"
+                                                      data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
+                                                    <span class="input-group-btn input-group-append">
+                                                        <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
+                                                    </span>
+                                                </div> 
+                                            </div>         
+
+                                            <div class="form-group">
+                                                <label for="office_phone" class="pull-left">IBAN Number<sup>*</sup></label>
+                                                <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                                    <span class="input-group-btn input-group-prepend"></span>
+                                                    <input id="tch3" name="iban_number"  placeholder="Your IBAN Number"  value="<?=$company->iban_number;?>"
                                                       data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
                                                     <span class="input-group-btn input-group-append">
                                                         <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>

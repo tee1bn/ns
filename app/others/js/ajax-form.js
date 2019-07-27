@@ -44,7 +44,6 @@
                         },
                         complete: function(){
                             
-                            $($submit_btn).attr("disabled", false);
                             $($submit_btn).html($submit_btn[0].textContent);
 
                         }

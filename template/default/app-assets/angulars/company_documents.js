@@ -132,8 +132,7 @@
     app.controller('CompanyController', function($scope, $http) {
 
             $scope.$active_list = [];
-            $scope.fetch_page_content = function ($month=null) {
-                console.log($month);
+            $scope.fetch_page_content = function () {
 
                         $("#page_preloader").css('display', 'block');
 
@@ -149,7 +148,7 @@
 
                                     console.log($scope.$list);
 
-                                    if ($data.company.approval_status=='verifying') {
+                                    if ($data.disable_btn=='true') {
                                          $('button').hide();
                                          $("form :input").prop("disabled", true);                  
                                     }
