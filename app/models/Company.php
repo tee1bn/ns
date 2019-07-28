@@ -99,8 +99,6 @@ class Company extends Eloquent
 		DB::beginTransaction();
 
 		try {
-			
-
 
 			foreach ($files as $label => $file) {
 
@@ -111,6 +109,8 @@ class Company extends Eloquent
 					$file_type = explode('/', $handle->file_src_mime)[0];
 
 		                if (($handle->file_src_mime == 'application/pdf' ) ||($file_type == 'image' ) ) {
+
+							$handle->file_new_name_body = "{$this->name} $label";
 
 		                	$handle->Process($directory);
 		                	$file_path = $directory.'/'.$handle->file_dst_name;

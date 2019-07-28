@@ -282,6 +282,9 @@ public function update_user_profile($file)
 
                 //if it is image, generate thumbnail
                 if (explode('/', $handle->file_src_mime)[0] == 'image') {
+
+				// $handle->file_new_name_body = "{$this->auth()->username}";
+
 			$handle->Process($directory);
 	 		$original_file  = $directory.'/'.$handle->file_dst_name;
 
@@ -290,6 +293,7 @@ public function update_user_profile($file)
                 $handle->image_ratio_y           = true;
                 $handle->image_x                 = 50;
 
+				// $handle->file_new_name_body = "{$this->auth()->username}";
                 $handle->Process($directory);
 
                 $resize_file    = $directory.'/'.$handle->file_dst_name;
