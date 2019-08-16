@@ -3,8 +3,6 @@ $page_title = "Login";
 include 'includes/auth_header.php';?>
 
 
-
-
 					<h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>Log in</span></h6>
 				</div>
 				<div class="card-content">	
