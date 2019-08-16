@@ -21,9 +21,7 @@ class home extends controller
 		
 
 		echo "<pre>";
-				$user_id = 1;
-				$subscription_id = 7;
-				echo SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at', '=' , null)->get();
+			print_r(MIS::date_range('2019-08-15', 'week'));
 
 return;
 		$commission_settings= [

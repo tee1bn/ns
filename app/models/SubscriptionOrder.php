@@ -52,7 +52,8 @@ class SubscriptionOrder extends Eloquent
 											$short_message
 											);
 
-*/			DB::commit();
+*/			
+			DB::commit();
 			Session::putFlash('success', 'Order marked as completed');
 			return true;
 		} catch (Exception $e) {

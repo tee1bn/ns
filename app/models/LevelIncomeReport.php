@@ -139,7 +139,7 @@ class LevelIncomeReport extends Eloquent
 
 	public static function credit_user($user_id, $amount, $comment , $downline_id=null, $order_id=null)
 	{
-
+		$credit= null;
 		try {
 			
 

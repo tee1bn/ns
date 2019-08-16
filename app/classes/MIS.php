@@ -154,31 +154,113 @@ EOL;
 
     public static 	function random_string( $length = 6 ) {
 		    $chars = "abcdefghijkmnpqrtwyz123456789";
-		    $password = substr( str_shuffle( $chars ), 0, $length );
+		    $password = substr(str_shuffle( $chars ), 0, $length);
 		    return $password;
 	}
 
 
+
 	public static function refine_multiple_files($files)
 	{
-
-
 		foreach ($files as $attribute => $attributes) {
 			foreach ($attributes as $key => $value) {
 				$refined_file[$key][$attribute] = $value;
 			}
+		}
+		return $refined_file;
+	}
 
+
+
+	public function date_range($date, $duration="month" , $strict=false)
+	{
+		$explode = explode("-", $date);
+		$year = @$explode[0];
+		$month = @$explode[1];
+		$day =  @$explode[2];
+
+
+		switch ($duration) {
+			case 'month':
+				$today = date("Y-m");
+				$year_month = "$year-$month";
+				if (($today == $year_month) && ($strict==false)) {
+					$end_date = date("Y-m-d");
+				}else{
+					$end_date = date("$year-$month-t");
+				}
+
+				$range =  [
+					'start_date' => date("$year-$month-01"),
+					'end_date' => $end_date
+				];
+
+				break;
+
+			case 'year':
+				$today = date("Y");
+				if (($today == $year) && ($strict==false)) {
+					$end_date = date("Y-m-d");
+				}else{
+					$end_date = date("$year-12-t");
+				}
+
+				$range =  [
+					'start_date' => date("$year-01-01"),
+					'end_date' => $end_date
+				];
+
+				break;
+			
+
+			case 'week':
+				 $today = date("l");
+             
+
+				 $weekday = date("l", strtotime($date));
+
+				if (($today == $weekday) && ($strict==false)) {
+					$end_date = date("Y-m-d",strtotime("$today this week"));
+				}else{
+					$end_date = date("Y-m-d",strtotime("$date sunday this week"));
+				}
+
+				$range =  [
+					'start_date' => date("Y-m-d",strtotime("$date monday this week")),
+					'end_date' => $end_date
+				];
+
+				break;
+			
+				
+
+
+			default:
+				# code...
+				break;
 		}
 
-		return $refined_file;
-
+		return $range;
 	}
+
+
+
+
+	function ends_with($haystack, $needle) {
+	    // search forward starting from end minus needle length characters
+	    return $needle === "" || (($temp = strlen($haystack) - strlen($needle)) >= 0 && strpos($haystack, $needle, $temp) !== false);
+	}
+
+	function starts_with($haystack, $needle){
+	    $length = strlen($needle);
+	    return (substr($haystack, 0, $length) === $needle);
+	}
+
 
 
 
 	public static function make_post($url, $post_data)
 	{
-
 
 		$ch = curl_init();
 

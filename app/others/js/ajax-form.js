@@ -35,6 +35,7 @@
                         cache: false,
                         success: function(data) {                                                      
                             $("#page_preloader").css('display', 'none');
+                            $($submit_btn).attr("disabled", false);
                             window.notify();
                             if (typeof(window[$function])=='function') {
                                 window[$function](data);
