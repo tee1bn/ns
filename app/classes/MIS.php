@@ -310,7 +310,7 @@ EOL;
 
 		 $result = curl_exec($ch);
 		// $response = curl_getinfo($ch);
-
+		 $result = json_decode($result);
 		curl_close ($ch);
 
 		return $result;
