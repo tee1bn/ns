@@ -26,7 +26,7 @@ class home extends controller
 
 		$url ="https://www.google.com/search?q=php+curl+get+request+with+headers&rlz=1C1CHBF_enNG843NG843&oq=php+curl+get&aqs=chrome.1.69i57j0l5.8073j0j7&sourceid=chrome&ie=UTF-8";
 
-		// $url = "https://api.coinwaypay.com/api/supervisor/turnover?from=2019-01-01&to=2020-01-01";
+		$url = "https://api.coinwaypay.com/api/supervisor/turnover?from=2019-01-01&to=2020-01-01";
 		$header = [
 			'X-Api-Key'=> "aabee567-eec7-4bbb-a0da-fb514cbc3285"
 		];
