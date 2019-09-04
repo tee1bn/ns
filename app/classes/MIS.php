@@ -302,11 +302,14 @@ EOL;
 		}
 
 
+
+*/
 		// Receive server response ...
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-*/
-		$response = curl_exec($ch);
+
+		curl_exec($ch);
+		$response = curl_getinfo($ch);
 
 		curl_close ($ch);
 
