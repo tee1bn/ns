@@ -291,7 +291,7 @@ EOL;
 		$ch = curl_init($url);
 
 		// curl_setopt($ch, CURLOPT_URL, "$url");
-/*
+
 		curl_setopt($ch, CURLOPT_HEADER, 1);
 		// ...
 
@@ -303,7 +303,7 @@ EOL;
 
 
 
-*/
+
 		// Receive server response ...
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
