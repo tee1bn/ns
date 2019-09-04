@@ -313,7 +313,7 @@ EOL;
 
 		curl_close ($ch);
 
-		return $res';
+		return $response;
 	}
 
 
