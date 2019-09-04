@@ -285,4 +285,38 @@ EOL;
 	}
 
 
+	public static function make_get($url,  $header=[])
+	{
+
+		$ch = curl_init($url);
+
+		// curl_setopt($ch, CURLOPT_URL, "$url");
+/*
+		curl_setopt($ch, CURLOPT_HEADER, 1);
+		// ...
+
+
+
+		if (count($header)>0) {
+			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
+		}
+
+
+		// Receive server response ...
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+*/
+		$response = curl_exec($ch);
+
+		curl_close ($ch);
+
+		print_r($response);
+
+		return $response;
+	}
+
+
+
+
+
 }

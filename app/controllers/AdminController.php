@@ -12,6 +12,7 @@ class AdminController extends controller
 
 	public function __construct(){
 
+
 		$this->middleware('administrator')->mustbe_loggedin();
 	}
 

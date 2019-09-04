@@ -33,7 +33,7 @@ class LoginController extends controller
 
 	if(/*Input::exists('admin_login')*/ true){
 		
-		 	MIS::verify_google_captcha();
+		 	// MIS::verify_google_captcha();
 
 		$trial = Admin::where('email', Input::get('user'))->first();
 
