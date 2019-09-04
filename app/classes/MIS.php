@@ -309,7 +309,7 @@ EOL;
 
 
 		 $result = curl_exec($ch);
-		$response = curl_getinfo($ch);
+		// $response = curl_getinfo($ch);
 
 		curl_close ($ch);
 
