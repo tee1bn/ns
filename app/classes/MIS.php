@@ -308,11 +308,12 @@ EOL;
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 
-		curl_exec($ch);
+		 $result = curl_exec($ch);
 		$response = curl_getinfo($ch);
 
 		curl_close ($ch);
 
+		print_r($result);
 		print_r($response);
 
 		return $response;
