@@ -288,10 +288,10 @@ EOL;
 	public static function make_get($url,  $header=[])
 	{
 
-		$ch = curl_init($url);
+		$ch = curl_init();
 
-		// curl_setopt($ch, CURLOPT_URL, "$url");
-/*
+		curl_setopt($ch, CURLOPT_URL, "$url");
+
 		curl_setopt($ch, CURLOPT_HEADER, 1);
 		// ...
 
@@ -305,12 +305,16 @@ EOL;
 		// Receive server response ...
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
-*/
+
 		$response = curl_exec($ch);
 
-		curl_close ($ch);
+		echo "<pre>";
 
-		print_r($response);
+		print_r($url);
+		print_r($header);
+
+
+		curl_close ($ch);
 
 		return $response;
 	}
