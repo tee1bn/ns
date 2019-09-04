@@ -33,7 +33,7 @@ class home extends controller
 		$response = MIS::make_get($url, $header);
 
 
-
+		print_r($response);
 return;
 		$commission_settings= [
 
