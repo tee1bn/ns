@@ -26,7 +26,7 @@ class home extends controller
 
 		$url = "https://api.coinwaypay.com/api/supervisor/turnover?from=2019-01-01&to=2020-01-01";
 		$header = [
-			'X-Api-Key'=> "aabee567-eec7-4bbb-a0da-fb514cbc3285"
+			'X-Api-Key : aabee567-eec7-4bbb-a0da-fb514cbc3285'
 		];
 
 
