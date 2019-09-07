@@ -53,13 +53,32 @@ class AutoMatchingController extends controller
 		}
 
 
-		$payment_month = date("Y-m-d", strtotime("last month"));
+		echo $payment_month = date("Y-m-01", strtotime("last month"));
 
 		$payment_date_range = MIS::date_range($payment_month, 'month', true);
 
 		print_r($payment_date_range);
 
 		$scheduled_commissions = SettlementTracker::where('period', $payment_month)->get()->pluck('user_id');
+
+
+
+
+
+
+		$query_string = http_build_query([
+			'from' 	=> $payment_date_range['start_date'],
+			'to' 	=> $payment_date_range['end_date'],
+		]);
+
+		$url = "{$this->url}?$query_string";
+
+		echo $response = MIS::make_get($url, $this->header);
+
+
+
+		return;
+
 
 		$total_no = 1234;
 		$stop = ($scheduled_commissions->count() >= $total_no);
@@ -108,7 +127,7 @@ class AutoMatchingController extends controller
 
 echo			$url = "{$this->url}?$query_string";
 
-			$response = MIS::make_get($url, $this->header);
+			// $response = MIS::make_get($url, $this->header);
 
 
 
