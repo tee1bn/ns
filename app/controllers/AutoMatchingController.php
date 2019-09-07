@@ -108,7 +108,7 @@ class AutoMatchingController extends controller
 
 echo			$url = "{$this->url}?$query_string";
 
-			// $response = MIS::make_get($url, $this->header);
+			$response = MIS::make_get($url, $this->header);
 
 
 
