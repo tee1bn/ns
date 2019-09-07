@@ -24,6 +24,7 @@ return array(
     'Observers\\CompanyObserver' => $baseDir . '/app/models/Observers/CompanyObserver.php',
     'Orders' => $baseDir . '/app/models/Orders.php',
     'PasswordReset' => $baseDir . '/app/models/PasswordReset.php',
+    'PoolsCommissionSchedule' => $baseDir . '/app/models/PoolsCommissionSchedule.php',
     'Products' => $baseDir . '/app/models/Products.php',
     'ProductsCategory' => $baseDir . '/app/models/ProductsCategory.php',
     'Redirect' => $baseDir . '/app/classes/Redirect.php',

@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Capsule\Manager as DB;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
@@ -47,39 +48,62 @@ class SettlementTracker extends Eloquent
 		 }
 		 
 		 $credit = [];
-		 foreach ($tree as $level => $upline) {
-		 		     $amount_earned = $settings[$level]['disagio'] * 0.01 * $disagio;
-					 $comment = "{$month} Disagio Bonus";
 
-					 if ($level == 0) {
-						 $comment = "{$month} Disagio Self Bonus";
-					 }
-
-					// ensure  upliner is qualified for commission
-					if (! $upline->is_qualified_for_commission($level)) {
-							continue;
-					}
-
-				$credit['disagio'][]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+		 DB::beginTransaction();
 
 
+		 try {
+		 	
 
-		 		     $amount_earned = $settings[$level]['license'] * 0.01 * $license_fee;
-					 $comment = "{$month} License Bonus";
+					foreach ($tree as $level => $upline) {
 
-					 if ($level == 0) {
-						 $comment = "{$month} License Self Bonus";
-					 }
+				 		     $amount_earned = $settings[$level]['disagio'] * 0.01 * $disagio;
+							 $comment = "{$month} Disagio Bonus";
 
-					// ensure  upliner is qualified for commission
-					if (! $upline->is_qualified_for_commission($level)) {
-							continue;
-					}
+							 if ($level == 0) {
+								 $comment = "{$month} Disagio Self Bonus";
+							 }
 
-				$credit['license'][]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+							// ensure  upliner is qualified for commission
+							if (! $upline->is_qualified_for_commission($level)) {
+									continue;
+							}
+
+							$credit['disagio'][]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+
+
+
+				 		     $amount_earned = $settings[$level]['license'] * 0.01 * $license_fee;
+							 $comment = "{$month} License Bonus";
+
+							 if ($level == 0) {
+								 $comment = "{$month} License Self Bonus";
+							 }
+
+							// ensure  upliner is qualified for commission
+							if (! $upline->is_qualified_for_commission($level)) {
+									continue;
+							}
+
+						$credit['license'][]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+				}
+
+		 	$this->mark_paid();
+			DB::commit();
+		 } catch (Exception $e) {
+			DB::rollback();
+		 	print_r($e->getMessage());
+		 	
 		 }
+
+
 	}
 
+
+	public function mark_paid()
+	{
+		$this->update['paid_at' => date("Y-m-d H:i:s")];
+	}
 
 	public function getPeriodDaterangeAttribute()
 	{

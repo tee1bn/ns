@@ -247,6 +247,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'Observers\\CompanyObserver' => __DIR__ . '/../..' . '/app/models/Observers/CompanyObserver.php',
         'Orders' => __DIR__ . '/../..' . '/app/models/Orders.php',
         'PasswordReset' => __DIR__ . '/../..' . '/app/models/PasswordReset.php',
+        'PoolsCommissionSchedule' => __DIR__ . '/../..' . '/app/models/PoolsCommissionSchedule.php',
         'Products' => __DIR__ . '/../..' . '/app/models/Products.php',
         'ProductsCategory' => __DIR__ . '/../..' . '/app/models/ProductsCategory.php',
         'Redirect' => __DIR__ . '/../..' . '/app/classes/Redirect.php',
