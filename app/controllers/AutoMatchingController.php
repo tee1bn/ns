@@ -236,7 +236,6 @@ class AutoMatchingController extends controller
 		$period =  $this->get_period();
 		extract($period);
 
-		print_r($period);
 		$pools_commissions =  PoolsCommissionSchedule::where('period', $payment_month)->first();
 
 		if ($pools_commissions == null) {
@@ -246,8 +245,54 @@ class AutoMatchingController extends controller
 		$details = json_decode($pools_commissions->disagio_dump, true);
 
 
-		print_r($pools_commissions->toArray());
-		print_r($details);
+		$month 	 = date('F Y', strtotime($payment_month));
+
+
+		foreach ($details['settings'] as $key => $pools) {
+			print_r($pools);
+
+			 $users = SettlementTracker::where('period', $payment_month)
+												 ->where('no_of_merchants', '>=', $pools['min_merchant_recruitment'])
+												 ->get();
+
+
+				if ($users->isEmpty()) {
+					continue;
+				}
+
+				$no_of_users = $users->count();
+				$total_pool = $pools['sharable_total'];
+
+				$per_head =  ($total_pool / $no_of_users);
+
+				$pool_amount  = MIS::money_format($per_head);
+
+					DB::beginTransaction();
+
+					try {
+						
+						foreach ($users as $key => $user) {
+
+							$comment = "$month {$pools['level']} Bonus";
+							LevelIncomeReport::credit_user($user['id'], $pool_amount, $comment , $user['id']);
+
+						}
+
+						DB::commit();
+
+					} catch (Exception $e) {
+
+						print_r($e->getMessage());
+						DB::rollback();
+						
+					}
+
+
+
+			echo "<br>";
+
+		}
+
 
 	}
 
