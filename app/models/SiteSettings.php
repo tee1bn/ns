@@ -29,6 +29,16 @@ class SiteSettings extends Eloquent
 
 	
 	
+	public static function pools_settings()
+	{
+		$settings = json_decode(self::where('criteria', 'pools_settings')->first()->settings, true);
+		return $settings;
+
+	}
+
+
+	
+	
 
 
 

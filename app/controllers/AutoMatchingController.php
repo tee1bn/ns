@@ -35,9 +35,10 @@ class AutoMatchingController extends controller
 	}
 
 
-	//this function schedules commissions due for
-	public function schedule_due_commissions()
-	{	
+
+	public function get_period()
+	{
+
 
 		$payment_start_day = $this->settings['commission_payouts_start_date'];
 
@@ -46,26 +47,46 @@ class AutoMatchingController extends controller
 		$action_start_time =  strtotime($action_start_date) ;
 		$today = date("Y-m-d");
 
+		//ensure it is time to begin the scheduling
 		$date_condition = (time() >= $action_start_time);
 
 		if (!$date_condition) {
 			return;
 		}
 
-
-		echo $payment_month = date("Y-m-01", strtotime("last month"));
+		//deduce payment month
+		$payment_month = date("Y-m-01", strtotime("last month"));
 
 		$payment_date_range = MIS::date_range($payment_month, 'month', true);
 
-		print_r($payment_date_range);
 
+
+		return compact('payment_month', 'payment_date_range');
+
+	}
+
+
+	/**
+	 * { This schedule the commissions due for all participants from disagio ,license and no of merchant }
+	 * 
+	 */
+	public function schedule_due_commissions()
+	{	
+
+
+
+		$period =  $this->get_period();
+		extract($period);
+
+
+		//user_ids of already scheduled commisssions
 		$scheduled_commissions = SettlementTracker::where('period', $payment_month)->get()->pluck('user_id');
 
 
 
 
 
-
+		// connect with API
 		$query_string = http_build_query([
 			'from' 	=> $payment_date_range['start_date'],
 			'to' 	=> $payment_date_range['end_date'],
@@ -80,10 +101,13 @@ class AutoMatchingController extends controller
 
 		$total_no = $response['totalCount'];
 
+		//ensure there is more commissions to schedule
 		$stop = ($scheduled_commissions->count() >= $total_no);
 		if ($stop) {
 
-			$this->initiate_pools_commissions();
+
+			//schedule pools commission if regular commission is complete
+			$this->initiate_pools_commissions();	
 
 			return;
 		}
@@ -92,8 +116,9 @@ class AutoMatchingController extends controller
 
 
 
-		print_r($scheduled_commissions->toArray());
+		// print_r($scheduled_commissions->toArray());
 
+		//users having pending schedules 
 		$non_scheduled_users = User::whereNotIn('id', $scheduled_commissions->toArray())->get()->take(50);
 
 
@@ -103,23 +128,14 @@ class AutoMatchingController extends controller
 			print_r($non_scheduled_usernames->toArray());
 
 
-		foreach ($non_scheduled_users as $key => $user) {
-			//call API and schedule them
-
-		}
-
-		// print_r($non_scheduled_users->toArray());
-
-		echo "<br>";
 
 		/*
-		 *pagination
+		 *determine how many steps and paginations
 		 *get the total number
 		 *get the total number of skip for take 100
 		 */
 		$per_page = 100;
 		$pages = ceil($total_no /$per_page);
-
 
 		for ($i=1; $i <= $pages ; $i++) { 
 			$skip = ($per_page * ($i-1));
@@ -137,6 +153,7 @@ class AutoMatchingController extends controller
 				$url = "{$this->url}?$query_string";
 
 				$response = collect(json_decode( MIS::make_get($url, $this->header) , true));
+
 				
 				$record = collect($response['value'])->keyBy('supervisorNumber')->toArray();
 				$supervisor_numbers =  collect($record)->pluck('supervisorNumber')->toArray();
@@ -157,49 +174,99 @@ class AutoMatchingController extends controller
 	}
 
 
-
+	/**
+	 * this  begins the pools commission scheduling
+	 */
 	public function initiate_pools_commissions()
 	{
 
-		$payment_start_day = $this->settings['commission_payouts_start_date'];
+
+		$period =  $this->get_period();
+		extract($period);
 
 
-		$action_start_date = date("Y-m-$payment_start_day");
-		$action_start_time =  strtotime($action_start_date) ;
-		$today = date("Y-m-d");
 
-		$date_condition = (time() >= $action_start_time);
-
-		if (!$date_condition) {
-			return;
-		}
-
-
-		echo $payment_month = date("Y-m-01", strtotime("last month"));
-
-		$payment_date_range = MIS::date_range($payment_month, 'month', true);
 
 		print_r($payment_date_range);
 
 		$scheduled_commissions = SettlementTracker::where('period', $payment_month)->get();
 
-		
+		echo $total_disagio = $scheduled_commissions->sum('settled_disagio');
+
+		$pools_settings = SiteSettings::pools_settings();
+
+
+		$pools_settings = array_map(function($step) use ($total_disagio){
+
+			$sharable_total = 0.01 * $step['percent_disagio'] * $total_disagio;
+			$step['sharable_total'] =  $sharable_total;
+
+			return $step;
+
+		}, $pools_settings);
+
+
+		$company_gain = $total_disagio - collect($pools_settings)->sum('sharable_total');
+
+		$dump = [
+			'total_disagio' =>  $total_disagio,
+			'company_gain' => $company_gain,
+			'settings' => $pools_settings,
+		];
+
+		print_r($dump);
 
 
 
 
+		$pools_commissions = PoolsCommissionSchedule::updateOrCreate([
+															'period' => $payment_month
+														],
+
+														[
+															'disagio_dump' => json_encode($dump)
+														]);
+	}
+
+
+
+
+	public function pay_pools_commission()
+	{
+		$period =  $this->get_period();
+		extract($period);
+
+		print_r($period);
+		$pools_commissions =  PoolsCommissionSchedule::where('period', $payment_month)->first();
+
+		if ($pools_commissions == null) {
+			return;
+		}
+
+		$details = json_decode($pools_commissions->disagio_dump, true);
+
+
+		print_r($pools_commissions->toArray());
+		print_r($details);
 
 	}
 
 
 
 
+	/**
+	 * This treats all users whose schdule detail are supplied
+	 *
+	 * @param      <array>  $records_from_api      The records from api
+	 * @param      <array>  $supervisor_usernames  The supervisor usernames ie usernames of users
+	 * @param      <string>  $payment_month         The payment month
+	 */
 	public function treat_supervisors_commissions($records_from_api, $supervisor_usernames, $payment_month)
 	{
 
 			// DB::beginTransaction();
 
-		foreach ($supervisor_usernames as $username => $user) {
+			foreach ($supervisor_usernames as $username => $user) {
 
 				$commissions = $records_from_api[$user[username]];
 
@@ -210,15 +277,18 @@ class AutoMatchingController extends controller
 						'period'	=> $payment_month,
 						'dump'		=> json_encode($commissions),
 						'settled_disagio' => $commissions['sumDisagio'],
+						'no_of_merchants' => $commissions['tenantCount'],
 						'settled_license_fee' =>  $commissions['licenseSum']
 					]);
 
 
-		}
+			}
 
 	}
 
-
+	/**
+	 * This evenetually pays commissions already scheduled.
+	 */
 	public function pay_commissions()
 	{
 		$unpaid = SettlementTracker::where('paid_at', null)->get();

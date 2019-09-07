@@ -14,6 +14,7 @@ class SettlementTracker extends Eloquent
 							'dump',
 							'settled_disagio',
 							'settled_license_fee',
+							'no_of_merchants',
 							'paid_at'
 					];
 	
@@ -102,7 +103,7 @@ class SettlementTracker extends Eloquent
 
 	public function mark_paid()
 	{
-		$this->update['paid_at' => date("Y-m-d H:i:s")];
+		$this->update(['paid_at' => date("Y-m-d H:i:s")]);
 	}
 
 	public function getPeriodDaterangeAttribute()
