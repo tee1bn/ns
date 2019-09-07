@@ -184,6 +184,16 @@ echo "<pre>";
 					],
 
 
+
+		'username' => [
+						'required'=> true,
+						'min'=> 1,
+						'one_word'=> true,
+						'no_special_character'=> true,
+						'replaceable'=> 'User|'.$this->auth()->id,
+					],
+
+
 		'email' => [
 						'required'=> true,
 						'email'=> true,

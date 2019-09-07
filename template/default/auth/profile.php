@@ -82,8 +82,8 @@ $page_title = "Profile";
                                             class="ajax_form" 
                                             action="<?=domain;?>/user-profile/update_profile" method="post">
                                               <div class="form-group">
-                                                <label for="username" class="pull-left">Username *</label>
-                                                  <input type="text" name="username" disabled="disabled" value="<?=$auth->username;?>" id="username" class="form-control" value="">
+                                                <label for="username" class="pull-left">Supervisor Number (Username) *</label>
+                                                  <input type="text" name="username" value="<?=$auth->username;?>" id="username" class="form-control" value="">
                                               </div>
 
                                               <div class="form-group">
