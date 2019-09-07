@@ -24,15 +24,6 @@ class home extends controller
 			// print_r(MIS::date_range('2019-08-15', 'week'));
 
 
-		$url = "https://api.coinwaypay.com/api/supervisor/turnover?from=2019-01-01&to=2020-01-01";
-		$header = [
-			'X-Api-Key : aabee567-eec7-4bbb-a0da-fb514cbc3285'
-		];
-
-
-		$response = MIS::make_get($url, $header);
-
-
 		print_r($response);
 return;
 		$commission_settings= [

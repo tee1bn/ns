@@ -17,6 +17,16 @@ class AutoMatchingController extends controller
 	public function __construct(){
 
 		$this->settings = SiteSettings::site_settings();
+
+
+		$this->url = "https://api.coinwaypay.com/api/supervisor/turnover";
+		$this->api_key ='X-Api-Key : aabee567-eec7-4bbb-a0da-fb514cbc3285';
+
+		$this->header = [
+			$this->api_key
+		];
+
+
 		echo "<pre>";
 
 		// print_r($this->settings);
@@ -25,7 +35,7 @@ class AutoMatchingController extends controller
 	}
 
 
-
+	//this function schedules commissions due for
 	public function schedule_due_commissions()
 	{	
 
@@ -94,7 +104,16 @@ class AutoMatchingController extends controller
 				'skip' => $skip
 			]);
 
-			echo $api_url = "server.come?$query_string";
+			
+
+echo			$url = "{$this->url}?$query_string";
+
+			// $response = MIS::make_get($url, $this->header);
+
+
+
+
+
 
 
 			echo "<br>$skip <br>";
