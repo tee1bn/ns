@@ -26,16 +26,17 @@ class AutoMatchingController extends controller
 		$this->header = [
 			$this->api_key
 		];
+
+
+
+		if ($this->settings['distribute_commissions']== 1) {
+
+					$this->scheduled_commissions();
+		}
+
+
 		echo "<pre>";
 
-			/*
-					$this->scheduled_commissions();
-					$this->pay_commissions();
-					$this->pay_pools_commission();
-			*/
-
-
-		// print_r($this->settings);
 	}
 
 
