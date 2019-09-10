@@ -132,16 +132,6 @@ class AutoMatchingController extends controller
 
 		$total_no = $response['totalCount'];
 
-		//ensure there is more commissions to schedule
-		$stop = ($scheduled_commissions->count() >= $total_no);
-		if ($stop) {
-
-			echo "pools";
-			//schedule pools commission if regular commission is complete
-			$this->initiate_pools_commissions();	
-
-			return;
-		}
 
 		// print_r($scheduled_commissions->toArray());
 
@@ -182,6 +172,21 @@ class AutoMatchingController extends controller
 				$supervisor_numbers =  collect($record)->pluck('supervisorNumber')->toArray();
 
 				$supervisors_to_be_treated = array_intersect($non_scheduled_ids->toArray(), $supervisor_numbers);
+
+
+				//ensure there is more commissions to schedule
+				$stop = (count($supervisors_to_be_treated) >= 0);
+				if ($stop) {
+
+					echo "pools";
+					//schedule pools commission if regular commission is complete
+					$this->initiate_pools_commissions();	
+
+					return;
+				}
+
+
+
 
 				$supervisors = User::whereIn('id', $supervisors_to_be_treated)->get()->keyBy('id')->toArray();
 
