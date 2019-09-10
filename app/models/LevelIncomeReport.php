@@ -15,7 +15,8 @@ class LevelIncomeReport extends Eloquent
 							'commission_type',
 							'extra_detail',
 							'proof',
-							'order_id'
+							'order_id',
+							'payment_month',
 							];
 	
 	protected $table = 'level_income_report';
@@ -137,7 +138,7 @@ class LevelIncomeReport extends Eloquent
 
 
 
-	public static function credit_user($user_id, $amount, $comment , $downline_id=null, $order_id=null)
+	public static function credit_user($user_id, $amount, $comment , $downline_id=null, $order_id=null, $payment_month=null)
 	{
 		$credit= null;
 		try {
@@ -150,6 +151,7 @@ class LevelIncomeReport extends Eloquent
 								'status'	=> 'Credit',
 								'commission_type'	=> $comment,
 								'order_id'	=> $order_id,
+								'payment_month'	=> $payment_month,
 								]);
 		} catch (Exception $e) {
 			
