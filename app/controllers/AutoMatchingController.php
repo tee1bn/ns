@@ -52,11 +52,11 @@ class AutoMatchingController extends controller
 
 
 
-		$pools_settlement =  PoolsCommissionSchedule::where('period',$last_settlement_date)->first();
+		$pools_settlement =  PoolsCommissionSchedule::where('paid_at','!=', null)->where('period',$last_settlement_date)->first();
 
 		if ($pools_settlement != null) {
 
-			$date = date("Y-m-d", strtotime("+1 month $last_settlement_date"));
+			$date = date("Y-m-01", strtotime("+1 month $last_settlement_date"));
 
 		}else{
 
