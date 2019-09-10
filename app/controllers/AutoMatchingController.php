@@ -290,6 +290,7 @@ class AutoMatchingController extends controller
 														[
 															'disagio_dump' => json_encode($dump)
 														]);
+		$this->pay_pools_commission();
 
 
 	}
