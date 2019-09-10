@@ -143,11 +143,11 @@ class AutoMatchingController extends controller
 
 				$this->treat_supervisors_commissions($record , $supervisors, $payment_month);
 
-		/*
+		
 				print_r($supervisors_to_be_treated);
 				print_r($supervisor_numbers);
 				print_r($record);
-				print_r($response->toArray());*/
+				print_r($response->toArray());
 		}
 	}
 
