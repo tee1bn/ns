@@ -31,7 +31,7 @@ class AutoMatchingController extends controller
 
 		if ($this->settings['distribute_commissions']== 1) {
 
-					$this->scheduled_commissions();
+					$this->schedule_due_commissions();
 		}
 
 
