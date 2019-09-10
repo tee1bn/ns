@@ -14,7 +14,8 @@ class AutoMatchingController extends controller
 
 
 
-	public function __construct(){
+	public function __construct()
+	{
 
 		$this->settings = SiteSettings::site_settings();
 
@@ -25,13 +26,8 @@ class AutoMatchingController extends controller
 		$this->header = [
 			$this->api_key
 		];
-
-
 		echo "<pre>";
-
 		// print_r($this->settings);
-		
-
 	}
 
 
@@ -62,7 +58,6 @@ class AutoMatchingController extends controller
 
 
 		return compact('payment_month', 'payment_date_range');
-
 	}
 
 
@@ -73,17 +68,12 @@ class AutoMatchingController extends controller
 	public function schedule_due_commissions()
 	{	
 
-
-
 		$period =  $this->get_period();
 		extract($period);
 
 
 		//user_ids of already scheduled commisssions
 		$scheduled_commissions = SettlementTracker::where('period', $payment_month)->get()->pluck('user_id');
-
-
-
 
 
 		// connect with API
@@ -95,9 +85,6 @@ class AutoMatchingController extends controller
 		$url = "{$this->url}?$query_string";
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
-
-
-
 
 		$total_no = $response['totalCount'];
 
@@ -112,23 +99,15 @@ class AutoMatchingController extends controller
 			return;
 		}
 
-
-
-
-
 		// print_r($scheduled_commissions->toArray());
 
 		//users having pending schedules 
 		$non_scheduled_users = User::whereNotIn('id', $scheduled_commissions->toArray())->get()->take(50);
 
 
+            $non_scheduled_ids = $non_scheduled_users->pluck('id');
 
-            $non_scheduled_usernames = $non_scheduled_users->pluck('username');
-
-			print_r($non_scheduled_usernames->toArray());
-
-
-
+			print_r($non_scheduled_ids->toArray());
 		/*
 		 *determine how many steps and paginations
 		 *get the total number
@@ -158,19 +137,18 @@ class AutoMatchingController extends controller
 				$record = collect($response['value'])->keyBy('supervisorNumber')->toArray();
 				$supervisor_numbers =  collect($record)->pluck('supervisorNumber')->toArray();
 
-				$supervisors_to_be_treated = array_intersect($non_scheduled_usernames->toArray(), $supervisor_numbers);
+				$supervisors_to_be_treated = array_intersect($non_scheduled_ids->toArray(), $supervisor_numbers);
 
-				$supervisors = User::whereIn('username', $supervisors_to_be_treated)->get()->keyBy('username')->toArray();
+				$supervisors = User::whereIn('id', $supervisors_to_be_treated)->get()->keyBy('id')->toArray();
 
 				$this->treat_supervisors_commissions($record , $supervisors, $payment_month);
 
-/*
+		/*
 				print_r($supervisors_to_be_treated);
 				print_r($supervisor_numbers);
 				print_r($record);
 				print_r($response->toArray());*/
 		}
-
 	}
 
 
@@ -303,22 +281,22 @@ class AutoMatchingController extends controller
 	 * This treats all users whose schdule detail are supplied
 	 *
 	 * @param      <array>  $records_from_api      The records from api
-	 * @param      <array>  $supervisor_usernames  The supervisor usernames ie usernames of users
+	 * @param      <array>  $supervisor_ids  The supervisor usernames ie usernames of users
 	 * @param      <string>  $payment_month         The payment month
 	 */
-	public function treat_supervisors_commissions($records_from_api, $supervisor_usernames, $payment_month)
+	public function treat_supervisors_commissions($records_from_api, $supervisor_ids, $payment_month)
 	{
 
 			// DB::beginTransaction();
 
-			foreach ($supervisor_usernames as $username => $user) {
+			foreach ($supervisor_ids as $id => $user) {
 
-				$commissions = $records_from_api[$user[username]];
+				$commissions = $records_from_api[$user[id]];
 
 				$settlement[] =	SettlementTracker::create([
 
 						'user_id'	=> $user['id'],
-						'user_no'	=> $user['username'],	
+						'user_no'	=> $user['id'],	
 						'period'	=> $payment_month,
 						'dump'		=> json_encode($commissions),
 						'settled_disagio' => $commissions['sumDisagio'],
@@ -330,6 +308,8 @@ class AutoMatchingController extends controller
 			}
 
 	}
+
+
 
 	/**
 	 * This evenetually pays commissions already scheduled.
@@ -369,19 +349,6 @@ class AutoMatchingController extends controller
 	{
 		# code...
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 
