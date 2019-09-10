@@ -180,6 +180,7 @@ class AutoMatchingController extends controller
 
 					echo "pools";
 					//schedule pools commission if regular commission is complete
+					$this->pay_commissions();	
 					$this->initiate_pools_commissions();	
 
 					return;
