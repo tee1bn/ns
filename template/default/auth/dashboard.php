@@ -113,7 +113,7 @@ $page_title = "Dashboard";
     </div>
 
 
-    <div class="col-xl-3 col-lg-6 col-12">
+    <div class="col-xl-4 col-lg-6 col-12">
         <div class="card">
             <div class="card-content">
                 <div class="media align-items-stretch">
@@ -123,7 +123,8 @@ $page_title = "Dashboard";
                     <div class="p-2 bg-gradient-x-success white media-body">
                         <a href="#" class="text-white">
                         <h5>Pools Commission</h5>
-                        <h5 class="text-bold-400 mb-0">June 2019 - <?=$pool_target['current_no_of_merchants'];?>/<?=$pool_target['min_merchant_recruitment'];?></h5>
+                        <h5 class="text-bold-400 mb-0"><?=$pool_target['month'];?>
+                         - <?=$pool_target['current_no_of_merchants'];?>/<?=$pool_target['min_merchant_recruitment'];?></h5>
                         <small style="text-transform: capitalize;"><?=$pool_target['level'];?></small>
                         </a>
                     </div>
