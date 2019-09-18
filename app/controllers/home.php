@@ -2,7 +2,7 @@
 
 
 use classes\Auth\Auth as Auth;
-
+use Apis\CoinWayApi;
 
 /**
  * this class is the default controller of our application,
@@ -18,58 +18,19 @@ class home extends controller
 
 	public function test2()
 	{
-		
+
+		$coin_way =  new CoinWayApi;
+
+		$date_range =  MIS::date_range(date("Y-m-d"));
+
+		print_r($date_range);
+		$coin_way->setPeriod($date_range['start_date'],$date_range['end_date'])
+		->connect();
 
 		echo "<pre>";
-			// print_r(MIS::date_range('2019-08-15', 'week'));
 
+		print_r($coin_way);
 
-		$url = "https://api.coinwaypay.com/api/supervisor/turnover?from=2019-01-01&to=2020-01-01";
-		$header = [
-			'X-Api-Key : aabee567-eec7-4bbb-a0da-fb514cbc3285'
-		];
-
-
-		$response = MIS::make_get($url, $header);
-
-
-		print_r($response);
-return;
-		$commission_settings= [
-
-
-				1 => [
-
-					'level' => 'pool 1',
-					'min_merchant_recruitment' => 100,
-					'percent_disagio' => 0.05,
-				],
-
-				2 => [
-
-					'level' => 'pool 2',
-					'min_merchant_recruitment' => 300,
-					'percent_disagio' => 0.1,
-				],
-
-				3 => [
-
-					'level' => 'pool 3',
-					'min_merchant_recruitment' => 5-0,
-					'percent_disagio' => 0.15,
-				],
-
-		];
-
-
-
-
-		print_r(json_encode($commission_settings));
-		// print_r(SiteSettings::commission_settings());
-
-
-
-		echo "</pre>";
 
 
 	}

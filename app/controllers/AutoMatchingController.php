@@ -21,7 +21,7 @@ class AutoMatchingController extends controller
 
 
 		$this->url = "https://api.coinwaypay.com/api/supervisor/turnover";
-		$this->api_key ='X-Api-Key : aabee567-eec7-4bbb-a0da-fb514cbc3285';
+		$this->api_key = $this->settings['coinway_sales_api_key'];
 
 		$this->header = [
 			$this->api_key

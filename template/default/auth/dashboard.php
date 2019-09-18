@@ -107,6 +107,24 @@ $page_title = "Dashboard";
             </div>
         </div>
     </div>
+    <div class="col-xl-3 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="media align-items-stretch">
+                    <div class="p-2 text-center bg-success bg-darken-2">
+                        <i class="icon-wallet font-large-2 white"></i>
+                    </div>
+                    <div class="p-2 bg-gradient-x-success white media-body">
+                        <a href="<?=domain;?>/user/earnings" class="text-white">
+                        <h5>Pools Commission</h5>
+                        <h5 class="text-bold-400 mb-0">June 2019 - 20/100</h5>
+                        <small>Pool 1</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
