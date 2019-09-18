@@ -19,6 +19,37 @@ class home extends controller
 	public function test2()
 	{
 
+
+
+
+
+
+
+		$no_of_merchants = 20;
+		$pools_settings = SiteSettings::pools_settings();
+
+		echo "<pre>";  
+
+		print_r($pools_settings);
+
+
+		foreach ($pools_settings as $key => $settings) {
+
+			if ($no_of_merchants <= $settings['min_merchant_recruitment']) {
+
+				$next_pool = $settings;
+
+				break;
+			}
+		}
+
+		
+		print_r($next_pool);
+
+		return;
+
+
+
 		$coin_way =  new CoinWayApi;
 
 		$date_range =  MIS::date_range(date("Y-m-d"));
