@@ -26,6 +26,9 @@
               <li><a class="menu-item" href="<?=domain;?>/admin/debits">Withdrawals</a>
               </li>
             </ul>
+              <li>
+                <a class="menu-item" href="<?=domain;?>/admin/documents"><i class="fa fa-paper"></i>Documents</a>
+              </li>
           </li> 
 
 

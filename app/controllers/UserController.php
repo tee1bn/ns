@@ -11,13 +11,15 @@ class UserController extends controller
 
 	public function __construct(){
 
+		$user = $this->middleware('current_user');
 		if (! $this->admin()) {
-
-			$this->middleware('current_user')
+			$user
 				->mustbe_loggedin()
-				->must_have_verified_email()
-				->must_have_verified_company();
+				->must_have_verified_email();
 		}		
+
+		$user->must_have_verified_company();
+
 	}
 
 
