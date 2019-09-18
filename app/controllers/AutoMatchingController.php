@@ -14,26 +14,63 @@ class AutoMatchingController extends controller
 
 
 
-	public function __construct(){
+	public function __construct()
+	{
 
 		$this->settings = SiteSettings::site_settings();
 
 
 		$this->url = "https://api.coinwaypay.com/api/supervisor/turnover";
-		$this->api_key ='X-Api-Key : aabee567-eec7-4bbb-a0da-fb514cbc3285';
+		$this->api_key = $this->settings['coinway_sales_api_key'];
 
 		$this->header = [
 			$this->api_key
 		];
 
 
-		echo "<pre>";
 
-		// print_r($this->settings);
-		
+		if ($this->settings['distribute_commissions']== 1) {
+
+					$this->schedule_due_commissions();
+		}
+
+
+		echo "<pre>";
 
 	}
 
+
+	public function get_date_to_start_schedule()
+	{
+
+		$last_settlement = SettlementTracker::where('paid_at','!=', null)->latest()->first();
+		$last_settlement_date = $last_settlement->period;
+
+
+		if ($last_settlement_date == "") {
+			$last_settlement_date = '2019-08-01';
+		}
+
+
+
+		$pools_settlement =  PoolsCommissionSchedule::where('paid_at','!=', null)->where('period',$last_settlement_date)->first();
+
+		if ($pools_settlement != null) {
+
+			$date = date("Y-m-01", strtotime("+1 month $last_settlement_date"));
+
+		}else{
+
+			$date =  $last_settlement_date;
+		}
+
+
+		echo "$date";
+
+
+		return $date;
+
+	}
 
 
 	public function get_period()
@@ -55,14 +92,17 @@ class AutoMatchingController extends controller
 		}
 
 		//deduce payment month
-		$payment_month = date("Y-m-01", strtotime("last month"));
+		// $payment_month = date("Y-m-01", strtotime("last month"));
+		$payment_month = $this->get_date_to_start_schedule();
+
+
+
 
 		$payment_date_range = MIS::date_range($payment_month, 'month', true);
 
 
 
 		return compact('payment_month', 'payment_date_range');
-
 	}
 
 
@@ -73,17 +113,12 @@ class AutoMatchingController extends controller
 	public function schedule_due_commissions()
 	{	
 
-
-
 		$period =  $this->get_period();
 		extract($period);
 
 
 		//user_ids of already scheduled commisssions
 		$scheduled_commissions = SettlementTracker::where('period', $payment_month)->get()->pluck('user_id');
-
-
-
 
 
 		// connect with API
@@ -96,24 +131,7 @@ class AutoMatchingController extends controller
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
-
-
-
 		$total_no = $response['totalCount'];
-
-		//ensure there is more commissions to schedule
-		$stop = ($scheduled_commissions->count() >= $total_no);
-		if ($stop) {
-
-
-			//schedule pools commission if regular commission is complete
-			$this->initiate_pools_commissions();	
-
-			return;
-		}
-
-
-
 
 
 		// print_r($scheduled_commissions->toArray());
@@ -122,13 +140,9 @@ class AutoMatchingController extends controller
 		$non_scheduled_users = User::whereNotIn('id', $scheduled_commissions->toArray())->get()->take(50);
 
 
+            $non_scheduled_ids = $non_scheduled_users->pluck('id');
 
-            $non_scheduled_usernames = $non_scheduled_users->pluck('username');
-
-			print_r($non_scheduled_usernames->toArray());
-
-
-
+			print_r($non_scheduled_ids->toArray());
 		/*
 		 *determine how many steps and paginations
 		 *get the total number
@@ -158,20 +172,72 @@ class AutoMatchingController extends controller
 				$record = collect($response['value'])->keyBy('supervisorNumber')->toArray();
 				$supervisor_numbers =  collect($record)->pluck('supervisorNumber')->toArray();
 
-				$supervisors_to_be_treated = array_intersect($non_scheduled_usernames->toArray(), $supervisor_numbers);
+				$supervisors_to_be_treated = array_intersect($non_scheduled_ids->toArray(), $supervisor_numbers);
 
-				$supervisors = User::whereIn('username', $supervisors_to_be_treated)->get()->keyBy('username')->toArray();
+
+				//ensure there is more commissions to schedule
+				$stop = (count($supervisors_to_be_treated) >= 0);
+				if ($stop) {
+
+					echo "pools";
+					//schedule pools commission if regular commission is complete
+					$this->pay_commissions();	
+					$this->initiate_pools_commissions();	
+
+					return;
+				}
+
+
+
+
+				$supervisors = User::whereIn('id', $supervisors_to_be_treated)->get()->keyBy('id')->toArray();
 
 				$this->treat_supervisors_commissions($record , $supervisors, $payment_month);
 
-/*
+		
 				print_r($supervisors_to_be_treated);
 				print_r($supervisor_numbers);
 				print_r($record);
-				print_r($response->toArray());*/
+				print_r($response->toArray());
 		}
+	}
+
+
+
+
+
+	/**
+	 * This treats all users whose schdule detail are supplied
+	 *
+	 * @param      <array>  $records_from_api      The records from api
+	 * @param      <array>  $supervisor_ids  The supervisor usernames ie usernames of users
+	 * @param      <string>  $payment_month         The payment month
+	 */
+	public function treat_supervisors_commissions($records_from_api, $supervisor_ids, $payment_month)
+	{
+
+			// DB::beginTransaction();
+
+			foreach ($supervisor_ids as $id => $user) {
+
+				$commissions = $records_from_api[$user[id]];
+
+				$settlement[] =	SettlementTracker::create([
+
+						'user_id'	=> $user['id'],
+						'user_no'	=> $user['id'],	
+						'period'	=> $payment_month,
+						'dump'		=> json_encode($commissions),
+						'settled_disagio' => $commissions['sumDisagio'],
+						'no_of_merchants' => $commissions['tenantCount'],
+						'settled_license_fee' =>  $commissions['licenseSum']
+					]);
+
+
+			}
 
 	}
+
 
 
 	/**
@@ -226,6 +292,9 @@ class AutoMatchingController extends controller
 														[
 															'disagio_dump' => json_encode($dump)
 														]);
+		$this->pay_pools_commission();
+
+
 	}
 
 
@@ -243,7 +312,6 @@ class AutoMatchingController extends controller
 		}
 
 		$details = json_decode($pools_commissions->disagio_dump, true);
-
 
 		$month 	 = date('F Y', strtotime($payment_month));
 
@@ -299,37 +367,6 @@ class AutoMatchingController extends controller
 
 
 
-	/**
-	 * This treats all users whose schdule detail are supplied
-	 *
-	 * @param      <array>  $records_from_api      The records from api
-	 * @param      <array>  $supervisor_usernames  The supervisor usernames ie usernames of users
-	 * @param      <string>  $payment_month         The payment month
-	 */
-	public function treat_supervisors_commissions($records_from_api, $supervisor_usernames, $payment_month)
-	{
-
-			// DB::beginTransaction();
-
-			foreach ($supervisor_usernames as $username => $user) {
-
-				$commissions = $records_from_api[$user[username]];
-
-				$settlement[] =	SettlementTracker::create([
-
-						'user_id'	=> $user['id'],
-						'user_no'	=> $user['username'],	
-						'period'	=> $payment_month,
-						'dump'		=> json_encode($commissions),
-						'settled_disagio' => $commissions['sumDisagio'],
-						'no_of_merchants' => $commissions['tenantCount'],
-						'settled_license_fee' =>  $commissions['licenseSum']
-					]);
-
-
-			}
-
-	}
 
 	/**
 	 * This evenetually pays commissions already scheduled.
@@ -369,19 +406,6 @@ class AutoMatchingController extends controller
 	{
 		# code...
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 

@@ -32,6 +32,11 @@
                 <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="icon-wallet"></i> Wallet</a>
               </li>
 
+
+              <li>
+                <a class="menu-item" href="<?=domain;?>/user/documents"><i class="fa fa-folder"></i> Documents</a>
+              </li>
+
              <!--  <li>
                 <a class="menu-item" href="<?=domain;?>/user/withdrawals"><i class="fa fa-credit-card"></i> Withdrawals</a>
               </li>
@@ -41,7 +46,7 @@
           <li class=" navigation-header"><span>COMMUNICATION</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
           </li>
               
-            <li><a class="menu-item" href="<?=domain;?>/user/testimony"><i class="fa fa-certificate"></i>Testimonials</a></li>
+            <!-- <li><a class="menu-item" href="<?=domain;?>/user/testimony"><i class="fa fa-certificate"></i>Testimonials</a></li> -->
 
             <li><a class="menu-item" href="<?=domain;?>/user/broadcast"><i class="fa fa-bullhorn"></i>News</a></li>
 

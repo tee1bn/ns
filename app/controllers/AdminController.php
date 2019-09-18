@@ -316,6 +316,58 @@ class AdminController extends controller
 	}
 
 
+	public function fetch_documents_list()
+	{
+
+
+		$documents_settings = SiteSettings::documents_settings();
+
+		header("content-type:application/json");
+
+		 $documents = ($documents_settings);
+
+		
+		 echo  json_encode(compact('documents'));
+	}
+
+
+	public function upload_supporting_document()
+	{
+
+
+
+		$documents_settings =  SiteSettings::where('criteria', 'documents_settings')->first();
+
+		$files =  MIS::refine_multiple_files($_FILES['files']);
+
+		$combined_files = array_combine($_POST['label'], $files);
+
+		$response = $documents_settings->upload_documents($combined_files);
+
+
+		// Redirect::back();
+		
+
+	}
+
+
+	public function delete_document($key)
+	{
+		
+		$documents_settings =  SiteSettings::where('criteria', 'documents_settings')->first();
+		$response = $documents_settings->delete_document($key);
+		header("content-type:application/json");
+
+		echo json_encode(compact('response'));
+
+
+		
+		
+	}
+
+
+
+
 	public function confirm_payment($order_id)
 	{
 
@@ -330,6 +382,12 @@ class AdminController extends controller
 
 		$this->view('admin/testimony');
 	}
+
+	public function documents()
+	{
+		$show = true;
+		$this->view('admin/documents', compact('show'));
+	}	
 
 	public function edit_testimony($testimony_id =null)
 	{

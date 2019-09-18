@@ -5,6 +5,7 @@ error_reporting(E_ALL);
 */
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Carbon\Carbon;
+use Apis\CoinWayApi;
 
 
 
@@ -57,6 +58,37 @@ class User extends Eloquent
 
     public static $max_level = 4;
 
+
+
+    public function pool_target()
+    {
+
+
+    	$coin_way =  new CoinWayApi;
+
+    	$date_range =  MIS::date_range(date("Y-m-d"));
+    	$response =	$coin_way->setPeriod($date_range['start_date'],$date_range['end_date'])
+    		->connect()->get_response()->keyBy('supervisorNumber');
+
+    	$no_of_merchants = 	@$response[$this->id]['tenantCount'];
+
+    	// $no_of_merchants = 20;
+    
+
+
+    	$pools_settings = SiteSettings::pools_settings();
+    	foreach ($pools_settings as $key => $settings) {
+    		if ($no_of_merchants <= $settings['min_merchant_recruitment']) {
+    			$next_pool = $settings;
+    			break;
+    		}
+    	}
+
+    	$next_pool['current_no_of_merchants'] = $no_of_merchants;
+    	$next_pool['month'] =  date("F y");
+    	return $next_pool;
+
+    }
 
 
 

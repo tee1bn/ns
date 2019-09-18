@@ -127,6 +127,7 @@ $page_title = "Wallet";
       </div>
     </div>
       </section>
+      <p class="text-danger">*This ad is only a preview, not binding and may differ from the actual billing!</p>
 
 
 

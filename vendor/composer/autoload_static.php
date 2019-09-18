@@ -230,6 +230,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
 
     public static $classMap = array (
         'Admin' => __DIR__ . '/../..' . '/app/models/Admin.php',
+        'Apis\\CoinWayApi' => __DIR__ . '/../..' . '/app/models/Apis/CoinWayApi.php',
         'AvailableCurrency' => __DIR__ . '/../..' . '/app/models/AvailableCurrency.php',
         'BroadCast' => __DIR__ . '/../..' . '/app/models/BroadCast.php',
         'Company' => __DIR__ . '/../..' . '/app/models/Company.php',
@@ -244,7 +245,6 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'MlmSetting' => __DIR__ . '/../..' . '/app/models/MlmSetting.php',
         'Newsletter' => __DIR__ . '/../..' . '/app/models/Newsletter.php',
         'Notifications' => __DIR__ . '/../..' . '/app/models/Notifications.php',
-        'Observers\\CompanyObserver' => __DIR__ . '/../..' . '/app/models/Observers/CompanyObserver.php',
         'Orders' => __DIR__ . '/../..' . '/app/models/Orders.php',
         'PasswordReset' => __DIR__ . '/../..' . '/app/models/PasswordReset.php',
         'PoolsCommissionSchedule' => __DIR__ . '/../..' . '/app/models/PoolsCommissionSchedule.php',

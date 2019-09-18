@@ -101,7 +101,7 @@
                         type: "POST",
                         contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
                         processData: false, // NEEDED, DON'T OMIT THIS
-                        url: $base_url+"/company/delete_document/"+$key,
+                        url: $base_url+"/admin/delete_document/"+$key,
                         cache: false,
                         success: function(data) {
 
@@ -136,7 +136,7 @@
 
                         $("#page_preloader").css('display', 'block');
 
-                        $http.get($base_url+'/company/fetch_company_list')
+                        $http.get($base_url+'/admin/fetch_documents_list')
                             .then(function(response) {
                                 $data = response.data;
 

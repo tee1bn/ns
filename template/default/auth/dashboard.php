@@ -8,6 +8,10 @@ $page_title = "Dashboard";
     $min_withdrawal = $settings['minimum_withdrawal'];      
     $balance = $auth->available_balance();
     $withdrawable_balance =  $settings['withdrawable_percent'] * 0.01 * $balance;      
+
+
+    $pool_target = $auth->pool_target();
+
     ;?>
 
 
@@ -101,6 +105,27 @@ $page_title = "Dashboard";
                         <a href="<?=domain;?>/user/earnings" class="text-white">
                         <h5>Wallet</h5>
                         <h5 class="text-bold-400 mb-0"> <?=$currency;?> <?=MIS::money_format($balance);?></h5>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="media align-items-stretch">
+                    <div class="p-2 text-center bg-success bg-darken-2">
+                        <i class="icon-wallet font-large-2 white"></i>
+                    </div>
+                    <div class="p-2 bg-gradient-x-success white media-body">
+                        <a href="#" class="text-white">
+                        <h5>Pools Commission</h5>
+                        <h5 class="text-bold-400 mb-0"><?=$pool_target['month'];?>
+                         - <?=$pool_target['current_no_of_merchants'];?>/<?=$pool_target['min_merchant_recruitment'];?></h5>
+                        <small style="text-transform: capitalize;"><?=$pool_target['level'];?></small>
                         </a>
                     </div>
                 </div>

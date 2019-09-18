@@ -7,6 +7,7 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'Admin' => $baseDir . '/app/models/Admin.php',
+    'Apis\\CoinWayApi' => $baseDir . '/app/models/Apis/CoinWayApi.php',
     'AvailableCurrency' => $baseDir . '/app/models/AvailableCurrency.php',
     'BroadCast' => $baseDir . '/app/models/BroadCast.php',
     'Company' => $baseDir . '/app/models/Company.php',
@@ -21,7 +22,6 @@ return array(
     'MlmSetting' => $baseDir . '/app/models/MlmSetting.php',
     'Newsletter' => $baseDir . '/app/models/Newsletter.php',
     'Notifications' => $baseDir . '/app/models/Notifications.php',
-    'Observers\\CompanyObserver' => $baseDir . '/app/models/Observers/CompanyObserver.php',
     'Orders' => $baseDir . '/app/models/Orders.php',
     'PasswordReset' => $baseDir . '/app/models/PasswordReset.php',
     'PoolsCommissionSchedule' => $baseDir . '/app/models/PoolsCommissionSchedule.php',

@@ -186,7 +186,7 @@ echo "<pre>";
 
 
 		'username' => [
-						'required'=> true,
+						// 'required'=> true,
 						'min'=> 1,
 						'one_word'=> true,
 						'no_special_character'=> true,

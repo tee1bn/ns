@@ -70,7 +70,7 @@ class SettlementTracker extends Eloquent
 									continue;
 							}
 
-							$credit['disagio'][]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+							$credit['disagio'][]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id, $this->period);
 
 
 
@@ -86,7 +86,7 @@ class SettlementTracker extends Eloquent
 									continue;
 							}
 
-						$credit['license'][]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+						$credit['license'][]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id, $this->period);
 				}
 
 		 	$this->mark_paid();
