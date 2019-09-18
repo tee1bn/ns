@@ -8,6 +8,10 @@ $page_title = "Dashboard";
     $min_withdrawal = $settings['minimum_withdrawal'];      
     $balance = $auth->available_balance();
     $withdrawable_balance =  $settings['withdrawable_percent'] * 0.01 * $balance;      
+
+
+    $pool_target = $auth->pool_target();
+
     ;?>
 
 
@@ -107,6 +111,8 @@ $page_title = "Dashboard";
             </div>
         </div>
     </div>
+
+
     <div class="col-xl-3 col-lg-6 col-12">
         <div class="card">
             <div class="card-content">
@@ -115,10 +121,10 @@ $page_title = "Dashboard";
                         <i class="icon-wallet font-large-2 white"></i>
                     </div>
                     <div class="p-2 bg-gradient-x-success white media-body">
-                        <a href="<?=domain;?>/user/earnings" class="text-white">
+                        <a href="#" class="text-white">
                         <h5>Pools Commission</h5>
-                        <h5 class="text-bold-400 mb-0">June 2019 - 20/100</h5>
-                        <small>Pool 1</small>
+                        <h5 class="text-bold-400 mb-0">June 2019 - <?=$pool_target['current_no_of_merchants'];?>/<?=$pool_target['min_merchant_recruitment'];?></h5>
+                        <small style="text-transform: capitalize;"><?=$pool_target['level'];?></small>
                         </a>
                     </div>
                 </div>

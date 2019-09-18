@@ -27,18 +27,9 @@ class home extends controller
 
 		$no_of_merchants = 20;
 		$pools_settings = SiteSettings::pools_settings();
-
-		echo "<pre>";  
-
-		print_r($pools_settings);
-
-
 		foreach ($pools_settings as $key => $settings) {
-
 			if ($no_of_merchants <= $settings['min_merchant_recruitment']) {
-
 				$next_pool = $settings;
-
 				break;
 			}
 		}
@@ -55,12 +46,14 @@ class home extends controller
 		$date_range =  MIS::date_range(date("Y-m-d"));
 
 		print_r($date_range);
-		$coin_way->setPeriod($date_range['start_date'],$date_range['end_date'])
-		->connect();
+		$response =	$coin_way->setPeriod($date_range['start_date'],$date_range['end_date'])
+			->connect()
+			->get_response()
+		;
 
 		echo "<pre>";
 
-		print_r($coin_way);
+		print_r($response);
 
 
 

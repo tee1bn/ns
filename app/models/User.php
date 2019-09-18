@@ -59,6 +59,25 @@ class User extends Eloquent
 
 
 
+    public function pool_target()
+    {
+
+
+    	$no_of_merchants = 20;
+    	$pools_settings = SiteSettings::pools_settings();
+    	foreach ($pools_settings as $key => $settings) {
+    		if ($no_of_merchants <= $settings['min_merchant_recruitment']) {
+    			$next_pool = $settings;
+    			break;
+    		}
+    	}
+
+    	$next_pool['current_no_of_merchants'] = $no_of_merchants;
+    	return $next_pool;
+
+    }
+
+
 
     public function company()
     {

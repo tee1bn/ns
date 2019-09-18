@@ -13,7 +13,8 @@ class CoinWayApi
 {
 
 	private $per_page = 100;
-
+	public $response = [];
+	public $total_no ;
 
 
 	public function __construct()
@@ -44,29 +45,49 @@ class CoinWayApi
 
 	}
 
-	public function connect($skip=0)
+	public function connect()
 	{
-
-
 
 		// connect with API
 		$query_string = http_build_query([
 			'from' 	=> $this->period['start_date'],
 			'to' 	=> $this->period['end_date'],
-			'top' 	=> $this->per_page,
-			'skip' => $skip
 		]);
 
 		$url = "{$this->url}?$query_string";
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
+		$this->total_no  = $response['totalCount'];
 
-		print_r($response);
 
-			$response = collect(json_decode( MIS::make_get($url, $this->header) , true));
+		$per_page = 100;
+		$pages = ceil($this->total_no  /$per_page);
+
+		for ($i=1; $i <= $pages ; $i++) { 
+			$skip = ($per_page * ($i-1));
+
+
+			$query_string = http_build_query([
+				'from' 	=> $this->period['start_date'],
+				'to' 	=> $this->period['end_date'],
+				'top' 	=> $this->per_page,
+				'skip' => $skip
+			]);
+
+		$response = json_decode( MIS::make_get($url, $this->header) , true);
+
+		$this->response = array_merge($this->response, $response['value']);
+
+		return $this;
+
 	}
 
+
+	public function get_response()
+	{
+		return collect($this->response);
+	}
 	
 
 	public function index()
