@@ -385,9 +385,9 @@ class AdminController extends controller
 
 	public function documents()
 	{
-
-		$this->view('admin/documents');
-	}
+		$show = true;
+		$this->view('admin/documents', compact('show'));
+	}	
 
 	public function edit_testimony($testimony_id =null)
 	{

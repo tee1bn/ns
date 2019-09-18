@@ -27,7 +27,7 @@
               </li>
             </ul>
               <li>
-                <a class="menu-item" href="<?=domain;?>/admin/documents"><i class="fa fa-paper"></i>Documents</a>
+                <a class="menu-item" href="<?=domain;?>/admin/documents"><i class="fa fa-folder"></i>Documents</a>
               </li>
           </li> 
 

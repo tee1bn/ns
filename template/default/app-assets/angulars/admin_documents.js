@@ -140,13 +140,13 @@
                             .then(function(response) {
                                 $data = response.data;
 
-                                    console.log($data);
+                                    // console.log($data);
                                     
                                     $scope.$data = $data; 
 
                                     $scope.$list = new List($data.documents);  
 
-                                    console.log($scope.$list);
+                                    // console.log($scope.$list);
 
                                     if ($data.disable_btn=='true') {
                                          $('button').hide();

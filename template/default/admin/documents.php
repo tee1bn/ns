@@ -14,12 +14,16 @@ $page_title = "Documents";
           </div>
           
           <div class="content-header-right col-md-6 col-12">
+
+            <?php if($show != false) :?>
+
             <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
               <a class="btn btn-outline-primary" href="javascript:void(0);" 
               data-toggle="modal"
                data-target="#upload_company_supporting_document" >+<i class="ft-file"></i>Upload</a>
             
             </div>
+            <?php endif ;?>
 
 
           </div>
@@ -151,10 +155,7 @@ $page_title = "Documents";
                                           <div class="card-body">
                                             <h4 cla5s="card-title">Documents 
 
-                                              <button  data-toggle="modal" data-target="#upload_company_supporting_document" 
-                                                    title="Upload supporting company documents"  class="float-right ft-paperclip btn btn-sm btn-secondary"
-                                                     style="font-size: 20px;">
-                                              </button>
+                                           
                                             </h4>
                                           </div>                                          
 

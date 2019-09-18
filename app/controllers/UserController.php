@@ -11,14 +11,21 @@ class UserController extends controller
 
 	public function __construct(){
 
-		$user = $this->middleware('current_user');
+
+		$company = $this->auth()->company;
+		if ($company == null) {
+			$company =  Company::create(['user_id'=>$this->auth()->id]);
+		}
+
+
+
 		if (! $this->admin()) {
-			$user
+			 $this->middleware('current_user')
 				->mustbe_loggedin()
-				->must_have_verified_email();
+				->must_have_verified_email()
+				->must_have_verified_company();
 		}		
 
-		$user->must_have_verified_company();
 
 	}
 
@@ -325,6 +332,13 @@ class UserController extends controller
 	public function testimony()
 	{
 		$this->view('auth/testimony');
+	}
+
+
+	public function documents()
+	{
+		$show = false;
+		$this->view('admin/documents', compact('show'));
 	}
 
 
