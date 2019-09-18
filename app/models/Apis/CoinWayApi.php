@@ -61,11 +61,10 @@ class CoinWayApi
 		$this->total_no  = $response['totalCount'];
 
 
-		$per_page = 100;
-		$pages = ceil($this->total_no  /$per_page);
+		$pages = ceil($this->total_no  /$this->per_page);
 
 		for ($i=1; $i <= $pages ; $i++) { 
-			$skip = ($per_page * ($i-1));
+			$skip = ($this->per_page * ($i-1));
 
 
 			$query_string = http_build_query([
@@ -75,9 +74,13 @@ class CoinWayApi
 				'skip' => $skip
 			]);
 
+
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
 		$this->response = array_merge($this->response, $response['value']);
+
+		}
+
 
 		return $this;
 

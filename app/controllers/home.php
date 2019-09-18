@@ -25,7 +25,7 @@ class home extends controller
 
 
 
-		$no_of_merchants = 20;
+		/*$no_of_merchants = 20;
 		$pools_settings = SiteSettings::pools_settings();
 		foreach ($pools_settings as $key => $settings) {
 			if ($no_of_merchants <= $settings['min_merchant_recruitment']) {
@@ -37,7 +37,7 @@ class home extends controller
 		
 		print_r($next_pool);
 
-		return;
+		return;*/
 
 
 
