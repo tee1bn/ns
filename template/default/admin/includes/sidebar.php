@@ -37,7 +37,7 @@
           <li class=" navigation-header"><span>COMMUNICATION</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
           </li>
               
-            <li><a class="menu-item" href="<?=domain;?>/admin/testimony"><i class="fa fa-certificate"></i>Testimonials</a></li>
+            <!-- <li><a class="menu-item" href="<?=domain;?>/admin/testimony"><i class="fa fa-certificate"></i>Testimonials</a></li> -->
 
             <li><a class="menu-item" href="<?=domain;?>/admin/broadcast"><i class="fa fa-bullhorn"></i>News</a></li>
 
