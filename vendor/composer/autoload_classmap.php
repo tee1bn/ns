@@ -45,4 +45,9 @@ return array(
     'classes\\Auth\\Auth' => $baseDir . '/app/classes/Auth.php',
     'controller' => $baseDir . '/app/core/controller.php',
     'operations' => $baseDir . '/app/core/operations.php',
+    'v2\\Shop\\Contracts\\OrderInterface' => $baseDir . '/app/models/v2/Shop/Contracts/OrderInterface.php',
+    'v2\\Shop\\Contracts\\PaymentMethodInterface' => $baseDir . '/app/models/v2/Shop/Contracts/PaymentMethodInterface.php',
+    'v2\\Shop\\Payments\\CoinPay' => $baseDir . '/app/models/v2/Shop/Payments/CoinPay.php',
+    'v2\\Shop\\Payments\\Paystack' => $baseDir . '/app/models/v2/Shop/Payments/Paystack.php',
+    'v2\\Shop\\Shop' => $baseDir . '/app/models/v2/Shop/Shop.php',
 );

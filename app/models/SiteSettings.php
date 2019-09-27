@@ -13,6 +13,16 @@ class SiteSettings extends Eloquent
 
 
 
+	public function payment_gateway_settings()
+	{
+		$payments_settings_keys = ['coinpay_keys', 'paystack_keys'];
+
+		return self::whereIn('criteria', $payments_settings_keys)->get();
+
+	}
+
+
+
 	public function delete_document($key)
 	{
 		$doc = json_decode($this->settings, true);
@@ -168,6 +178,16 @@ class SiteSettings extends Eloquent
 		return $settings;
 
 	}
+
+
+
+	public static function coinpay_keys()
+	{
+		$settings = json_decode(self::where('criteria', 'coinpay_keys')->first()->settings, true);
+		return $settings;
+
+	}
+
 
 
 

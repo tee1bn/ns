@@ -1,4 +1,5 @@
 <?php
+use v2\Shop\Shop;
 
 
 /**
@@ -207,8 +208,9 @@ class UserController extends controller
 
 
 	public function package()
-	{
-			$this->view('auth/package');
+	{	
+			$shop = new Shop;
+			$this->view('auth/package', compact('shop'));
 	}
 
 

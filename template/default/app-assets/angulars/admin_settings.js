@@ -6,10 +6,21 @@ app.controller('Settings', function($scope, $http) {
 
 
 	
+	$scope.fetch_payment_gateway_settings = function () {
+	     $http.get($base_url+"/settings/fetch_payment_gateway_settings/")
+	                .then(function(response) {
+	                  console.log(response.data);
+	                  $scope.$payment_gateway_settings= response.data;
+	                });
+
+                };
+
+                
+	  $scope.fetch_payment_gateway_settings();
+	
 	$scope.fetch_site_settings = function () {
 	     $http.get($base_url+"/settings/fetch_site_settings/")
 	                .then(function(response) {
-	                  console.log(response.data);
 	                  $scope.$site_settings= response.data;
 	                });
 
@@ -21,7 +32,6 @@ app.controller('Settings', function($scope, $http) {
 	$scope.fetch_commission_settings = function () {
 	     $http.get($base_url+"/settings/fetch_commission_settings/")
 	                .then(function(response) {
-	                  console.log(response.data);
 	                  $scope.$commission_settings= response.data;
 	                });
 
@@ -32,7 +42,6 @@ app.controller('Settings', function($scope, $http) {
 	$scope.fetch_pools_settings = function () {
 	     $http.get($base_url+"/settings/fetch_pools_settings/")
 	                .then(function(response) {
-	                  console.log(response.data);
 	                  $scope.$pools_settings= response.data;
 	                });
 

@@ -4,13 +4,16 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Capsule\Manager as DB;
+use v2\Shop\Contracts\OrderInterface;
 
 
-class SubscriptionOrder extends Eloquent 
+class SubscriptionOrder extends Eloquent implements OrderInterface
 {
 	
 	protected $fillable = [
 							'plan_id',
+							'payment_method',
+							'payment_details',
 							 'user_id',
 							 'payment_proof',
 							 'price',
@@ -25,7 +28,7 @@ class SubscriptionOrder extends Eloquent
 
 
 
-	public function mark_as_paid()
+	public function mark_paid()
 	{	
 	
 		if ($this->is_paid()) {
@@ -213,14 +216,45 @@ class SubscriptionOrder extends Eloquent
 
 
 
-	public static function create_order($plan_id , $user_id, $price, $start_of_next_month=null)
+	public function total_qty()
 	{
-		if ($start_of_next_month == null) {
-			$start_of_next_month = date('Y-m-d H:i:s');
-		}else{
-
+		return 1;
 	}
 
+	public function total_price()
+	{
+		return $this->price;
+	}
+
+
+	public function generateOrderID()
+	{
+
+		$substr = substr(strval(time()), 7 );
+		$order_id = "NSW{$this->id}P{$substr}";
+
+		return $order_id;
+	}
+
+
+	public function setPayment($payment_method,array $payment_details)
+	{
+		// DB::beginTransaction();
+
+		$this->update([
+			'payment_method' => $payment_method,
+			'payment_details' => json_encode($payment_details),
+		]);
+
+		return $this;
+	}
+
+
+
+
+	public  function create_order($cart)
+	{
+		extract($cart);
 
 		$payment_plan = SubscriptionPlan::find($plan_id);
 		$new_payment_order = self::create([
@@ -228,11 +262,7 @@ class SubscriptionOrder extends Eloquent
 								 'user_id' 		=> $user_id,
 								 'price'   		=> $price,
 								 'details'		=> json_encode($payment_plan),
-								 'created_at'	=> $start_of_next_month
 							]);
-
-
-
 
 		return $new_payment_order;
 	}

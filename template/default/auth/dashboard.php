@@ -124,7 +124,7 @@ $page_title = "Dashboard";
                         <a href="#" class="text-white">
                         <h5>Pools Commission</h5>
                         <h5 class="text-bold-400 mb-0"><?=$pool_target['month'];?>
-                         - <?=$pool_target['current_no_of_merchants'];?>/<?=$pool_target['min_merchant_recruitment'];?></h5>
+                         - <?=intval($pool_target['current_no_of_merchants']);?>/<?=$pool_target['min_merchant_recruitment'];?></h5>
                         <small style="text-transform: capitalize;"><?=$pool_target['level'];?></small>
                         </a>
                     </div>

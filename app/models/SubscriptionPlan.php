@@ -4,6 +4,7 @@
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Capsule\Manager as DB;
+use  v2\Shop\Shop;
 
 
 class SubscriptionPlan extends Eloquent 
@@ -98,11 +99,22 @@ class SubscriptionPlan extends Eloquent
 					// throw new Exception("You have pending order for {$new_sub->package_type}.", 1);
 				}
 
-					//delete unuseful orders
-				 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();
+				//delete unuseful orders
+			 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();
 
 
-				$new_order =  SubscriptionOrder::create_order($subscription_id, $user_id, $cost);
+			 	
+
+			 	$plan_id = $subscription_id;
+			 	$price = $cost;
+			 	$cart = compact('plan_id','user_id','price');
+		 		$shop = new Shop();
+		 		$payment_details =	$shop
+		 							->setOrderType('packages') //what is being bought
+		 							->receiveOrder($cart)
+		 							->setPaymentMethod($_POST['payment_method'])
+		 							->initializePayment()
+		 							->attemptPayment();
 
 			}
 

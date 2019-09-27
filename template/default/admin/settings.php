@@ -28,6 +28,86 @@ $page_title = "Settings";
         </div>
         <div class="content-body">
 
+             <div class="row" >
+                <div class="col-12">
+                    <div class="card">
+
+                        <div class="card-header"  data-toggle="collapse" data-target="#payment_gateway_settings">
+                          <a href="javascript:void;" class="card-title">Payment Gateways Settings</a>
+                           <div class="heading-elements">
+                              <ul class="list-inline mb-0">
+                                  <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                  <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                              </ul>
+                            </div>
+                        </div>
+                        <div class="card-body row collapse " id="payment_gateway_settings">
+
+                               <div class="col-12" ng-repeat =" ($index , $gateway) in $payment_gateway_settings">
+                                   <div class="card card-bordered" >
+
+                                       <div class="card-header"  data-toggle="collapse" data-target="#payment_gateway_settings{{$index}}">
+                                         <a href="javascript:void;" class="card-title">{{$gateway.name}}</a>
+                                          <div class="heading-elements">
+                                             <ul class="list-inline mb-0">
+                                                 <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                                 <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                             </ul>
+                                           </div>
+                                       </div>
+                                       <div class="card-body row collapse" id="payment_gateway_settings{{$index}}">
+
+
+                                            
+                                            <div class="col-6" ng-repeat =" (key , $setting) in $gateway.json_settings">
+                                                <div class="card">
+
+                                                    <div class="card-header"  data-toggle="collapse" data-target="#gateway_settings{{$index}}">
+                                                      <a href="javascript:void;" class="card-title">{{key}}</a>
+                                                    </div>
+                                                    <div class="card-body row collapse show" id="gateway_settings{{$index}}">
+
+
+                                                        <div class="form-group col-md-12" ng-repeat="(key, $input) in $setting">
+                                                          <label>INput {{$input}} {{key}} {{$index}}</label>
+                                                          <input  type="" class="form-control" name="">
+                                                        </div>                                                    
+                                                  
+
+                                                     </div>
+
+                                                </div>
+                                            </div>
+
+                                            
+                                            <textarea class="form-control">{{$gateway}}</textarea>
+                                     
+
+                                        <div class="col-3">
+                                          <button class="form-control btn-success">Update</button>
+                                        </div>
+
+                                        </div>
+
+
+                                   </div>
+                               </div>
+
+
+                            
+                      
+
+                         </div>
+
+                    </div>
+                </div>
+              </div>
+
+
+
+
+
+
                  <div class="row" >
                     <div class="col-12">
                         <div class="card">

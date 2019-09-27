@@ -13,7 +13,6 @@ class AutoMatchingController extends controller
 
 
 
-
 	public function __construct()
 	{
 

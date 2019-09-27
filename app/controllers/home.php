@@ -19,9 +19,36 @@ class home extends controller
 	public function test2()
 	{
 
+		echo "<pre>";
+		$payment_settings = 
+
+				[
+					'live' => [
+							'public_key' => "pk",
+							'secret_key' => "sk",
+							'wallet_id' => "wl",
+							],
+					'test' => [
+							'public_key' => "pk",
+							'secret_key' => "sk",
+							'wallet_id' => "wl",
+							],
+
+					'credential' => [
+							'public_key' => "pk",
+							'secret_key' => "sk",
+							'wallet_id' => "wl",
+							],
+
+					'mode' => 'test'
+		];
+
+
+		print_r(json_encode($payment_settings));
 
 
 
+		return;
 
 
 

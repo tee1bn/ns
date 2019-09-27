@@ -372,7 +372,7 @@ class AdminController extends controller
 	{
 
 		$order = SubscriptionOrder::find($order_id);
-		$status = $order->mark_as_paid();
+		$status = $order->mark_paid();
 		Redirect::back();
 	}
 

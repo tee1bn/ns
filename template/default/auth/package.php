@@ -63,11 +63,21 @@ $page_title = "Package";
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
                       method="post"
-                      class="ajax_form"
+                      class="ajax_orm"
                       data-function="initiate_payment"
                       action="<?=domain;?>/user/create_upgrade_request">
+                    <div class="form-group">
+                     <select class="form-control" required="" name="payment_method">
+                         <option value="">Select Payment method</option>
+                         <?php foreach ($shop->available_payment_method as $key => $option):?>
+                             <option value="<?=$key;?>"><?=$option['name'];?></option>
+                         <?php endforeach;?>
+                     </select>
+                    </div>
                       <input type="hidden" name="subscription_id" value="<?=$subscription->id;?>">
-                    <button href="#" class="btn btn-outline-teal">Buy</button>
+                    <div class="form-group">
+                      <button href="#" class="btn btn-outline-teal">Buy</button>
+                    </div>
                     </form>
 
                   </div>

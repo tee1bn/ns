@@ -11,18 +11,30 @@ class SettingsController extends controller
 
 	public function __construct(){
 
+		$this->middleware('administrator')->mustbe_loggedin();
 	}
+
+
 
 
 
 
 
 	//to pull from db with angularjs
-	public function fetch_min_withrawal()
+	public function fetch_payment_gateway_settings()
 	{
 		header("content-type:application/json");
-	echo (SiteSettings::where('criteria', 'min_withrawal')->first()->settings );
+	
+		 $payment_gateway_settings  =  SiteSettings::payment_gateway_settings()->keyBy('criteria') ;
+
+		 foreach ($payment_gateway_settings as $payment_setting) {
+		 	$payment_setting->json_settings =  json_decode($payment_setting->settings, true);
+		 	unset($payment_setting->settings);
+		 }
+
+		 echo json_encode($payment_gateway_settings);
 	}
+
 
 
 	public function update_min_withrawal()
