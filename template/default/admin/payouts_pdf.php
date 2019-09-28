@@ -38,7 +38,7 @@
                     <address>
                         Company: <?=project_name;?><br>
                         Month: <?=date("F Y", strtotime($month));?><br>
-                        Status: <?=@$status;?><br>
+                        <!-- Status: <?=@$status;?><br> -->
                     </address>
                 </div>
                 <div class="text-right">
