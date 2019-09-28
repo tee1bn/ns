@@ -31,6 +31,8 @@ class AutoMatchingController extends controller
 		if ($this->settings['distribute_commissions']== 1) {
 
 					$this->schedule_due_commissions();
+		}else{
+			echo "not yet set b admin";
 		}
 
 
@@ -93,9 +95,6 @@ class AutoMatchingController extends controller
 		//deduce payment month
 		// $payment_month = date("Y-m-01", strtotime("last month"));
 		$payment_month = $this->get_date_to_start_schedule();
-
-
-
 
 		$payment_date_range = MIS::date_range($payment_month, 'month', true);
 
