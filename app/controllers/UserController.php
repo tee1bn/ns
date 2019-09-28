@@ -340,7 +340,7 @@ class UserController extends controller
 	public function documents()
 	{
 		$show = false;
-		$this->view('admin/documents', compact('show'));
+		$this->view('auth/documents', compact('show'));
 	}
 
 

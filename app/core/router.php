@@ -6,6 +6,7 @@ $router =[
 	// 'w'=>'home',
 	'user'=>'UserController',			//this is used to build all urls of the user dashboard
 
+	'document' 			=> 'DocumentController',
 	'support' 			=> 'SupportController',
 
 	'user-profile'		=>'UserProfileController',
