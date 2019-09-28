@@ -25,6 +25,9 @@
         
               <li><a class="menu-item" href="<?=domain;?>/admin/debits">Withdrawals</a>
               </li>
+
+              <li><a class="menu-item" href="<?=domain;?>/admin/payouts">Payouts</a>
+              </li>
             </ul>
               <li>
                 <a class="menu-item" href="<?=domain;?>/admin/documents"><i class="fa fa-folder"></i>Documents</a>

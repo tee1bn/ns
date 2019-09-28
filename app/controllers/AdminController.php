@@ -239,80 +239,79 @@ class AdminController extends controller
 	}
 
 
+	public function export_payout_to_pdf($month)
+	{
+
+					$mpdf = new \Mpdf\Mpdf([
+				        'margin_left' => 15,
+				        'margin_right' => 15,
+				        'margin_top' => 10,
+				        'margin_bottom' => 20,
+				        'margin_header' => 10,
+				        'margin_footer' => 10
+				    ]);
+
+					  $project_name = Config::project_name();
+					  $domain = Config::domain();
+
+				    $mpdf->SetProtection(array('print'));
+				    $mpdf->SetTitle("$domain");
+				    $mpdf->SetAuthor("$project_name");
+				    $mpdf->SetWatermarkText("$project_name");
+				    $mpdf->showWatermarkText = true;
+				    $mpdf->watermark_font = 'DejaVuSansCondensed';
+				    $mpdf->watermarkTextAlpha = 0.1;
+				    $mpdf->SetDisplayMode('fullpage');
+
+				    $date_now = (date('Y-m-d H:i:s'));
+
+				    $mpdf->SetFooter("Date Generated: " . $date_now . " - {PAGENO} of {nbpg}");
+
+						$html  = $this->payouts_html($month , true);
+
+				    $mpdf->WriteHTML($html);
+
+		    $mpdf->Output("$month-Payouts.pdf", \Mpdf\Output\Destination::DOWNLOAD);
+	}
+
+	public function payouts_view($month)
+	{
+
+		$view = $this->payouts_html($month);
+
+		header("content-type:application/json");
+
+		echo json_encode(compact('view'));
+	}
 
 
-	public function payouts($from=null , $to=null)
+	public function payouts_html($month, $return = false)
+	{
+
+		$query = LevelIncomeReport::general_payout_for_month($month)->get()->groupBy('owner_user_id');
+			
+		$payouts  = $query->map(function($payout){
+					$calculation = [
+						'amount' => $payout->sum('amount_earned'),
+					];
+					return $calculation;
+		});
+
+		$total = collect($payouts)->sum('amount');
+		$users  = User::whereIn('id', array_keys($query->toArray()))->with(['company'])->get()->keyBy('id');
+
+		if ($return) {
+			return $this->buildView('admin/payouts_pdf', compact('payouts','month','total', 'users'));
+		}
+
+		echo $this->buildView('admin/payouts_pdf', compact('payouts','month','total', 'users'));
+	}
+
+	public function payouts()
 	{
 
 
-		$query = LevelIncomeReport::all_withdrawals();
-
-		if (($from != null) && ($to != null)) {
-			$query =  $query->whereDate('created_at', '>=', $from)->whereDate('created_at', '<=', $to);
-		}
-
-		$withdrawals = $query->get();
-		$total = $withdrawals->sum('amount_earned');
-
-		$print =  $_GET['print'] ;
-
-		switch ($print) {
-			case 'pdf':
-
-
-				    $mpdf = new \Mpdf\Mpdf([
-			        'margin_left' => 15,
-			        'margin_right' => 15,
-			        'margin_top' => 10,
-			        'margin_bottom' => 20,
-			        'margin_header' => 10,
-			        'margin_footer' => 10
-			    ]);
-
-				  $project_name = Config::project_name();
-				  $domain = Config::domain();
-
-			    $mpdf->SetProtection(array('print'));
-			    $mpdf->SetTitle("Client Declaration - $domain");
-			    $mpdf->SetAuthor("$project_name");
-			    $mpdf->SetWatermarkText("Confidential - $project_name");
-			    $mpdf->showWatermarkText = true;
-			    $mpdf->watermark_font = 'DejaVuSansCondensed';
-			    $mpdf->watermarkTextAlpha = 0.1;
-			    $mpdf->SetDisplayMode('fullpage');
-
-			    $date_now = (date('Y-m-d H:i:s'));
-
-			    $mpdf->SetFooter("Date Generated: " . $date_now . " - {PAGENO} of {nbpg}");
-
-			    	ob_start();
-
-						$this->view('admin/payouts_pdf', compact('withdrawals','from','to', 'total'));
-
-					$html  = ob_get_clean();
-
-
-
-			    $mpdf->WriteHTML($html);
-
-	    $mpdf->Output("$project_name-Payouts.pdf", \Mpdf\Output\Destination::DOWNLOAD);
-
-
-
-
-
-
-
-
-
-				break;
-			
-			default:
-				$this->view('admin/payouts', compact('withdrawals','from','to', 'total'));
-				break;
-		}
-
-
+		$this->view('admin/payouts');
 	}
 
 

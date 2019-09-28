@@ -34,7 +34,7 @@ $page_title = "Wallet";
         </div>
         <div class="content-body">
         
- <form method="post"  action="<?=domain;?>/user/make_withdrawal_request">
+<!--  <form method="post"  action="<?=domain;?>/user/make_withdrawal_request">
                                         <div class="input-group mb-3">
                                             <input class="form-control" required="" type="number" 
                                                 min="<?=$min_withdrawal;?>"
@@ -46,7 +46,7 @@ $page_title = "Wallet";
                                             </div>
                                         </div>
                                 </form>
-
+ -->
       <section id="video-gallery" class="card">
 
 
@@ -89,7 +89,7 @@ $page_title = "Wallet";
                                      <?php foreach ($auth->earnings()->get() as $earning):?>
                                       <tr>
                                         <td><?=$earning->id;?></td>
-                                        <td><?=$earning->earned_off->full_name;?></td>
+                                        <td><?=@$earning->earned_off->full_name;?></td>
                                         <td><?=$this->money_format($earning['amount_earned']);?></td>
                                         <td><?=$earning->commission_type;?></td>
                                         <td><span class="badge badge-primary"><?=$earning->created_at->toFormattedDateString();?></span></td>

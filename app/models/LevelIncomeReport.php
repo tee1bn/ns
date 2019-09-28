@@ -16,7 +16,7 @@ class LevelIncomeReport extends Eloquent
 							'extra_detail',
 							'proof',
 							'order_id',
-							'payment_month',
+							'payment_month', //when this got earned
 							];
 	
 	protected $table = 'level_income_report';
@@ -28,6 +28,20 @@ class LevelIncomeReport extends Eloquent
 	  	return LevelIncomeReport::where('owner_user_id', $user_id)
 	  							->where('status','Credit')
 	  							->whereMonth('created_at', $month);
+	 }
+
+
+
+
+	public function general_payout_for_month($month)
+	{
+
+		$date_range = MIS::date_range($month);
+		$payout =   self::where('status','Credit')
+						->whereDate('payment_month', '>=', $date_range['start_date'])
+						->whereDate('payment_month', '<=' ,$date_range['end_date']);
+											
+		return $payout;
 	 }
 
 

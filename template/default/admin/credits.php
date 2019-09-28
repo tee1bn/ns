@@ -70,7 +70,7 @@ $page_title = "Credits";
                                       <tr>
                                         <td><?=$credit->id;?></td>
                                         <td><?=$credit->owned_by->DropSelfLink;?></td>
-                                        <td><?=$credit->earned_off->DropSelfLink;?></td>
+                                        <td><?=@$credit->earned_off->DropSelfLink;?></td>
                                         <td><?=$this->money_format($credit['amount_earned']);?></td>
                                         <td><small><?=$credit->commission_type;?></small></td>
                                         <td><span class="badge badge-primary"><?=$credit->created_at->toFormattedDateString();?></span></td>
