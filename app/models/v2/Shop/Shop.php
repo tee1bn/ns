@@ -38,7 +38,7 @@ class Shop
 								'name' => 'Paystack',
 								'class' => 'Paystack',
 								'namespace' => "v2\Shop\Payments",
-								'available' => false
+								'available' => true
 							],
 				'coinpay' => [
 								'name' => 'CoinPay',
@@ -103,7 +103,6 @@ class Shop
 	public function setOrder($order)
 	{
 		$this->order = $order;
-		$this->setPaymentMethod($this->order->payment_method) ;
 		return $this;
 	}
 

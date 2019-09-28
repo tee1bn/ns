@@ -26,6 +26,28 @@ class shopController extends controller
 
 
 
+	function verify_payment()
+	{
+		$order_id = $_REQUEST['order_id'];
+		$order_type = $_REQUEST['order_type'];
+
+		$order = Orders::find($order_id);
+
+		if ($order == null) {
+			return ;
+		}
+
+			$shop = new Shop();
+			$payment_details =	$shop
+								->setOrder($order) //what is being bought
+								->verifyPayment();
+
+
+	}
+
+
+
+
 	public function capture_payment($razorpay_payment_id, $order_id)
 	{
 

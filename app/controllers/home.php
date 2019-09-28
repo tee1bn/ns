@@ -3,6 +3,11 @@
 
 use classes\Auth\Auth as Auth;
 use Apis\CoinWayApi;
+use v2\Shop\Payments\CoinPay;
+use  v2\Shop\Shop;
+
+
+
 
 /**
  * this class is the default controller of our application,
@@ -20,6 +25,35 @@ class home extends controller
 	{
 
 		echo "<pre>";
+
+
+
+		$coinpay = new CoinPay;
+
+		$order = SubscriptionOrder::first();
+
+		$shop = new Shop();
+		$payment_details =	$shop
+							->setOrder($order) //what is being bought
+							->setPaymentMethod('coinpay')
+							->setOrderType('packages') //what is being bought
+							->initializePayment()
+							->attemptPayment()
+
+/*							->receiveOrder($cart)
+*/							;
+
+
+
+
+							// print_r($shop);
+
+
+
+
+		return;
+
+
 		$payment_settings = 
 
 				[

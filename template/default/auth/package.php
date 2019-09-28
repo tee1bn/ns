@@ -48,7 +48,7 @@ $page_title = "Package";
 
                         <div class="card-body">
                       <!-- <h6 class="card-subtitle text-muted">Support card subtitle</h6> -->
-                    <p class="card-text">Exlcuding VAT <?=(int)$subscription->percent_vat;?>% </p>
+                    <p class="card-text">Excluding VAT <?=(int)$subscription->percent_vat;?>% </p>
                     <ul class="list-group list-group-flush">
                       <?php foreach ($subscription->featureslist as $feature):?>
 
