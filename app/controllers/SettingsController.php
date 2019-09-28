@@ -16,6 +16,23 @@ class SettingsController extends controller
 
 
 
+	public function update_payment_settings()
+	{
+
+		
+		$settings = json_decode($_POST['settings'], true);
+
+
+		$payment_gateway = SiteSettings::where('criteria', $_POST['criteria'])->first();
+
+		$payment_gateway->update([
+				'settings' =>  json_encode($settings['json_settings'])
+		]);
+		Session::putFlash('success',"{$settings['name']} Changes Saved Successfully!");
+
+
+	}
+
 
 
 

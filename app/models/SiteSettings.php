@@ -7,7 +7,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 class SiteSettings extends Eloquent 
 {
 	
-	protected $fillable = ['criteria',	'settings'];
+	protected $fillable = ['criteria',	'settings' , 'description', 'name'];
 	
 	protected $table = 'site_settings';
 

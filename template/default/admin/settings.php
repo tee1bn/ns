@@ -55,7 +55,7 @@ $page_title = "Settings";
                                              </ul>
                                            </div>
                                        </div>
-                                       <div class="card-body row collapse" id="payment_gateway_settings{{$index}}">
+                                       <div class="card-body row collapse " id="payment_gateway_settings{{$index}}">
 
 
                                             
@@ -65,12 +65,12 @@ $page_title = "Settings";
                                                     <div class="card-header"  data-toggle="collapse" data-target="#gateway_settings{{$index}}">
                                                       <a href="javascript:void;" class="card-title">{{key}}</a>
                                                     </div>
-                                                    <div class="card-body row collapse show" id="gateway_settings{{$index}}">
+                                                    <div class="card-body row collapse show " id="gateway_settings{{$index}}">
 
 
-                                                        <div class="form-group col-md-12" ng-repeat="(key, $input) in $setting">
-                                                          <label>INput {{$input}} {{key}} {{$index}}</label>
-                                                          <input  type="" class="form-control" name="">
+                                                        <div class="form-group col-md-12" ng-repeat="(key, $input) in $setting" ng-init="kkey = key">
+                                                          <label> {{kkey}} </label>
+                                                          <input  type="" ng-model="$setting[key]" class="form-control" name="">
                                                         </div>                                                    
                                                   
 
@@ -79,14 +79,15 @@ $page_title = "Settings";
                                                 </div>
                                             </div>
 
-                                            
-                                            <textarea class="form-control">{{$gateway}}</textarea>
-                                     
+                                            <form class="col-md-12 ajax_form" method="post" action="<?=domain;?>/settings/update_payment_settings">
 
-                                        <div class="col-3">
-                                          <button class="form-control btn-success">Update</button>
-                                        </div>
+                                              <input type="" style="display:none;" name="criteria" value="{{$gateway.criteria}}" >
+                                              <textarea style="display: none;" class="form-control" name="settings">{{$gateway}}</textarea>
 
+                                              <button class="form-control btn-success">Update</button>
+
+                                            </form>
+  
                                         </div>
 
 
