@@ -149,6 +149,17 @@ class CoinPay
 			];
 
 
+
+
+			$client = new \GuzzleHttp\Client(["base_uri" => "https://p.coinwaypay.com"]);
+			$options = [
+			    'json' => $payment_details
+			   ]; 
+			$response = $client->post("/w/register", $options);
+
+			print_r($response->getBody());
+
+
 		print_r($header);
 
 		print_r($payment_details);
