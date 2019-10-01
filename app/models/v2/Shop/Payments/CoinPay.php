@@ -28,21 +28,6 @@ class CoinPay
 		];
 
 		$this->urls = $urls[$this->mode];
-
-/*
-		$this->api_secret_keys = [
-
-					'test'=> [
-								'secret_key' => $settings['secret_key'],
-							],
-					'live'=> [
-								'secret_key' => $settings['secret_key'],
-							],
-
-						];*/
-
-		
-		//initate my keys and all
 	}
 
 
@@ -109,9 +94,9 @@ class CoinPay
 		
 
 		$payment_details = [
-						'gateway' => $this->name,
+						/*'gateway' => $this->name,
 						'ref' => $order_ref,
-						'order_unique_id' => $this->order->id,
+						'order_unique_id' => $this->order->id,*/
 
 
 						"walletId" 	 =>  $this->api_keys['wallet_id'],
@@ -151,9 +136,17 @@ class CoinPay
 		$formatted_authorization = base64_encode($formatted_authorization);
 
 		$header = [
-			"Content-Type: application/json",
-			"Authorization: Basic $formatted_authorization"
-		];
+			"Host: p.coinwaypay.com",
+		"Content-Type: application/json",
+		"Authorization: Basic $formatted_authorization",
+		"Accept: application/json",
+		"Cache-Control: no-cache",
+		"Host: p.coinwaypay.com",
+		"Accept-Encoding: gzip, deflate",
+		"Content-Length: 328",
+		"Connection: keep-alive",
+		"cache-control: no-cache"
+			];
 
 
 		print_r($header);

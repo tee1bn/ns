@@ -269,7 +269,6 @@ EOL;
 	
 
 
-
 		if (count($header)>0) {
 			curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
 		}
