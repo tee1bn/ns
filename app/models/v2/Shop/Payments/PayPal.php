@@ -26,7 +26,7 @@ use Exception, SiteSettings, Config, MIS;
  */
 class PayPal 
 {
-	private $name = 'coinpay';
+	private $name = 'paypal';
 	private $mode;
 	
 	function __construct()

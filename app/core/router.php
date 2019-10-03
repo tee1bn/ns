@@ -37,6 +37,7 @@ $router =[
 
 
 
+	'paypal' => 'payments/PayPalController', 
 
 
 	#admin
