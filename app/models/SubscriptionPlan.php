@@ -60,14 +60,12 @@ class SubscriptionPlan extends Eloquent
 
 			// $cost =  (@$previous_sub->Finalcost ==null) ?  $new_sub->Finalcost  : ($new_sub->Finalcost - (int)$previous_sub->Finalcost) ;
 
-			$cost = $new_sub->Finalcost;
 
-
-			$previous_hierachy = (@$previous_sub->hierarchy != null) ? $previous_sub->hierarchy : $new_sub->hierarchy ;
+			$previous_price = (@$previous_sub->price != null) ? $previous_sub->price : $new_sub->price ;
 
 
 					//ensure this is not downgrade
-				if ($new_sub->hierarchy  > $previous_hierachy  ) {
+				if ($new_sub->price  < $previous_price  ) {
 
 					Session::putFlash('danger', 
 						"You cannot downgrade your subscription to {$new_sub->package_type}.");
@@ -115,7 +113,6 @@ class SubscriptionPlan extends Eloquent
 		 							->setPaymentMethod($_POST['payment_method'])
 		 							->initializePayment()
 		 							->attemptPayment();
-
 			}
 
 			DB::commit();

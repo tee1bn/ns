@@ -25,7 +25,9 @@ class Shop
 	public function get_available_payment_methods()
 	{
 
-		// $available_payment_methods = array_filter(input);
+		foreach ($this->available_payment_method as $key => $value) {
+			
+		}
 	}
 
 
