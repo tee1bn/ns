@@ -216,36 +216,17 @@ class PayPal
 
 
 		if ($this->order->is_paid()) {
-			throw new Exception("This Order has been paid with {$this->order->payment_details}", 1);
+			throw new Exception("This Order has been paid with {$this->order->payment_method}", 1);
 		}
 
 
 		if ($this->order->payment_method != $this->name) {
-			throw new Exception("This Order is not set to use paystack payment menthod", 1);
+			throw new Exception("This Order is not set to use {$this->name} payment menthod", 1);
 		}
 
-
 		$payment_details = json_decode($this->order->payment_details, true);
-		$formatted_authorization = ("{$this->api_keys['username']}:{$this->api_keys['password']}");
-		$formatted_authorization = base64_encode($formatted_authorization);
 
-		$header = [
-			"Accept-Encoding: gzip",
-			"Content-Type: application/json",
-			"Authorization: Basic $formatted_authorization"
-		];
-
-
-		print_r($header);
-
-		print_r($payment_details);
-
-		$url =  $this->urls['create_payment_page'];
-
-		$response = MIS::make_post($url, $payment_details, $header );
-
-		print_r($response);
-		// return $payment_details;
+		return $payment_details;
 
 	}
 
