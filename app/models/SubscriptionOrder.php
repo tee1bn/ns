@@ -25,6 +25,8 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	
 	protected $table = 'subscription_payment_orders';
 
+	public $name_in_shop = 'packages';
+
 
 
 

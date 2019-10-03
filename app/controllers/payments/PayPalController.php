@@ -90,20 +90,22 @@ class PayPalController extends controller
 $file = fopen("test.txt","w");
 
 foreach ($_REQUEST as $key => $value) {
-	$response .= "$key => $value";
+	$response .= "$key => $value /n";
 }
-echo fwrite($file,$response);
+// echo fwrite($file,$response);
 fclose($file);
-
-
+    
+echo "<pre>";
+print_r($_REQUEST);
 			$shop = new Shop();
 			$item_purchased = $shop->available_type_of_orders[$_REQUEST['item_purchased']];
 		 	$full_class_name = $item_purchased['namespace'].'\\'.$item_purchased['class'];
-		 	$order_id = $_POST['ORDERID'];
-		 	$order = $full_class_name::where('order_id' ,$order_id)->where('paid_at', null)->first();
+		 	$order_id = $_REQUEST['order_unique_id'];
+		 	echo $order = $full_class_name::where('id' ,$order_id)->where('paid_at', null)->first();
 
 			$shop->setOrder($order)->verifyPayment();
-
+                
+                die();
 			switch ($_REQUEST['item_purchased']) {
 				case 'ebook':
 					Redirect::to('user/products-orders');

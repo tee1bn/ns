@@ -14,8 +14,7 @@ use PayPal\Api\Payer;
 use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
-
-
+use \PayPal\Api\PaymentExecution;
 
 
 
@@ -55,7 +54,7 @@ class PayPal
 		$this->apiContext = new ApiContext(
 						  new OAuthTokenCredential(
 						    $this->api_keys['public_key'],
-						    $this->api_keys['secret_key'],
+						    $this->api_keys['secret_key']
 						  )
 						);
 
@@ -64,39 +63,17 @@ class PayPal
 
 	public function verifyPayment()
 	{
-				
-		/*
-			$confirmation = ['status'=>true];
-			return compact('result','confirmation');
 
-		*/
-		
-				
-				echo "<pre>";
-				$_SESSION['de']= 'pp';
-					print_r($_SESSION);
+				if (   (!isset($_GET['paymentId'] , $_GET['PayerID']) ) ) {
+					die("");
+				}
 
-					die();
-
-
-
-					if (   (!isset($_GET['paymentId'] , $_GET['PayerID']) )  || ($booking_id==null)    ) {
-						die();
-					}
-
-
-
-
-				$booking = bookings::find($booking_id);
-						$hotel = $booking->hotel;
-
-				$apiContext = $hotel->paypal_api_context() ;
 
 
 				$payment_id = $_GET['paymentId'];
 				$payer_id =   $_GET['PayerID'];
 
-				$payment = Payment::get($payment_id, $apiContext);
+				$payment = Payment::get($payment_id, $this->apiContext);
 
 				$execute = new PaymentExecution();
 				$execute->setPayerId($payer_id);
@@ -104,35 +81,19 @@ class PayPal
 					
 					try {
 						
-						$result =  $payment->execute($execute , $apiContext);
-						print_r($result);
+						$result =  $payment->execute($execute , $this->apiContext);
 
-						$_SESSION['paypal'] = $result;
-						$booking->update([
-											'payment_status' => 'paid',
-											'status' => 1
-										]);
+						$confirmation = ['status'=>true];
+                     	return compact('result','confirmation');
+
+
+						die();
 
 					} catch (Exception $e) {
 						$data = json_decode($e->getData());
 						print_r($data);
 						die($e);
 					}
-
-
-				$hotel_payment_configuration =  HotelsPaymentGatewaysConfiguration::where('hotel_id',$booking->hotel_id)
-																							->where('payment_gateway_id', 1) //1 is for paypal
-																							->first();
-
-
-				echo $hotel_payment_configuration->success_url;
-				ob_end_clean();
-
-				echo "Payment made successfully!";
-
-				// header("Location:{$hotel_payment_configuration->success_url} ");
-
-
 
 	}
 
@@ -165,7 +126,8 @@ class PayPal
 
 
 		$callback_param = http_build_query([
-			'item_purchased'=> $this->order->name_in_shop
+			'item_purchased'=> $this->order->name_in_shop,
+			'order_unique_id'=> $this->order->id,
 		]);
 
 
@@ -218,19 +180,21 @@ class PayPal
 
 
 
-
-
-
-
-
 		// Create payment with valid API context
 		try {
 		  $payment->create($this->apiContext);
 
 		  // Get PayPal redirect URL and redirect the customer
-		  $approvalUrl = $payment->getApprovalLink();
+		  $approvalUrl = $payment->getApprovalLink(); 
 
-		  print_r($approvalUrl);
+		  $payment_details = [
+		  				'gateway' => $this->name,
+		  				'ref' => $order_ref,
+		  				'order_unique_id' => $this->order->id,
+		  				"approval_url" 	 =>  $this->approvalUrl,
+		  				"amount" 	 =>  $this->amountPayable(),
+		  			];
+
 		  // Redirect the customer to $approvalUrl
 		} catch (PayPal\Exception\PayPalConnectionException $ex) {
 		  echo $ex->getCode();
@@ -239,29 +203,6 @@ class PayPal
 		} catch (Exception $ex) {
 		  die($ex);
 		}
-
-
-
-
-		
-
-		$payment_details = [
-						/*'gateway' => $this->name,
-						'ref' => $order_ref,
-						'order_unique_id' => $this->order->id,*/
-
-
-						"walletId" 	 =>  $this->api_keys['wallet_id'],
-						"referenceId"=>  $order_ref,
-						"amount" 	 =>  $amount,
-						"currency" 	 =>  "EUR",
-						"successRedirectUrl" =>  $sucess_url,
-						"failRedirectUrl" =>  $failure_url,
-						"cancelRedirectUrl" =>  $cancel_url
-						
-
-
-						];
 
 
 		$this->order->setPayment($payment_method , $payment_details);

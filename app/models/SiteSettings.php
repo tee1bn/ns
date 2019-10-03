@@ -27,7 +27,7 @@ class SiteSettings extends Eloquent
 
 
 
-	public function find_criteria($criteria)
+	public static function find_criteria($criteria)
 	{
 
 		if (is_array($criteria)) {
