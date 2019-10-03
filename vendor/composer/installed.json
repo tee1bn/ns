@@ -792,17 +792,17 @@
     },
     {
         "name": "paypal/rest-api-sdk-php",
-        "version": "1.12.0",
-        "version_normalized": "1.12.0.0",
+        "version": "1.14.0",
+        "version_normalized": "1.14.0.0",
         "source": {
             "type": "git",
             "url": "https://github.com/paypal/PayPal-PHP-SDK.git",
-            "reference": "0925b11ee2261fe369f2bd7a6abfc1bf322a6601"
+            "reference": "72e2f2466975bf128a31e02b15110180f059fc04"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/0925b11ee2261fe369f2bd7a6abfc1bf322a6601",
-            "reference": "0925b11ee2261fe369f2bd7a6abfc1bf322a6601",
+            "url": "https://api.github.com/repos/paypal/PayPal-PHP-SDK/zipball/72e2f2466975bf128a31e02b15110180f059fc04",
+            "reference": "72e2f2466975bf128a31e02b15110180f059fc04",
             "shasum": ""
         },
         "require": {
@@ -812,9 +812,9 @@
             "psr/log": "^1.0.0"
         },
         "require-dev": {
-            "phpunit/phpunit": "3.7.*"
+            "phpunit/phpunit": "^4.8.35"
         },
-        "time": "2017-07-11T19:16:53+00:00",
+        "time": "2019-01-04T20:04:25+00:00",
         "type": "library",
         "installation-source": "dist",
         "autoload": {

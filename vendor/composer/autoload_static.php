@@ -283,6 +283,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'v2\\Shop\\Contracts\\OrderInterface' => __DIR__ . '/../..' . '/app/models/v2/Shop/Contracts/OrderInterface.php',
         'v2\\Shop\\Contracts\\PaymentMethodInterface' => __DIR__ . '/../..' . '/app/models/v2/Shop/Contracts/PaymentMethodInterface.php',
         'v2\\Shop\\Payments\\CoinPay' => __DIR__ . '/../..' . '/app/models/v2/Shop/Payments/CoinPay.php',
+        'v2\\Shop\\Payments\\PayPal' => __DIR__ . '/../..' . '/app/models/v2/Shop/Payments/PayPal.php',
         'v2\\Shop\\Payments\\Paystack' => __DIR__ . '/../..' . '/app/models/v2/Shop/Payments/Paystack.php',
         'v2\\Shop\\Shop' => __DIR__ . '/../..' . '/app/models/v2/Shop/Shop.php',
     );

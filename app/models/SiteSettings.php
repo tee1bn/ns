@@ -13,6 +13,31 @@ class SiteSettings extends Eloquent
 
 
 
+
+	public function getsettingsArrayAttribute()
+    {
+
+		if ($this->settings == null) {
+			
+			return [];
+		}
+			
+        return  json_decode($this->settings ,true);
+    }
+
+
+
+	public function find_criteria($criteria)
+	{
+
+		if (is_array($criteria)) {
+
+			return self::whereIn('criteria', $criteria)->get();
+		}
+		return self::where('criteria', $criteria)->first();
+	}
+
+
 	public function payment_gateway_settings()
 	{
 		$payments_settings_keys = ['coinpay_keys', 'paypal_keys'];

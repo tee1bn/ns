@@ -34,9 +34,9 @@ class Shop
 
 		$this->available_payment_method = [
 
-				'paystack' => [
-								'name' => 'Paystack',
-								'class' => 'Paystack',
+				'paypal' => [
+								'name' => 'PayPal',
+								'class' => 'PayPal',
 								'namespace' => "v2\Shop\Payments",
 								'available' => true
 							],

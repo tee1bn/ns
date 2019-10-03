@@ -48,6 +48,7 @@ return array(
     'v2\\Shop\\Contracts\\OrderInterface' => $baseDir . '/app/models/v2/Shop/Contracts/OrderInterface.php',
     'v2\\Shop\\Contracts\\PaymentMethodInterface' => $baseDir . '/app/models/v2/Shop/Contracts/PaymentMethodInterface.php',
     'v2\\Shop\\Payments\\CoinPay' => $baseDir . '/app/models/v2/Shop/Payments/CoinPay.php',
+    'v2\\Shop\\Payments\\PayPal' => $baseDir . '/app/models/v2/Shop/Payments/PayPal.php',
     'v2\\Shop\\Payments\\Paystack' => $baseDir . '/app/models/v2/Shop/Payments/Paystack.php',
     'v2\\Shop\\Shop' => $baseDir . '/app/models/v2/Shop/Shop.php',
 );

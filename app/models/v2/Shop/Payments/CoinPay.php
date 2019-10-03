@@ -136,16 +136,16 @@ class CoinPay
 		$formatted_authorization = base64_encode($formatted_authorization);
 
 		$header = [
-			"Host: p.coinwaypay.com",
-		"Content-Type: application/json",
-		"Authorization: Basic $formatted_authorization",
-		"Accept: application/json",
-		"Cache-Control: no-cache",
-		"Host: p.coinwaypay.com",
-		"Accept-Encoding: gzip, deflate",
-		"Content-Length: 328",
-		"Connection: keep-alive",
-		"cache-control: no-cache"
+			"Host"=>" p.coinwaypay.com",
+		"Content-Type"=>" application/json",
+		"Authorization"=>" Basic $formatted_authorization",
+		"Accept"=>" application/json",
+		"Cache-Control"=>" no-cache",
+		"Host"=>" p.coinwaypay.com",
+		"Accept-Encoding"=>" gzip, deflate",
+		"Content-Length"=>" 328",
+		"Connection"=>" keep-alive",
+		"cache-control"=>" no-cache"
 			];
 
 

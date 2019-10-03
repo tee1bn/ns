@@ -221,6 +221,20 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		return 1;
 	}
 
+	public function total_tax_inclusive()
+	{
+		$total_sum_tax = 0.01 * $this->percent_vat * $this->price;
+		$total_tax_inclusive =  $total_sum_tax + $this->price;
+
+
+		$tax = [
+					'price_inclusive_of_tax' => $total_tax_inclusive,
+					'price_exclusive_of_tax' => $this->price,
+					'total_sum_tax' => $total_sum_tax,
+				];
+
+		return $tax;
+	}
 	public function total_price()
 	{
 		return $this->price;

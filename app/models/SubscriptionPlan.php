@@ -106,7 +106,7 @@ class SubscriptionPlan extends Eloquent
 			 	
 
 			 	$plan_id = $subscription_id;
-			 	$price = $cost;
+			 	$price = $new_sub->price;
 			 	$cart = compact('plan_id','user_id','price');
 		 		$shop = new Shop();
 		 		$payment_details =	$shop
