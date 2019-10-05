@@ -110,11 +110,12 @@ class SubscriptionPlan extends Eloquent
 		 							->setPaymentMethod($_POST['payment_method'])
 		 							->initializePayment()
 		 							->attemptPayment()
-		 							->goToGateway()
 		 							;
 			}
 
 			DB::commit();
+			$shop->goToGateway();
+
 				Session::putFlash('success', 
 					"Order for {$new_sub->package_type} created successfully.");
 			return $new_order;
