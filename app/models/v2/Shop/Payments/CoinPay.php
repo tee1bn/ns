@@ -31,7 +31,7 @@ class CoinPay
 	}
 
 
-	
+
 
 	public function goToGateway()
 	{
@@ -71,7 +71,7 @@ class CoinPay
 
 	public function amountPayable()
 	{
-		$amount =  $this->order->total_price();
+		$amount =  $this->order->total_tax_inclusive()['price_inclusive_of_tax'];
 
 		return $amount;
 	}
@@ -87,7 +87,6 @@ class CoinPay
 		$amount = $this->amountPayable();
 
 		$user = $this->order->user;
-
 		$domain = Config::domain();
 
 
