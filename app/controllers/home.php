@@ -35,7 +35,7 @@ class home extends controller
 		$shop = new Shop();
 		$payment_details =	$shop
 							->setOrder($order) //what is being bought
-							->setPaymentMethod('paypal')
+							->setPaymentMethod('coinpay')
 							->setOrderType('packages') //what is being bought
 							->initializePayment()
 							->attemptPayment()

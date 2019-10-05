@@ -142,6 +142,9 @@ class CoinPay
 */
 
 		$headers = [
+
+			
+
 					"Content-Type"=>" application/json",
 					"Authorization"=>" Basic $formatted_authorization",
 					"Accept"=>" application/json",
