@@ -122,7 +122,7 @@ class SubscriptionPlan extends Eloquent
 
 
 
-	public function available()
+	public static function available()
 	{
 		return self::where('availability', 'on');
 	}

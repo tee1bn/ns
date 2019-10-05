@@ -31,6 +31,16 @@ class CoinPay
 	}
 
 
+	
+
+	public function goToGateway()
+	{
+		$payment_details = json_decode($this->order->payment_details , true);
+		Redirect::to($payment_details['approval_url']);	
+	}
+
+
+
 	public function verifyPayment()
 	{
 				
@@ -81,35 +91,59 @@ class CoinPay
 		$domain = Config::domain();
 
 
-		/*$param  = http_build_query([
-			'order_type'=> '' 
-		]);*/
+
+		$callback_param = http_build_query([
+			'item_purchased'=> $this->order->name_in_shop,
+			'order_unique_id'=> $this->order->id,
+		]);
+
+
+		$callback_url = "{$domain}/shop/callback?$callback_param";
 
 
 
-		$sucess_url = "$domain/shop/verify_payment";
-		$failure_url = "$domain/shop/verify_payment";
-		$cancel_url = "$domain/shop/verify_payment";
+
+
 
 		
 
 		$payment_details = [
-						/*'gateway' => $this->name,
+						'gateway' => $this->name,
 						'ref' => $order_ref,
-						'order_unique_id' => $this->order->id,*/
-
+						'order_unique_id' => $this->order->id,
 
 						"walletId" 	 =>  $this->api_keys['wallet_id'],
 						"referenceId"=>  $order_ref,
 						"amount" 	 =>  $amount,
 						"currency" 	 =>  "EUR",
-						"successRedirectUrl" =>  $sucess_url,
-						"failRedirectUrl" =>  $failure_url,
-						"cancelRedirectUrl" =>  $cancel_url
-						
-
-
+						"successRedirectUrl" =>  $callback_url,
+						"failRedirectUrl" =>  $callback_url,
+						"cancelRedirectUrl" =>  $callback_url,
 						];
+
+
+
+		$formatted_authorization = ("{$this->api_keys['username']}:{$this->api_keys['password']}");
+		$formatted_authorization = base64_encode($formatted_authorization);
+
+		$headers = [
+
+					"Content-Type"=>" application/json",
+					"Authorization"=>" Basic $formatted_authorization",
+					"Accept"=>" application/json",
+			];
+
+			$client = new \GuzzleHttp\Client();
+			$options = [
+			    'json' => $payment_details,
+			    'headers' => $headers,
+			   ]; 
+			   
+    		$url =  $this->urls['create_payment_page'];
+			$response = $client->post("$url", $options);
+	
+
+		$payment_details['approval_url'] = json_decode($response->getBody()->getContents(), true)['redirectUrl'];
 
 		$this->order->setPayment($payment_method , $payment_details);
 
@@ -130,52 +164,12 @@ class CoinPay
 			throw new Exception("This Order is not set to use paystack payment menthod", 1);
 		}
 
-
 		$payment_details = json_decode($this->order->payment_details, true);
-		$formatted_authorization = ("{$this->api_keys['username']}:{$this->api_keys['password']}");
-		$formatted_authorization = base64_encode($formatted_authorization);
+	
+		$this->payment_details;
 
-
-/*		"Content-Type" => " application/json",
-		   "Authorization" => " Basic " . base64_encode('ae7a4f220ea847ada4d19566b76d26b2' . ':' . '2927618294cb4df78acfed3dac7d7e218ea7191c4e8945158f31d0c85838b922'),
-		   "Accept" => " application/json",
-*/
-
-		$headers = [
-
-			
-
-					"Content-Type"=>" application/json",
-					"Authorization"=>" Basic $formatted_authorization",
-					"Accept"=>" application/json",
-			];
-
-
-
-
-			$client = new \GuzzleHttp\Client();
-			$options = [
-			    'json' => $payment_details,
-			    'headers' => $headers,
-			   ]; 
-			$response = $client->post("https://p.coinwaypay.com/w/register", $options);
-
-			print_r($response->getBody());
-
-
-		print_r($header);
-
-		print_r($payment_details);
-
-		$url =  $this->urls['create_payment_page'];
-
-		$response = MIS::make_post($url, $payment_details, $header );
-
-		print_r($response);
-		// return $payment_details;
+		return $this;
 
 	}
-
-
 
 }
