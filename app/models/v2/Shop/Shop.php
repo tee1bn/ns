@@ -102,6 +102,26 @@ class Shop
 	}
 
 
+
+
+
+	public function reVerifyPayment()
+	{	
+
+		$this->setPaymentMethod($this->order->payment_method) ;
+		$verification =  ($this->payment_method->reVerifyPayment($this->order));
+
+		//payment confirmed
+		if ($verification['confirmation']['status'] == 1) {
+			$this->order->mark_paid();
+			self::empty_cart_in_session();
+			//clear session 
+		}
+
+		return $this;
+	}
+
+
 	public function setOrder($order)
 	{
 		$this->order = $order;
@@ -160,6 +180,15 @@ class Shop
 
 		return $this;
 	}
+
+
+	public function goToGateway()
+	{
+		$this->payment_method->goToGateway();
+
+	}
+
+
 
 
 	public function attemptPayment()
