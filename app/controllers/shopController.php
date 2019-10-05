@@ -58,7 +58,8 @@ class shopController extends controller
 				# code...
 				break;
 		}
-	
+					Redirect::to('user/package');
+
 	}
 
 
