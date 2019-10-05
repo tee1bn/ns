@@ -72,16 +72,17 @@ class SubscriptionPlan extends Eloquent
 						return;
 				}
 
-					//ensure no request is existing for the month
-					//ie one subscription per calendar month
-				if ($existing_requests->count() > 0) {
-						$month = date('F');
-						Session::putFlash('info', 
-							"You already have a request on {$new_sub->package_type}");
-						// throw new Exception("You already have a request on {$new_sub->package_type}", 1);
+					
 
-						return $existing_requests->first();
-				}
+
+				//ensure the same scheme is not ordered twice
+                $ordered_ids = $user->subscriptions->where('paid_at', '!=', null)->pluck('plan_id')->toArray();
+                if (in_array($new_sub->id, $ordered_ids)) {
+                	Session::putFlash('info', "You already purchased {$new_sub->package_type}");
+                	return json_encode([]);
+                }
+
+
 
 
 			//if user has enough balance, put on subscription
@@ -118,7 +119,7 @@ class SubscriptionPlan extends Eloquent
 
 				Session::putFlash('success', 
 					"Order for {$new_sub->package_type} created successfully.");
-			return $new_order;
+			return $shop->order;
 		} catch (Exception $e) {
 			DB::rollback();
 			print_r($e->getMessage());
