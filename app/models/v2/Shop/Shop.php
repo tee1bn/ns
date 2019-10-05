@@ -22,6 +22,11 @@ class Shop
 
 
 
+	public function __get($property_name)
+	{
+		return $this->$property_name;
+	}
+	
 	public function get_available_payment_methods()
 	{
 

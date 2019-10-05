@@ -56,7 +56,7 @@ $page_title = "Package";
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
                       method="post"
-                      class="ajax_for"
+                      class="ajax_form"
                       data-function="initiate_payment"
                       action="<?=domain;?>/user/create_upgrade_request">
 

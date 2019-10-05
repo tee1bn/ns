@@ -177,8 +177,6 @@ class UserController extends controller
 	public function create_upgrade_request($subscription_id=null)
 	{
 
-
-
 		$subscription_id = $_REQUEST['subscription_id'];
 		
 		$response = SubscriptionPlan::create_subscription_request($subscription_id, $this->auth()->id);

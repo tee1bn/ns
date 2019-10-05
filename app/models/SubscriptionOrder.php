@@ -225,7 +225,8 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 	public function total_tax_inclusive()
 	{
-		$total_sum_tax = 0.01 * $this->percent_vat * $this->price;
+
+		$total_sum_tax = 0.01 * $this->payment_plan->percent_vat * $this->price;
 		$total_tax_inclusive =  $total_sum_tax + $this->price;
 
 

@@ -41,7 +41,6 @@ class SubscriptionPlan extends Eloquent
 
 	public static function create_subscription_request($subscription_id, $user_id)
 	{	
-			$month = date('m');
 
 		DB::beginTransaction();
 
@@ -49,7 +48,6 @@ class SubscriptionPlan extends Eloquent
 
 
 			$existing_requests = SubscriptionOrder::where('user_id', $user_id)
-												// ->whereMonth('created_at', $month )
 												->where('plan_id', $subscription_id)
 												->get();
 
@@ -57,12 +55,8 @@ class SubscriptionPlan extends Eloquent
 			$previous_sub 	= self::find($user->account_plan);
 			$new_sub 		= self::find($subscription_id);
 
-
 			// $cost =  (@$previous_sub->Finalcost ==null) ?  $new_sub->Finalcost  : ($new_sub->Finalcost - (int)$previous_sub->Finalcost) ;
-
-
 			$previous_price = (@$previous_sub->price != null) ? $previous_sub->price : $new_sub->price ;
-
 
 					//ensure this is not downgrade
 				if ($new_sub->price  < $previous_price  ) {
@@ -73,8 +67,6 @@ class SubscriptionPlan extends Eloquent
 				}
 
 					
-
-
 				//ensure the same scheme is not ordered twice
                 $ordered_ids = $user->subscriptions->where('paid_at', '!=', null)->pluck('plan_id')->toArray();
                 if (in_array($new_sub->id, $ordered_ids)) {
@@ -83,20 +75,13 @@ class SubscriptionPlan extends Eloquent
                 }
 
 
-
-
 			//if user has enough balance, put on subscription
 			if (false) {
 
 
 			}else{
-				//create subscription request
-				if (SubscriptionOrder::user_has_pending_order($user_id, $new_sub->id)) {
-					Session::putFlash('danger', 
-						"You have pending order for {$new_sub->package_type}.");
-						return;
-					// throw new Exception("You have pending order for {$new_sub->package_type}.", 1);
-				}
+				
+				
 
 				//delete unuseful orders
 			 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();		 	
@@ -115,7 +100,7 @@ class SubscriptionPlan extends Eloquent
 			}
 
 			DB::commit();
-			$shop->goToGateway();
+			// $shop->goToGateway();
 
 				Session::putFlash('success', 
 					"Order for {$new_sub->package_type} created successfully.");
