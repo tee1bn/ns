@@ -19,11 +19,11 @@ use \PayPal\Api\PaymentExecution;
 
 
 use v2\Shop\Contracts\OrderInterface;
-use Exception, SiteSettings, Config, MIS;
+use Exception, SiteSettings, Config, MIS, Redirect;
 /**
  * 
  */
-class PayPal 
+class PayPal  
 {
 	private $name = 'paypal';
 	private $mode;
@@ -48,9 +48,7 @@ class PayPal
 
 
 		$this->urls = $urls[$this->mode];
-
-
-
+		
 		$this->apiContext = new ApiContext(
 						  new OAuthTokenCredential(
 						    $this->api_keys['public_key'],
@@ -61,11 +59,51 @@ class PayPal
 	}
 
 
+
+	public function goToGateway()
+	{
+		$payment_details = json_decode($this->order->payment_details , true);
+		Redirect::to($payment_details['approval_url']);	
+	}
+
+
+	public function paymentStatus()
+	{
+		return true ;
+	}
+
+
+
+	public function reVerifyPayment()
+	{
+		$response = 		$this->paymentStatus();
+		if ($response['STATUS'] == "TXN_SUCCESS") {
+
+			if (($this->amountPayable() == $response['TXNAMOUNT'])) {
+
+				if (!$this->order->is_paid()) {
+					$this->order->mark_paid();
+
+				}else{
+
+					\Session::putFlash('success', "Payment successful");
+				}
+
+				return $response;
+			}
+
+		}
+		
+		\Session::putFlash('danger', "Payment not successful");
+	}
+
+
+
 	public function verifyPayment()
 	{
 
 				if (   (!isset($_GET['paymentId'] , $_GET['PayerID']) ) ) {
-					die("");
+					return;
 				}
 
 
@@ -86,9 +124,6 @@ class PayPal
 						$confirmation = ['status'=>true];
                      	return compact('result','confirmation');
 
-
-						die();
-
 					} catch (Exception $e) {
 						$data = json_decode($e->getData());
 						print_r($data);
@@ -98,7 +133,7 @@ class PayPal
 	}
 
 
-	public function setOrder( $order)
+	public function setOrder(OrderInterface $order)
 	{
 		$this->order = $order;
 		return $this;
@@ -140,7 +175,7 @@ class PayPal
 
 		$item1 = new Item();
 		$item1->setName("Payment for Order#$order_ref")
-		    ->setCurrency('INR')
+		    ->setCurrency('USD')
 		    ->setQuantity(1)
 		    ->setSku("1") // Similar to `item_number` in Classic API
 		    ->setPrice($price_breakdown['price_exclusive_of_tax']);
@@ -156,8 +191,8 @@ class PayPal
 
 
 		    $amount = new Amount();
-		    $amount->setCurrency("INR")
-		        ->setTotal($price_breakdown['price_exclusive_of_tax'])
+		    $amount->setCurrency("USD")
+		        ->setTotal($price_breakdown['price_inclusive_of_tax'])
 		        ->setDetails($details);
 
 
@@ -165,7 +200,7 @@ class PayPal
 		        $transaction->setAmount($amount)
 		            ->setItemList($itemList)
 		            ->setDescription("Payment for Order#$order_ref")
-		            ->setInvoiceNumber($this->order->id);
+		            ->setInvoiceNumber($order_ref);
 
 		            $redirectUrls = new RedirectUrls();
 		            $redirectUrls->setReturnUrl($callback_url)
@@ -191,7 +226,7 @@ class PayPal
 		  				'gateway' => $this->name,
 		  				'ref' => $order_ref,
 		  				'order_unique_id' => $this->order->id,
-		  				"approval_url" 	 =>  $this->approvalUrl,
+		  				"approval_url" 	 =>  $approvalUrl,
 		  				"amount" 	 =>  $this->amountPayable(),
 		  			];
 
@@ -225,9 +260,10 @@ class PayPal
 		}
 
 		$payment_details = json_decode($this->order->payment_details, true);
+	
+		$this->payment_details;
 
-		return $payment_details;
-
+		return $this;
 	}
 
 

@@ -98,10 +98,7 @@ class SubscriptionPlan extends Eloquent
 				}
 
 				//delete unuseful orders
-			 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();
-
-
-			 	
+			 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();		 	
 
 			 	$plan_id = $subscription_id;
 			 	$price = $new_sub->price;
@@ -112,7 +109,9 @@ class SubscriptionPlan extends Eloquent
 		 							->receiveOrder($cart)
 		 							->setPaymentMethod($_POST['payment_method'])
 		 							->initializePayment()
-		 							->attemptPayment();
+		 							->attemptPayment()
+		 							->goToGateway()
+		 							;
 			}
 
 			DB::commit();

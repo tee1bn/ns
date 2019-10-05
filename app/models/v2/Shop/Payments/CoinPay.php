@@ -135,27 +135,27 @@ class CoinPay
 		$formatted_authorization = ("{$this->api_keys['username']}:{$this->api_keys['password']}");
 		$formatted_authorization = base64_encode($formatted_authorization);
 
-		$header = [
-			"Host"=>" p.coinwaypay.com",
-		"Content-Type"=>" application/json",
-		"Authorization"=>" Basic $formatted_authorization",
-		"Accept"=>" application/json",
-		"Cache-Control"=>" no-cache",
-		"Host"=>" p.coinwaypay.com",
-		"Accept-Encoding"=>" gzip, deflate",
-		"Content-Length"=>" 328",
-		"Connection"=>" keep-alive",
-		"cache-control"=>" no-cache"
+
+/*		"Content-Type" => " application/json",
+		   "Authorization" => " Basic " . base64_encode('ae7a4f220ea847ada4d19566b76d26b2' . ':' . '2927618294cb4df78acfed3dac7d7e218ea7191c4e8945158f31d0c85838b922'),
+		   "Accept" => " application/json",
+*/
+
+		$headers = [
+					"Content-Type"=>" application/json",
+					"Authorization"=>" Basic $formatted_authorization",
+					"Accept"=>" application/json",
 			];
 
 
 
 
-			$client = new \GuzzleHttp\Client(["base_uri" => "https://p.coinwaypay.com"]);
+			$client = new \GuzzleHttp\Client();
 			$options = [
-			    'json' => $payment_details
+			    'json' => $payment_details,
+			    'headers' => $headers,
 			   ]; 
-			$response = $client->post("/w/register", $options);
+			$response = $client->post("https://p.coinwaypay.com/w/register", $options);
 
 			print_r($response->getBody());
 

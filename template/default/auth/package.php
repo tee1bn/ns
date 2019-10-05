@@ -52,7 +52,7 @@ $page_title = "Package";
                       <?php endforeach;?>
                   </ul>
                   <br>
-                  <?php if ($auth->subscription->price  < $subscription->price):?>
+                  <?php if (@$auth->subscription->price  < $subscription->price):?>
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
                       method="post"
@@ -75,7 +75,7 @@ $page_title = "Package";
                     </div>
                     </form>
                     <?php endif ;?>
-                    <?php if ($auth->subscription->id  == $subscription->id):?>
+                    <?php if (@$auth->subscription->id  == $subscription->id):?>
                     <div class="form-group">
                       <button type="button" class="btn btn-success">Current</button>
                     </div>

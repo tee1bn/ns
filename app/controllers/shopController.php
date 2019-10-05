@@ -1,8 +1,9 @@
-
 <?php
 
 use Illuminate\Database\Capsule\Manager as DB;
 use Razorpay\Api\Api;
+use  v2\Shop\Shop;
+
 
 /**
  * this class is the default controller of our application,
@@ -12,40 +13,85 @@ class shopController extends controller
 {
 
 
-	public function __construct(){
-
-		/*if (! $this->admin()) {
-
+	public function __construct(){		
+		if (! $this->admin()) {
 			$this->middleware('current_user')
-				 ->mustbe_loggedin()
-				 ->must_have_verified_email();
-		}		*/
+				 ->mustbe_loggedin();
+				 // ->must_have_verified_email();
+		}		
 	}
 
 
-
-
-
-	function verify_payment()
+	public function re_confirm_order()
 	{
-		$order_id = $_REQUEST['order_id'];
-		$order_type = $_REQUEST['order_type'];
+			$shop = new Shop();
+			$item_purchased = $shop->available_type_of_orders[$_REQUEST['item_purchased']];
+		 	$full_class_name = $item_purchased['namespace'].'\\'.$item_purchased['class'];
+		 	$order = $full_class_name::where('id' ,$_REQUEST['order_unique_id'])->where('paid_at', null)->first();
 
-		$order = Orders::find($order_id);
+			$shop->setOrder($order)->reVerifyPayment();
+
+		Redirect::back();
+	}
+
+
+	public function callback()
+	{
+
+		$shop = new Shop();
+		$item_purchased = $shop->available_type_of_orders[$_REQUEST['item_purchased']];
+	 	$full_class_name = $item_purchased['namespace'].'\\'.$item_purchased['class'];		 	
+	 	$order_id = $_REQUEST['order_unique_id'];
+	 	$order = $full_class_name::where('id' ,$order_id)->where('paid_at', null)->first();
+
+		$shop->setOrder($order)->verifyPayment();
+
+		switch ($_REQUEST['item_purchased']) {
+			case 'ebook':
+				Redirect::to('user/products-orders');
+				break;
+			case 'scheme':
+				Redirect::to("user/ebook/{$order->id}");
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	
+	}
+
+
+	public function checkout()
+	{
+		$shop = new Shop();
+
+		$item_purchased = $shop->available_type_of_orders[$_REQUEST['item_purchased']];
+
+		$full_class_name = $item_purchased['namespace'].'\\'.$item_purchased['class'];
+		$order_id = $_REQUEST['order_unique_id'];
+		$order = $full_class_name::where('id' ,$order_id)->where('user_id', $this->auth()->id)->where('paid_at', null)->first();
 
 		if ($order == null) {
-			return ;
+			Session::putFlash("info","Invalid Request");
+			return;
 		}
 
-			$shop = new Shop();
-			$payment_details =	$shop
-								->setOrder($order) //what is being bought
-								->verifyPayment();
+		$shop = new Shop();
+		$attempt =	$shop
+							->setOrder($order)
+							->setPaymentMethod($_REQUEST['payment_method'])
+							->initializePayment()
+							->attemptPayment();
+		if ($attempt ==false) {
+			Redirect::back();
+		}
 
+		$shop->goToGateway();
 
 	}
 
-
+	
 
 
 	public function capture_payment($razorpay_payment_id, $order_id)
@@ -224,93 +270,104 @@ class shopController extends controller
 
 
 
-
-
-	public function paypal_payment_received($order_id)
-	{
-
-		$order = Orders::where('id', $order_id)->first();
-		// ->where('user_id', $this->auth()->id)
-
-		 $order->execute_paypal_payment('paypal');
-
-		 Redirect::to('user/shop');
-
-	}
-
-
-
 	public function complete_order($value='')
 	{
 
 		$cart = json_decode($_POST['cart'],  true);
+		header("content-type:application/json");
+
+		//ensure there is license keys available before proceeding
+		$safety =  Orders::confirm_order_is_safe_for_processing($cart);
+		if ($safety == false) {
+			echo json_encode(['payment_method' => ['method'=>'none']]);
+			return;
+		}
+
+
 
 		DB::beginTransaction();
-
 
 		try {
 			
 
-
-			$percent_off = $this->auth()->subscription->percent_off;
+			$auth = $this->auth();
 			$total = $cart['$total'];
 
-		 	$amount_payable = $total - (0.01 * $percent_off * $total);
-
+		 	$amount_payable = $total ;
 
 		 	if ($amount_payable == 0) {
 
-		 		throw new Exception("Error Processing Request", 1);
+
+				Session::putFlash('danger', "Invalid Cart");
+					echo "{}";
+					return ;
+
 		 	}
+		 	
 
-
-
-
-		 
-
-			$razor_api  = Orders::razorpay_api();
-			
-			$new_order = Orders::create([
-							'user_id'		 => $this->auth()->id,
+			$new_order = Orders::updateOrCreate(
+						['id' => $_SESSION['shop_checkout_id']],
+						[
+							'user_id'		 => $auth->id,
 							'buyer_order'	 => json_encode($cart['$items']),
 							'percent_off' 	 => $percent_off,
 							'amount_payable' => $amount_payable,
 						]);
 
 
+			
+			if ($new_order->is_secret_order()) {
+
+				if ($_POST['payment_method'] != 'website') {
+
+					Session::putFlash('danger', "You can only use website to pay this order. ");
+					echo "{}";
+					return ;
+				}
+
+			}else{
 
 
-		 	// $razorpay_amount =  intval(100 * round($amount_payable));
+				if ($_POST['payment_method'] == 'website') {
 
-		 	$order = $razor_api->order->create(array(
-			  'receipt' => $new_order->id,
-			  'amount' => $new_order->razorpay_amount_payable(),
-			  'currency' => 'INR',
-			  'payment_capture' =>  1
-			  )
-			);
+					Session::putFlash('danger', "You cannot use website to pay this order. ");
+					echo "{}";
+					return ;
+				}
 
-		 	$razorpay_order_id = $order->id;
+										// print_r($shop);
+			}
 
-			$new_order->update([
-					'razorpay_order_id' => $razorpay_order_id,
-				]);
 
+			if ($new_order->is_mixed_order()) {
+				Session::putFlash('danger', "You can order either secret products only or non-secret product only. ");
+				echo "{}";
+				return;	
+			}
+
+
+
+				$shop = new Shop();
+					$payment_details =	$shop
+										->setOrderType('ebook') //what is being bought
+										->setOrder($new_order)
+										->setPaymentMethod($_POST['payment_method'])
+										->initializePayment()
+										->attemptPayment();
 
 
 			DB::commit();
 			Session::putFlash('success', "Order Created Successfully. ");
-			$this->empty_cart_in_session();
+			$_SESSION['shop_checkout_id'] = $new_order->id;
 
-			header("content-type:application/json");
-			echo $new_order;
+			echo $shop->order;
 
 
 		} catch (Exception $e) {
 			
 			DB::rollback();
 			Session::putFlash('danger', "We could not create your order.");
-			Redirect::back();
+			// Redirect::back();
 		}
 
 
@@ -319,22 +376,6 @@ class shopController extends controller
 	}
 
 
-	public function make_payment($order_id=null)
-	{
-		$order = 	Orders::where('id', $order_id)->where('user_id', $this->auth()->id)->first();
-
-		 $order->make_payment('paypal');
-
-		 Redirect::to("user/products-orders");
-	}
-
-
-
-
-	public function open_order_confirmation($order_id='')
-	{
-			echo $this->buildView('emails/order_confirmation', ['order'=> Orders::find($order_id)]);
-	}
 
 	/**
 	 * this is the default landing point for all request to our application base domain
@@ -343,8 +384,9 @@ class shopController extends controller
 	 */
 	public function index($category=null)
 	{
+		echo "string";
 
-		$this->view('guest/shop', ['default_category'=>$category]);
+		// $this->view('guest/shop', ['default_category'=>$category]);
 	}
 
 
@@ -366,98 +408,7 @@ class shopController extends controller
 		$this->view('guest/cart', ['shipping_rate'=>$shipping_rate]);
 	}
 
-	public function checkout()
-	{
-		$this->view('guest/checkout');
-	}
 
-
-	public function place_order()
-	{
-
-		// echo "<pre>";
-		// print_r($_POST['cart']);
-
-		$cart =  json_decode($_POST['cart'], true);
-		foreach ($cart['$items'] as $key => $item) {
-			unset($cart['$items'][$key]['$$hashKey']);
-		}
-
-
-		;
-		$cart['$buyer_detail']['shipping'];
-
-		// print_r($cart['$buyer_detail']['billing']);
-		// print_r($cart['$others']['payment_method']);
-
-
-		$billing_validator	= new Validator;
-		$shipping_validator	= new Validator;
-		
-		$billing_validator->check($cart['$buyer_detail']['billing'], UserBilling::$billing_detail_rules );
-		$error_notes =  $this->inputErrors();
-		unset($_SESSION['inputs-errors']); //remove captured errors for first validation
-
-			if ($cart['$buyer_detail']['billing']['ship_to_diff_address'] == 1) {
-
-				$shipping_validator->check($cart['$buyer_detail']['shipping'], UserShipping::$shipping_detail_rules );
-				$error_notes .=  $this->inputErrors();
-			}else{
-				foreach ($cart['$buyer_detail']['billing'] as $key => $value) {
-					 $new_key  = str_replace('billing', 'shipping', $key);
-					$cart['$buyer_detail']['shipping'][$new_key] = $value;
-				}
-
-			}
-
-		// print_r($cart['$buyer_detail']['shipping']);
-		//validate cart
-		// print_r($cart['$items']);
-		
-
-
-		 if($billing_validator->passed() && $shipping_validator->passed() && (Products::validate_cart($cart['$items']))){
-
-				$new_order = Orders::create([
-								'user_id'		=> $this->auth()->id,
-								'buyer_order'		=> json_encode($cart['$items']),
-								'additional_note'		=> ($cart['$buyer_detail']['billing']['order_notes']),
-								'shipping_fee'		=> json_encode($cart['$selected_shipping']),
-			]);
-
-			$new_order->update($cart['$buyer_detail']['billing']);
-			$new_order->update($cart['$buyer_detail']['shipping']);
-
-
-			// Session::putFlash('success', "Order Created Successfully");
-
-			header("Content-type:application/json");
-			$new_order->total_amount = $new_order->total_price();
-			$new_order->paystack_total = $new_order->paystack_total();
-			// echo json_encode($new_order->toArray() , 4);
-
-
-				$paystack_keys = CmsPages::fetch_page_content('paystack_keys');
-				$public_key = $paystack_keys['public_key'];
-
-
-			echo json_encode([
-							'order' => $new_order->toArray(),
-							'payment_method' => $cart['$others']['payment_method'],
-							'public_key' => $public_key
-							]);
-
-		
-
-	 }else{
-
-		Session::putFlash('danger', "{$error_notes}");
-		echo "error"; //corrupts the json and prevents paystack from loading 
-	 }
-
-		// print_r($cart);
-	 return; 	
-	}
 
 
 	public function delete_stored_order($order_id)
@@ -478,29 +429,6 @@ class shopController extends controller
 
 
 
-	public function add_to_cart($course_id)
-	{
-		$course = Course::find($course_id);
-		$image = $course->image;
-		$course->image = $image ;
-
-
-		foreach ($_SESSION['cart'] as $item) {
-				$item = json_decode($item , true);
-				if ($item['id'] == $course_id) {
-					echo "Item already in cart!";
-
-					return;
-				}
-
-
-		}
-
-		$_SESSION['cart'][] =	$course->toJson();
-		echo "Added successfully!";
-	}
-
-
 
 	public function retrieve_cart_in_session()
 	{
@@ -517,29 +445,18 @@ class shopController extends controller
 				$items[] = $item;
 			}
 
-			// $cart['$items'] = $items;
-	
 		if (! isset($_SESSION['cart'])) {
-			
 			$cart = [];
-
 		}
 
-				// print_r($items);
-				// print_r($cart);
-
-
 		print_r(json_encode($cart));
-
 	}
 
 
 	public function update_cart()
-	{
-
-		// print_r($_POST);
+	{		
+		
 		$_SESSION['cart'] = ($_POST['cart']);
-
 	}
 
 
@@ -554,6 +471,7 @@ class shopController extends controller
 	public function empty_cart_in_session()
 	{
 		unset($_SESSION['cart']);
+		unset($_SESSION['shop_checkout_id'] );
 	}
 
 
@@ -593,26 +511,14 @@ class shopController extends controller
 	{
 
 		$per_page = 20;
-		$courses = Products::on_sale()->orderBy('updated_at', 'DESC')
-		->where('scheme',$this->auth()->subscription->id)		;
 
-
-
-
-
-		// $courses = Products::on_sale()->orderBy('updated_at', 'DESC');
-
-/*
-		if (Category::find($category_id) != null) {
-
-			$courses->where('category_id', $category_id);
-		}*/
+		$courses = $this->auth()->accessible_products();
 
 		//pagination
 		$courses = $courses->get()->forPage($page, $per_page);
 		foreach ($courses as $course) {
 
-			$course->by = $course->instructor->lastname.' '. $course->instructor->firstname;
+			$course->number_of_available_license_key = $course->HasAvailalbleLicenseKey;
 			$course->category = $course->category;
 			$course->short_title = substr($course->title, 0, 34);
 			$course->last_updated = $course->updated_at->diffForHumans();
@@ -670,23 +576,6 @@ class shopController extends controller
 
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
