@@ -2,7 +2,7 @@
 
 namespace v2\Shop\Payments;
 use v2\Shop\Contracts\OrderInterface;
-use Exception, SiteSettings, Config, MIS;
+use Exception, SiteSettings, Config, MIS, Redirect;
 /**
  * 
  */
