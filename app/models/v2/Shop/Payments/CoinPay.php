@@ -115,9 +115,9 @@ class CoinPay
 						"referenceId"=>  $order_ref,
 						"amount" 	 =>  $amount,
 						"currency" 	 =>  "EUR",
-						"successRedirectUrl" =>  $callback_url,
-						"failRedirectUrl" =>  $callback_url,
-						"cancelRedirectUrl" =>  $callback_url,
+						"successRedirectUrl" =>  $callback_url."&t=success",
+						"failRedirectUrl" =>  $callback_url."&t=fail",
+						"cancelRedirectUrl" =>  $callback_url."&cancel",
 						];
 
 
