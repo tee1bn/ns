@@ -56,7 +56,7 @@ $page_title = "Package";
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
                       method="post"
-                      class="ajax_orm"
+                      class="ajax_form"
                       data-function="initiate_payment"
                       action="<?=domain;?>/user/create_upgrade_request">
 
@@ -90,9 +90,32 @@ $page_title = "Package";
               </div>
 
               <script>
-                initiate_payment= function($subscription_order){
-                  alert("Thank you. You will be able to complete the process after we integrate a payment method");
-                  return;
+                initiate_payment= function($data){
+
+
+                   $payment_method = JSON.parse($data.payment_details);
+
+                  switch($data.payment_method) {
+                     case 'coinpay':
+                       // code block
+                           window.location.href = $base_url+ 
+                           "/shop/checkout?item_purchased=packages&order_unique_id="+$data.id+"&payment_method=coinpay";
+
+                       break;
+
+                     case 'paypal':
+                       // code block
+                           window.location.href = $base_url+ 
+                           "/shop/checkout?item_purchased=packages&order_unique_id="+$data.id+"&payment_method=paypal";
+
+                       break;
+                     case 'razor_pay':
+                       // code block
+                       window.SchemeInitPayment($data.id);
+                       break;
+                     default:
+                       // code block
+                   }
                 }
               </script>
 

@@ -47,8 +47,8 @@ class shopController extends controller
 		$shop->setOrder($order)->verifyPayment();
 
 		switch ($_REQUEST['item_purchased']) {
-			case 'ebook':
-				Redirect::to('user/products-orders');
+			case 'packages':
+				Redirect::to('user/package');
 				break;
 			case 'scheme':
 				Redirect::to("user/ebook/{$order->id}");
