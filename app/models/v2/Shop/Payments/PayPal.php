@@ -166,7 +166,7 @@ class PayPal
 		]);
 
 
-		$callback_url = "{$domain}/paypal/callback?$callback_param";
+		$callback_url = "{$domain}/shop/callback?$callback_param";
 
 		// Create new payer and method
 		$payer = new Payer();
