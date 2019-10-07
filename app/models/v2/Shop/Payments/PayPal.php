@@ -175,7 +175,7 @@ class PayPal
 
 		$item1 = new Item();
 		$item1->setName("Payment for Order#$order_ref")
-		    ->setCurrency('EUR')
+		    ->setCurrency('USD')
 		    ->setQuantity(1)
 		    ->setSku("1") // Similar to `item_number` in Classic API
 		    ->setPrice($price_breakdown['price_exclusive_of_tax']);
@@ -191,7 +191,7 @@ class PayPal
 
 
 		    $amount = new Amount();
-		    $amount->setCurrency("EUR")
+		    $amount->setCurrency("USD")
 		        ->setTotal($price_breakdown['price_inclusive_of_tax'])
 		        ->setDetails($details);
 
