@@ -91,10 +91,7 @@ $page_title = "Package";
 
               <script>
                 initiate_payment= function($data){
-
-
-                   $payment_method = JSON.parse($data.payment_details);
-
+                  
                   switch($data.payment_method) {
                      case 'coinpay':
                        // code block
