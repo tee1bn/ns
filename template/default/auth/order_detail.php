@@ -30,47 +30,63 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="invoice-title">
-                    <h2>Invoice</h2>
+                    <h2>Invoice #<?=$order['id'];?></h2>
                 </div>
                 <hr>
                 <div class="row">
-                    <div class="col-xs-6">
-                        <address>
-                        <strong></strong><br>
-                            Company: <?=project_name;?><br>
-                            Invoice No: #<?=$order['id'];?><br>
-                            Status: <?=$order['paymentstatus'];?><br>
-                            Order: <?=$order->TransactionID;?><br>
 
-                            <strong>Order Date:</strong><br>
-                            <?=$order->created_at->toFormattedDateString();?>
-                            <br><br>
-                        </address>
-                    </div>
-                    <div class="text-right">
-                       <address>
-                         <?php 
-                                 $user = $order->user;
-                         ;?>
 
-                           <strong>
-                             <?=$user->DropSelfLink;?>
-                            </strong>
-                           <br>Phone: 
-                           <a href="tel:<?=$user->phone;?>">
-                            <?=$user->phone;?>
-                           </a>
-                           <br>Email: 
-                           <a href="mailto:<?=$user->email;?>">
-                               <?=$user->email;?>
-                           </a>
-                       </address>
+                  <table class="table" style="width: 100%;">
+                      <tbody>
+                        <tr>
+                          <td style="text-align: left;">
+                            <address>
+                            <strong></strong><br>
+                                <img style="width: 40px;" src="<?=$logo;?>"> <?=project_name;?><br>
+                                Status: <?=$order['paymentstatus'];?><br>
+                                Order: <?=$order->TransactionID;?><br>
 
-                       <strong>Generated Date:</strong><br>
-                       <?=date("M d, Y");?><br><br>
+                                <strong>Order Date:</strong><br>
+                                <?=$order->created_at->toFormattedDateString();?>
+                                <br><br>
+                            </address>
 
-                    </div>
+                          </td>
+                          <td style="text-align: right;">
+                          </td>
+                          <td style="text-align: right;">
+                            
+                            <address>
+                              <?php 
+                                      $user = $order->user;
+                              ;?>
+
+                                <strong>
+                                  <?=$user->DropSelfLink;?>
+                                 </strong>
+                                <br>Phone: 
+                                <a href="tel:<?=$user->phone;?>">
+                                 <?=$user->phone;?>
+                                </a>
+                                <br>Email: 
+                                <a href="mailto:<?=$user->email;?>">
+                                    <?=$user->email;?>
+                                </a>
+                            </address>
+
+                            <strong>Generated Date:</strong><br>
+                            <?=date("M d, Y");?><br><br>
+
+                          </td>
+                        </tr>
+                      </tbody>
+                  </table>
+
                 </div>
+
+                <hr>
+
+
                 <div class="row">
                     <div class="col-xs-6">
                      <!--    <address>

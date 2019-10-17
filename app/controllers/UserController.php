@@ -112,7 +112,7 @@ class UserController extends controller
 	{
 
 		$order  =  SubscriptionOrder::where('id', $order_id)->where('user_id', $this->auth()->id)->first();
-		return	$this->buildView('auth/order_detail', compact('order'));
+		echo	$this->buildView('auth/order_detail', compact('order'));
 
 	}
 
