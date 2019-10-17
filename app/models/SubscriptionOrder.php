@@ -1,6 +1,7 @@
 <?php
 
 
+include_once 'app/controllers/home.php';
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Capsule\Manager as DB;
@@ -26,6 +27,64 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	protected $table = 'subscription_payment_orders';
 
 	public $name_in_shop = 'packages';
+
+
+
+
+	public  function invoice()
+	{
+
+		$controller = new home;
+		$order = $this;
+		$view  =	$controller->buildView('auth/order_detail', compact('order'));
+
+
+
+		
+		$mpdf = new \Mpdf\Mpdf([
+		    'margin_left' => 5,
+		    'margin_right' => 5,
+		    'margin_top' => 10,
+		    'margin_bottom' => 20,
+		    'margin_header' => 10,
+		    'margin_footer' => 10
+		]);
+
+		$company_name = Config::project_name();
+
+		$mpdf->AddPage('P');
+		$mpdf->SetProtection(array('print'));
+		$mpdf->SetTitle("{$company_name}");
+		$mpdf->SetAuthor($company_name);
+		$mpdf->SetWatermarkText("{$company_name}");
+		$mpdf->showWatermarkText = true;
+		$mpdf->watermark_font = 'DejaVuSansCondensed';
+		$mpdf->watermarkTextAlpha = 0.1;
+		$mpdf->SetDisplayMode('fullpage');
+
+		$date_now = (date('Y-m-d H:i:s'));
+
+		$mpdf->SetFooter("Date Generated: " . $date_now . " - {PAGENO} of {nbpg}");
+
+
+		$mpdf->WriteHTML($view);
+		$mpdf->Output("invoice#$order_id.pdf", \Mpdf\Output\Destination::DOWNLOAD);			
+
+
+
+		
+	}
+
+
+
+	public function getTransactionIDAttribute()
+	{
+
+		$payment_details = json_decode($this->payment_details,true);
+		$method = "{$payment_details['ref']}<br><span class='badge badge-primary'>{$payment_details['gateway']}</span>";
+					
+		return $method;
+	}
 
 
 

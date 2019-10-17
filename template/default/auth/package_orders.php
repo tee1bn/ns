@@ -46,7 +46,6 @@ $page_title = "Package Orders";
                                     <thead>
                                       <tr>
                                         <th>#Ref</th>
-                                        <th>User</th>
                                         <th>Plan</th>
                                         <th>Cost(<?=$currency;?>)</th>
                                         <th>Date</th>
@@ -55,12 +54,11 @@ $page_title = "Package Orders";
                                       </tr>
                                     </thead>
                                     <tbody>
-                                     <?php foreach ($subscription_orders as $order):
+                                     <?php foreach ($this->auth()->subscriptions as $order):
                                         $subscriber = $order->user;
                                         ?>
                                       <tr>
                                         <td><?=$order->id;?></td>
-                                        <td><?=$subscriber->DropSelfLink;?></td>
                                         <td><?=$order->plandetails['package_type'];?></td>
                                         <td><?=$this->money_format($order['price']);?></td>
                                         <td><span class="badge badge-primary"><?=$order->created_at->toFormattedDateString();?></span></td>
@@ -74,13 +72,17 @@ $page_title = "Package Orders";
                                               </a>
                                               <div class="dropdown-menu">
 
+
+                                                <a class="dropdown-item" target="_blank" href="<?=domain;?>/admin/package_invoice/<?=$order->id;?>">Invoice</a>
+                                                
+
+
                                                 <a  href="javascript:void;" class="dropdown-item" onclick="$confirm_dialog = 
                                                 new ConfirmationDialog('<?=domain;?>/admin/confirm_payment/<?=$order->id;?>')"
                                                 class="btn btn-primary btn-xs">
                                                     Confirm Payment              
                                                 </a>
-                                                <a class="dropdown-item" target="_blank" href="<?=domain;?>/admin/package_invoice/<?=$order->id;?>">Invoice</a>
-
+                                                
                                                 <form id="payment_proof_form<?=$order->id;?>" action="<?=domain;?>/user/upload_payment_proof/<?=$order->id;?>" method="post" enctype="multipart/form-data">
 
                                                    <input 

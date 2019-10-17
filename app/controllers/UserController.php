@@ -111,13 +111,25 @@ class UserController extends controller
 	public function order($order_id=null)
 	{
 
-		$order  =  Orders::where('id', $order_id)->where('user_id', $this->auth()->id)->first();
+		$order  =  SubscriptionOrder::where('id', $order_id)->where('user_id', $this->auth()->id)->first();
+		return	$this->buildView('auth/order_detail', compact('order'));
 
-
-		$this->view('auth/order_detail', compact('order'));
 	}
 
-	
+	public function package_invoice($order_id=null)
+	{
+
+		$order  =  SubscriptionOrder::where('id', $order_id)->where('user_id', $this->auth()->id)->first();
+		
+		if ($order == null) {
+			Redirect::back();
+		}
+
+		$order->invoice();
+
+	}
+
+
 
 
 	public function products_orders()
@@ -199,9 +211,9 @@ class UserController extends controller
 	}
 
 
-	public function subscription_orders()
+	public function package_orders()
 	{
-			$this->view('auth/subscription_orders');
+			$this->view('auth/package_orders');
 	}
 
 

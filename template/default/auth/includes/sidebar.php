@@ -18,14 +18,25 @@
                 <a class="menu-item" href="<?=domain;?>/user/profile"><i class="ft-user"></i> My Profile</a>
               </li>
 
+              <li class=" nav-item"><a href="#"><i class="fa fa-briefcase"></i><span class="menu-title" data-i18n="">Subscriptions</span></a>
+              <ul class="menu-content">
+                  <li><a class="menu-item" href="<?=domain;?>/user/package"> Packages</a>
+            
+                  <li><a class="menu-item" href="<?=domain;?>/user/package-orders">Orders</a>
+                  </li>
+                </ul>
+             </li> 
+
+
+
               <li class=" nav-item"><a href="#"><i class="fa fa-sitemap"></i><span class="menu-title" data-i18n="">My Team</span></a>
-            <ul class="menu-content">
-              <li><a class="menu-item" href="<?=domain;?>/genealogy/placement_list"> List</a>
-        
-              <li><a class="menu-item" href="<?=domain;?>/genealogy/placement">Tree</a>
-              </li>
-            </ul>
-          </li> 
+              <ul class="menu-content">
+                  <li><a class="menu-item" href="<?=domain;?>/genealogy/placement_list"> List</a>
+            
+                  <li><a class="menu-item" href="<?=domain;?>/genealogy/placement">Tree</a>
+                  </li>
+                </ul>
+             </li> 
 
 
               <li>

@@ -18,6 +18,21 @@ class AdminController extends controller
 
 
 
+	public function package_invoice($order_id=null)
+	{
+
+		$order  =  SubscriptionOrder::where('id', $order_id)->first();
+		
+		if ($order == null) {
+			Redirect::back();
+		}
+
+		$order->invoice();
+
+		
+	}
+
+
 	public function products_orders()
 	{
 			$orders =  Orders::all();
