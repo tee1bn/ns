@@ -73,15 +73,9 @@ $page_title = "Package Orders";
                                               <div class="dropdown-menu">
 
 
-                                                <a class="dropdown-item" target="_blank" href="<?=domain;?>/admin/package_invoice/<?=$order->id;?>">Invoice</a>
+                                                <a class="dropdown-item" target="_blank" href="<?=domain;?>/user/package_invoice/<?=$order->id;?>">Invoice</a>
                                                 
 
-
-                                                <a  href="javascript:void;" class="dropdown-item" onclick="$confirm_dialog = 
-                                                new ConfirmationDialog('<?=domain;?>/admin/confirm_payment/<?=$order->id;?>')"
-                                                class="btn btn-primary btn-xs">
-                                                    Confirm Payment              
-                                                </a>
                                                 
                                                 <form id="payment_proof_form<?=$order->id;?>" action="<?=domain;?>/user/upload_payment_proof/<?=$order->id;?>" method="post" enctype="multipart/form-data">
 
