@@ -30,7 +30,10 @@
         <div class="row">
             <div class="col-xs-12">
                 <div class="invoice-title">
-                    <h2>Invoice #<?=$order['id'];?></h2>
+                    <h2>
+                                <img style="width: 30px;" src="<?=$logo;?>"> 
+                                <span style="position: relative; top: -20px;"> <?=project_name;?></span>
+                    </h2>
                 </div>
                 <hr>
                 <div class="row">
@@ -42,7 +45,8 @@
                           <td style="text-align: left;">
                             <address>
                             <strong></strong><br>
-                                <img style="width: 40px;" src="<?=$logo;?>"> <?=project_name;?><br>
+                              Invoice #<?=$order['id'];?>
+                                <!-- <img style="width: 40px;" src="<?=$logo;?>"> <?=project_name;?><br> -->
                                 Status: <?=$order['paymentstatus'];?><br>
                                 Order: <?=$order->TransactionID;?><br>
 
