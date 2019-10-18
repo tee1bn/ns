@@ -47,12 +47,12 @@ class Shop
 								'namespace' => "v2\Shop\Payments",
 								'available' => true
 							],
-				'coinpay' => [
+/*				'coinpay' => [
 								'name' => 'CoinPay',
 								'class' => 'CoinPay',
 								'namespace' => "v2\Shop\Payments",
 								'available' => true
-							],
+							],*/
 
 		];
 
