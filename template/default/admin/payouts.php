@@ -18,7 +18,7 @@ $page_title = "Payouts";
             <fieldset>
               <div class="input-group">
                 <!-- <label>Period </label> -->
-                <input type="month" id="schedule_period" ng-model="$month" ng-change="load();" class="form-control" placeholder="Button on right" aria-describedby="button-addon4">
+                <input type="month" id="schedule_period" ng-model="$month" ng-change="load();" class="form-control">
                 <div class="input-group-append" id="button-addon4">
                   <button class="btn btn-primary" ng-click="export_as_pdf();" ng-hide="$month == undefined">Print</button>
                 </div>
