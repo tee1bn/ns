@@ -1,5 +1,5 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/newsalesway/app.newsalesway.com 
+    - export DEPLOYPATH=/home/newsalesway/testing.newsalesway.com 
     - /bin/cp -r * $DEPLOYPATH
