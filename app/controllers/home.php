@@ -28,11 +28,11 @@ class home extends controller
 
 
 
-		$coinpay = new CoinPay;
 
-		$order = SubscriptionOrder::first();
 
 		$shop = new Shop();
+
+		return;
 		$payment_details =	$shop
 							->setOrder($order) //what is being bought
 							->setPaymentMethod('coinpay')
@@ -42,6 +42,7 @@ class home extends controller
 
 /*							->receiveOrder($cart)
 */							;
+
 
 
 
@@ -79,7 +80,6 @@ class home extends controller
 
 
 		print_r(json_encode($payment_settings));
-
 
 
 		return;

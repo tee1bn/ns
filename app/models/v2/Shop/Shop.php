@@ -1,7 +1,7 @@
 <?php
 
 namespace v2\Shop;
-use Exception;
+use Exception, SiteSettings;
 /**
  * 
  */
@@ -29,15 +29,19 @@ class Shop
 	
 	public function get_available_payment_methods()
 	{
+		$available = array_filter($this->available_payment_method,  function($gateway){
 
-		foreach ($this->available_payment_method as $key => $value) {
-			
-		}
+			return $gateway['available'] == true;
+		});
+
+		return $available;
 	}
 
 
 	private function setup_available_payment_method()
 	{
+
+		$payments_settings = SiteSettings::payment_gateway_settings()->keyBy('criteria');
 
 		$this->available_payment_method = [
 
@@ -45,14 +49,14 @@ class Shop
 								'name' => 'PayPal',
 								'class' => 'PayPal',
 								'namespace' => "v2\Shop\Payments",
-								'available' => true
+								'available' => $payments_settings['paypal_keys']->settingsArray['mode']['available']
 							],
-/*				'coinpay' => [
+				'coinpay' => [
 								'name' => 'CoinPay',
 								'class' => 'CoinPay',
 								'namespace' => "v2\Shop\Payments",
-								'available' => true
-							],*/
+								'available' => $payments_settings['coinpay_keys']->settingsArray['mode']['available']
+							],
 
 		];
 

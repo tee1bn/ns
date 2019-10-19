@@ -63,7 +63,7 @@ $page_title = "Package";
                     <div class="form-group">
                      <select class="form-control" required="" name="payment_method">
                          <option value="">Select Payment method</option>
-                         <?php foreach ($shop->available_payment_method as $key => $option):?>
+                         <?php foreach ($shop->get_available_payment_methods() as $key => $option):?>
                              <option value="<?=$key;?>"><?=$option['name'];?></option>
                          <?php endforeach;?>
                      </select>
