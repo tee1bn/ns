@@ -25,6 +25,7 @@
                 $("#page_preloader").css('display', 'block');
 
                   $function =  $($form).attr('data-function');
+                  $overlay =  $($form).attr('data-overlay');
                   
                     $.ajax({
                         type: "POST",
@@ -33,8 +34,13 @@
                         contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
                         processData: false, // NEEDED, DON'T OMIT THIS
                         cache: false,
-                        success: function(data) {                                                      
-                            $("#page_preloader").css('display', 'none');
+                        success: function(data) {          
+                            if ($overlay == 'in') {
+
+                            }else{
+                                $("#page_preloader").css('display', 'none');
+                            }   
+
                             $($submit_btn).attr("disabled", false);
                             window.notify();
                             if (typeof(window[$function])=='function') {

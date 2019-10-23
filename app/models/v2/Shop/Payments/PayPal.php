@@ -55,6 +55,19 @@ class PayPal
 						    $this->api_keys['secret_key']
 						  )
 						);
+		
+
+
+
+		$this->apiContext->setConfig(
+		      array(
+		      	'mode' => ['test'=>'sandbox', 'live'=>'live'][$this->mode],
+		        'log.LogEnabled' => true,
+		        'log.FileName' => 'PayPal.log',
+		        'log.LogLevel' => 'DEBUG'
+		      )
+		);
+
 	}
 
 
