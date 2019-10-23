@@ -34,6 +34,13 @@
                                 <img style="width: 30px;" src="<?=$logo;?>"> 
                                 <span style="position: relative; top: -20px;"> <?=project_name;?></span>
                     </h2>
+                    <p>
+                      NewSalesWay Stefan Schild<br>
+                      Einödstrasse 29<br>
+                      8501 Lieboch</br>
+                      UID-Nr. ATU74780169
+                    </p>
+
                 </div>
                 <hr>
                 <div class="row">
@@ -76,7 +83,14 @@
                                 <a href="mailto:<?=$user->email;?>">
                                     <?=$user->email;?>
                                 </a>
+                                <br>Company: 
+                                    <?=$user->company->name;?>
+                                <br>Address: 
+                                    <?=$user->company->address;?>
+                                
                             </address>
+
+
 
                             <strong>Generated Date:</strong><br>
                             <?=date("M d, Y");?><br><br>

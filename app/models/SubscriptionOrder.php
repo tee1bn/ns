@@ -37,9 +37,6 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		$controller = new home;
 		$order = $this;
 		$view  =	$controller->buildView('auth/order_detail', compact('order'));
-
-
-
 		
 		$mpdf = new \Mpdf\Mpdf([
 		    'margin_left' => 5,
@@ -69,10 +66,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 		$mpdf->WriteHTML($view);
 		$mpdf->Output("invoice#$order_id.pdf", \Mpdf\Output\Destination::DOWNLOAD);			
-
-
-
-		
+	
 	}
 
 
