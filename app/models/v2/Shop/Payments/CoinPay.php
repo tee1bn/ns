@@ -54,7 +54,7 @@ class CoinPay
 					$reference = $payment_details['ref'];
 
 
-					Session::putFlash("danger", "we could not complete your payment.");
+					\Session::putFlash("danger", "we could not complete your payment.");
 
 			
 
