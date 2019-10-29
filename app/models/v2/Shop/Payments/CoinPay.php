@@ -2,7 +2,7 @@
 
 namespace v2\Shop\Payments;
 use v2\Shop\Contracts\OrderInterface;
-use Exception, SiteSettings, Config, MIS, Redirect;
+use Exception, SiteSettings, Config, MIS, Redirect, Session;
 /**
  * 
  */
@@ -54,7 +54,7 @@ class CoinPay
 					$reference = $payment_details['ref'];
 
 
-					  Session::putFlash("danger", "we could not complete your payment.");
+					Session::putFlash("danger", "we could not complete your payment.");
 
 			
 
