@@ -55,8 +55,24 @@ class CoinPay
 
 
 					\Session::putFlash("danger", "we could not complete your payment.");
+                
+                
+$dataBase64 = $_REQUEST['dataB64'];
+$signatureKey = $_REQUEST['signature'];
+$calculatedSignature = base64_encode(hash_hmac('sha256', base64_decode($dataBase64), base64_decode($signatureKey), true));
 
-			
+echo $calculatedSignature;
+echo "<br>";
+
+if($transmittedSignature == $calculatedSignature) {
+    echo 'success';
+} else {
+    echo 'failed';
+}
+
+            echo "<pre>";
+            print_r($_REQUEST);
+			die();
 
 	}
 
