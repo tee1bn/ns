@@ -43,37 +43,22 @@ class CoinPay
 
 	public function verifyPayment()
 	{
-				
-		/*
-			$confirmation = ['status'=>true];
-			return compact('result','confirmation');
-
-		*/
-		
-					$payment_details = json_decode($this->order->payment_details, true);
-					$reference = $payment_details['ref'];
+		                
+		$dataBase64 = $_REQUEST['dataB64'];
+		$transmittedSignature = $_REQUEST['signature'];
+		$signatureKey = $this->api_keys['signature'];
+		$calculatedSignature = base64_encode(hash_hmac('sha256', base64_decode($dataBase64), base64_decode($signatureKey), true));
 
 
-					\Session::putFlash("danger", "we could not complete your payment.");
-                
-                
-$dataBase64 = $_REQUEST['dataB64'];
-$signatureKey = $_REQUEST['signature'];
-$calculatedSignature = base64_encode(hash_hmac('sha256', base64_decode($dataBase64), base64_decode($signatureKey), true));
+		if(($transmittedSignature != $calculatedSignature) || ($_REQUEST['successful'] != true)) {
+			\Session::putFlash("danger", "we could not verify your payment.");
+			return false;
+		}  //beyond this line is success
 
-echo $calculatedSignature;
-echo "<br>";
 
-if($transmittedSignature == $calculatedSignature) {
-    echo 'success';
-} else {
-    echo 'failed';
-}
-
-            echo "<pre>";
-            print_r($_REQUEST);
-			die();
-
+		$result = $_REQUEST;
+		$confirmation = ['status'=>true];
+		return compact('result','confirmation');	
 	}
 
 
@@ -133,7 +118,7 @@ if($transmittedSignature == $calculatedSignature) {
 						"currency" 	 =>  "EUR",
 						"successRedirectUrl" =>  $callback_url."&t=success",
 						"failRedirectUrl" =>  $callback_url."&t=fail",
-						"cancelRedirectUrl" =>  $callback_url."&cancel",
+						"cancelRedirectUrl" =>  $callback_url."&t=cancel",
 						];
 
 
