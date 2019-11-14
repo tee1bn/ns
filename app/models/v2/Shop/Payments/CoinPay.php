@@ -2,7 +2,7 @@
 
 namespace v2\Shop\Payments;
 use v2\Shop\Contracts\OrderInterface;
-use Exception, SiteSettings, Config, MIS, Redirect;
+use Exception, SiteSettings, Config, MIS, Redirect, Session;
 /**
  * 
  */
@@ -43,21 +43,61 @@ class CoinPay
 
 	public function verifyPayment()
 	{
-				
-		/*
-			$confirmation = ['status'=>true];
-			return compact('result','confirmation');
+		                
+		$dataBase64 = $_REQUEST['dataB64'];
+		$transmittedSignature = $_REQUEST['signature'];
+		$signatureKey = $this->api_keys['signature'];
+		$calculatedSignature = base64_encode(hash_hmac('sha256', base64_decode($dataBase64), base64_decode($signatureKey), true));
 
-		*/
+        echo "<pre>";
+        print_r($_REQUEST);
+        
+        $myfile = fopen("coinpay.txt", "w") or die("Unable to open file!");
+       
+        
+        $decoded = json_decode(base64_decode($_REQUEST['dataB64']), true);
+        
+        print_r($decoded);
+        
+         foreach($decoded as $key => $data){
+            
+                fwrite($myfile, "$key => $data \n");
+
+        }
+
+            echo "here";
+
+fclose($myfile);
+
+		if(($transmittedSignature != $calculatedSignature) || ($decoded['successful'] != true)) {
+			\Session::putFlash("danger", "we could not verify your payment.");
+			    echo "not success";
+			return false;
+		}  
 		
-					$payment_details = json_decode($this->order->payment_details, true);
-					$reference = $payment_details['ref'];
+		  	if ($this->amountPayable() < $decoded['amount']) {
+			\Session::putFlash("danger", "Invalid amount.");
+			return false; // 
+		}
 
 
-					  Session::putFlash("danger", "we could not complete your payment.");
+		
+	    if ($decoded['isTestnet'] == true ) {
+			\Session::putFlash("danger", "Testnet not allowed.");
+			return false; // 
+		}
 
-			
 
+		
+		//beyond this line is success give value
+
+        			    echo "successfull";
+        
+        
+
+		$result = $_REQUEST;
+		$confirmation = ['status'=>true];
+		return compact('result','confirmation');	
 	}
 
 
@@ -117,7 +157,7 @@ class CoinPay
 						"currency" 	 =>  "EUR",
 						"successRedirectUrl" =>  $callback_url."&t=success",
 						"failRedirectUrl" =>  $callback_url."&t=fail",
-						"cancelRedirectUrl" =>  $callback_url."&cancel",
+						"cancelRedirectUrl" =>  $callback_url."&t=cancel",
 						];
 
 

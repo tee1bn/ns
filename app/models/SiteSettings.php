@@ -38,7 +38,7 @@ class SiteSettings extends Eloquent
 	}
 
 
-	public function payment_gateway_settings()
+	public static function payment_gateway_settings()
 	{
 		$payments_settings_keys = ['coinpay_keys', 'paypal_keys'];
 
