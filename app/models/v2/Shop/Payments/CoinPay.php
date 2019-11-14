@@ -53,15 +53,17 @@ class CoinPay
         print_r($_REQUEST);
         
         $myfile = fopen("coinpay.txt", "w") or die("Unable to open file!");
-        foreach($_REQUEST as $key => $data){
-            
-                fwrite($myfile, "$key => $data \n");
-
-        }
+       
         
         $decoded = json_decode(base64_decode($_REQUEST['dataB64']), true);
         
         print_r($decoded);
+        
+         foreach($decoded as $key => $data){
+            
+                fwrite($myfile, "$key => $data \n");
+
+        }
 
             echo "here";
 
@@ -78,12 +80,7 @@ fclose($myfile);
 			return false; // 
 		}
 
-		$payment_details = json_decode($this->order->payment_details, true);
 
-		if ($decoded['amount'] != $payment_details['currency']) {
-			\Session::putFlash("danger", "Unmatching currency.");
-			return false; // 
-		}
 		
 	    if ($decoded['isTestnet'] == true ) {
 			\Session::putFlash("danger", "Testnet not allowed.");
@@ -203,7 +200,7 @@ fclose($myfile);
 
 
 		if ($this->order->payment_method != $this->name) {
-			throw new Exception("This Order is not set to use {$this->name} payment method", 1);
+			throw new Exception("This Order is not set to use paystack payment menthod", 1);
 		}
 
 		$payment_details = json_decode($this->order->payment_details, true);
