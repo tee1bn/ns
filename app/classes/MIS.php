@@ -13,98 +13,6 @@ class MIS
 	}
 
 	
-
-	public static function get_filter_here()
-	{
-		$filter_name = self::get_filter_name();
-		
-		if (! isset($_SESSION['filters'][$filter_name])) {
-			return false;
-		}
-
-		$filter  = $_SESSION['filters'][$filter_name];
-
-		return $filter;
-	}	
-
-
-	public static function set_filter_name($redirect)
-	{
-		
-		$explode  =	explode("/", $redirect);
-		$filter_name = "{$explode[0]}_{$explode[1]}";
-
-		return $filter_name;
-	}	
-
-
-	public static function get_filter_name()
-	{
-		$explode  =	explode("/", $_GET['url']);
-		$filter_name = "{$explode[0]}_{$explode[1]}";
-
-		return $filter_name;
-	}	
-
-
-
-	public static function use_filter($filter_name, $action, $filters=null)
-	{	
-		$domain = Config::domain();
-
-		$modal = <<<EOL
-		 		<a href="javascript:void;"  data-toggle="modal" data-target="#customise_report" class="btn btn-primary" >
-								  <i class="fa fa-cog"></i> Customise Report
-								</a>
-
-
-  					<div id="customise_report" class="modal fade " style="display: ;" role="dialog">
-						<div class="modal-dialog">
-
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <button type="button" class="close" data-dismiss="modal">&times;</button>
-						        <h4 class="modal-title">Customise Report</h4>
-						      </div>
-						      <div class="modal-body">
-						      	<form method="post" id="customise_report"
-						      	 action="$domain/home/set_filters">  
-						      		<input type="hidden" name="redirect" value="$action">
-						      		<div class="form-group">
-						      			<label>From</label>
-						      			<input type="date" value="<?=$from;?>" name="from" class="form-control"> 
-						      			<label>To</label>
-						      			<input type="date" name="to" value="<?=$to;?>" class="form-control"> 
-						      		</div>
-
-
-						      		<div class="form-group">
-						      			<label>Per Page</label>
-						      			<input type="number" value="<?=$per_page;?>" name="per_page" class="form-control"> 
-						      			
-						      		</div>
-
-
-								      <div class="modal-footer">
-								        <button type="submit" class="btn btn-danger" >Submit</button>
-								        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-								      </div>
-						      	</form>
-							  </div>
-						  	</div>
-						</div>
-					</div>
-
-EOL;
-
-	return $modal ;
-	}
-
-
-
-
-	
-
     public static function custom_mime_content_type($filename)
     {
 
@@ -129,8 +37,20 @@ EOL;
 
 
 
+    public static function use_google_recaptcha()
+    {
 
-	
+    	    $settings = SiteSettings::site_settings();
+    	    $key = $settings['google_re_captcha_site_key'];
+    	    
+    	    $recaptcha = <<<EOL
+    	    <div class="g-recaptcha form-group" data-sitekey="$key">
+    	    </div>
+EOL;
+
+    	    return $recaptcha;
+    }
+
 	public static function verify_google_captcha()
 	{
 		 	$settings = SiteSettings::site_settings();		 	
@@ -172,7 +92,7 @@ EOL;
 
 
 
-	public function date_range($date, $duration="month" , $strict=false)
+	public static function date_range($date, $duration="month" , $strict=false)
 	{
 		$explode = explode("-", $date);
 		$year = @$explode[0];

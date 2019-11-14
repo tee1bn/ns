@@ -49,12 +49,54 @@ class CoinPay
 		$signatureKey = $this->api_keys['signature'];
 		$calculatedSignature = base64_encode(hash_hmac('sha256', base64_decode($dataBase64), base64_decode($signatureKey), true));
 
+        echo "<pre>";
+        print_r($_REQUEST);
+        
+        $myfile = fopen("coinpay.txt", "w") or die("Unable to open file!");
+        foreach($_REQUEST as $key => $data){
+            
+                fwrite($myfile, "$key => $data \n");
 
-		if(($transmittedSignature != $calculatedSignature) || ($_REQUEST['successful'] != true)) {
+        }
+        
+        $decoded = json_decode(base64_decode($_REQUEST['dataB64']), true);
+        
+        print_r($decoded);
+
+            echo "here";
+
+fclose($myfile);
+
+		if(($transmittedSignature != $calculatedSignature) || ($decoded['successful'] != true)) {
 			\Session::putFlash("danger", "we could not verify your payment.");
+			    echo "not success";
 			return false;
-		}  //beyond this line is success
+		}  
+		
+		  	if ($this->amountPayable() < $decoded['amount']) {
+			\Session::putFlash("danger", "Invalid amount.");
+			return false; // 
+		}
 
+		$payment_details = json_decode($this->order->payment_details, true);
+
+		if ($decoded['amount'] != $payment_details['currency']) {
+			\Session::putFlash("danger", "Unmatching currency.");
+			return false; // 
+		}
+		
+	    if ($decoded['isTestnet'] == true ) {
+			\Session::putFlash("danger", "Testnet not allowed.");
+			return false; // 
+		}
+
+
+		
+		//beyond this line is success give value
+
+        			    echo "successfull";
+        
+        
 
 		$result = $_REQUEST;
 		$confirmation = ['status'=>true];
@@ -161,7 +203,7 @@ class CoinPay
 
 
 		if ($this->order->payment_method != $this->name) {
-			throw new Exception("This Order is not set to use paystack payment menthod", 1);
+			throw new Exception("This Order is not set to use {$this->name} payment method", 1);
 		}
 
 		$payment_details = json_decode($this->order->payment_details, true);
