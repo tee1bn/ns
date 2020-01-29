@@ -273,8 +273,6 @@ class PayPal
 
 		$payment_details = json_decode($this->order->payment_details, true);
 	
-		$this->payment_details;
-
 		return $this;
 	}
 

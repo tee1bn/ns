@@ -23,7 +23,7 @@ use Exception, SiteSettings, Config, MIS, Redirect;
 /**
  * 
  */
-class PayPals  
+class PayPal  
 {
 	private $name = 'paypal';
 	private $mode;

@@ -2,6 +2,7 @@
 
 
 namespace v2\Shop\Payments\Paypal;
+use v2\Shop\Payments\Paypal\Paypal as cPaypal;
 
 use PayPal\Rest\ApiContext ;
 use PayPal\Auth\OAuthTokenCredential;
@@ -23,8 +24,10 @@ use Exception, SiteSettings, Config, MIS, Redirect;
 /**
  * 
  */
-class Subscription  
+class Subscription  extends cPaypal
 {
+
+
 
 
 

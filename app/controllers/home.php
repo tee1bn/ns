@@ -26,20 +26,22 @@ class home extends controller
 
 		echo "<pre>";
 
-
+		$order = SubscriptionOrder::first();
 
 
 
 		$shop = new Shop();
 
-		return;
 		$payment_details =	$shop
 							->setOrder($order) //what is being bought
-							->setPaymentMethod('coinpay')
+							->setPaymentMethod('paypal')
 							->setOrderType('packages') //what is being bought
 							->initializePayment()
-							->attemptPayment()
+							->attemptPayment();
 
+					print_r($payment_details);
+
+		return;
 /*							->receiveOrder($cart)
 */							;
 

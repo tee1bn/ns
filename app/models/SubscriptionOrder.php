@@ -15,6 +15,11 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 							'plan_id',
 							'payment_method',
 							'payment_details',
+
+							 'subscription_details',
+							 'active_till',
+							 
+							 'user_id',
 							 'user_id',
 							 'payment_proof',
 							 'price',
