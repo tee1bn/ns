@@ -6,6 +6,8 @@ use Apis\CoinWayApi;
 use v2\Shop\Payments\CoinPay;
 use  v2\Shop\Shop;
 
+use v2\Shop\Payments\Paypal\Paypal as cPaypal;
+use v2\Shop\Payments\Paypal\Subscription;
 
 
 
@@ -26,6 +28,13 @@ class home extends controller
 
 		echo "<pre>";
 
+
+		$subscription = new Subscription();
+
+		$subscription->createSubscriptionPlan();
+
+
+		return;
 		$order = SubscriptionOrder::first();
 
 
