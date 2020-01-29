@@ -48,7 +48,7 @@ class Shop
 				'paypal' => [
 								'name' => 'PayPal',
 								'class' => 'PayPal',
-								'namespace' => "v2\Shop\Payments",
+								'namespace' => "v2\Shop\Payments\Paypal",
 								'available' => $payments_settings['paypal_keys']->settingsArray['mode']['available']
 							],
 				'coinpay' => [
