@@ -361,6 +361,11 @@ class UserController extends controller
 		$this->view('auth/news');
 	}
 
+	public function language()
+	{
+		$this->view('auth/language');
+	}
+
 
 
 

@@ -132,6 +132,27 @@ $page_title = "Dashboard";
             </div>
         </div>
     </div>
+
+    <div class="col-xl-4 col-lg-6 col-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="media align-items-stretch">
+                    <div class="p-2 text-center bg-facebook bg-darken-2">
+                        <i class="fa fa-facebook font-large-2 white"></i>
+                    </div>
+                    <div class="p-2 bg-facebook white media-body">
+                        <a href="https://facebook.com/newsalesway" target="_blank" class="text-white">
+                        <h5>Follow us</h5>
+                        <h5 class="text-bold-400 mb-0"></h5>
+                        <small style="text-transform: capitalize;">We are Social</small>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
 </div>
 
 

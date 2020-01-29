@@ -53,6 +53,14 @@ EOL;
 
 	public static function verify_google_captcha()
 	{
+		$domain =Config::domain();
+		if (strpos($domain, '.') == false) {
+		    return true;
+		}
+
+
+		
+
 		 	$settings = SiteSettings::site_settings();		 	
 			$post_data =  [
 							'secret'=> $settings['google_re_captcha_secret_key'],
