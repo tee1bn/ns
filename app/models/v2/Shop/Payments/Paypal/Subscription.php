@@ -4,26 +4,21 @@
 namespace v2\Shop\Payments\Paypal;
 use v2\Shop\Payments\Paypal\PayPal as cPaypal; //custom Paypal
 
-use PayPal\Rest\ApiContext ;
-use PayPal\Auth\OAuthTokenCredential;
-
-use PayPal\Api\Amount;
-use PayPal\Api\Details;
-use PayPal\Api\Item;
-use PayPal\Api\ItemList;
-use PayPal\Api\Payer;
-use PayPal\Api\Payment;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\Transaction;
-use \PayPal\Api\PaymentExecution;
-
-
 
 use PayPal\Api\ChargeModel;
 use PayPal\Api\Currency;
 use PayPal\Api\MerchantPreferences;
 use PayPal\Api\PaymentDefinition;
 use PayPal\Api\Plan;
+
+
+
+use PayPal\Api\Patch;
+use PayPal\Api\PatchRequest;
+use PayPal\Common\PayPalModel;
+
+
+
 
 
 
@@ -39,10 +34,20 @@ class Subscription  extends cPaypal{
 	private $paymentDefinition ;
 	private $chargeModel ;
 	private $merchantPreferences ;
+	private $request ;
+	private $planList ;
+
+	public function __construct()
+	{
+
+
+		parent::__construct();
+	}
 
 
 	public function createSubscriptionPlan($plan=null)
 	{
+
 
 		$this->plan = new Plan();
 
@@ -54,7 +59,7 @@ class Subscription  extends cPaypal{
 		    $this->setPaymentDefinition();
 		    $this->setChargeModel();
 		    $this->setMerchantPreferences();
-		    $this->CreateRequest();
+		    return $this->CreateRequest();
 
 
 		// print_r($this);
@@ -79,7 +84,7 @@ class Subscription  extends cPaypal{
 
 		$this->chargeModel = new ChargeModel();
 		$this->chargeModel->setType('SHIPPING')
-		    ->setAmount(new Currency(array('value' => 10, 'currency' => 'USD')));
+		    ->setAmount(new Currency(array('value' => 10, 'currency' => parent::$currency)));
 
 		$this->paymentDefinition->setChargeModels(array($this->chargeModel));
 
@@ -93,12 +98,12 @@ class Subscription  extends cPaypal{
 		$this->merchantPreferences = new MerchantPreferences();
 		$baseUrl = Config::domain();
 
-		$this->merchantPreferences->setReturnUrl("$baseUrl/ExecuteAgreement.php?success=true")
-		    ->setCancelUrl("$baseUrl/ExecuteAgreement.php?success=false")
+		$this->merchantPreferences->setReturnUrl("$baseUrl/paypal/ExecuteAgreement.php?success=true")
+		    ->setCancelUrl("$baseUrl/paypal/ExecuteAgreement.php?success=false")
 		    ->setAutoBillAmount("yes")
 		    ->setInitialFailAmountAction("CONTINUE")
 		    ->setMaxFailAttempts("0")
-		    ->setSetupFee(new Currency(array('value' => 1, 'currency' => 'USD')));
+		    ->setSetupFee(new Currency(array('value' => 1, 'currency' => parent::$currency)));
 
 		    $this->plan->setPaymentDefinitions(array($this->paymentDefinition));
 		    $this->plan->setMerchantPreferences($this->merchantPreferences);
@@ -123,11 +128,66 @@ class Subscription  extends cPaypal{
 			exit(1);
 		}
 
-
-		// print_r("Created Plan", "Plan", $this->output->getId(), $this->request, $this->output);
-		// print_r($this->output->getId());
-		// print_r($this->request);
-		print_r($this->output);
 		return $this->output;
 	}
+
+
+	public function listPlan()
+	{
+
+		try {
+			
+		    $params = array('page_size' => '2');
+		    $this->planList = Plan::all($params, $this->apiContext);
+
+		    return $this->planList;
+		} catch (Exception $ex) {
+
+		}
+	}
+
+
+	public function getPlan($plan_id)
+	{
+		
+		try {
+
+			$this->plan = Plan::get($plan_id, $this->apiContext);
+		    return $this->plan;
+		} catch (Exception $ex) {
+
+		}		 
+	}
+
+
+	public function activatePlan($plan_id)
+	{
+
+		try {
+			 	$this->patch = new Patch();
+
+			    $value = new PayPalModel('{
+				       "state":"ACTIVE"
+				     }');
+
+			    $this->patch->setOp('replace')
+			        ->setPath('/')
+			        ->setValue($value);
+
+			    $this->patchRequest = new PatchRequest();
+			    $this->patchRequest->addPatch($this->patch);
+
+			    $createdPlan = $this->getPlan($plan_id);
+
+			    $createdPlan->update($this->patchRequest, $this->apiContext);
+
+			    $this->plan  = Plan::get($createdPlan->getId(), $this->apiContext);
+
+			    return $this->plan;
+			
+		} catch (Exception $e) {
+			
+		}
+	}
 }
+

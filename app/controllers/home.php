@@ -8,6 +8,7 @@ use  v2\Shop\Shop;
 
 use v2\Shop\Payments\Paypal\Paypal as cPaypal;
 use v2\Shop\Payments\Paypal\Subscription;
+use v2\Shop\Payments\Paypal\PaypalAgreement;
 
 
 
@@ -29,12 +30,29 @@ class home extends controller
 		echo "<pre>";
 
 
-		$subscription = new Subscription();
+		$agreement = new PaypalAgreement();
+		$seal =	$agreement->setPlanId('P-13394434NH906533N6THFEZI')
+				  ->create();
 
-		$subscription->createSubscriptionPlan();
+		print_r($seal);
+
+		// print_r($agreement->activatePlan('P-13394434NH906533N6THFEZI'));
+		// print_r($agreement->listPlan());
+		// print_r($agreement->createSubscriptionPlan());
+
+
+
 
 
 		return;
+
+		$subscription = new Subscription();
+
+		print_r($subscription->activatePlan('P-13394434NH906533N6THFEZI'));
+		// print_r($subscription->listPlan());
+		// print_r($subscription->createSubscriptionPlan());
+
+
 		$order = SubscriptionOrder::first();
 
 

@@ -19,6 +19,7 @@ class SubscriptionPlan extends Eloquent
 							 'percent_vat' , //percent of 'price' added to arrive at final cost.
 							 'hierarchy' ,
 							'features',
+							'gateways_ids',
 							'availability',
 							'confirmation_message',
 							'created_at'
