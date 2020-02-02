@@ -22,14 +22,6 @@ $page_title = "Package";
             }
           </style>
 
-          <?php
-
-          echo $auth->subscription->payment_plan->id;
-
-
-          ;?>
-
-
               <div class="row match-height">   
           <?php foreach (SubscriptionPlan::available()->get() as  $subscription):?>
 
@@ -57,7 +49,7 @@ $page_title = "Package";
                       <?php endforeach;?>
                   </ul>
                   <br>
-                  <?php if (@$auth->subscription->price  < $subscription->price):?>
+                  <?php if (@$auth->subscription['price']  < $subscription->price):?>
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
                       method="post"
@@ -81,9 +73,10 @@ $page_title = "Package";
                     </div>
                     </form>
                     <?php endif ;?>
-                    <?php if (@$auth->subscription->id  == $subscription->id):?>
+                    <?php if (@$auth->subscription->plandetails['id']  == $subscription->id):?>
                     <div class="form-group">
-                      <button type="button" class="btn btn-success btn-sm">Current</button>
+                      <button type="button" class="btn btn-success btn-sm">Current</button><br>
+                      <small><?=$auth->subscription->NotificationText;?></small>
                     </div>
                     <?php endif ;?>
 

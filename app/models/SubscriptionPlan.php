@@ -29,7 +29,10 @@ class SubscriptionPlan extends Eloquent
 
 
 
-
+	public static function default_sub()
+	{
+		return self::where('price', 0)->first();
+	}
 
 	public function getFinalcostAttribute()
 	{

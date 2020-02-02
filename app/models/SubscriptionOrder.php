@@ -35,6 +35,37 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	public $name_in_shop = 'packages';
 
 
+	public function getExpiryDateAttribute()
+	{
+		$date_string = $this->paid_at;
+		$date =  date("Y-m-d", strtotime("$date_string + 1 month" )); // 2011-01-03
+
+		return $date;
+	}
+
+	public function getNotificationTextAttribute()
+	{
+		$date = $this->ExpiryDate;
+
+		switch ($this->payment_state) {
+			case 'manual':
+			$note = "Expires: $date";
+				break;
+			case 'automatic':
+			$note = "Next autorenewal: $date";
+				break;
+			case 'cancelled':
+			$note = "renewal cancelled:";
+				break; 
+			
+			default:
+			$note = "Expires: $date";
+				break;
+		}
+
+		return $note;
+	}
+
 	public function scopePaid($query)
 	{
 		return $query->where('paid_at','!=',null);
