@@ -39,8 +39,18 @@ class SubscriptionPlan extends Eloquent
 		return (0.01 * $this->percent_vat * $this->price) + $this->price;
 	}
 
+	public function getPriceBreakdownAttribute()
+	{
+		$breakdown = [
+			'before_tax'=> $this->price,
+			'set_price'=> $this->price,
+			'total_percent_tax'=> $this->percent_vat,
+			'type'=>  "exclusive",
+			'total_payable'=>  $this->Finalcost,
+		];
 
-
+		return $breakdown;
+	}
 
 
 	public static function create_subscription_request($subscription_id, $user_id)

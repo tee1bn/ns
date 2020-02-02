@@ -30,15 +30,17 @@ class home extends controller
 		echo "<pre>";
 
 
-		$agreement = new PaypalAgreement();
-		$seal =	$agreement->setPlanId('P-13394434NH906533N6THFEZI')
-				  ->create();
+		$agreement = new Subscription();
+		/*$seal =	$agreement->setPlanId('P-13394434NH906533N6THFEZI')
+				  ->create();*/
 
-		print_r($seal);
+		// print_r($seal);
+
+		$subscription_plan =SubscriptionPlan::find(2);
 
 		// print_r($agreement->activatePlan('P-13394434NH906533N6THFEZI'));
 		// print_r($agreement->listPlan());
-		// print_r($agreement->createSubscriptionPlan());
+		print_r((array) $agreement->createSubscriptionPlan($subscription_plan));
 
 
 

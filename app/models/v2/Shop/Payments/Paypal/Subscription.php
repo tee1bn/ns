@@ -36,6 +36,7 @@ class Subscription  extends cPaypal{
 	private $merchantPreferences ;
 	private $request ;
 	private $planList ;
+	private $subscriptionPlan ;
 
 	public function __construct()
 	{
@@ -45,14 +46,15 @@ class Subscription  extends cPaypal{
 	}
 
 
-	public function createSubscriptionPlan($plan=null)
+	public function createSubscriptionPlan($subscriptionPlan=null)
 	{
 
+		$this->subscriptionPlan = $subscriptionPlan;
 
 		$this->plan = new Plan();
 
-		$this->plan->setName('T-Shirt of the Month Club Plan')
-		    ->setDescription('Template creation.')
+		$this->plan->setName($subscriptionPlan->package_type)
+		    ->setDescription('Package')
 		    ->setType('fixed');
 
 
@@ -60,6 +62,7 @@ class Subscription  extends cPaypal{
 		    $this->setChargeModel();
 		    $this->setMerchantPreferences();
 		    return $this->CreateRequest();
+		return;
 
 
 		// print_r($this);
@@ -73,9 +76,12 @@ class Subscription  extends cPaypal{
 		$this->paymentDefinition->setName('Regular Payments')
 		    ->setType('REGULAR')
 		    ->setFrequency('Month')
-		    ->setFrequencyInterval("2")
+		    ->setFrequencyInterval("1")
 		    ->setCycles("12")
-		    ->setAmount(new Currency(array('value' => 100, 'currency' => parent::$currency)));
+		    ->setAmount(new Currency(array('value' => $this->subscriptionPlan->PriceBreakdown['set_price'],
+		    											 'currency' => parent::$currency)));
+
+
 	}
 
 
