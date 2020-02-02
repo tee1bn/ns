@@ -17,7 +17,8 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 							'payment_details',
 
 							 'subscription_details',
-							 'active_till',
+							 'expires_at',
+							 'payment_state',
 							 
 							 'user_id',
 							 'user_id',
@@ -34,6 +35,10 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	public $name_in_shop = 'packages';
 
 
+	public function scopePaid($query)
+	{
+		return $query->where('paid_at','!=',null);
+	}
 
 
 	public  function invoice()
@@ -70,7 +75,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 
 		$mpdf->WriteHTML($view);
-		$mpdf->Output("invoice#$order_id.pdf", \Mpdf\Output\Destination::DOWNLOAD);			
+		$mpdf->Output("invoice#$order->id.pdf", \Mpdf\Output\Destination::DOWNLOAD);			
 	
 	}
 

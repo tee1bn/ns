@@ -222,15 +222,43 @@ class User extends Eloquent
     {
 
     	if ($this->subscription != null) {
-    		return $this->subscription->package_type;
+    		return $this->subscription->payment_plan->package_type;
     	}
 
     	return 'Nil';
     }
 
 
-    public function subscription()
+    public function getsubscriptionAttribute()
     {
+        $today = strtotime(date("Y-m-d"));
+        $subscription =  SubscriptionOrder::where('user_id', $this->id)->Paid()->latest('paid_at')->first();
+
+        $date_string = $subscription->paid_at;
+        $date =  date("Y-m-d", strtotime("$date_string + 1 month" )); // 2011-01-03
+        $expiry_time = strtotime($date);
+
+        if (($subscription->payment_state == 'manual') || ($subscription->payment_state == null)) {
+
+            if ($expiry_time < $today ) {
+                return null;
+            }else{
+                return $subscription->payment_plan;
+            }
+
+        }elseif ($subscription->payment_state == 'automatic') {
+
+            return $subscription->payment_plan;
+
+        }elseif ($subscription->payment_state == 'cancelled') {
+
+            return null;
+
+        }else{
+
+            return SubscriptionPlan::find(1);
+        }
+
     	return $this->belongsTo('SubscriptionPlan', 'account_plan');
     }
 

@@ -22,7 +22,12 @@ $page_title = "Package";
             }
           </style>
 
+          <?php
 
+          echo $auth->subscription->payment_plan->id;
+
+
+          ;?>
 
 
               <div class="row match-height">   
@@ -78,7 +83,7 @@ $page_title = "Package";
                     <?php endif ;?>
                     <?php if (@$auth->subscription->id  == $subscription->id):?>
                     <div class="form-group">
-                      <button type="button" class="btn btn-success">Current</button>
+                      <button type="button" class="btn btn-success btn-sm">Current</button>
                     </div>
                     <?php endif ;?>
 
