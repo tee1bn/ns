@@ -27,6 +27,10 @@ class SubscriptionPlan extends Eloquent
 	
 	protected $table = 'subscription_plans';
 
+	public  static $payment_types = [
+			 		'paypal'=> 'subscription',
+			 		'coinpay'=> 'one_time',
+			 	];
 
 
 	public static function default_sub()
@@ -103,11 +107,13 @@ class SubscriptionPlan extends Eloquent
 			 	$plan_id = $subscription_id;
 			 	$price = $new_sub->price;
 			 	$cart = compact('plan_id','user_id','price');
+
 		 		$shop = new Shop();
 		 		$payment_details =	$shop
 		 							->setOrderType('packages') //what is being bought
 		 							->receiveOrder($cart)
 		 							->setPaymentMethod($_POST['payment_method'])
+		 							->setPaymentType(self::$payment_types[$_POST['payment_method']])
 		 							->initializePayment()
 		 							->attemptPayment()
 		 							;

@@ -351,6 +351,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	public function setPayment($payment_method,array $payment_details)
 	{
 		// DB::beginTransaction();
+		// print_r($payment_details);
 
 		$this->update([
 			'payment_method' => $payment_method,

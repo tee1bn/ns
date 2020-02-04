@@ -11,6 +11,7 @@ class Shop
 	public $available_payment_method;
 	public $available_orders;
 	private $payment_method;
+	private $payment_type;
 	private $order;
 
 
@@ -127,6 +128,14 @@ class Shop
 			//clear session 
 		}
 
+		return $this;
+	}
+
+
+	public function setPaymentType($payment_type='one_time')
+	{
+		$this->payment_type = $payment_type;
+		$this->payment_method->setPaymentType($this->payment_type);
 		return $this;
 	}
 

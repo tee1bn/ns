@@ -17,15 +17,17 @@ use PayPal\Api\Transaction;
 use \PayPal\Api\PaymentExecution;
 
 
-
 use v2\Shop\Contracts\OrderInterface;
+use v2\Shop\Contracts\PaymentMethodInterface;
 use Exception, SiteSettings, Config, MIS, Redirect;
+
 /**
  * 
  */
-class PayPal  
+class PayPal  implements PaymentMethodInterface
 {
 	private $name = 'paypal';
+	private $payment_type = 'one_time';
 	private $mode;
 	protected static $currency = 'EUR';
 	
@@ -71,6 +73,12 @@ class PayPal
 
 	}
 
+
+	public function setPaymentType($payment_type)
+	{
+		$this->payment_type = $payment_type;
+		return $this;
+	}
 
 
 	public function goToGateway()
@@ -161,16 +169,13 @@ class PayPal
 		return $amount;
 	}
 
-
-	public function initializePayment()
+	private function makeOneTimePayment()
 	{
 		$payment_method = $this->name;
 		$order_ref = $this->order->generateOrderID();
 		$price_breakdown = $this->order->total_tax_inclusive();
 		$user = $this->order->user;
 		$domain = Config::domain();
-
-
 
 
 		$callback_param = http_build_query([
@@ -257,6 +262,47 @@ class PayPal
 
 		return $this;
 
+		
+
+	}
+
+
+	private function makeSubscriptionPayment()
+	{
+
+		$payment_method = $this->name;
+		$order_ref = $this->order->generateOrderID();
+		$price_breakdown = $this->order->total_tax_inclusive();
+		$user = $this->order->user;
+		$domain = Config::domain();
+
+		$approvalUrl = "$domain/This-is-it";
+
+		$payment_details = [
+						'gateway' => $this->name,
+						'payment_type' => $this->payment_type,
+						'ref' => $order_ref,
+						'order_unique_id' => $this->order->id,
+						"approval_url" 	 =>  $approvalUrl,
+						"amount" 	 =>  $this->amountPayable(),
+					];
+
+		$this->order->setPayment($payment_method , $payment_details);
+
+		return $this;
+	}
+
+
+	public function initializePayment()
+	{
+		$actions = [
+			'one_time' => 'makeOneTimePayment',
+			'subscription' => 'makeSubscriptionPayment',
+		];
+
+		$method = $actions[$this->payment_type];
+
+		return $this->$method();
 	}
 
 	public function attemptPayment()
@@ -269,7 +315,7 @@ class PayPal
 
 
 		if ($this->order->payment_method != $this->name) {
-			throw new Exception("This Order is not set to use {$this->name} payment menthod", 1);
+			throw new Exception("This Order is not set to use {$this->name} payment method", 1);
 		}
 
 		$payment_details = json_decode($this->order->payment_details, true);

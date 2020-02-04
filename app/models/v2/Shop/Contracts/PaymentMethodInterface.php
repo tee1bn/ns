@@ -10,7 +10,7 @@ interface PaymentMethodInterface{
 		public function attemptPayment();	
 		public function verifyPayment();	
 		public function setOrder(OrderInterface $order);
-		public function amountPayable(OrderInterface $order);
+		// public function amountPayable(OrderInterface $order);
 
 
 

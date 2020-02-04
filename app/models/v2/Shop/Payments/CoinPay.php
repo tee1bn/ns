@@ -2,13 +2,15 @@
 
 namespace v2\Shop\Payments;
 use v2\Shop\Contracts\OrderInterface;
+use v2\Shop\Contracts\PaymentMethodInterface;
 use Exception, SiteSettings, Config, MIS, Redirect, Session;
 /**
  * 
  */
-class CoinPay 
+class CoinPay implements PaymentMethodInterface
 {
 	private $name = 'coinpay';
+	private $payment_type;
 	private $mode;
 	
 	function __construct()
@@ -29,6 +31,16 @@ class CoinPay
 
 		$this->urls = $urls[$this->mode];
 	}
+
+
+
+
+	public function setPaymentType($payment_type)
+	{
+		$this->payment_type = $payment_type;
+		return $this;
+	}
+
 
 
 
@@ -195,18 +207,16 @@ fclose($myfile);
 
 
 		if ($this->order->is_paid()) {
-			throw new Exception("This Order has been paid with {$this->order->payment_details}", 1);
+			throw new Exception("This Order has been paid with {$this->order->payment_method}", 1);
 		}
 
 
 		if ($this->order->payment_method != $this->name) {
-			throw new Exception("This Order is not set to use paystack payment menthod", 1);
+			throw new Exception("This Order is not set to use {$this->name} payment method", 1);
 		}
 
 		$payment_details = json_decode($this->order->payment_details, true);
 	
-		$this->payment_details;
-
 		return $this;
 
 	}

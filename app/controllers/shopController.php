@@ -89,6 +89,9 @@ class shopController extends controller
 		$order_id = $_REQUEST['order_unique_id'];
 		$order = $full_class_name::where('id' ,$order_id)->where('user_id', $this->auth()->id)->where('paid_at', null)->first();
 
+
+		$payment_type = $full_class_name::$payment_types[$_REQUEST['payment_method']];
+
 		if ($order == null) {
 			Session::putFlash("info","Invalid Request");
 			return;
