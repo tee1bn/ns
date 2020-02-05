@@ -200,6 +200,13 @@ class Shop
 	}
 
 
+
+	public function executeAgreement()
+	{
+		$this->payment_method->executeAgreement();
+	}
+
+	
 	public function goToGateway()
 	{
 		$this->payment_method->goToGateway();

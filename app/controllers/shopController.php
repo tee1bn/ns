@@ -48,8 +48,9 @@ class shopController extends controller
 
 	 	echo "<pre>";
 	 	print_r($_REQUEST);
+	 	print_r($order->toArray());
 
-		// $shop->setOrder($order)->verifyPayment();
+		$shop->setOrder($order)->executeAgreement();
 		
 	}
 

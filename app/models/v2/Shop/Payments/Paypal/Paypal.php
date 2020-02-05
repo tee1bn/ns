@@ -270,6 +270,21 @@ class PayPal  implements PaymentMethodInterface
 	}
 
 
+	public function executeAgreement()
+	{
+
+		if (isset($_GET['success']) && $_GET['success'] == 'true') {
+		    echo $token = $_GET['token'];
+		    $agreement = new Agreement();
+
+
+
+		}
+
+
+	}
+
+
 	private function makeSubscriptionPayment()
 	{
 
