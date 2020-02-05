@@ -15,6 +15,9 @@ use PayPal\Api\Payment;
 use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use \PayPal\Api\PaymentExecution;
+use PayPal\Api\AgreementStateDescriptor;
+
+
 
 use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
@@ -266,6 +269,30 @@ class PayPal  implements PaymentMethodInterface
 		return $this;
 
 		
+
+	}
+
+	public function cancelAgreement()
+	{
+
+	    $agreement = new \PayPal\Api\Agreement();
+	    $agreement_id = $this->order->PaymentDetailsArray['agreement_id'];
+
+	    try {
+	    	
+			$agreement = Agreement::get($agreement_id, $this->apiContext);
+
+			$agreementStateDescriptor = new AgreementStateDescriptor();
+			$agreementStateDescriptor->setNote("Suspending the agreement");
+
+			$agreement->suspend($agreementStateDescriptor, $this->apiContext);
+			$this->order->cancelAgreement()
+
+	    } catch (Exception $e) {
+	    	
+	    }
+
+
 
 	}
 

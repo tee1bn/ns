@@ -73,6 +73,7 @@ $page_title = "Package";
                     </div>
                     </form>
                     <?php endif ;?>
+
                     <?php if (@$auth->subscription->plandetails['id']  == $subscription->id):?>
                     <div class="form-group">
                       <button type="button" class="btn btn-success btn-sm">Current</button><br>
@@ -87,6 +88,8 @@ $page_title = "Package";
           
           <?php endforeach;?>
               </div>
+              
+            
 
               <script>
                 initiate_payment= function($data){

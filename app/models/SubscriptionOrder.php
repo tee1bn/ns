@@ -58,6 +58,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 			$note = "Expires: $date";
 				break;
 			case 'automatic':
+			$cancel_button = "";
 			$note = "Next autorenewal: $date";
 				break;
 			case 'cancelled':
@@ -353,6 +354,10 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		return $order_id;
 	}
 
+	public function cancelAgreement()
+	{
+		$this->update(['payment_state' => 'cancelled']);
+	}
 
 	public function getPaymentDetailsArrayAttribute()
 	{
