@@ -35,18 +35,22 @@ class shopController extends controller
 	}
 
 
-
-	public function subscription_callback()
+	//for subscription payment
+	public function execute_agreement()
 	{
 		
-/*		$shop = new Shop();
+		$shop = new Shop();
 		$item_purchased = $shop->available_type_of_orders[$_REQUEST['item_purchased']];
 	 	$full_class_name = $item_purchased['namespace'].'\\'.$item_purchased['class'];		 	
 	 	$order_id = $_REQUEST['order_unique_id'];
 	 	$order = $full_class_name::where('id' ,$order_id)->where('paid_at', null)->first();
 
+
+	 	echo "<pre>";
+	 	print_r($_REQUEST);
+
 		// $shop->setOrder($order)->verifyPayment();
-*/		
+		
 	}
 
 

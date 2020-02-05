@@ -16,6 +16,7 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use \PayPal\Api\PaymentExecution;
 
+use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
 
 use v2\Shop\Contracts\OrderInterface;
@@ -279,12 +280,19 @@ class PayPal  implements PaymentMethodInterface
 		$domain = Config::domain();
 
 
+
+
+		$subscription = new Subscription();
+		$plan = (array) $subscription->setOrder($this->order)->createSubscriptionPlan($this->order->payment_plan);
+		$subscription_id =  current($plan)['id'];
+
+
 		$agreement = new PaypalAgreement();
 
 
 		$id = $this->order->payment_plan->getPlanId('paypal');
 
-		$approvalUrl =	$agreement->setPlanId($id)->create();
+		$approvalUrl =	$agreement->setPlanId($subscription_id)->create();
 
 		$payment_details = [
 						'gateway' => $this->name,

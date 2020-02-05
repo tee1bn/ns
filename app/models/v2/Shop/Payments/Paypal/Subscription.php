@@ -45,6 +45,12 @@ class Subscription  extends cPaypal{
 		parent::__construct();
 	}
 
+	public function setOrder($order)
+	{
+		$this->order = $order;
+		return $this;
+	}
+
 
 	public function createSubscriptionPlan($subscriptionPlan=null)
 	{
@@ -106,10 +112,33 @@ class Subscription  extends cPaypal{
 	{
 
 		$this->merchantPreferences = new MerchantPreferences();
-		$baseUrl = Config::domain();
+		$domain = Config::domain();
 
-		$this->merchantPreferences->setReturnUrl("$baseUrl/shop/execute_agreement.php?success=true")
-		    ->setCancelUrl("$baseUrl/shop/execute_agreement.php?success=false")
+
+
+		$success = http_build_query([
+			'item_purchased'=> $this->order->name_in_shop,
+			'order_unique_id'=> $this->order->id,
+			'success'=> 'true',
+		]);
+
+
+		$failure = http_build_query([
+			'item_purchased'=> $this->order->name_in_shop,
+			'order_unique_id'=> $this->order->id,
+			'success'=> 'false',
+		]);
+
+
+		$success_url = "{$domain}/shop/execute_agreement?$success";
+		$failure_url = "{$domain}/shop/execute_agreement?$failure";
+
+
+
+
+
+		$this->merchantPreferences->setReturnUrl($success_url)
+		    ->setCancelUrl($failure_url)
 		    ->setAutoBillAmount("yes")
 		    ->setInitialFailAmountAction("CONTINUE")
 		    ->setMaxFailAttempts("0")
