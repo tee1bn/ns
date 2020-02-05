@@ -42,7 +42,7 @@ $page_title = "Packages Settings";
 
                             <form 
                               id="scheme_form"
-                              class="ajax_form"
+                              class="ajax_for"
                               action="<?=domain;?>/admin/update_subscription_plans" method="post" >
                                 <div class="card-body table-responsive">
                                     

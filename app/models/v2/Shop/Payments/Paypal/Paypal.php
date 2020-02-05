@@ -16,6 +16,7 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use \PayPal\Api\PaymentExecution;
 
+use v2\Shop\Payments\Paypal\PaypalAgreement;
 
 use v2\Shop\Contracts\OrderInterface;
 use v2\Shop\Contracts\PaymentMethodInterface;
@@ -242,6 +243,7 @@ class PayPal  implements PaymentMethodInterface
 
 		  $payment_details = [
 		  				'gateway' => $this->name,
+						'payment_type' => $this->payment_type,
 		  				'ref' => $order_ref,
 		  				'order_unique_id' => $this->order->id,
 		  				"approval_url" 	 =>  $approvalUrl,
@@ -276,7 +278,13 @@ class PayPal  implements PaymentMethodInterface
 		$user = $this->order->user;
 		$domain = Config::domain();
 
-		$approvalUrl = "$domain/This-is-it";
+
+		$agreement = new PaypalAgreement();
+
+
+		$id = $this->order->payment_plan->getPlanId('paypal');
+
+		$approvalUrl =	$agreement->setPlanId($id)->create();
 
 		$payment_details = [
 						'gateway' => $this->name,

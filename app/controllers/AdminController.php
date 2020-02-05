@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Capsule\Manager as DB;
 
+
+use v2\Shop\Payments\Paypal\Subscription;
+use v2\Shop\Payments\Paypal\PaypalAgreement;
+
 /**
  * this class is the default controller of our application,
  * 
@@ -145,6 +149,22 @@ class AdminController extends controller
 			$subscription_plan->update(['availability' => '']);
 			print_r($subscription_plan->toArray());
 			$subscription_plan->update($plan);
+
+
+			if (($subscription_plan->price > 0) && ($subscription_plan->is_available())) {
+
+				$agreement = new Subscription();
+				$plan = (array) $agreement->createSubscriptionPlan($subscription_plan);
+				$subscription_id =  current($plan)['id'];
+
+				$array = $subscription_plan->DecodeGatewaysIds;
+				$array['paypal']['id'] = $subscription_id;
+				$subscription_plan->update(['gateways_ids'=> json_encode($array)]);
+			}
+
+
+
+
 		}
 
 		Session::putFlash("success","Updated Succesfully.");

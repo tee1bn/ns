@@ -33,6 +33,12 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	protected $table = 'subscription_payment_orders';
 
 	public $name_in_shop = 'packages';
+	
+	public  static $payment_types = [
+			 		'paypal'=> 'subscription',
+			 		'coinpay'=> 'one_time',
+			 	];
+
 
 
 	public function getExpiryDateAttribute()

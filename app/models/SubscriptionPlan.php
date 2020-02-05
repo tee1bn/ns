@@ -27,11 +27,19 @@ class SubscriptionPlan extends Eloquent
 	
 	protected $table = 'subscription_plans';
 
-	public  static $payment_types = [
-			 		'paypal'=> 'subscription',
-			 		'coinpay'=> 'one_time',
-			 	];
+	public function getDecodeGatewaysIdsAttribute($value='')
+	{
+		if ($this->gateways_ids == null) {
+			
+			return  [
+						'paypal' => [
+							'id' => ''
+						],
+					];
+		}
 
+        return  json_decode($this->gateways_ids ,true);    
+	}
 
 	public static function default_sub()
 	{
@@ -45,10 +53,12 @@ class SubscriptionPlan extends Eloquent
 
 	public function getPriceBreakdownAttribute()
 	{
+		$tax = 0.01 * $this->percent_vat * $this->price;
 		$breakdown = [
 			'before_tax'=> $this->price,
 			'set_price'=> $this->price,
 			'total_percent_tax'=> $this->percent_vat,
+			'tax'=>  $tax,
 			'type'=>  "exclusive",
 			'total_payable'=>  $this->Finalcost,
 		];
@@ -56,6 +66,10 @@ class SubscriptionPlan extends Eloquent
 		return $breakdown;
 	}
 
+	public function getPlanId($gateway)
+	{
+		return $this->DecodeGatewaysIds[$gateway]['id'];
+	}
 
 	public static function create_subscription_request($subscription_id, $user_id)
 	{	
@@ -113,7 +127,7 @@ class SubscriptionPlan extends Eloquent
 		 							->setOrderType('packages') //what is being bought
 		 							->receiveOrder($cart)
 		 							->setPaymentMethod($_POST['payment_method'])
-		 							->setPaymentType(self::$payment_types[$_POST['payment_method']])
+		 							->setPaymentType(SubscriptionOrder::$payment_types[$_POST['payment_method']])
 		 							->initializePayment()
 		 							->attemptPayment()
 		 							;

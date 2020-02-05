@@ -73,8 +73,6 @@ class User extends Eloquent
     	$no_of_merchants = 	@$response[$this->id]['tenantCount'];
 
     	// $no_of_merchants = 20;
-    
-
 
     	$pools_settings = SiteSettings::pools_settings();
     	foreach ($pools_settings as $key => $settings) {

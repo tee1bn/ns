@@ -6,8 +6,8 @@ use Apis\CoinWayApi;
 use v2\Shop\Payments\CoinPay;
 use  v2\Shop\Shop;
 
-use v2\Shop\Payments\Paypal\Paypal as cPaypal;
-use v2\Shop\Payments\Paypal\Subscription;
+// use v2\Shop\Payments\Paypal\Paypal as cPaypal;
+// use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
 
 
@@ -28,19 +28,50 @@ class home extends controller
 	{
 
 		echo "<pre>";
+/*
+		$gateway_ids = [
+			'paypal' => [
+				'id' => 'P-3NY20404Y0599152GCMJ5ZYY'
+			],
+		];
 
+		print_r($gateway_ids);
+		print_r(json_encode($gateway_ids));
 
-		$agreement = new Subscription();
-		/*$seal =	$agreement->setPlanId('P-13394434NH906533N6THFEZI')
-				  ->create();*/
+		return;
+		// print_r($_SESSION['new_plan']);
 
-		// print_r($seal);
+		$plan = $_SESSION['new_plan'];
 
-		$subscription_plan =SubscriptionPlan::find(2);
+		print_r(current($plan)['id']);
+*/
+		// $agreement = new Subscription();
+		$agreement = new PaypalAgreement();
 
 		// print_r($agreement->activatePlan('P-13394434NH906533N6THFEZI'));
-		// print_r($agreement->listPlan());
-		print_r((array) $agreement->createSubscriptionPlan($subscription_plan));
+
+		// $plans = $agreement->listPlan();
+
+		// print_r((array) $plans);
+		// return;
+
+		// print_r($seal);
+		$subscription_plan =SubscriptionPlan::find(2);
+
+		echo $id = $subscription_plan->getPlanId('paypal');
+
+
+		$seal =	$agreement->setPlanId($id)
+				  ->create();
+
+			print_r($seal);
+		return;
+		// print_r($agreement->activatePlan('P-13394434NH906533N6THFEZI'));
+		return;
+		$_SESSION['new_plan'] = (array) $agreement->createSubscriptionPlan($subscription_plan);
+
+			$plan = (array) $agreement->createSubscriptionPlan($subscription_plan);
+			$subscription_id =  current($plan)['id'];
 
 
 

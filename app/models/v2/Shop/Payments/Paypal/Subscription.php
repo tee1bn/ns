@@ -61,7 +61,11 @@ class Subscription  extends cPaypal{
 		    $this->setPaymentDefinition();
 		    $this->setChargeModel();
 		    $this->setMerchantPreferences();
-		    return $this->CreateRequest();
+		    $subscription =  $this->CreateRequest();
+		    $subscription_id = current((array)$subscription)['id'];
+
+		    return $this->activatePlan($subscription_id);
+
 		return;
 
 
@@ -89,8 +93,8 @@ class Subscription  extends cPaypal{
 	{
 
 		$this->chargeModel = new ChargeModel();
-		$this->chargeModel->setType('SHIPPING')
-		    ->setAmount(new Currency(array('value' => 10, 'currency' => parent::$currency)));
+		$this->chargeModel->setType('TAX')
+		    ->setAmount(new Currency(array('value' => $this->subscriptionPlan->PriceBreakdown['tax'], 'currency' => parent::$currency)));
 
 		$this->paymentDefinition->setChargeModels(array($this->chargeModel));
 
@@ -104,12 +108,12 @@ class Subscription  extends cPaypal{
 		$this->merchantPreferences = new MerchantPreferences();
 		$baseUrl = Config::domain();
 
-		$this->merchantPreferences->setReturnUrl("$baseUrl/paypal/ExecuteAgreement.php?success=true")
-		    ->setCancelUrl("$baseUrl/paypal/ExecuteAgreement.php?success=false")
+		$this->merchantPreferences->setReturnUrl("$baseUrl/shop/execute_agreement.php?success=true")
+		    ->setCancelUrl("$baseUrl/shop/execute_agreement.php?success=false")
 		    ->setAutoBillAmount("yes")
 		    ->setInitialFailAmountAction("CONTINUE")
 		    ->setMaxFailAttempts("0")
-		    ->setSetupFee(new Currency(array('value' => 1, 'currency' => parent::$currency)));
+		    ->setSetupFee(new Currency(array('value' => 0, 'currency' => parent::$currency)));
 
 		    $this->plan->setPaymentDefinitions(array($this->paymentDefinition));
 		    $this->plan->setMerchantPreferences($this->merchantPreferences);
@@ -143,7 +147,7 @@ class Subscription  extends cPaypal{
 
 		try {
 			
-		    $params = array('page_size' => '2');
+		    $params = array('page_size' => '20');
 		    $this->planList = Plan::all($params, $this->apiContext);
 
 		    return $this->planList;
