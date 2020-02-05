@@ -45,13 +45,26 @@ class shopController extends controller
 	 	$order_id = $_REQUEST['order_unique_id'];
 	 	$order = $full_class_name::where('id' ,$order_id)->where('paid_at', null)->first();
 
+	 	DB::beginTransaction();
+	 	try {
+	 		
+			$shop->setOrder($order)->executeAgreement();
 
-	 	echo "<pre>";
-	 	print_r($_REQUEST);
-	 	print_r($order->toArray());
+		DB::commit();
+	 	} catch (Exception $e) {
+	 		
+	 	}
 
-		$shop->setOrder($order)->executeAgreement();
-		
+	 	switch ($_REQUEST['item_purchased']) {
+	 		case 'packages':
+	 			Redirect::to('user/package');
+	 			break;			
+	 		default:
+	 			# code...
+	 			break;
+	 	}
+	 		
+	 	Redirect::to('user/package');
 	}
 
 
@@ -69,11 +82,7 @@ class shopController extends controller
 		switch ($_REQUEST['item_purchased']) {
 			case 'packages':
 				Redirect::to('user/package');
-				break;
-			case 'scheme':
-				Redirect::to("user/ebook/{$order->id}");
-				break;
-			
+				break;			
 			default:
 				# code...
 				break;

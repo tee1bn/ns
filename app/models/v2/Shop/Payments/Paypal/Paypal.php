@@ -274,13 +274,31 @@ class PayPal  implements PaymentMethodInterface
 	{
 
 		if (isset($_GET['success']) && $_GET['success'] == 'true') {
-		    echo $token = $_GET['token'];
-		    $agreement = new Agreement();
-
-
-
+		}else{
+			return;
 		}
 
+
+	    $token = $_GET['token'];
+	    $agreement = new \PayPal\Api\Agreement();
+
+
+	    try {
+
+
+	    	$agreement->execute($token, $this->apiContext);
+	    	$agreement = \PayPal\Api\Agreement::get($agreement->getId(), $this->apiContext);
+
+	    	$_SESSION['agreement'] = $agreement;
+	    	$result = $agreement;
+
+			$confirmation = ['status'=>true];
+         	return compact('result','confirmation');
+
+
+	    } catch (Exception $e) {
+	    	
+	    }
 
 	}
 
@@ -312,6 +330,7 @@ class PayPal  implements PaymentMethodInterface
 		$payment_details = [
 						'gateway' => $this->name,
 						'payment_type' => $this->payment_type,
+						'payment_state' => 'automatic',
 						'ref' => $order_ref,
 						'order_unique_id' => $this->order->id,
 						"approval_url" 	 =>  $approvalUrl,

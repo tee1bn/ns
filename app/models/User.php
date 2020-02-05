@@ -238,8 +238,6 @@ class User extends Eloquent
 
         $expiry_time = strtotime($subscription->ExpiryDate);
 
-
-
         if (($subscription->payment_state == 'manual') || ($subscription->payment_state == null)) {
 
             if ($expiry_time < $today ) {

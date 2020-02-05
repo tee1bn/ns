@@ -354,6 +354,28 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	}
 
 
+	public function getPaymentDetailsArrayAttribute()
+	{
+		if ($this->payment_details == null) {
+			return [];
+		}
+
+		$payment_details = json_decode($this->payment_details,true);
+
+		return $payment_details;
+	}
+
+	public function update_agreement_id($agreement_id)
+	{
+		$array = $this->PaymentDetailsArray;
+		$array['agreement_id'] = $agreement_id;
+
+		$this->update([	
+							'payment_details' => json_encode($array)
+					]);
+		
+	}
+
 	public function setPayment($payment_method,array $payment_details)
 	{
 		// DB::beginTransaction();
@@ -361,6 +383,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 		$this->update([
 			'payment_method' => $payment_method,
+			'payment_state' => $payment_details['payment_state'],
 			'payment_details' => json_encode($payment_details),
 		]);
 

@@ -203,7 +203,22 @@ class Shop
 
 	public function executeAgreement()
 	{
-		$this->payment_method->executeAgreement();
+
+		$this->setPaymentMethod($this->order->payment_method) ;
+		$execution =  $this->payment_method->executeAgreement();
+
+		//payment confirmed
+		if ($execution['confirmation']['status'] == 1) {
+			// print_r($execution);
+
+			$this->order->update_agreement_id($execution['result']->getId());
+			$this->order->mark_paid();
+			self::empty_cart_in_session();
+			//clear session 
+		}
+
+		return $this;
+
 	}
 
 	
