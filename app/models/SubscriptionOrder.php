@@ -81,12 +81,19 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 			$agreement_details = $this->fetchAgreement();
 			$next_billing_date = date("M j, Y", strtotime($agreement_details['next_billing_date']));
 
+			$today = strtotime(date("Y-m-d"));
+			$next_billing = strtotime(date("Y-m-d", strtotime($agreement_details['next_billing_date'])));
+
 
 			$note="";
-			$note .= MIS::generate_form([
-						'order_unique_id' => $this->id,
-						'item_purchased' => 'packages',
-						],$cancel_link,'Cancel Subscription','',true);
+
+			if ($next_billing > $today) {
+				$note .= MIS::generate_form([
+							'order_unique_id' => $this->id,
+							'item_purchased' => 'packages',
+							],$cancel_link,'Cancel Subscription','',true);
+			}
+
 			$note .= "<br>Next Billing: $next_billing_date <br>";
 				break;
 			case 'cancelled':

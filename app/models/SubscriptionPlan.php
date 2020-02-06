@@ -122,7 +122,7 @@ class SubscriptionPlan extends Eloquent
 			 	//cancel current subscription if automatic
 
 			 	$plan_id = $subscription_id;
-			 	$price = $new_sub->price;
+			 	$price = $new_sub->PriceBreakdown['total_payable'];
 			 	$cart = compact('plan_id','user_id','price');
 
 		 		$shop = new Shop();
