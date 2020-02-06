@@ -118,6 +118,9 @@ class SubscriptionPlan extends Eloquent
 				//delete unuseful orders
 			 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();		 	
 
+
+			 	//cancel current subscription if automatic
+
 			 	$plan_id = $subscription_id;
 			 	$price = $new_sub->price;
 			 	$cart = compact('plan_id','user_id','price');

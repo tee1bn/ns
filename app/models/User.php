@@ -236,8 +236,8 @@ class User extends Eloquent
         }
 
 
-        $expiry_time = strtotime($subscription->ExpiryDate);
 
+        $expiry_time = strtotime($subscription->ExpiryDate);
         if (($subscription->payment_state == 'manual') || ($subscription->payment_state == null)) {
 
             if ($expiry_time < $today ) {
@@ -252,7 +252,11 @@ class User extends Eloquent
 
         }elseif ($subscription->payment_state == 'cancelled') {
 
-            return null;
+            if ($expiry_time < $today ) {
+                return null;
+            }else{
+                return $subscription;
+            }
 
         }else{
 

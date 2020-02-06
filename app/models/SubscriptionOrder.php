@@ -6,6 +6,7 @@ include_once 'app/controllers/home.php';
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Capsule\Manager as DB;
 use v2\Shop\Contracts\OrderInterface;
+use  v2\Shop\Shop;
 
 
 class SubscriptionOrder extends Eloquent implements OrderInterface
@@ -43,30 +44,57 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 	public function getExpiryDateAttribute()
 	{
+		if ($this->expires_at != null) {
+
+			return $this->expires_at;
+		}
+
 		$date_string = $this->paid_at;
+
 		$date =  date("Y-m-d", strtotime("$date_string + 1 month" )); // 2011-01-03
 
 		return $date;
 	}
 
+
+	public function fetchAgreement()
+	{
+		$shop = new Shop();
+		$agreement = $shop->setOrder($this)->fetchAgreement();
+		return $agreement;
+	}
+
 	public function getNotificationTextAttribute()
 	{
+
 		$date = $this->ExpiryDate;
+		$expiry_date = date("M j, Y", strtotime($date));
+
+		$domain = Config::domain();
+		$cancel_link = "$domain/shop/cancel_agreement";
 
 		switch ($this->payment_state) {
 			case 'manual':
-			$note = "Expires: $date";
+			$note = "Expires: $expiry_date";
 				break;
 			case 'automatic':
-			$cancel_button = "";
-			$note = "Next autorenewal: $date";
+			$agreement_details = $this->fetchAgreement();
+			$next_billing_date = date("M j, Y", strtotime($agreement_details['next_billing_date']));
+
+
+			$note="";
+			$note .= MIS::generate_form([
+						'order_unique_id' => $this->id,
+						'item_purchased' => 'packages',
+						],$cancel_link,'Cancel Subscription','',true);
+			$note .= "<br>Next Billing: $next_billing_date <br>";
 				break;
 			case 'cancelled':
-			$note = "renewal cancelled:";
+			$note = "Expires: $expiry_date";
 				break; 
 			
 			default:
-			$note = "Expires: $date";
+			$note = "Expires: $expiry_date";
 				break;
 		}
 
@@ -327,14 +355,12 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	public function total_tax_inclusive()
 	{
 
-		$total_sum_tax = 0.01 * $this->payment_plan->percent_vat * $this->price;
-		$total_tax_inclusive =  $total_sum_tax + $this->price;
-
+		$breakdown = $this->payment_plan->PriceBreakdown;
 
 		$tax = [
-					'price_inclusive_of_tax' => $total_tax_inclusive,
-					'price_exclusive_of_tax' => $this->price,
-					'total_sum_tax' => $total_sum_tax,
+					'price_inclusive_of_tax' => $breakdown['total_payable'],
+					'price_exclusive_of_tax' => $breakdown['set_price'],
+					'total_sum_tax' => $breakdown['tax'],
 				];
 
 		return $tax;
@@ -356,7 +382,32 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 	public function cancelAgreement()
 	{
-		$this->update(['payment_state' => 'cancelled']);
+		$order = self::where('id' ,$this->id)->Paid()->where('payment_state', 'automatic')->first();
+
+		if ($order == null) {
+			return ;
+		}
+
+		$shop = new Shop();
+		$agreement_details = $this->fetchAgreement();
+		$expires_at = date("Y-m-d", strtotime($agreement_details['next_billing_date']));
+
+		DB::beginTransaction();
+		try {
+			
+			$shop->setOrder($this)->cancelAgreement();
+
+			$this->update([
+							'payment_state' => 'cancelled',
+							'expires_at' => $expires_at,
+						]);
+
+			DB::commit();
+			Session::putFlash("success","Billing cancelled successfully");
+		} catch (Exception $e) {
+			DB::rollback();
+			
+		}
 	}
 
 	public function getPaymentDetailsArrayAttribute()
@@ -385,10 +436,9 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	{
 		// DB::beginTransaction();
 		// print_r($payment_details);
-
 		$this->update([
 			'payment_method' => $payment_method,
-			'payment_state' => $payment_details['payment_state'],
+			'payment_state' => @$payment_details['payment_state'],
 			'payment_details' => json_encode($payment_details),
 		]);
 

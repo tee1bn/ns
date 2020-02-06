@@ -27,11 +27,11 @@ function generate_form($data, $action, $button, $function='', $require_confirmat
     }
 
     if ($require_confirmation==true) {
-    	$btn=  '<button type="submit" onclick=''  class="btn btn-secondary">.'$button'. </button>';
+    	$btn=  '<button type="button" onclick="$confirm_dialog = new DialogJS(submit_form, [this])"  class="btn btn-sm btn-secondary">'.$button.'</button>';
 
     }else{
-    	$btn=  '<button type="submit" onclick=''  class="btn btn-secondary">.'$button'. </button>';
 
+    	$btn=  '<button type="submit"   class="btn btn-secondary">'.$button.'</button>';
     }
 
     $form = '';
@@ -44,8 +44,8 @@ function generate_form($data, $action, $button, $function='', $require_confirmat
     </form>
 
     <script>
-      submit_form = function(form){
-        form.submit();
+      submit_form = function(btn){
+        btn.parentNode.submit();
       }
       
     </script>

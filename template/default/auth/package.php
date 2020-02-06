@@ -76,7 +76,7 @@ $page_title = "Package";
 
                     <?php if (@$auth->subscription->plandetails['id']  == $subscription->id):?>
                     <div class="form-group">
-                      <button type="button" class="btn btn-success btn-sm">Current</button><br>
+                      <button type="button" class="btn btn-success btn-sm">Current</button>
                       <small><?=$auth->subscription->NotificationText;?></small>
                     </div>
                     <?php endif ;?>

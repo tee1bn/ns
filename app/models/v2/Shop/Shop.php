@@ -203,9 +203,15 @@ class Shop
 	public function cancelAgreement()
 	{
 		$this->setPaymentMethod($this->order->payment_method);
-		$execution =  $this->payment_method->cancelAgreement();
+		$execution =  $this->payment_method->cancelAgreement();		
+	}
 
-		
+	public function fetchAgreement()
+	{
+		$this->setPaymentMethod($this->order->payment_method);
+		$agreement =  $this->payment_method->fetchAgreement();		
+
+		return $agreement;
 	}
 
 	public function executeAgreement()

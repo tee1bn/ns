@@ -35,10 +35,18 @@ class shopController extends controller
 	}
 
 
+
+	public function cancel_agreement()
+	{
+		$order = $this->auth()->subscription;
+	 	$order->cancelAgreement();
+	 	Redirect::back();		
+	}
+
+
 	//for subscription payment
 	public function execute_agreement()
-	{
-		
+	{		
 		$shop = new Shop();
 		$item_purchased = $shop->available_type_of_orders[$_REQUEST['item_purchased']];
 	 	$full_class_name = $item_purchased['namespace'].'\\'.$item_purchased['class'];		 	
