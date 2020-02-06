@@ -1,6 +1,10 @@
 <?php
 $page_title = "Package";
- include 'includes/header.php';?>
+ include 'includes/header.php';
+
+ ;?>
+
+
 
 
     <!-- BEGIN: Content-->

@@ -288,7 +288,7 @@ class PayPal  implements PaymentMethodInterface
 
 			$response = [
 				'next_billing_date' => $array['next_billing_date'],
-				'last_payment_date' => $array['last_payment_date'],
+				'last_payment_date' => @$array['last_payment_date'],
 				'agreement_id' => $agreement_id
 			];
 
