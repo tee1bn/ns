@@ -411,7 +411,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 						]);
 
 			DB::commit();
-			Session::putFlash("success","Billing cancelled successfully");
+			Session::putFlash("success","{$this->package_type} Billing cancelled successfully");
 		} catch (Exception $e) {
 			DB::rollback();
 			
