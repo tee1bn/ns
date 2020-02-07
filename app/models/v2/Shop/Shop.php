@@ -220,6 +220,14 @@ class Shop
 		$this->setPaymentMethod($this->order->payment_method) ;
 		$execution =  $this->payment_method->executeAgreement();
 
+
+
+		$previous_sub = $this->order->user->subscription;
+		if ($previous_sub->payment_state == 'automatic') {
+		 	$previous_sub->cancelAgreement();
+		}
+
+
 		//payment confirmed
 		if ($execution['confirmation']['status'] == 1) {
 			// print_r($execution);

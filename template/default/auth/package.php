@@ -53,7 +53,7 @@ $page_title = "Package";
                       <?php endforeach;?>
                   </ul>
                   <br>
-                  <?php if (@$auth->subscription['price']  < $subscription->price):?>
+                  <?php if (@$auth->subscription->plandetails['price']  < $subscription->price):?>
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
                       method="post"
