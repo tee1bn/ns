@@ -36,17 +36,43 @@ class shopController extends controller
 
 
 
-	public function subscription_callback()
+	public function cancel_agreement()
 	{
-		
-/*		$shop = new Shop();
+		$order = $this->auth()->subscription;
+	 	$order->cancelAgreement();
+	 	Redirect::back();		
+	}
+
+
+	//for subscription payment
+	public function execute_agreement()
+	{		
+		$shop = new Shop();
 		$item_purchased = $shop->available_type_of_orders[$_REQUEST['item_purchased']];
 	 	$full_class_name = $item_purchased['namespace'].'\\'.$item_purchased['class'];		 	
 	 	$order_id = $_REQUEST['order_unique_id'];
 	 	$order = $full_class_name::where('id' ,$order_id)->where('paid_at', null)->first();
 
-		// $shop->setOrder($order)->verifyPayment();
-*/		
+	 	DB::beginTransaction();
+	 	try {
+	 		
+			$shop->setOrder($order)->executeAgreement();
+
+		DB::commit();
+	 	} catch (Exception $e) {
+	 		
+	 	}
+
+	 	switch ($_REQUEST['item_purchased']) {
+	 		case 'packages':
+	 			Redirect::to('user/package');
+	 			break;			
+	 		default:
+	 			# code...
+	 			break;
+	 	}
+	 		
+	 	Redirect::to('user/package');
 	}
 
 
@@ -64,11 +90,7 @@ class shopController extends controller
 		switch ($_REQUEST['item_purchased']) {
 			case 'packages':
 				Redirect::to('user/package');
-				break;
-			case 'scheme':
-				Redirect::to("user/ebook/{$order->id}");
-				break;
-			
+				break;			
 			default:
 				# code...
 				break;
@@ -89,6 +111,9 @@ class shopController extends controller
 		$order_id = $_REQUEST['order_unique_id'];
 		$order = $full_class_name::where('id' ,$order_id)->where('user_id', $this->auth()->id)->where('paid_at', null)->first();
 
+
+		$payment_type = $full_class_name::$payment_types[$_REQUEST['payment_method']];
+
 		if ($order == null) {
 			Session::putFlash("info","Invalid Request");
 			return;
@@ -98,6 +123,7 @@ class shopController extends controller
 		$attempt =	$shop
 							->setOrder($order)
 							->setPaymentMethod($_REQUEST['payment_method'])
+							->setPaymentType($payment_type)
 							->initializePayment()
 							->attemptPayment();
 		if ($attempt ==false) {

@@ -45,6 +45,12 @@ class Subscription  extends cPaypal{
 		parent::__construct();
 	}
 
+	public function setOrder($order)
+	{
+		$this->order = $order;
+		return $this;
+	}
+
 
 	public function createSubscriptionPlan($subscriptionPlan=null)
 	{
@@ -61,7 +67,11 @@ class Subscription  extends cPaypal{
 		    $this->setPaymentDefinition();
 		    $this->setChargeModel();
 		    $this->setMerchantPreferences();
-		    return $this->CreateRequest();
+		    $subscription =  $this->CreateRequest();
+		    $subscription_id = current((array)$subscription)['id'];
+
+		    return $this->activatePlan($subscription_id);
+
 		return;
 
 
@@ -89,8 +99,8 @@ class Subscription  extends cPaypal{
 	{
 
 		$this->chargeModel = new ChargeModel();
-		$this->chargeModel->setType('SHIPPING')
-		    ->setAmount(new Currency(array('value' => 10, 'currency' => parent::$currency)));
+		$this->chargeModel->setType('TAX')
+		    ->setAmount(new Currency(array('value' => $this->subscriptionPlan->PriceBreakdown['tax'], 'currency' => parent::$currency)));
 
 		$this->paymentDefinition->setChargeModels(array($this->chargeModel));
 
@@ -102,14 +112,37 @@ class Subscription  extends cPaypal{
 	{
 
 		$this->merchantPreferences = new MerchantPreferences();
-		$baseUrl = Config::domain();
+		$domain = Config::domain();
 
-		$this->merchantPreferences->setReturnUrl("$baseUrl/paypal/ExecuteAgreement.php?success=true")
-		    ->setCancelUrl("$baseUrl/paypal/ExecuteAgreement.php?success=false")
+
+
+		$success = http_build_query([
+			'item_purchased'=> $this->order->name_in_shop,
+			'order_unique_id'=> $this->order->id,
+			'success'=> 'true',
+		]);
+
+
+		$failure = http_build_query([
+			'item_purchased'=> $this->order->name_in_shop,
+			'order_unique_id'=> $this->order->id,
+			'success'=> 'false',
+		]);
+
+
+		$success_url = "{$domain}/shop/execute_agreement?$success";
+		$failure_url = "{$domain}/shop/execute_agreement?$failure";
+
+
+
+
+
+		$this->merchantPreferences->setReturnUrl($success_url)
+		    ->setCancelUrl($failure_url)
 		    ->setAutoBillAmount("yes")
 		    ->setInitialFailAmountAction("CONTINUE")
 		    ->setMaxFailAttempts("0")
-		    ->setSetupFee(new Currency(array('value' => 1, 'currency' => parent::$currency)));
+		    ->setSetupFee(new Currency(array('value' => 0, 'currency' => parent::$currency)));
 
 		    $this->plan->setPaymentDefinitions(array($this->paymentDefinition));
 		    $this->plan->setMerchantPreferences($this->merchantPreferences);
@@ -143,7 +176,7 @@ class Subscription  extends cPaypal{
 
 		try {
 			
-		    $params = array('page_size' => '2');
+		    $params = array('page_size' => '20');
 		    $this->planList = Plan::all($params, $this->apiContext);
 
 		    return $this->planList;

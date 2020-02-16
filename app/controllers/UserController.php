@@ -30,9 +30,7 @@ class UserController extends controller
 
 	}
 
-
-
-
+	
 
 	public function notifications($notification_id = 'all')
 	{
@@ -190,7 +188,14 @@ class UserController extends controller
 	{
 
 		$subscription_id = $_REQUEST['subscription_id'];
-		
+	/*
+		$order = $this->auth()->subscription;
+		if ($order->payment_state == 'automatic') {
+		 	$order->cancelAgreement();
+		}
+*/
+
+
 		$response = SubscriptionPlan::create_subscription_request($subscription_id, $this->auth()->id);
 
 

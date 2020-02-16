@@ -73,8 +73,6 @@ class User extends Eloquent
     	$no_of_merchants = 	@$response[$this->id]['tenantCount'];
 
     	// $no_of_merchants = 20;
-    
-
 
     	$pools_settings = SiteSettings::pools_settings();
     	foreach ($pools_settings as $key => $settings) {
@@ -238,10 +236,8 @@ class User extends Eloquent
         }
 
 
+
         $expiry_time = strtotime($subscription->ExpiryDate);
-
-
-
         if (($subscription->payment_state == 'manual') || ($subscription->payment_state == null)) {
 
             if ($expiry_time < $today ) {
@@ -256,7 +252,11 @@ class User extends Eloquent
 
         }elseif ($subscription->payment_state == 'cancelled') {
 
-            return null;
+            if ($expiry_time < $today ) {
+                return null;
+            }else{
+                return $subscription;
+            }
 
         }else{
 

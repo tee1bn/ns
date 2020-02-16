@@ -27,7 +27,19 @@ class SubscriptionPlan extends Eloquent
 	
 	protected $table = 'subscription_plans';
 
+	public function getDecodeGatewaysIdsAttribute($value='')
+	{
+		if ($this->gateways_ids == null) {
+			
+			return  [
+						'paypal' => [
+							'id' => ''
+						],
+					];
+		}
 
+        return  json_decode($this->gateways_ids ,true);    
+	}
 
 	public static function default_sub()
 	{
@@ -41,10 +53,12 @@ class SubscriptionPlan extends Eloquent
 
 	public function getPriceBreakdownAttribute()
 	{
+		$tax = 0.01 * $this->percent_vat * $this->price;
 		$breakdown = [
 			'before_tax'=> $this->price,
 			'set_price'=> $this->price,
 			'total_percent_tax'=> $this->percent_vat,
+			'tax'=>  $tax,
 			'type'=>  "exclusive",
 			'total_payable'=>  $this->Finalcost,
 		];
@@ -52,6 +66,10 @@ class SubscriptionPlan extends Eloquent
 		return $breakdown;
 	}
 
+	public function getPlanId($gateway)
+	{
+		return $this->DecodeGatewaysIds[$gateway]['id'];
+	}
 
 	public static function create_subscription_request($subscription_id, $user_id)
 	{	
@@ -100,14 +118,19 @@ class SubscriptionPlan extends Eloquent
 				//delete unuseful orders
 			 	SubscriptionOrder::where('user_id', $user_id)->where('plan_id', '!=', $subscription_id)->where('paid_at',null)->delete();		 	
 
+
+			 	//cancel current subscription if automatic
+
 			 	$plan_id = $subscription_id;
-			 	$price = $new_sub->price;
+			 	$price = $new_sub->PriceBreakdown['total_payable'];
 			 	$cart = compact('plan_id','user_id','price');
+
 		 		$shop = new Shop();
 		 		$payment_details =	$shop
 		 							->setOrderType('packages') //what is being bought
 		 							->receiveOrder($cart)
 		 							->setPaymentMethod($_POST['payment_method'])
+		 							->setPaymentType(SubscriptionOrder::$payment_types[$_POST['payment_method']])
 		 							->initializePayment()
 		 							->attemptPayment()
 		 							;

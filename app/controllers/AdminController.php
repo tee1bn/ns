@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Capsule\Manager as DB;
 
+
+use v2\Shop\Payments\Paypal\Subscription;
+use v2\Shop\Payments\Paypal\PaypalAgreement;
+
 /**
  * this class is the default controller of our application,
  * 
@@ -145,6 +149,8 @@ class AdminController extends controller
 			$subscription_plan->update(['availability' => '']);
 			print_r($subscription_plan->toArray());
 			$subscription_plan->update($plan);
+
+
 		}
 
 		Session::putFlash("success","Updated Succesfully.");

@@ -1,6 +1,10 @@
 <?php
 $page_title = "Package";
- include 'includes/header.php';?>
+ include 'includes/header.php';
+
+ ;?>
+
+
 
 
     <!-- BEGIN: Content-->
@@ -49,7 +53,7 @@ $page_title = "Package";
                       <?php endforeach;?>
                   </ul>
                   <br>
-                  <?php if (@$auth->subscription['price']  < $subscription->price):?>
+                  <?php if (@$auth->subscription->plandetails['price']  < $subscription->price):?>
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
                       method="post"
@@ -73,9 +77,10 @@ $page_title = "Package";
                     </div>
                     </form>
                     <?php endif ;?>
+
                     <?php if (@$auth->subscription->plandetails['id']  == $subscription->id):?>
                     <div class="form-group">
-                      <button type="button" class="btn btn-success btn-sm">Current</button><br>
+                      <button type="button" class="btn btn-success btn-sm">Current</button>
                       <small><?=$auth->subscription->NotificationText;?></small>
                     </div>
                     <?php endif ;?>
@@ -87,6 +92,8 @@ $page_title = "Package";
           
           <?php endforeach;?>
               </div>
+              
+            
 
               <script>
                 initiate_payment= function($data){

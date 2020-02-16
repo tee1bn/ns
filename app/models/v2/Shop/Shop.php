@@ -11,6 +11,7 @@ class Shop
 	public $available_payment_method;
 	public $available_orders;
 	private $payment_method;
+	private $payment_type;
 	private $order;
 
 
@@ -131,6 +132,14 @@ class Shop
 	}
 
 
+	public function setPaymentType($payment_type='one_time')
+	{
+		$this->payment_type = $payment_type;
+		$this->payment_method->setPaymentType($this->payment_type);
+		return $this;
+	}
+
+
 	public function setOrder($order)
 	{
 		$this->order = $order;
@@ -191,6 +200,49 @@ class Shop
 	}
 
 
+	public function cancelAgreement()
+	{
+		$this->setPaymentMethod($this->order->payment_method);
+		$execution =  $this->payment_method->cancelAgreement();		
+	}
+
+	public function fetchAgreement()
+	{
+		$this->setPaymentMethod($this->order->payment_method);
+		$agreement =  $this->payment_method->fetchAgreement();		
+
+		return $agreement;
+	}
+
+	public function executeAgreement()
+	{
+
+		$this->setPaymentMethod($this->order->payment_method) ;
+		$execution =  $this->payment_method->executeAgreement();
+
+
+
+		$previous_sub = $this->order->user->subscription;
+		if ($previous_sub->payment_state == 'automatic') {
+		 	$previous_sub->cancelAgreement();
+		}
+
+
+		//payment confirmed
+		if ($execution['confirmation']['status'] == 1) {
+			// print_r($execution);
+
+			$this->order->update_agreement_id($execution['result']->getId());
+			$this->order->mark_paid();
+			self::empty_cart_in_session();
+			//clear session 
+		}
+
+		return $this;
+
+	}
+
+	
 	public function goToGateway()
 	{
 		$this->payment_method->goToGateway();

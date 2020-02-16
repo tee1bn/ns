@@ -12,6 +12,51 @@ class MIS
 		return number_format("$string",2);		
 	}
 
+function generate_form($data, $action, $button, $function='', $require_confirmation=false)
+{
+    $inputs = '';
+    foreach ($data as $key => $value) {
+        $inputs.= "<input type='hidden' name='$key' 
+        value='$value'> ";
+    }
+
+    if ($function == '' ) {
+        $function_attribute = '';
+    }else{
+        $function_attribute = "data-function='$function'";
+    }
+
+    if ($require_confirmation==true) {
+    	$btn=  '<button type="button" onclick="$confirm_dialog = new DialogJS(submit_form, [this])"  class="btn btn-sm btn-secondary">'.$button.'</button>';
+
+    }else{
+
+    	$btn=  '<button type="submit"   class="btn btn-secondary">'.$button.'</button>';
+    }
+
+    $form = '';
+
+    $form = <<<EOL
+
+    <form style="display: inline;" id="q_form" $function_attribute class="ajax_form" method="post" action="$action">
+    $inputs  
+    $btn
+    </form>
+
+    <script>
+      submit_form = function(btn){
+        btn.parentNode.submit();
+      }
+      
+    </script>
+
+EOL;
+                              
+    return $form;
+
+}
+
+
 	
     public static function custom_mime_content_type($filename)
     {

@@ -16,16 +16,24 @@ use PayPal\Api\RedirectUrls;
 use PayPal\Api\Transaction;
 use \PayPal\Api\PaymentExecution;
 
+use PayPal\Api\AgreementStateDescriptor;
+use \PayPal\Api\Agreement;
 
+
+use v2\Shop\Payments\Paypal\Subscription;
+use v2\Shop\Payments\Paypal\PaypalAgreement;
 
 use v2\Shop\Contracts\OrderInterface;
+use v2\Shop\Contracts\PaymentMethodInterface;
 use Exception, SiteSettings, Config, MIS, Redirect;
+
 /**
  * 
  */
-class PayPal  
+class PayPal  implements PaymentMethodInterface
 {
 	private $name = 'paypal';
+	private $payment_type = 'one_time';
 	private $mode;
 	protected static $currency = 'EUR';
 	
@@ -71,6 +79,12 @@ class PayPal
 
 	}
 
+
+	public function setPaymentType($payment_type)
+	{
+		$this->payment_type = $payment_type;
+		return $this;
+	}
 
 
 	public function goToGateway()
@@ -161,16 +175,13 @@ class PayPal
 		return $amount;
 	}
 
-
-	public function initializePayment()
+	private function makeOneTimePayment()
 	{
 		$payment_method = $this->name;
 		$order_ref = $this->order->generateOrderID();
 		$price_breakdown = $this->order->total_tax_inclusive();
 		$user = $this->order->user;
 		$domain = Config::domain();
-
-
 
 
 		$callback_param = http_build_query([
@@ -237,6 +248,7 @@ class PayPal
 
 		  $payment_details = [
 		  				'gateway' => $this->name,
+						'payment_type' => $this->payment_type,
 		  				'ref' => $order_ref,
 		  				'order_unique_id' => $this->order->id,
 		  				"approval_url" 	 =>  $approvalUrl,
@@ -257,6 +269,144 @@ class PayPal
 
 		return $this;
 
+		
+
+	}
+
+
+
+	public function fetchAgreement()
+	{
+
+	    $agreement_id = $this->order->PaymentDetailsArray['agreement_id'];
+
+	    try {
+	    	
+			$agreement = Agreement::get($agreement_id, $this->apiContext);
+
+			$array = current((array) current((array) $agreement)['agreement_details']);
+
+			$response = [
+				'next_billing_date' => $array['next_billing_date'],
+				'last_payment_date' => @$array['last_payment_date'],
+				'agreement_id' => $agreement_id
+			];
+
+			return $response;
+
+	    } catch (Exception $e) {
+	    	
+	    }
+	}
+	
+
+	public function cancelAgreement()
+	{
+
+	    $agreement = new \PayPal\Api\Agreement();
+	    $agreement_id = $this->order->PaymentDetailsArray['agreement_id'];
+
+	    try {
+	    	
+			$agreement = Agreement::get($agreement_id, $this->apiContext);
+
+			$agreementStateDescriptor = new AgreementStateDescriptor();
+			$agreementStateDescriptor->setNote("Suspending the agreement");
+
+			$agreement->suspend($agreementStateDescriptor, $this->apiContext);
+
+	    } catch (Exception $e) {
+	    	
+	    }
+
+
+
+	}
+
+
+	public function executeAgreement()
+	{
+
+		if (isset($_GET['success']) && $_GET['success'] == 'true') {
+		}else{
+			return;
+		}
+
+
+	    $token = $_GET['token'];
+	    $agreement = new \PayPal\Api\Agreement();
+
+
+	    try {
+
+
+	    	$agreement->execute($token, $this->apiContext);
+	    	$agreement = \PayPal\Api\Agreement::get($agreement->getId(), $this->apiContext);
+
+	    	$_SESSION['agreement'] = $agreement;
+	    	$result = $agreement;
+
+			$confirmation = ['status'=>true];
+         	return compact('result','confirmation');
+
+
+	    } catch (Exception $e) {
+	    	
+	    }
+
+	}
+
+
+	private function makeSubscriptionPayment()
+	{
+
+		$payment_method = $this->name;
+		$order_ref = $this->order->generateOrderID();
+		$price_breakdown = $this->order->total_tax_inclusive();
+		$user = $this->order->user;
+		$domain = Config::domain();
+
+
+
+
+		$subscription = new Subscription();
+		$plan = (array) $subscription->setOrder($this->order)->createSubscriptionPlan($this->order->payment_plan);
+		$subscription_id =  current($plan)['id'];
+
+
+		$agreement = new PaypalAgreement();
+
+
+		$id = $this->order->payment_plan->getPlanId('paypal');
+
+		$approvalUrl =	$agreement->setPlanId($subscription_id)->create();
+
+		$payment_details = [
+						'gateway' => $this->name,
+						'payment_type' => $this->payment_type,
+						'payment_state' => 'automatic',
+						'ref' => $order_ref,
+						'order_unique_id' => $this->order->id,
+						"approval_url" 	 =>  $approvalUrl,
+						"amount" 	 =>  $this->amountPayable(),
+					];
+
+		$this->order->setPayment($payment_method , $payment_details);
+
+		return $this;
+	}
+
+
+	public function initializePayment()
+	{
+		$actions = [
+			'one_time' => 'makeOneTimePayment',
+			'subscription' => 'makeSubscriptionPayment',
+		];
+
+		$method = $actions[$this->payment_type];
+
+		return $this->$method();
 	}
 
 	public function attemptPayment()
@@ -269,7 +419,7 @@ class PayPal
 
 
 		if ($this->order->payment_method != $this->name) {
-			throw new Exception("This Order is not set to use {$this->name} payment menthod", 1);
+			throw new Exception("This Order is not set to use {$this->name} payment method", 1);
 		}
 
 		$payment_details = json_decode($this->order->payment_details, true);
