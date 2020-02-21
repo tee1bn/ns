@@ -286,23 +286,21 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		 // print_r($settings);
 		 // print_r($tree);
 
-		 foreach ($tree as $level => $upline) {
-		 		     $amount_earned = $settings[$level]['packages'] * 0.01 * $detail['commission_price'];
-					 $comment = $detail['package_type']." Package Level {$level} Bonus";
+		foreach ($tree as $level => $upline) {
+		 		    $amount_earned = $settings[$level]['packages'] * 0.01 * $detail['commission_price'];
+					$comment = $detail['package_type']." Package Level {$level} Bonus";
 
-					 if ($level == 0) {
+					if ($level == 0) {
 						 $comment = $detail['package_type']." Package self Bonus";
-					 }
+					}
 
 					// ensure  upliner is qualified for commission
 					if (! $upline->is_qualified_for_commission($level)) {
 							continue;
 					}
 					
-
-
-				$credit[]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
-		 }
+			$credit[]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+		}
 
 		return $credit;
 	}
