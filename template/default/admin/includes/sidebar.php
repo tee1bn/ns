@@ -43,6 +43,7 @@
             <!-- <li><a class="menu-item" href="<?=domain;?>/admin/testimony"><i class="fa fa-certificate"></i>Testimonials</a></li> -->
 
             <li><a class="menu-item" href="<?=domain;?>/admin/broadcast"><i class="fa fa-bullhorn"></i>News</a></li>
+            <!-- <li><a class="menu-item" href="<?=domain;?>/admin/cms"><i class="fa fa-edit"></i>CMS</a></li> -->
 
             <!-- <li><a class="menu-item" href="content-grid.html"><i class="fa fa-certificate"></i>Support</a></li> -->
 

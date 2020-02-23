@@ -168,12 +168,6 @@ public function verify_email()
 		$email = $user->email ;
 
 
-
-		/*
-		$body = 'Thank you for signing up at '.Conproject_name.', \n please click this link to continue '.domain.'/register/confirm_email/'.$email.'/'.$email_verification_token.'';*/
-
-		// $status =  mail($email, $subject, $link);
-
 		$mailer = new Mailer;
 		$status = $mailer->sendMail($to, $subject, $body, $reply='', $recipient_name='');
 

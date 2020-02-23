@@ -1,24 +1,22 @@
 <?php include 'includes/header.php';?>
 
-      <span style="text-transform: capitalize; color: #203864">
-      	PASSWORD RESET</span></td></tr></tbody></table>
-
-
-
+  </td></tr></tbody></table>
 
 
     <div style="font-family: Arial, sans-serif; line-height: 20px; color: #444444; font-size: 13px;">
-      <b style="color: #777777;">You Requested to reset your password. <?=$this->name;?></b>
-      <br>
-      Please click the link to reset your password.  
-      <br>
-      <br>	
+      <b style="color: #777777; text-transform: lowercase;"></b>
 
+                       <?php
+                                $message =  CMS::fetch('password_reset_email');
 
+                                $button = "<a href='$link' style='background:#77b76a; color:white; border: 1px solid green; padding: 10px;'>Confirm</a>";
 
-       <a href='<?=$link;?>' style="color: #ffffff; text-decoration: none; margin: 0px; text-align: center; vertical-align: baseline; padding: 9px 9px; font-size: 15px; line-height: 21px; background-color: #32c89a;">&nbsp; Reset Password &nbsp;</a>
-       <br>
-       <br>
+                                $message = str_replace("[FIRSTNAME]", "<b>$user->firstname</b>", $message);
+                                $message = str_replace("[LASTNAME]", "<b>$user->lastname</b>", $message);
+                                $message = str_replace("[FULLNAME]", "<b>$user->fullname</b>", $message);
+                                $message = str_replace("[USERNAME]", "<b>$user->username</b>", $message);
+                                $message = str_replace("[LINK]", "$link", $message);
+                                echo $message;?>
     </div>
 
   </td></tr></tbody></table>

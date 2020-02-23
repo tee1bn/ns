@@ -41,6 +41,13 @@
     <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     <!-- END: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="<?=asset;?>/fonts/feather/style.min.css">
+
+    <script src="https://cdn.ckeditor.com/4.11.3/standard/ckeditor.js"></script>
+       <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+    
+    
+    <script src="<?=asset;?>/tinymce/tinymce/tinymce.js" referrerpolicy="origin"></script>
+
     <script src="<?=asset;?>/js/jquery1.12.min.js"></script>
   </head>
   <!-- END: Head-->

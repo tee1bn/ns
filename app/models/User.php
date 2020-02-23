@@ -322,7 +322,6 @@ class User extends Eloquent
         }
 
 
-
         $expiry_time = strtotime($subscription->ExpiryDate);
         if (($subscription->payment_state == 'manual') || ($subscription->payment_state == null)) {
 
@@ -349,7 +348,6 @@ class User extends Eloquent
             return SubscriptionPlan::default_sub();
         }
 
-    	return $this->belongsTo('SubscriptionPlan', 'account_plan');
     }
 
     public function subscriptions()

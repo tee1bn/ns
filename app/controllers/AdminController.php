@@ -634,6 +634,12 @@ class AdminController extends controller
 	}
 
 
+	public function cms()
+	{
+		$this->view('admin/cms');
+	}
+
+
 
 	public function viewSupportTicket($ticket_id){
 
@@ -759,6 +765,39 @@ class AdminController extends controller
 	{
 		$this->view('admin/sales');
 	}	
+
+
+	
+	public function update_cms()
+	{
+
+		echo "<pre>";
+
+		print_r($_POST);
+
+		// $page = CMS::where('criteria', $_POST['criteria'])->first();
+
+		Db::beginTransaction();
+
+		try {
+			
+				CMS::updateOrCreate([
+					'criteria' => $_POST['criteria']
+				],[
+					'settings' => $_POST['settings'],
+				]);
+
+
+
+			DB::commit();
+			Session::putFlash("success", "Changes Saved");
+		} catch (Exception $e) {
+			DB::rollback();
+			print_r($e->getMessage());
+		}
+
+		Redirect::back();
+	}
 
 
 

@@ -1,20 +1,20 @@
 <?php include 'includes/header.php';?>
 
-
-      <span style="text-transform: uppercase; color: #203864">
-         Dear Mr./Mrs. <?=$data['name'];?> Confirmation</span></td></tr></tbody></table>
+  </td></tr></tbody></table>
 
 
     <div style="font-family: Arial, sans-serif; line-height: 20px; color: #444444; font-size: 13px;">
       <b style="color: #777777; text-transform: lowercase;"></b>
-        <?=$subscription->confirmation_message;?>
-      <br>
+                       <?php
 
-       <br>
-        Regards,
-       <br>
-        Team <span style="text-transform: uppercase;"><?=project_name;?></span>
-       <br>
+                                $message =  $subscription->confirmation_message;
+
+                                $message = str_replace("[FIRSTNAME]", "<b>$user->firstname</b>", $message);
+                                $message = str_replace("[LASTNAME]", "<b>$user->lastname</b>", $message);
+                                $message = str_replace("[FULLNAME]", "<b>$user->fullname</b>", $message);
+                                $message = str_replace("[USERNAME]", "<b>$user->username</b>", $message);
+
+                                echo $message;?>
     </div>
 
   </td></tr></tbody></table>

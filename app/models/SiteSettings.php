@@ -239,12 +239,12 @@ class SiteSettings extends Eloquent
 
 	public function getsettingsAttribute($value)
     {
+    	
 
 		if ($value == null) {
 			
 			return json_encode([]);			
 		}
-		// return json_decode($value , true);
 	
         return json_encode( json_decode($value ,true));
     }

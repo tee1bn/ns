@@ -32,6 +32,7 @@ $router =[
 
 	'settings' => 'SettingsController',
 	'testing' => 'testingController',
+	'subscription_reminder' => 'SubscriptionReminder',
 
 
 

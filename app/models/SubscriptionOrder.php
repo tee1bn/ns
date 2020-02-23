@@ -41,6 +41,29 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 			 	];
 
 
+	public function send_expiry_reminder_email()
+	{
+		$controller = new home;
+
+		$subject 	= 'Notice of Subscription Expiry';
+
+ 		$body 		= $controller->buildView('emails/subscription_expiry_notification', compact('subject'));
+ 		$user = $controller->auth();
+
+ 		$to = $this->user->email;
+
+
+ 		
+ 		$mailer = new Mailer;
+ 		$status = $mailer->sendMail($to, $subject, $body, $reply='', $recipient_name='');
+
+
+ 		echo $body;
+
+		echo "sending";
+	}
+
+
 
 	public function getExpiryDateAttribute()
 	{
