@@ -53,14 +53,12 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
  		$to = $this->user->email;
 
 
- 		
+
  		$mailer = new Mailer;
  		$status = $mailer->sendMail($to, $subject, $body, $reply='', $recipient_name='');
 
+		$response =   (! $status) ? 'false' : 'true';
 
- 		echo $body;
-
-		echo "sending";
 	}
 
 

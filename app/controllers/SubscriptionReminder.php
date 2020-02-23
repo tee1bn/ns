@@ -20,9 +20,6 @@ class SubscriptionReminder extends controller
 
         $skip_model = SiteSettings::find_criteria('reminder_tracker_skip');
 
-        // echo "<pre>";
-
-        // return;
 
 		$page = (isset($skip_model->settings) && is_numeric($skip_model->settings)) ? $skip_model->settings : 1;
 		$per_page = 1;
@@ -33,7 +30,7 @@ class SubscriptionReminder extends controller
 		    $skip_model->update(['settings' => 0]);
 		}	
 
-		$days_to_expire =14;
+		$days_to_expire = 5;
 
 		$notify_date = date("Y-m-d", strtotime("+$days_to_expire days "));
 
