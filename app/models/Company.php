@@ -48,7 +48,7 @@ class Company extends Eloquent
 			$response = $this->user->has_complete_profile();
 
 			if (($response['company_data'] != 1)) {
-				Session::putFlash("danger","Please all required company details");
+				Session::putFlash("danger","Please fill all required company details");
 				return;
 			}
 
