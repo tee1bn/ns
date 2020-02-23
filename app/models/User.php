@@ -106,7 +106,7 @@ class User extends Eloquent
 
         if (($response['company_data'] == 1) && ($response['personal_data'] == 1)) {
 
-            $status = "<span class='badge badge-success'>ok</span>";
+            $status = "<span class='badge badge-success'></span>";
         }else{
 
             $status = "<span class='badge badge-danger float-right'> </span>";
