@@ -151,19 +151,33 @@ class CompanyController extends controller
 									'required'=> true,
 									'min'=> 2,
 										],
+							'office_email' =>[
+									'required'=> true,
+									'email'=> true,
+										],
+							'office_phone' =>[
+									'required'=> true,
+									'min'=> 2,
+										],
 
 							'address' =>[
+									'required'=> true,
 									'min'=> 3,
 										],
 
+							'rc_number' =>[
+									'required'=> true,
+									'min'=> 2,
+										],
 							'iban_number' =>[
+									'required'=> true,
 									'min'=> 2,
 										],
 					));
 
 
 		 	if(!$this->validator()->passed()){
-		 		Session::putFlash('danger', "Please try again ");
+			 	Session::putFlash('danger', Input::inputErrors());
 		 		return;
 		 	}	
 
@@ -174,6 +188,7 @@ class CompanyController extends controller
 			 							[
 										'name' => $_POST['name'],
 										'address' => $_POST['address'],
+										'country' => $_POST['country'],
 										'office_email' => $_POST['office_email'],
 										'iban_number' => $_POST['iban_number'],
 										'office_phone' => $_POST['office_phone'],
@@ -190,6 +205,7 @@ class CompanyController extends controller
 			 							[
 										'name' => $_POST['name'],
 										'address' => $_POST['address'],
+										'country' => $_POST['country'],
 										'office_email' => $_POST['office_email'],
 										'office_phone' => $_POST['office_phone'],
 										'iban_number' => $_POST['iban_number'],

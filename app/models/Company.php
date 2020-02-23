@@ -12,6 +12,7 @@ class Company extends Eloquent
 				'organisation_id',
 				'user_id',
 				'name',
+				'country',
 				'address',
 				'office_email',
 				'office_phone',
@@ -43,6 +44,15 @@ class Company extends Eloquent
 		DB::beginTransaction();
 
 		try {
+
+			$response = $this->user->has_complete_profile();
+
+			if (($response['company_data'] != 1)) {
+				Session::putFlash("danger","Please all required company details");
+				return;
+			}
+
+
 			
 			$this->update(['approval_status' => 'verifying']);
 

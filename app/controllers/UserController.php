@@ -376,7 +376,8 @@ class UserController extends controller
 
 	public function profile()
 	{
-		$this->view('auth/profile');
+		$this->company();
+		// $this->view('auth/profile');
 	}
 
 

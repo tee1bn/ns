@@ -33,6 +33,8 @@ class User extends Eloquent
 				'phone',
 				'age',
 				'country',
+                'title',
+                'address',
 				'worthy_cause_for_donation',
 				'phone_verification',
 				'bank_name',
@@ -56,7 +58,91 @@ class User extends Eloquent
     ];
     protected $hidden = ['password'];
 
+
+    public static $available_titles = [
+        1 => 'Mr.',
+        2 => 'Mrs.',
+        3 => 'Miss.',
+        4 => 'Dr.',
+        5 => 'Prof.',
+        6 => 'Chief'
+    ];
+    public static $compulsory_personal_data = [
+                                    'firstname',
+                                    'lastname',
+                                    'username', 
+                                    'email',
+                                    'phone',
+                                    'country',
+                                    'title',
+                                    'address',
+                                    // 'profile_pix',
+                                ];
+
+    public static $compulsory_company_data = [ 
+                                    'name',
+                                    'country',
+                                    'address',
+                                    'office_email',
+                                    'office_phone',
+                                    'iban_number',
+                                    'rc_number',   
+                                    'documents',
+                                    // 'logo'
+                                ];
+
     public static $max_level = 4;
+
+    public function getDecodedTitleAttribute()
+    {
+        return self::$available_titles[$this->title];
+    }
+
+
+    public function getDisplayCompleteProfileStatusAttribute()
+    {
+
+        $response = $this->has_complete_profile();
+
+        if (($response['company_data'] == 1) && ($response['personal_data'] == 1)) {
+
+            $status = "<span class='badge badge-success'>ok</span>";
+        }else{
+
+            $status = "<span class='badge badge-danger float-right'> </span>";
+        }
+
+        return $status;
+    }
+
+
+    public function has_complete_profile()
+    {
+
+      
+        
+        
+        $result=['company_data'=>1,'personal_data'=>1,];   
+
+        foreach (self::$compulsory_company_data as $key => $meta_data) {
+
+                if($this->company->$meta_data == null){
+                    $result['company_data'] = 0 ;                               
+                    break;
+                }
+        }
+
+        foreach (self::$compulsory_personal_data as $key => $personal_data) {
+                if($this->$personal_data == null){
+                    $result['personal_data'] =0;                               
+                    break;
+                }
+        }
+
+
+        return $result;
+    }
+
 
 
 

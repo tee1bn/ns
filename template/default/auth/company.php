@@ -10,7 +10,7 @@ $page_title = "Company";
           <div class="content-header-left col-md-6 col-12 mb-2">
             <?php include 'includes/breadcrumb.php';?>
 
-            <h3 class="content-header-title mb-0">Company</h3>
+            <h3 class="content-header-title mb-0">Profile</h3>
           </div>
           
           <div class="content-header-right col-md-6 col-12">
@@ -190,6 +190,12 @@ $page_title = "Company";
                                     <hr>
 
 
+<style>
+  button.bootstrap-touchspin-up{
+    font-size:10px !important;
+  }
+</style>
+
                                     <div class="col-md-12">
       <div class="card" style="height: 508px;">
         <div class="card-content">
@@ -212,8 +218,9 @@ $page_title = "Company";
               class="fa fa-trash text-danger float-right" style="font-size: 20px;"><i class=""></i></a>
               <a target="_blank" href="<?=domain;?>/{{$doc.files}}"><b>{{$doc.label}}</b></a>
             </li>
-          
           </ul>
+          
+          <center ng-show="$list.$lists==0" class="text-danger">*Please upload company documents</center>
          <!--  <div class="card-body">
             <a href="javascript:void(0);" data-toggle="modal" data-target="#upload_company_supporting_document" 
                     title="Upload supporting company documents" class="card-link">Upload Documents</a>
@@ -225,12 +232,125 @@ $page_title = "Company";
 
                                 </div>
 
-                                <div class="col-md-8" style="
-    margin-bottom: 20px;
-    border: 1px solid #14181f42;
-    padding: 19px;">
 
-          
+                                <div class="col-md-4" style="margin-bottom: 20px;  border: 1px solid #14181f42;padding: 19px;">
+                                  <h4>Personal Detail</h4><hr>
+
+                                   <form id="profile_form"
+                                   class="ajax_form" 
+                                   action="<?=domain;?>/user-profile/update_profile" method="post">
+
+                                     <div class="form-group">
+                                       <label for="title" class="pull-left">Title *</label>
+                                       <select class="form-control" name="title">
+                                         <option value=""></option>
+                                         <?php foreach ($auth::$available_titles as $key => $value) :?>
+                                           <option <?=($auth->title== $key)?'selected' : '';?> value="<?=$key;?>"><?=$value;?></option>
+                                         <?php endforeach ;?>
+                                       </select>
+                                     </div>
+
+                                     <div class="form-group">
+                                           <label for="firstName" class="pull-left">First Name *</label>
+                                           <input type="text" name="firstname"  value="<?=$auth->firstname;?>" id="firstName" class="form-control">
+                                     </div>
+
+                                     <div class="form-group">
+                                           <label for="lastName" class="pull-left">Last Name <sup>*</sup></label>
+                                           <input type="text" name="lastname" id="lastName" class="form-control"  value="<?=$auth->lastname;?>">
+                                     </div>
+
+                                   <div class="form-group">
+                                       <label for="email" class="pull-left">Email Address<sup>*</sup></label>
+                                       <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                           <span class="input-group-btn input-group-prepend"></span>
+                                           <input id="tch3" name="email"   value="<?=$auth->email;?>"
+                                             data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
+                                           <span class="input-group-btn input-group-append">
+                                               <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
+                                           </span>
+                                       </div> 
+                                   </div>
+
+                                  
+  
+                                     <div class="form-group">
+                                       <label for="country" class="pull-left">Country<sup>*</sup></label>
+                                      <select class="form-control" name="country" required="">
+                                          <option value=""></option>
+                                          <?php foreach (World\Country::all() as $key => $country) :?>
+                                            <option <?=($auth->country == $country->id)?'selected' : '';?> value="<?=$country->id;?>"><?=$country->name;?></option>
+                                          <?php endforeach ;?>
+                                        </select>
+                                      </div>
+
+
+  
+                                     <div class="form-group">
+                                           <label for="address" class="pull-left">Address <sup>*</sup></label>
+                                           <input type="text" name="address" id="address" class="form-control"  value="<?=$auth->address;?>">
+                                     </div>
+
+
+
+                                   <div class="form-group">
+                                       <label for="phone" class="pull-left">Phone<sup>*</sup></label>
+                                       <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
+                                           <span class="input-group-btn input-group-prepend"></span>
+                                           <input id="tch3" name="phone"   value="<?=$auth->phone;?>"
+                                             data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
+                                           <span class="input-group-btn input-group-append">
+                                               <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
+                                           </span>
+                                       </div> 
+                                   </div>                                        
+                                  
+                                   
+                                   <div class="form-group">
+                                     <label for="username" class="pull-left">Username *</label>
+                                       <input type="text"  name="username" disabled="" value="<?=$auth->username;?>" id="username" class="form-control" value="">
+                                   </div>
+
+                                   
+
+                                   
+                                  <!--    <div class="form-group">
+                                         <label for="bank_name" class="pull-left">Bank Name <sup>*</sup></label>
+                                         <input type="" name="bank_name"  value="<?=$auth->bank_name;?>" id="bank_name" class="form-control" >
+                                     </div>
+
+                                       
+                                   
+                                     <div class="form-group">
+                                        <label for="bank_account_name" class="pull-left">Bank Account Name<sup></sup></label>
+                                         <input type="bank_account_name" name="bank_account_name"  value="<?=$auth->bank_account_name;?>" id="bank_account_name" class="form-control" >
+                                     </div>
+
+                                   
+                                   
+
+                                   
+                                     <div class="form-group">
+                                        <label for="bank_account_number" class="pull-left">Bank Account Number <sup></sup></label>
+                                         <input type="bank_account_number" name="bank_account_number"  value="<?=$auth->bank_account_number;?>" id="bank_account_number" class="form-control" >
+                                     </div> -->
+
+
+                                     <div class="form-group">
+
+                                           <button type="submit" class="btn btn-secondary btn-block btn-flat">Save Profile</button>
+
+                                     </div>
+                                   </form>
+
+                                </div>
+
+
+
+
+                                <div class="col-md-4" style="margin-bottom: 20px;  border: 1px solid #14181f42;padding: 19px;">
+                                  <h4>Company Detail</h4><hr>
+
                                         <div class="card-body card-body-bordered collapse show" id="demo1" >
                                             
 
@@ -241,6 +361,21 @@ $page_title = "Company";
                                                 <label for="name" class="pull-left">Name *</label>
                                                   <input type="text" required="" name="name" value="<?=$company->name;?>"  class="form-control" placeholder="Your Company Name" >
                                               </div>
+
+
+
+                                              <div class="form-group">
+                                                <label for="country" class="pull-left">Country<sup>*</sup></label>
+                                               <select class="form-control" name="country" required="">
+                                                   <option value=""></option>
+                                                   <?php foreach (World\Country::all() as $key => $country) :?>
+                                                     <option <?=($company->country == $country->id)?'selected' : '';?> value="<?=$country->id;?>"><?=$country->name;?></option>
+                                                   <?php endforeach ;?>
+                                                 </select>
+                                               </div>
+
+
+
 
                                               <div class="form-group">
                                                     <label for="address" class="pull-left">Address *</label>
@@ -258,13 +393,14 @@ $page_title = "Company";
                                                     <input id="tch3" name="office_email" placeholder="Your Official Email Address"  value="<?=$company->office_email;?>"
                                                       data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
                                                     <span class="input-group-btn input-group-append">
-                                                        <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
+                                                        <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification
+                                                    </button>
                                                     </span>
                                                 </div> 
                                             </div>
 
-                                        
 
+                                        
 
                                             <div class="form-group">
                                                 <label for="office_phone" class="pull-left">Official Phone<sup>*</sup></label>
@@ -297,8 +433,9 @@ $page_title = "Company";
 
 
                                             <div class="form-group">
-                                                <label for="rc_number" placeholder="Your Company Registration Number"  class="pull-left">Registration Number <sup></sup></label>
-                                                <input type="text" name="rc_number" class="form-control"  value="<?=$company->rc_number;?>">
+                                                <label for="rc_number" class="pull-left">Registration Number<sup>*</sup></label>
+                                                <input type="text" name="rc_number"  placeholder="Your Company Registration Number" 
+                                                 class="form-control" required value="<?=$company->rc_number;?>">
                                           </div>
 
 
@@ -317,6 +454,7 @@ $page_title = "Company";
 
                                 </div>
 
+                             
 
           
       </div>

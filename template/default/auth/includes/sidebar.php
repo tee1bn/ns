@@ -10,12 +10,15 @@
                 <a class="menu-item" href="<?=domain;?>/user/dashboard"><i class="ft-home"></i> Dashboard</a>
               </li>
 
-              <li>
-                <a class="menu-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> My Company</a>
-              </li>
+            <!--   <li>
+              <a class="menu-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> My Company</a>
+            </li> -->
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/profile"><i class="ft-user"></i> My Profile</a>
+                <a class="menu-item" href="<?=domain;?>/user/profile"><i class="ft-user"></i> My Profile
+                  <?=$auth->DisplayCompleteProfileStatus;?>
+                </a>
+
               </li>
 
               <li class=" nav-item"><a href="#"><i class="fa fa-briefcase"></i><span class="menu-title" data-i18n="">Subscriptions</span></a>

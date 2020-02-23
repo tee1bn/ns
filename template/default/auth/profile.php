@@ -81,9 +81,15 @@ $page_title = "Profile";
                                             <form id="profile_form"
                                             class="ajax_form" 
                                             action="<?=domain;?>/user-profile/update_profile" method="post">
+
                                               <div class="form-group">
-                                                <label for="username" class="pull-left">Username *</label>
-                                                  <input type="text"  name="username" disabled="" value="<?=$auth->username;?>" id="username" class="form-control" value="">
+                                                <label for="title" class="pull-left">Title *</label>
+                                                <select class="form-control" name="title">
+                                                  <option value=""></option>
+                                                  <?php foreach ($auth::$available_titles as $key => $value) :?>
+                                                    <option <?=($auth->title== $key)?'selected' : '';?> value="<?=$key;?>"><?=$value;?></option>
+                                                  <?php endforeach ;?>
+                                                </select>
                                               </div>
 
                                               <div class="form-group">
@@ -110,6 +116,11 @@ $page_title = "Profile";
 
                                         
 
+                                              <div class="form-group">
+                                                    <label for="address" class="pull-left">Address <sup>*</sup></label>
+                                                    <input type="text" name="address" id="address" class="form-control"  value="<?=$auth->address;?>">
+                                              </div>
+
 
                                             <div class="form-group">
                                                 <label for="phone" class="pull-left">Phone<sup>*</sup></label>
@@ -123,6 +134,14 @@ $page_title = "Profile";
                                                 </div> 
                                             </div>                                        
                                         
+                                            
+                                            <div class="form-group">
+                                              <label for="username" class="pull-left">Username *</label>
+                                                <input type="text"  name="username" disabled="" value="<?=$auth->username;?>" id="username" class="form-control" value="">
+                                            </div>
+
+                                            
+
                                             
                                            <!--    <div class="form-group">
                                                   <label for="bank_name" class="pull-left">Bank Name <sup>*</sup></label>

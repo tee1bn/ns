@@ -196,7 +196,7 @@
                   </a>
                   <a class="dropdown-item" href="<?=domain;?>/user/package"><i class="ft-briefcase"></i> Package</a>
 
-                  <a class="dropdown-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> Company</a>
+                  <!-- <a class="dropdown-item" href="<?=domain;?>/user/company"><i class="fa fa-building-o"></i> Company</a> -->
                   <a class="dropdown-item" href="<?=domain;?>/user/accounts"><i class="ft-settings"></i> Account</a>
                   <div class="dropdown-divider"></div><a class="dropdown-item" href="<?=domain;?>/login/logout">
                     <i class="ft-power"></i> Logout</a>

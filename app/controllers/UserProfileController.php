@@ -177,6 +177,11 @@ echo "<pre>";
 	$this->validator()->check(Input::all() , array(
 
 
+		'title' =>[
+				'required'=> true,
+					],
+
+
 		'firstname' =>[
 				'required'=> true,
 				'max'=> '32',
@@ -204,6 +209,16 @@ echo "<pre>";
 				'required'=> true,
 				'max'=> '32',
 				'min'=> '2',
+					],
+
+		'address' =>[
+				'required'=> true,
+				'max'=> '255',
+				'min'=> '2',
+					],
+
+		'country' =>[
+				'required'=> true,
 					],
 
 		'phone' =>[
