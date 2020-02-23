@@ -15,7 +15,7 @@ class RegisterController extends controller
 
 
 
-	public function confirm_email( $email, $email_verification_token)
+	public function confirm_email($email_verification_token, $email)
 	{
 
  		$user = User::where('email', $email)
