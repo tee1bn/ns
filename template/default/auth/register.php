@@ -112,6 +112,25 @@ include 'includes/auth_header.php';?>
 							</div>
 
 
+							<div class="row">
+									
+								<fieldset class="form-group col-md-6 position-relative has-icon-left">
+										<label>
+											
+											<input type="checkbox" name="terms" value="1" class="" required> I accept the <span
+	                                            style="text-decoration: underline !important; color: #00008b !important;"><a
+	                                                href="#" data-target="#client-agreement" data-toggle="modal">Terms</a></span>
+										</label>
+										 and <br>
+										<label>
+											<input type="checkbox" name="other" value="1" class="" required> I accept the <span style="text-decoration: underline !important; color: #00008b !important;">
+												<a href="#" data-target="#client-agreement" data-toggle="modal">Other Sentence</a></span>
+										</label>
+								</fieldset>
+
+							</div>
+
+
 
 
 							<button type="submit" class="btn btn-primary btn-lg btn-block"><i class="ft-unlock"></i> Register</button>

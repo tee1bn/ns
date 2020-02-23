@@ -27,6 +27,8 @@ class home extends controller
 	public function test2()
 	{
 
+		return;
+
 		echo "<pre>";
 /*
 		$gateway_ids = [
@@ -263,26 +265,6 @@ class home extends controller
 		print_r(json_encode($site_settings));
 	
 	}
-
-
-
-
-	public function set_filters()
-	{
-
-		echo "<pre>";
-		$redirect = $_POST['redirect'];
-		$filter_name = MIS::set_filter_name($redirect);
-
-		echo "$filter_name";
-		echo "<br>";
-
-		$_SESSION['filters'][$filter_name] = $_POST;
-		print_r($_SESSION);
-
-		Redirect::to($redirect);
-	}
-
 
 
 

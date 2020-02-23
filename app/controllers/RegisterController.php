@@ -227,6 +227,13 @@ public function generate_phone_code_for($user_id)
 if (Input::exists('user_registration') || true) {
 		print_r(Input::all());
 
+		//ensure terms is accepted
+		if ((Input::get('terms') != 1)) {
+			Session::putFlash("danger", "You must accept the Terms");
+			Redirect::back();
+		}
+
+
 		MIS::verify_google_captcha();
 
 
