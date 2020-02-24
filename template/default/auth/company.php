@@ -433,8 +433,8 @@ $page_title = "Company";
 
 
                                             <div class="form-group">
-                                                <label for="rc_number" class="pull-left">Registration Number<sup>*</sup></label>
-                                                <input type="text" name="rc_number"  placeholder="Your Company Registration Number" 
+                                                <label for="rc_number" class="pull-left">VAT Number<sup>*</sup></label>
+                                                <input type="text" name="rc_number"  placeholder="Your VAT Number" 
                                                  class="form-control" required value="<?=$company->rc_number;?>">
                                           </div>
 

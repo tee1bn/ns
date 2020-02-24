@@ -119,12 +119,11 @@ include 'includes/auth_header.php';?>
 											
 											<input type="checkbox" name="terms" value="1" class="" required> I accept the <span
 	                                            style="text-decoration: underline !important; color: #00008b !important;"><a
-	                                                href="#" data-target="#client-agreement" data-toggle="modal">Terms</a></span>
+	                                                href="#">Terms</a></span>
 										</label>
 										 and <br>
 										<label>
-											<input type="checkbox" name="other" value="1" class="" required> I accept the <span style="text-decoration: underline !important; color: #00008b !important;">
-												<a href="#" data-target="#client-agreement" data-toggle="modal">Other Sentence</a></span>
+											<input type="checkbox" name="other" value="1" class="" required> I confirm that I am an entrepreneur <span style="text-decoration: underline !important; color: #00008b !important;">
 										</label>
 								</fieldset>
 
