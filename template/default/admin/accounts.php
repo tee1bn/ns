@@ -40,7 +40,7 @@ $page_title = "Account Settings";
         
 
                                                            
-         <form  method="post" action="<?=domain;?>/user-profile/change_password" style="padding: 10px;">
+         <form  method="post" action="<?=domain;?>/admin-profile/updatePassword" style="padding: 10px;">
               <?=@$this->csrf_field('change_password');?>
                 <div class="form-group">
                <input type="password" name="current_password" class="form-control" placeholder="Current Password">
