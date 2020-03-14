@@ -7,35 +7,6 @@ class MIS
 {
 	
 	
-
-	function show_flash()
-	{
-	            
-	    if (! isset($_SESSION['flash'])) {
-	        return;
-	    }
-
-
-	    $message = '';
-	    foreach($_SESSION['flash'] as $flash){
-
-	        $message .= $flash['message'];
-	    }
-
-	    $type = end($_SESSION['flash'])['title'];
-
-
-	    $notification = "
-	                    <div id='gitstar-notification'  class='alert alert-$type alert-dismissible' >
-	                    <a href='#' class='close' data-dismiss='alert' aria-label='close' title='close'>×</a>
-	                        <span>$message</span>    
-	                    </div>";
-
-	    unset($_SESSION['flash']);
-	    return $notification;
-	}
-
-	
 	public static function money_format($string)
 	{
 		return number_format("$string",2);		

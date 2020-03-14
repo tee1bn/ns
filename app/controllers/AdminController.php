@@ -771,13 +771,7 @@ class AdminController extends controller
 	public function update_cms()
 	{
 
-		echo "<pre>";
-
-		print_r($_POST);
-
-		// $page = CMS::where('criteria', $_POST['criteria'])->first();
-
-		Db::beginTransaction();
+		DB::beginTransaction();
 
 		try {
 			

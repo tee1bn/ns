@@ -47,8 +47,8 @@
     
     
     <script src="<?=asset;?>/tinymce/tinymce/tinymce.js" referrerpolicy="origin"></script>
-
     <script src="<?=asset;?>/js/jquery1.12.min.js"></script>
+
   </head>
   <!-- END: Head-->
 
