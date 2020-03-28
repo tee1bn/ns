@@ -313,20 +313,30 @@ class User extends Eloquent
     }
 
 
+
+
+
     public function getsubscriptionAttribute()
     {
         $today = strtotime(date("Y-m-d"));
         $subscription =  SubscriptionOrder::where('user_id', $this->id)->Paid()->latest('paid_at')->first();
+
+        $default = SubscriptionPlan::default_sub();
+        $another = SubscriptionPlan::default_sub();
+        $default->payment_plan = $another;
+        
         if ($subscription==null) {
-            return SubscriptionPlan::default_sub();
+            return $default;
         }
+
 
 
         $expiry_time = strtotime($subscription->ExpiryDate);
         if (($subscription->payment_state == 'manual') || ($subscription->payment_state == null)) {
 
             if ($expiry_time < $today ) {
-                return null;
+
+                return $default;
             }else{
                 return $subscription;
             }
@@ -338,15 +348,19 @@ class User extends Eloquent
         }elseif ($subscription->payment_state == 'cancelled') {
 
             if ($expiry_time < $today ) {
-                return null;
+                
+                return $default;
+
             }else{
                 return $subscription;
             }
 
         }else{
 
-            return SubscriptionPlan::default_sub();
+            return $default;
         }
+
+            return $default;
 
     }
 

@@ -191,6 +191,12 @@
                     <i></i></span><span class="user-name"><?=$auth->fullname;?></span></a>
 
                 <div class="dropdown-menu dropdown-menu-right">
+
+                  <a class="dropdown-item" href="<?=domain;?>/user/profile">
+                  <span class="badge badge-dark">
+                    <?=$auth->subscription->payment_plan->package_type;?> 
+                  </span>
+                  </a>
                   <a class="dropdown-item" href="<?=domain;?>/user/profile">
                     <i class="ft-user"></i> Profile 
                   </a>
