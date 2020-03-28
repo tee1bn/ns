@@ -27,6 +27,9 @@ class SubscriptionPlan extends Eloquent
 	
 	protected $table = 'subscription_plans';
 
+	public static $popular = 10;
+	public static $display_order = [1,10,9];
+
 	public function getDecodeGatewaysIdsAttribute($value='')
 	{
 		if ($this->gateways_ids == null) {
@@ -84,7 +87,7 @@ class SubscriptionPlan extends Eloquent
 												->get();
 
 			$user  			= User::find($user_id);
-			$previous_sub 	= self::find($user->account_plan);
+			$previous_sub 	= $user->subscription;
 			$new_sub 		= self::find($subscription_id);
 
 			// $cost =  (@$previous_sub->Finalcost ==null) ?  $new_sub->Finalcost  : ($new_sub->Finalcost - (int)$previous_sub->Finalcost) ;

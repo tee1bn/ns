@@ -24,16 +24,37 @@ $page_title = "Package";
             .small-padding{
               padding: 3px;
             }
+
+            .popular{
+
+              text-align: center;
+              position: absolute;
+              top: -12px;
+              padding: 0px 10px 0px 10px;
+              border-radius: 4px;
+            }
           </style>
 
               <div class="row match-height">   
-          <?php foreach (SubscriptionPlan::available()->get() as  $subscription):?>
+          <?php 
+            $subscriptions =  SubscriptionPlan::available()->get() ;
+            $display_order = SubscriptionPlan::$display_order;
+
+            $sorted = $subscriptions->sortBy(function($subscriptions) use ($display_order) {
+                return array_search($subscriptions->getKey(), $display_order);
+            });
+
+          foreach ($sorted as  $subscription):?>
 
               <div class=" col-md-4">   
               <div class="card">   
                  <div class="card-content">
                   <div class="card-body">
                     <h4 class="card-title"><?=$subscription->package_type;?></h4>
+                    <?php if ($subscription->id == $subscription::$popular) :?>
+                    <h4 class="popular bg-primary text-white">Most Popular</h4>
+                    <?php endif ;?>
+
                     <h6 class="card-subtitle text-muted"> <b class="float-right">
                       <?=$currency;?><?=MIS::money_format($subscription->price);?><!--  /Month --></b>
                     </h6> 
