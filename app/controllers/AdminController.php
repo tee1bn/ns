@@ -21,6 +21,15 @@ class AdminController extends controller
 	}
 
 
+	public function packages()
+	{
+
+		$this->view('admin/packages');
+
+	}
+
+
+
 
 	public function package_invoice($order_id=null)
 	{
@@ -138,6 +147,76 @@ class AdminController extends controller
 
 	
 
+	public function update_account_plans()
+	{
+	
+
+		print_r($_POST);
+
+		// return;
+		$this->validator()->check(Input::all() , array(
+			'package_type' =>[
+				'required'=> true,
+			],
+
+			'id' =>[
+				'required'=> true,
+			],
+			
+			'price' =>[
+				// 'required'=> true,
+			],
+			
+		));
+
+
+		if (! $this->validator->passed()) {
+
+			Session::putFlash('danger', Input::inputErrors());
+			Redirect::back();
+		}
+
+
+
+		$plan = Input::all();
+
+		$account_plan =  SubscriptionPlan::find($_POST['id']);
+
+
+
+		if ($account_plan == null) {
+			Session::putFlash('danger', "Invalid Request");
+			Redirect::back();
+		}
+
+
+		$account_plan->update(['availability' => null]);
+		print_r($account_plan->toArray());
+
+
+
+		$account_plan->update([
+				'package_type'=> $_POST['package_type'],
+				'price'=> $_POST['price'],
+				'hierarchy'=> $_POST['hierarchy'],
+				'details'=> json_encode($_POST['details']),
+				 'availability'=> $_POST['availability'],
+				 'commission_price' => $_POST['commission_price'],
+				 'downline_commission_level' => $_POST['downline_commission_level'],
+				 'get_pool' => $_POST['get_pool'],
+				 'percent_vat' => $_POST['percent_vat'],
+
+				]);
+
+			Session::putFlash('success', "$account_plan->package_type updated successfully ");
+
+		Redirect::back();
+	}
+
+
+
+
+
 
 	public function update_subscription_plans()
 	{
@@ -188,9 +267,10 @@ class AdminController extends controller
 
 
 	public function packages_settings()
-	{
+	{	
+		$this->packages();
 
-		$this->view('admin/packages_settings');
+		// $this->view('admin/packages_settings');
 
 	}
 

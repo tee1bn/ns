@@ -56,24 +56,32 @@ $page_title = "Package";
                     <?php endif ;?>
 
                     <h6 class="card-subtitle text-muted"> <b class="float-right">
-                      <?=$currency;?><?=MIS::money_format($subscription->price);?><!--  /Month --></b>
+                      <?=$currency;?><?=MIS::money_format($subscription->price);?> /Month</b><br>
+                      <small class="float-right">Excluding VAT <?=(int)$subscription->percent_vat;?>% </small>
                     </h6> 
                   </div>
 
                         <div class="card-body">
                       <!-- <h6 class="card-subtitle text-muted">Support card subtitle</h6> -->
-                    <p class="card-text">Excluding VAT <?=(int)$subscription->percent_vat;?>% </p>
-                    <ul class="list-group list-group-flush">
-                      <?php foreach ($subscription->featureslist as $feature):?>
+                    <!-- <p class="card-text">Excluding VAT <?=(int)$subscription->percent_vat;?>% </p> -->
 
-                          <li class="list-group-item small-padding">
-                            <span class="badge badge-pill bg-primary float-right"><i class="fa fa-check"></i></span>
-                            <?=$feature;?>
+
+                    <ul class="list-group list-group-flush">
+                      <?php foreach (SubscriptionPlan::$benefits as $key => $benefit): ?>
+
+                        <li class="list-group-item use-bg small-padding">
+                          <?php if ($subscription->DetailsArray['benefits'][$key] == 1) :?>
+                            <span class="badge badge-primary float-left"><i class="fa fa-check-circle"></i></span>
+                            <?php else :?>
+                              <span class="badge bg-danger float-left"><i class="fa fa-times-circle"></i></span>
+                            <?php endif ;?>
+                             &nbsp;  &nbsp; <i><?=$benefit['title'];?></i>
                           </li>
-                                                                           
-                      <?php endforeach;?>
-                  </ul>
-                  <br>
+
+                        <?php endforeach;?>
+                      </ul>
+                      <br>
+
                   <?php if (@$auth->subscription->payment_plan['price']  < $subscription->price):?>
                    <form 
                       id="upgrade_form<?=$subscription->id;?>"
@@ -83,6 +91,18 @@ $page_title = "Package";
                       data-function="initiate_payment"
                       action="<?=domain;?>/user/create_upgrade_request">
 
+
+                      <label>
+                        <input type="checkbox" name="month_6"> Service for 6 Months 
+                      </label>
+                      <br>
+
+                      <label>
+                        <input type="checkbox" name="month_12"> Service for 12 Months 
+                      </label>
+
+                      <br>
+                      <br>
                     <div class="form-group">
                      <select class="form-control" required="" name="payment_method">
                          <option value="">Select Payment method</option>
@@ -101,7 +121,7 @@ $page_title = "Package";
 
                     <?php if (@$auth->subscription->payment_plan['id']  == $subscription->id):?>
                     <div class="form-group">
-                      <button type="button" class="btn btn-success btn-sm">Current</button>
+                      <button type="button" class="btn btn-primary btn-sm">Current <i class="fa fa-check-circle"></i></button>
                       <small><?=$auth->subscription->NotificationText;?></small>
                     </div>
                     <?php endif ;?>
@@ -114,7 +134,12 @@ $page_title = "Package";
           <?php endforeach;?>
               </div>
               
+
+              <div>
+                <button class="btn btn-outline-warning float-right">ZX Packahge</button>
+              </div>
             
+              <br>
 
               <script>
                 initiate_payment= function($data){

@@ -317,7 +317,7 @@ if (Input::exists('user_registration') || true) {
  		 $new_user  =  User::create($user_details);
 	
 		 $new_user->update(['mlm_id' => $new_user->id]) ;
-
+   		 $new_user->setTreesPosition();
 
 	if ($former_downline_id != '') { //sponsor has an void place position
 			User::replace_any_cutoff_mlm_placement_position($referred_by, $new_user->id);

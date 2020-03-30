@@ -172,19 +172,21 @@ $page_title = "Settings";
                                 <thead>
                                   <tr>
                                     <th>SN</th>
-                                    <th>Commission</th>
-                                    <th>License (%)</th>
+                                    <th>Level</th>
+                                    <th>License (%) <small>Via Api</small></th>
                                     <th>Packages (%)</th>
-                                    <th>Disagio (%)</th>
+                                    <th>Disagio (%) <small>Via Api</small></th>
+                                    <th>Setup Fee (%) <small>Via Api</small></th>
                                   </tr>
                                 </thead>
                                 <tbody>
                                   <tr ng-repeat="(key, $commission_setting) in $commission_settings">
                                     <td>{{$index + 1}}</td>
                                     <td>{{$commission_setting.level}}</td>
-                                    <td contenteditable="true" ng-model="$commission_setting.license">{{$commission_setting.license}}</td>
-                                    <td contenteditable="true" ng-model="$commission_setting.packages">{{$commission_setting.packages}}</td>
-                                    <td contenteditable="true" ng-model="$commission_setting.disagio">{{$commission_setting.disagio}}</td>
+                                    <td contenteditable="true" ng-model="$commission_setting.license"></td>
+                                    <td contenteditable="true" ng-model="$commission_setting.packages"></td>
+                                    <td contenteditable="true" ng-model="$commission_setting.disagio"></td>
+                                    <td contenteditable="true" ng-model="$commission_setting.setup"></td>
                                   </tr>
                                 
                                 </tbody>

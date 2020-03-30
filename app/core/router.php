@@ -46,5 +46,7 @@ $router =[
 	'admin' => 'AdminController', 
 	'admin-profile' => 'AdminProfileController', 
 	'admin-products' => 'AdminProductsController', 
+
+	'isp' => 'IspUpgradeController', 
 ];
 

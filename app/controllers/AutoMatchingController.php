@@ -331,7 +331,7 @@ class AutoMatchingController extends controller
 
 				$per_head =  ($total_pool / $no_of_users);
 
-				$pool_amount  = MIS::money_format($per_head);
+				$pool_amount  = round($per_head, 2);
 
 					DB::beginTransaction();
 

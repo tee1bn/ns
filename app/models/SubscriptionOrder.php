@@ -308,6 +308,8 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		 // print_r($tree);
 
 		foreach ($tree as $level => $upline) {
+					if ($settings[$level]['packages']==0) {continue;}
+
 		 		    $amount_earned = $settings[$level]['packages'] * 0.01 * $detail['commission_price'];
 					$comment = $detail['package_type']." Package Level {$level} Bonus";
 

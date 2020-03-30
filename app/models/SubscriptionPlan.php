@@ -21,6 +21,7 @@ class SubscriptionPlan extends Eloquent
 							'features',
 							'gateways_ids',
 							'availability',
+							'details',
 							'confirmation_message',
 							'created_at'
 						];
@@ -29,6 +30,50 @@ class SubscriptionPlan extends Eloquent
 
 	public static $popular = 10;
 	public static $display_order = [1,10,9];
+
+
+
+	public static $benefits = [
+		   'basis_online_workshop' => [
+		   		'title'=> 'Basis online Workshop',
+		   ],
+		   'media_center_small' => [
+		   		'title'=> 'Media Center Small',
+		   ],
+
+		   'nsw_online_office_small' => [
+		   		'title'=> 'NSW Online Office Small',
+		   ],
+		   'finance_schulung' => [
+		   		'title'=> 'Finance Schulung ',
+		   ],
+		   'invitepro_tool' => [
+		   		'title'=> "InvitePro Tool",
+		   ],
+		   'basis_online_v_material' => [
+		   		'title'=> 'Basis online Vertriebsmaterial',
+		   ],
+		   'erw_marketing_pack' => [
+		   		'title'=> 'Erweitertes Marketing-Pack',
+		   ],
+		   'nsw_online_shop' => [
+		   		'title'=> 'NSW Online Shop',
+		   ],
+		   'isp' => [
+		   		'title'=> 'Incentive Silber Taler: ISP',
+		   ],
+		   'incentive_ebene_3' => [
+		   		'title'=> 'Incentive:Ebene 3',
+		   ],
+
+		];
+
+
+	public function scopeAvailableForAdmin($query)
+	{
+		return $query->where('show_admin', 1);
+	}
+
 
 	public function getDecodeGatewaysIdsAttribute($value='')
 	{
@@ -167,10 +212,15 @@ class SubscriptionPlan extends Eloquent
 		return self::where('availability', 'on');
 	}
 
-	public function getfeatureslistAttribute()
+	public function getDetailsArrayAttribute()
 	{
-		return explode(',', $this->features);
+	    if ($this->details == null) {
+	        return [];
+	    }
+
+	    return json_decode($this->details, true);
 	}
+
 
 
 }
