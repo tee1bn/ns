@@ -350,7 +350,32 @@ class User extends Eloquent
 
 
 
+    public function downline_at_level($level,  $tree_key)
+    {
+        $tree = self::$tree[$tree_key];
+        $user_column = $tree['position'];
 
+        $self_identifier = "{$this->$user_column}";
+
+            $stitch = "";
+        for ($i=0; $i < $level ; $i++) { 
+            $stitch .= "%/";
+        }
+
+        $identifier = $stitch.$self_identifier;
+        // echo "$stitch";
+        echo "<br>";
+
+
+        // $identifier = "[0-9]/[0-9]/1";
+
+        echo "$identifier";
+        $generation = self::where($user_column, 'like', $identifier);
+        // echo $generation->toSql();
+
+        echo "<pre>";
+        print_r($generation->get(['id','mlm_id'])->toArray());
+    }
 
     //0=left, 1=right
     public function all_downlines_at_position($position, $tree_key='placement' )

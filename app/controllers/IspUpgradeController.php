@@ -22,6 +22,15 @@ class IspUpgradeController extends controller
 	}
 
 
+	public function update_expires_at()
+	{
+		$subscriptions = SubscriptionOrder::Paid()->get();
+		foreach ($subscriptions as $key => $subscription) {
+
+			$subscription->update(['expires_at' => $subscription->ExpiryDate]);
+		}
+	}
+
 
 	public function transfer_wallet()
 	{

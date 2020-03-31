@@ -264,9 +264,7 @@ $page_title = "Settings";
                         </div>
                     </div>
                 </div>
-
-
-                              {{$isp}}
+                
 
                  <div class="row" >
                     <div class="col-12">

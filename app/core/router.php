@@ -29,10 +29,12 @@ $router =[
 	'forgot-password' 	=> 'forgotPasswordController',
 
 	'auto-match' => 'AutoMatchingController',	//this handles routine checks and commssions
+	'routine' => 'RoutineController',	//this handles routine checks and commssions
 
 	'settings' => 'SettingsController',
 	'testing' => 'testingController',
 	'subscription_reminder' => 'SubscriptionReminder',
+
 
 
 
