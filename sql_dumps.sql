@@ -3,11 +3,11 @@
 
 
 -- for isp compensation and new design --starts
-
+-- update subscitpionplans table
 
 ALTER TABLE `users` ADD `binary_id` BIGINT NULL AFTER `introduced_by`, ADD `enrolment_position` LONGTEXT NULL AFTER `binary_id`, ADD `placement_position` LONGTEXT NULL AFTER `enrolment_position`, ADD `binary_position` LONGTEXT NULL AFTER `placement_position`, ADD `settings` LONGTEXT NULL AFTER `binary_position`;
 
-add user_documents, admin_comment, customers support
+-- add user_documents, admin_comment, customers support
 
 
 

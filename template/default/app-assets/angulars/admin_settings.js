@@ -49,6 +49,17 @@ app.controller('Settings', function($scope, $http) {
 	  $scope.fetch_pools_settings();
 
 
+	$scope.fetch_isp = function () {
+	     $http.get($base_url+"/settings/fetch/isp")
+	                .then(function(response) {
+
+	                  $scope.$isp= response.data;
+	                });
+
+	                    };
+	  $scope.fetch_isp();
+
+
 
 });
 

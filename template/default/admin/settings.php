@@ -193,7 +193,7 @@ $page_title = "Settings";
                               </table>
 
                                 
-                              <form action="<?=domain;?>/settings/update_commission_settings" method="post" class="ajax_form" id="commission_settings_form">
+                              <form action="<?=domain;?>/settings/update_commission_settings" method="post" class="ajax_form" >
 
                                 <textarea style="display: none;" name="content">{{$commission_settings}}</textarea>
 
@@ -210,7 +210,6 @@ $page_title = "Settings";
 
 
 
-              
                  <div class="row" >
                     <div class="col-12">
                         <div class="card">
@@ -251,12 +250,84 @@ $page_title = "Settings";
                               </table>
 
                                 
-                              <form action="<?=domain;?>/settings/update_pools_settings" method="post" class="ajax_form" id="commission_settings_form">
+                              <form action="<?=domain;?>/settings/update_pools_settings" method="post" class="ajax_form" >
 
                                 <textarea style="display: none;" name="content">{{$pools_settings}}</textarea>
 
                                 <div class="text-center col-12">
                                     <button ng-show="$pools_settings.length != 0" class="btn btn-success" type="submit">Update </button>
+                                </div>
+                              </form>
+
+                             </div>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                              {{$isp}}
+
+                 <div class="row" >
+                    <div class="col-12">
+                        <div class="card">
+
+                            <div class="card-header"  data-toggle="collapse" data-target="#isp">
+                                <a href="javascript:void;" class="card-title">International Sales Pools Settings</a>
+                                 <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    </ul>
+                       </div>
+
+                            </div>
+                            <div class="card-body row collapse show" id="isp">
+                              
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>SN</th>
+                                    <th>Coin</th>
+                                    <th>Percent(%) </th>
+                                    <th>Coin Received</th>
+                                    <th>Requirement</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr ng-repeat="(key, $isp_line) in $isp.isp">
+                                    <td>{{$index + 1}}</td>
+                                    <td>{{$isp_line.name}}</td>
+                                    <td contenteditable="true" ng-model="$isp_line.isp_percent"></td>
+                                    <td contenteditable="true" ng-model="$isp_line.coin_received"></td>
+                                    <td>
+                                      
+                                      <span  ng-repeat="(key, $requirement) in $isp_line.requirement">
+                                       <br><b> {{key}}</b> <br>
+                                        <span style="margin-left: 10px;"  ng-repeat="(key, $line) in $requirement">
+                                          <br>{{key}} <br>
+                                          <span style="margin-left: 10px;" contenteditable="true" ng-model="$requirement[key]"></span>
+
+                                        </span>
+
+
+                                       
+                                      </span>
+
+
+                                    </td>
+                                  </tr>
+                                
+                                </tbody>
+                              </table>
+
+                                
+                              <form action="<?=domain;?>/settings/update/isp" method="post" class="ajax_form" >
+
+                                <textarea style="display: none;" name="content">{{$isp}}</textarea>
+
+                                <div class="text-center col-12">
+                                    <button ng-show="$isp.length != 0" class="btn btn-success" type="submit">Update </button>
                                 </div>
                               </form>
 

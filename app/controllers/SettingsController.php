@@ -141,6 +141,22 @@ class SettingsController extends controller
 	}
 	
 
+	public function fetch($criteria)
+	{
+		header("content-type:application/json");
+		echo (SiteSettings::where('criteria', $criteria)->first()->settings);
+	}
+
+	public function update($criteria)
+	{			
+
+		$setting = SiteSettings::where('criteria', $criteria)->first();
+		$setting->update(['settings'=> $_POST['content'] ]);
+
+		Session::putFlash('success',"$setting->name Settings Updated Successfully!");
+	}
+
+
 
 
 
