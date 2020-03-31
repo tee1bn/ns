@@ -1,11 +1,11 @@
 <?php
 
 use Illuminate\Database\Capsule\Manager as DB;
-
+use  Filters\Filters\WalletFilter;
 
 use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
-
+use v2\Models\Wallet;
 /**
  * this class is the default controller of our application,
  * 
@@ -377,7 +377,6 @@ class AdminController extends controller
 
 	public function payouts_view($month)
 	{
-
 		$view = $this->payouts_html($month);
 
 		header("content-type:application/json");
@@ -389,17 +388,15 @@ class AdminController extends controller
 	public function payouts_html($month, $return = false)
 	{
 
-		$query = LevelIncomeReport::general_payout_for_month($month)->get()->groupBy('owner_user_id');
-			
-		$payouts  = $query->map(function($payout){
-					$calculation = [
-						'amount' => $payout->sum('amount_earned'),
-					];
-					return $calculation;
-		});
+		$daterange = MIS::date_range($month, 'month', true);
 
-		$total = collect($payouts)->sum('amount');
-		$users  = User::whereIn('id', array_keys($query->toArray()))->with(['company'])->get()->keyBy('id');
+
+		$query     =   Wallet::select(DB::raw("sum(amount) as amount"),'user_id')->ClearedWithin($daterange)->Credit()->Completed()->groupBy('user_id');
+		$payouts = $query->get()->keyBy('user_id');
+		$total = $payouts->sum('amount');
+
+		$users  = User::whereIn('id', array_keys($payouts->toArray()))->with(['company'])->get()->keyBy('id');
+
 
 		if ($return) {
 			return $this->buildView('admin/payouts_pdf', compact('payouts','month','total', 'users'));
@@ -955,19 +952,51 @@ EOL;
 
 	}
 
-	public function credits($from=null , $to=null)
-	{	
 
-		$query =  LevelIncomeReport::Credits();
 
-		if (($from != null) && ($to != null)) {
-			$query =  $query->whereDate('created_at', '>=', $from)->whereDate('created_at', '<=', $to);
-		}
+	private function wallet_matters($extra_sieve, $class)
+	{
 
-		$credits = $query->get(); 
-		$inflows_total = $query->sum('amount_earned');
-		$this->view('admin/credits', compact('credits', 'inflows_total'));
+		$sieve = $_REQUEST;
+		$sieve = array_merge($sieve, $extra_sieve);
+
+		$query = $class::latest();
+		// ->where('status', 1);  //in review
+		$sieve = array_merge($sieve);
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$filter =  new  WalletFilter($sieve);
+
+		$data =  $query->Filter($filter)->count();
+
+		$records =  $query->Filter($filter)
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+		return compact('records', 'sieve', 'data','per_page');
+		
 	}
+
+
+
+	public function credits($from=null , $to=null)
+	{
+
+
+		$compact =  $this->wallet_matters([
+		], 'v2\Models\Wallet');
+
+		extract($compact);
+		$page_title = 'Credit';
+
+		$this->view('admin/credits', compact('records', 'sieve', 'data','per_page', 'page_title'));
+	}
+
+
+
 
 
 	public function library()

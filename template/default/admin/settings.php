@@ -321,8 +321,18 @@ $page_title = "Settings";
                                 </tbody>
                               </table>
 
+                              <div class="form-group col-12"><label>ISP Make Up</label></div>
+                              <div class="form-group col-4" ng-repeat="(key, $makeup) in $isp.isp_make_up">
+                                <label>{{key}} (%)</label>
+                                <input type="" class="form-control" name="" ng-model="$isp.isp_make_up[key]">
+                              </div>
+
+
+
                                 
                               <form action="<?=domain;?>/settings/update/isp" method="post" class="ajax_form" >
+
+
 
                                 <textarea style="display: none;" name="content">{{$isp}}</textarea>
 

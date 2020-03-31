@@ -33,7 +33,7 @@ trait RangeFilterable
                     break;
                 
                 case 'last_month':
-                    $last_month = date("Y-m-d",strtotime("$today -1 month"));
+                    $last_month = date("Y-m-d",strtotime("first day of last month"));
                     $date = MIS::date_range($last_month, 'month', true);
                     break;  
 

@@ -1,5 +1,9 @@
 <?php
 use v2\Shop\Shop;
+use v2\Models\Wallet;
+use v2\Models\Withdrawal;
+use  Filters\Filters\WalletFilter;
+use Illuminate\Database\Capsule\Manager as DB;
 
 
 /**
@@ -385,7 +389,7 @@ class UserController extends controller
 
 	public function earnings($from=null, $to=null)
 	{
-		$query =  LevelIncomeReport::where('status','Credit')->where('owner_user_id', $this->auth()->id)->latest();
+		/*$query =  LevelIncomeReport::where('status','Credit')->where('owner_user_id', $this->auth()->id)->latest();
 		if (($from != null) && ($to != null)) {
 			$query =  $query->whereDate('created_at', '>=', $from)->whereDate('created_at', '<=', $to);
 		}
@@ -396,8 +400,41 @@ class UserController extends controller
 		$this->view('auth/earnings', [
 											'earnings'=>$earnings,
 											'earnings_total'=>$earnings_total,
-											]);
+											]);*/
+
+
+		
+		$auth = $this->auth();
+
+		$sieve = $_REQUEST;
+		$sieve = array_merge($sieve);
+
+		$query = Wallet::for($auth->id)->latest();
+		// ->where('status', 1);  //in review
+		$sieve = array_merge($sieve);
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$filter =  new  WalletFilter($sieve);
+
+		$data =  $query->Filter($filter)->count();
+
+		$sql = $query->Filter($filter);
+
+		$records =  $query->Filter($filter)
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+
+
+		$balances = Withdrawal::payoutBalanceFor($auth->id);
+
+		$this->view('auth/earnings', compact('records','balances', 'sieve', 'data','per_page'));
+
 	}
+
 
 
 

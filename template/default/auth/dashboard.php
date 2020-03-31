@@ -2,12 +2,9 @@
 $page_title = "Dashboard";
  include 'includes/header.php';?>
   <?php
+    use v2\Models\Withdrawal;
 
-
-    $settings = SiteSettings::site_settings();
-    $min_withdrawal = $settings['minimum_withdrawal'];      
-    $balance = $auth->available_balance();
-    $withdrawable_balance =  $settings['withdrawable_percent'] * 0.01 * $balance;      
+    $balances = Withdrawal::payoutBalanceFor($auth->id);
 
 
     $pool_target = $auth->pool_target();
@@ -69,7 +66,7 @@ $page_title = "Dashboard";
                         <a href="<?=domain;?>/user/package" class="text-white">
                         <h5>Package</h5>
                         <small class="text-bold-400 mb-0"><i class="ft-c"></i>    
-                        <?=@$auth->Sub;?>
+                            <?=$auth->subscription->payment_plan->package_type;?> 
                         </small>
                         </a>
                     </div>

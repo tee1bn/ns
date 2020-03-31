@@ -27,9 +27,16 @@ class home extends controller
 	public function test2()
 	{
 
+		echo "<pre>";
+
+		$wallet = Wallet::all();
+
+		
+		print_r($wallet->toArray());
+
+
 		return;
 
-		echo "<pre>";
 /*
 		$gateway_ids = [
 			'paypal' => [

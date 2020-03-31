@@ -7,8 +7,6 @@ use Illuminate\Database\Capsule\Manager as DB;
 use SiteSettings, User, Config, Notifications, Session, home;
 
 
-use  v2\Models\InvestmentPackage;
-
 
 /**
  * 
@@ -19,6 +17,12 @@ trait Wallet
 	public function user()
 	{
 		return $this->belongsTo('User', 'user_id');
+
+	}
+	
+	public function upon()
+	{
+		return $this->belongsTo('User', 'upon_user_id');
 
 	}
 
@@ -131,7 +135,12 @@ trait Wallet
 
 
 	
-
+	public function scopeClearedWithin($query, array $daterange)
+	{
+		extract($daterange);
+		$column = 'paid_at';
+		return $query->whereDate($column,'>=',  $start_date)->whereDate($column, '<=',$end_date);
+	}
 
 
 	public static function makeTransfer($from, $to, $amount, $earning_category)
