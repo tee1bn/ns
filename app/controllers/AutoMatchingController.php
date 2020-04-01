@@ -4,6 +4,9 @@
 use Illuminate\Database\Capsule\Manager as DB;
 use v2\Models\ISPWallet;
 use v2\Models\Wallet;
+use v2\Models\Isp;
+
+
 /**
 
 
@@ -40,6 +43,30 @@ class AutoMatchingController extends controller
 		echo "<pre>";
 
 	}
+
+
+
+	public function coinage_on_all(){
+
+		$users = User::all();
+
+		foreach ($users as $key => $user) {
+			$coinage_on = new Isp;
+			$coinage_on->setUser($user)->doCheck();
+		}
+
+	}
+
+
+	public function coinage_on($user_id){
+
+		$user = User::find($user_id);
+
+		$coinage_on = new Isp;
+		$coinage_on->setUser($user)->doCheck();
+		
+	}
+
 
 
 	public function get_date_to_start_schedule()

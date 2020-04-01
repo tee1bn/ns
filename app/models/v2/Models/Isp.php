@@ -55,77 +55,83 @@ class Isp
 
 		ISPWallet::for($this->user->id)->Category('gold')->delete();
 		$gold_identifier = $this->user->id.'gold';
-		if ($gold['step_1'] == 1) { //user qualify to receive gold
-
-			//delete all existing gold coins
-			// give new coin update
-			ISPWallet::createTransaction(	
-				'credit',
-				$this->user->id,
-				null,
-				$amount,
-				'completed',
-				'gold',
-				$comment ,
-				$gold_identifier, 
-				null , 
-				null,
-				null,
-				$paid_at
-			);
 
 
-		}else{ //user should get pending gold coin
 
-			// $amount = 
-			
-			ISPWallet::createTransaction(	
-				'credit',
-				$this->user->id,
-				null,
-				$amount,
-				'pending',
-				'gold',
-				$comment ,
-				$gold_identifier, 
-				null , 
-				null,
-				null,
-				$paid_at
-			);
-		}
+			if ($gold['step_1'] == 1) { //user qualify to receive gold
+
+				//delete all existing gold coins
 
 
-		//silber
-		$silber = $response['silber'];
+				// give new coin update
+				ISPWallet::createTransaction(	
+					'credit',
+					$this->user->id,
+					null,
+					$amount,
+					'completed',
+					'gold',
+					$comment ,
+					$gold_identifier, 
+					null , 
+					null,
+					null,
+					$paid_at
+				);
 
-		$amount = $silber['step_3'] * $isp['silber']['coin_received'];
-		$paid_at = date("Y-m-d H:i:s");
 
-		$achieved_network = $silber['step_3'] * $isp['silber']['requirement']['step_3']['each_x_month'];
+			}else{ //user should get pending gold coin
 
-		$comment = "Silber coin received for reaching $achieved_network months subscription";
-		$silber_identifier = $this->user->id.'silber';
+				// $amount = 
+				
+				ISPWallet::createTransaction(	
+					'credit',
+					$this->user->id,
+					null,
+					$amount,
+					'pending',
+					'gold',
+					$comment ,
+					$gold_identifier, 
+					null , 
+					null,
+					null,
+					$paid_at
+				);
+			}
 
-		if ($amount > 0) {
+			ISPWallet::for($this->user->id)->Category('silber')->delete();
 
-			// give new coin update
-			ISPWallet::createTransaction(	
-				'credit',
-				$this->user->id,
-				null,
-				$amount,
-				'completed',
-				'silber',
-				$comment ,
-				$silber_identifier, 
-				null , 
-				null,
-				null,
-				$paid_at
-			);
+			//silber
+			$silber = $response['silber'];
 
-		}
+			$amount = $silber['step_3'] * $isp['silber']['coin_received'];
+			$paid_at = date("Y-m-d H:i:s");
+
+			$achieved_network = $silber['step_3'] * $isp['silber']['requirement']['step_3']['each_x_month'];
+
+			$comment = "Silber coin received for reaching $achieved_network months subscription";
+			$silber_identifier = $this->user->id.'silber';
+
+			if ($amount > 0) {
+
+				// give new coin update
+				ISPWallet::createTransaction(	
+					'credit',
+					$this->user->id,
+					null,
+					$amount,
+					'completed',
+					'silber',
+					$comment ,
+					$silber_identifier, 
+					null , 
+					null,
+					null,
+					$paid_at
+				);
+
+			}
 
 
 
@@ -207,7 +213,17 @@ class Isp
 	{
 		$response = false;
 
-		$no_direct_line = count($this->user->referred_members_downlines(1, 'placement')[1]);
+		$downline = $this->user->referred_members_downlines(1, 'placement');
+
+		if (isset($downline[1])) {
+
+			$no_direct_line = count($downline[1]);
+		}else{
+
+			$no_direct_line = 0;
+		}
+
+
 		if ($no_direct_line >= $direct_line) {
 			$response = true;
 		}
