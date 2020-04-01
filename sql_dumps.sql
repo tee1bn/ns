@@ -9,6 +9,7 @@ ALTER TABLE `users` ADD `binary_id` BIGINT NULL AFTER `introduced_by`, ADD `enro
 
 -- add user_documents, admin_comment, customers support
 
+ALTER TABLE `subscription_payment_orders` ADD `no_of_month` INT NULL AFTER `sent_email`;
 
 
 -- for isp compensation and new design --ends

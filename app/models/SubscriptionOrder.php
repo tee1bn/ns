@@ -22,7 +22,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 							 'payment_state',
 							 
 							 'user_id',
-							 'user_id',
+							 'no_of_month',
 							 'payment_proof',
 							 'price',
 							 'sent_email',

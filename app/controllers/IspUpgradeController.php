@@ -22,6 +22,26 @@ class IspUpgradeController extends controller
 	}
 
 
+
+	public function update_no_of_month()
+	{
+		$subscriptions = SubscriptionOrder::Paid()->get();
+
+		foreach ($subscriptions as $key => $subscription) {
+			$expires_at = date("Y-m-d", strtotime($subscription->expires_at));
+			$paid_at = date("Y-m-d", strtotime($subscription->paid_at));
+			$date1 = new DateTime($expires_at);
+			$date2 = new DateTime($paid_at);
+
+			$diff = $date1->diff($date2);
+			$no_of_month = (($diff->format('%y') * 12) + $diff->format('%m')) ;
+
+			$subscription->update(['no_of_month' => $no_of_month]);
+
+		}	
+
+	}
+
 	public function update_expires_at()
 	{
 		$subscriptions = SubscriptionOrder::Paid()->get();
