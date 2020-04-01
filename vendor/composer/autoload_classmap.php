@@ -69,6 +69,7 @@ return array(
     'operations' => $baseDir . '/app/core/operations.php',
     'v2\\Models\\AdminComment' => $baseDir . '/app/models/v2/Models/AdminComment.php',
     'v2\\Models\\Document' => $baseDir . '/app/models/v2/Models/Document.php',
+    'v2\\Models\\ISPWallet' => $baseDir . '/app/models/v2/Models/ISPWallet.php',
     'v2\\Models\\Isp' => $baseDir . '/app/models/v2/Models/Isp.php',
     'v2\\Models\\UserDocument' => $baseDir . '/app/models/v2/Models/UserDocument.php',
     'v2\\Models\\UserWithdrawalMethod' => $baseDir . '/app/models/v2/Models/UserWithdrawalMethod.php',

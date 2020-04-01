@@ -3,7 +3,7 @@
 
 namespace v2\Models;
 use SiteSettings,SubscriptionOrder;
-use v2\Models\Wallet;
+use v2\Models\ISPWallet;
 use Illuminate\Database\Capsule\Manager as DB;
 
 class Isp
@@ -53,12 +53,13 @@ class Isp
 		$comment = "Gold coin received for reaching $achieved_network in network";
 		$paid_at = date("Y-m-d H:i:s");
 
-		Wallet::for($this->user->id)->Category('gold')->delete();
+		ISPWallet::for($this->user->id)->Category('gold')->delete();
+		$gold_identifier = $this->user->id.'gold';
 		if ($gold['step_1'] == 1) { //user qualify to receive gold
 
 			//delete all existing gold coins
 			// give new coin update
-			Wallet::createTransaction(	
+			ISPWallet::createTransaction(	
 				'credit',
 				$this->user->id,
 				null,
@@ -66,7 +67,7 @@ class Isp
 				'completed',
 				'gold',
 				$comment ,
-				null, 
+				$gold_identifier, 
 				null , 
 				null,
 				null,
@@ -78,7 +79,7 @@ class Isp
 
 			// $amount = 
 			
-			Wallet::createTransaction(	
+			ISPWallet::createTransaction(	
 				'credit',
 				$this->user->id,
 				null,
@@ -86,7 +87,7 @@ class Isp
 				'pending',
 				'gold',
 				$comment ,
-				null, 
+				$gold_identifier, 
 				null , 
 				null,
 				null,
@@ -104,11 +105,12 @@ class Isp
 		$achieved_network = $silber['step_3'] * $isp['silber']['requirement']['step_3']['each_x_month'];
 
 		$comment = "Silber coin received for reaching $achieved_network months subscription";
+		$silber_identifier = $this->user->id.'silber';
 
 		if ($amount > 0) {
 
 			// give new coin update
-			Wallet::createTransaction(	
+			ISPWallet::createTransaction(	
 				'credit',
 				$this->user->id,
 				null,
@@ -116,7 +118,7 @@ class Isp
 				'completed',
 				'silber',
 				$comment ,
-				null, 
+				$silber_identifier, 
 				null , 
 				null,
 				null,

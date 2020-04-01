@@ -2,7 +2,8 @@
 // error_reporting(E_ERROR | E_PARSE);
 
 use Illuminate\Database\Capsule\Manager as DB;
-
+use v2\Models\ISPWallet;
+use v2\Models\Wallet;
 /**
 
 
@@ -26,7 +27,7 @@ class AutoMatchingController extends controller
 			$this->api_key
 		];
 
-
+		$this->get_period();
 
 		if ($this->settings['distribute_commissions']== 1) {
 
@@ -89,7 +90,7 @@ class AutoMatchingController extends controller
 		$date_condition = (time() >= $action_start_time);
 
 		if (!$date_condition) {
-			return;
+			// return;
 		}
 
 		//deduce payment month
@@ -98,9 +99,7 @@ class AutoMatchingController extends controller
 
 		$payment_date_range = MIS::date_range($payment_month, 'month', true);
 
-
-
-		return compact('payment_month', 'payment_date_range');
+		$this->period =  compact('payment_month', 'payment_date_range');
 	}
 
 
@@ -111,18 +110,20 @@ class AutoMatchingController extends controller
 	public function schedule_due_commissions()
 	{	
 
-		$period =  $this->get_period();
+		$period =  $this->period;
 		extract($period);
 
 
 		//user_ids of already scheduled commisssions
-		$scheduled_commissions = SettlementTracker::where('period', $payment_month)->get()->pluck('user_id');
+		$scheduled_commissions = SettlementTracker::where('period', $payment_month);
 
 
 		// connect with API
 		$query_string = http_build_query([
 			'from' 	=> $payment_date_range['start_date'],
 			'to' 	=> $payment_date_range['end_date'],
+			'top' => 2,
+			'skip' => 0
 		]);
 
 		$url = "{$this->url}?$query_string";
@@ -132,15 +133,27 @@ class AutoMatchingController extends controller
 		$total_no = $response['totalCount'];
 
 
+
+
+		if ($scheduled_commissions->count() == $total_no) {
+
+			echo "begin pools";
+			$this->pay_commissions();	
+
+			//schedule pools commission if regular commission is complete
+			$this->initiate_pools_commissions();	
+			return;
+			
+		}
+
+
+
+
 		// print_r($scheduled_commissions->toArray());
 
-		//users having pending schedules 
-		$non_scheduled_users = User::whereNotIn('id', $scheduled_commissions->toArray())->get()->take(50);
 
 
-            $non_scheduled_ids = $non_scheduled_users->pluck('id');
 
-			print_r($non_scheduled_ids->toArray());
 		/*
 		 *determine how many steps and paginations
 		 *get the total number
@@ -162,7 +175,7 @@ class AutoMatchingController extends controller
 
 			
 
-				$url = "{$this->url}?$query_string";
+				echo $url = "{$this->url}?$query_string";
 
 				$response = collect(json_decode( MIS::make_get($url, $this->header) , true));
 
@@ -170,27 +183,10 @@ class AutoMatchingController extends controller
 				$record = collect($response['value'])->keyBy('supervisorNumber')->toArray();
 				$supervisor_numbers =  collect($record)->pluck('supervisorNumber')->toArray();
 
-				$supervisors_to_be_treated = array_intersect($non_scheduled_ids->toArray(), $supervisor_numbers);
-
 
 				//ensure there is more commissions to schedule
-				$stop = (count($supervisors_to_be_treated) >= 0);
-				if ($stop) {
 
-					echo "pools";
-					//schedule pools commission if regular commission is complete
-					$this->pay_commissions();	
-					$this->initiate_pools_commissions();	
-
-					return;
-				}
-
-
-
-
-				$supervisors = User::whereIn('id', $supervisors_to_be_treated)->get()->keyBy('id')->toArray();
-
-				$this->treat_supervisors_commissions($record , $supervisors, $payment_month);
+				$this->treat_supervisors_commissions($record , $supervisor_numbers, $payment_month);
 
 		
 				print_r($supervisors_to_be_treated);
@@ -216,21 +212,27 @@ class AutoMatchingController extends controller
 
 			// DB::beginTransaction();
 
-			foreach ($supervisor_ids as $id => $user) {
+			foreach ($supervisor_ids as $id => $supervisor_id) {
 
-				$commissions = $records_from_api[$user[id]];
+				$commissions = $records_from_api[$supervisor_id];
 
-				$settlement[] =	SettlementTracker::create([
+				try {
+					
 
-						'user_id'	=> $user['id'],
-						'user_no'	=> $user['id'],	
-						'period'	=> $payment_month,
-						'dump'		=> json_encode($commissions),
-						'settled_disagio' => $commissions['sumDisagio'],
-						'no_of_merchants' => $commissions['tenantCount'],
-						'settled_license_fee' =>  $commissions['licenseSum']
-					]);
+						$settlement[] =	SettlementTracker::create([
 
+								'user_id'	=> $supervisor_id,
+								'user_no'	=> $supervisor_id,	
+								'period'	=> $payment_month,
+								'dump'		=> json_encode($commissions),
+								'settled_disagio' => $commissions['sumDisagio'],
+								'no_of_merchants' => $commissions['tenantCount'],
+								'settled_license_fee' =>  $commissions['licenseSum']
+							]);
+
+				} catch (Exception $e) {
+					
+				}
 
 			}
 
@@ -238,14 +240,243 @@ class AutoMatchingController extends controller
 
 
 
-	/**
-	 * this  begins the pools commission scheduling
-	 */
 	public function initiate_pools_commissions()
 	{
 
 
-		$period =  $this->get_period();
+		$period =  $this->period;
+
+		extract($period);
+		extract($payment_date_range);
+
+
+
+		$scheduled_commissions = SettlementTracker::where('period', $payment_month);
+
+		$total_disagio = $scheduled_commissions->sum('settled_disagio');
+		$total_setup_fee = $scheduled_commissions->sum('settled_license_fee'); //get from api
+
+
+		$isp_settings = SiteSettings::find_criteria('isp')->settingsArray;
+		$isp_make_up = $isp_settings['isp_make_up'];
+
+
+		$isp_disagio = $isp_make_up['percent_of_disagio'] * 0.01 * $total_disagio;
+		$isp_setupfee = $isp_make_up['percent_of_setup_fee'] * 0.01 * $total_setup_fee;
+
+
+		$total_package_sales = SubscriptionOrder::whereDate('paid_at','>=',  $start_date)->whereDate('paid_at', '<=',$end_date)->sum('price');
+
+		$isp_package = $isp_make_up['percent_of_all_sales_package'] * 0.01 * $total_package_sales;
+
+
+		$totals = $total_disagio + $total_setup_fee + $total_package_sales ;
+
+		$sharable_total = $isp_disagio + $isp_setupfee + $isp_package ;
+
+		$company_gain =  $totals - $sharable_total;
+
+		$dump = compact(
+			'total_disagio',
+			'total_setup_fee',
+			'total_package_sales',
+			'totals',
+			'isp_disagio',
+			'isp_setupfee',
+			'isp_package',
+			'sharable_total',
+			'company_gain',
+			'isp_settings'
+		);
+
+	
+
+		$pools_commissions = IspPoolsSchedule::updateOrCreate([
+															'period' => $payment_month
+														],
+
+														[
+															'dump' => json_encode($dump)
+														]);
+
+		$this->pay_pools_commission();
+
+	}
+
+
+
+
+
+
+	public function pay_pools_commission()
+	{
+		$period =  $this->period;
+		extract($period);
+
+
+
+		$isp =  IspPoolsSchedule::where('period', $payment_month)->first();
+
+		if ($isp == null) {
+			return;
+		}
+
+		$details = $isp->DumpArray;
+		$sharable_total = $details['sharable_total'];
+		$sharable_total = 90;
+
+		$isp_coin = collect($details['isp_settings']['isp'])->keyBy('key')->toArray();
+
+		//gold
+		$sharable_total_on_gold = $isp_coin['gold']['isp_percent'] * 0.01 * $sharable_total;
+
+		$this->share_gold_pool($sharable_total_on_gold, $period);
+
+
+
+
+		//silber
+		$sharable_total_on_silber = $isp_coin['silber']['isp_percent'] * 0.01 * $sharable_total;
+		$this->share_silber_pool($sharable_total_on_silber, $period);
+
+
+		return;
+
+	}
+
+	public function share_silber_pool($sharable_total, $period)
+	{
+		//find all user on gold or silber
+
+		$users_coins = ISPWallet::whereRaw("earning_category = 'gold' OR earning_category = 'silber'")->Completed()->Cleared();
+
+		$total_coin = $users_coins->sum('amount');
+
+		$users_having_share = $users_coins->selectRaw("sum(amount) as amount, user_id")->groupBy('user_id');
+
+
+
+ 		$worth_of_coin =  round(($sharable_total / $total_coin), 2);
+
+
+
+		foreach ($users_having_share->get() as $key => $coin_holder){
+		 		$coin = $coin_holder['amount'];
+		 		$payment_month = date("F, Y", strtotime($period['payment_month']));
+		 		$comment = "$coin shares From ISP Silber of $payment_month ";
+
+		 		if ($coin_holder['user']['id'] == '') {
+		 			continue;
+		 		}
+
+		 		$amount = $coin * $worth_of_coin;
+
+		 		$user_id = $coin_holder['user_id'];
+
+		 		$paid_at = date("Y-m-d H:i:s");
+		 		$identifier = "ispsilber/$user_id/".$period['payment_month'];
+		 		$extra = json_encode([
+		 			'period' => $period,
+		 			'gold_coins' => $coin
+		 		]);
+
+		 		try {
+		 			
+		 			Wallet::createTransaction(
+		 				'credit',
+		 				$user_id,
+		 				null,
+		 				$amount,
+		 				'completed',
+		 				'silber',
+		 				$comment,
+		 				$identifier, 
+		 				null, 
+		 				null,
+		 				$extra,
+		 				$paid_at 
+		 			);
+
+		 		} catch (Exception $e) {
+		 			
+		 		}
+
+
+
+		 }
+	}
+
+
+
+	public function share_gold_pool($sharable_total, $period)
+	{
+		//find all user on gold
+
+		$users_having_gold = ISPWallet::Completed()->Category('gold')->Cleared()->with('user');
+		$total_gold_coin = $users_having_gold->sum('amount');
+ 		$worth_of_a_gold =  round(($sharable_total / $total_gold_coin), 2);
+
+
+
+		foreach ($users_having_gold->get() as $key => $gold_holder){
+		 		$gold = $gold_holder['amount'];
+		 		$payment_month = date("F, Y", strtotime($period['payment_month']));
+		 		$comment = "$gold shares From ISP Gold of $payment_month ";
+
+		 		if ($gold_holder['user']['id'] == '') {
+		 			continue;
+		 		}
+
+		 		$amount = $gold * $worth_of_a_gold;
+
+		 		$user_id = $gold_holder['user']['id'];
+
+		 		$paid_at = date("Y-m-d H:i:s");
+		 		$identifier = "ispgold/$user_id/".$period['payment_month'];
+		 		$extra = json_encode([
+		 			'period' => $period,
+		 			'gold_coins' => $gold
+		 		]);
+
+
+		 		try {
+		 			
+		 			Wallet::createTransaction(
+		 				'credit',
+		 				$user_id,
+		 				null,
+		 				$amount,
+		 				'completed',
+		 				'gold',
+		 				$comment,
+		 				$identifier, 
+		 				null, 
+		 				null,
+		 				$extra,
+		 				$paid_at 
+		 			);
+
+		 		} catch (Exception $e) {
+		 			
+		 		}
+
+
+
+		 }
+	}
+
+
+
+
+
+	/**
+	 * this  begins the pools commission scheduling old
+	 */
+	public function initiate_pools_commissions_old()
+	{
+
+
+		$period =  $this->period;
 		extract($period);
 
 
@@ -298,9 +529,9 @@ class AutoMatchingController extends controller
 
 
 
-	public function pay_pools_commission()
+	public function pay_pools_commission_old()
 	{
-		$period =  $this->get_period();
+		$period =  $this->period;
 		extract($period);
 
 		$pools_commissions =  PoolsCommissionSchedule::where('period', $payment_month)->first();
@@ -371,14 +602,17 @@ class AutoMatchingController extends controller
 	 */
 	public function pay_commissions()
 	{
-		$unpaid = SettlementTracker::where('paid_at', null)->get();
+		$unpaid = SettlementTracker::where('paid_at', null);
+		$users = User::query();
 
-		foreach ($unpaid as $key => $settlement) {
+		$unpaid_users = $unpaid->joinSub($users, 'users', function($join){
+			$join->on('users.id', '=', 'settlement_tracker.user_id');
+		})->take(100)->get();
 
-				$disagio = $settlement['settled_disagio'];
-				$license_fee = $settlement['settled_license_fee'];
 
-				$settlement->give_commission($disagio, $license_fee);
+		foreach ($unpaid_users as $key => $settlement) {
+
+				$settlement->give_commission();
 		}
 
 	}

@@ -32,6 +32,18 @@ class IspPoolsSchedule extends Eloquent
 	}
 
 
+
+	public function getDumpArrayAttribute()
+	{
+	    if ($this->dump == null) {
+	        return [];
+	    }
+
+	    return json_decode($this->dump, true);
+	}
+
+
+
 }
 
 

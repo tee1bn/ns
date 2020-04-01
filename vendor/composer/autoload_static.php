@@ -309,6 +309,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'operations' => __DIR__ . '/../..' . '/app/core/operations.php',
         'v2\\Models\\AdminComment' => __DIR__ . '/../..' . '/app/models/v2/Models/AdminComment.php',
         'v2\\Models\\Document' => __DIR__ . '/../..' . '/app/models/v2/Models/Document.php',
+        'v2\\Models\\ISPWallet' => __DIR__ . '/../..' . '/app/models/v2/Models/ISPWallet.php',
         'v2\\Models\\Isp' => __DIR__ . '/../..' . '/app/models/v2/Models/Isp.php',
         'v2\\Models\\UserDocument' => __DIR__ . '/../..' . '/app/models/v2/Models/UserDocument.php',
         'v2\\Models\\UserWithdrawalMethod' => __DIR__ . '/../..' . '/app/models/v2/Models/UserWithdrawalMethod.php',
