@@ -26,38 +26,49 @@ $page_title = "News";
 
       <section id="video-gallery" class="card">
         <div class="card-header">
-          <h4 class="card-title">News</h4>
-          <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-              <div class="heading-elements">
-                <ul class="list-inline mb-0">
-                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                </ul>
-            </div>
+          <p class="card-text">List of News - <?=$news->count();?> of  <?=$data;?> </p>
+
+        
         </div>
          <div class="card-content">
       <div class="card-body">
-                                    <table id="myTable" class="table table-hover">
-                                        <thead>
-                                            <th>Sn</th>
-                                            <th style="width: 60%;">Message</th>
-                                            <th>Date</th>
-                                        </thead>
-                                        <tbody>
-                                            <?php $i=1; foreach (BroadCast::live() as $broadcast) :?>
-                                            <tr>
-                                                <td><?=$i;?></td>
-                                                <td><?=$broadcast->broadcast_message;?></td>
-                                                <td><?=$broadcast->created_at->toFormattedDateString();?></td>
-                                            </tr>
-                                            <?php $i++; endforeach ;?>
-                                        </tbody>
-                                    </table>
+          <table id="myTable" class="table table-hover">
+              <tbody>
+                  <?php $i=1; foreach ($news as $broadcast) :?>
+
+
+                  <tr>
+
+                    <div class="alert bg-dark text-white  alert-dismissible mb-2 " role="alert">             
+
+                          <small class=" badge-secondary float-left"><?=$i;?></small>
+                          &nbsp;
+                           <span class="badge badge-secondary">
+                                  <?=date('M j, Y h:iA', strtotime($broadcast->created_at));?>
+                              </span>
+                          <p>
+                             <small>
+                              <?=$broadcast->broadcast_message;?>
+                             </small>
+                          </p>
+
+                    </div>
+                  </tr>
+                  <?php $i++; endforeach ;?>
+              </tbody>
+          </table>
+
       </div>
     </div>
+
+
+
       </section>
 
 
+     <ul class="pagination">
+      <?= $this->pagination_links($data, $per_page);?>
+    </ul>
 
       
       

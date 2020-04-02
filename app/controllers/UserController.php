@@ -523,7 +523,25 @@ class UserController extends controller
 
 	public function broadcast()
 	{
-		$this->view('auth/broadcast');
+
+		$auth = $this->auth();
+
+		$sieve = $_REQUEST;
+		$query = BroadCast::Published()->latest();
+		// ->where('status', 1);  //in review
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$data =  $query->count();
+
+		$news =  $query
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+
+		$this->view('auth/broadcast', compact('news', 'sieve', 'data','per_page'));
 
 	}
 
