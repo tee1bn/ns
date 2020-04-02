@@ -49,7 +49,13 @@ class SupportTicket extends Eloquent
 	
 	public function getlinkAttribute()
 	{
-		$link= Config::domain()."/supportmessages?ticket_id={$this->code}";
+		if ($this->user != null) {
+			$link = $this->UserLink;
+		}else{
+
+			$link= Config::domain()."/supportmessages?ticket_id={$this->code}";
+		}
+
 
 		return $link;
 	}
@@ -108,7 +114,7 @@ class SupportTicket extends Eloquent
 		$host = Config::domain();
 		$confirm_dialog = '$confirm_dialog';
 		$button = "<a  onclick='$confirm_dialog = new ConfirmationDialog(\"$this->closeLink\")'  
-		href='javascript:void(0);' class='dropdown-item'>Close ticket</a>";
+		href='javascript:void(0);' class='btn-sm btn btn-dark'>Close ticket</a>";
 
 
 		if (!$this->is_closed()) {
@@ -135,7 +141,7 @@ class SupportTicket extends Eloquent
 
 	public function user()
 	{
-			return $this->belongsTo('Clientele', 'user_id')	;
+			return $this->belongsTo('User', 'user_id')	;
 	}
 
 

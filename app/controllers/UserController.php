@@ -35,7 +35,11 @@ class UserController extends controller
 
 	}
 
-	
+	public function supportmessages($value='')
+	{
+		$this->view('auth/support-messages');
+	}
+
 
 	public function notifications($notification_id = 'all')
 	{

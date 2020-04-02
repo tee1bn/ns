@@ -114,6 +114,10 @@ echo "<pre>";
 		 	MIS::verify_google_captcha();
 
 
+		 	parse_str($_SERVER['HTTP_REFERER'], $referral_url );
+		 	$intended_route =  array_values($referral_url)[0];	
+		 	
+
 			$trial = User::where('username', Input::get('user'))->first();
 			
 			if ($trial == null) {
@@ -130,7 +134,10 @@ echo "<pre>";
 
 		if ($result) {
 
-				Session::putFlash('success',"Welcome ".$result->firstname);
+
+				if ($intended_route != null) {
+					Redirect::to($intended_route);
+				}
 
 
 			}else{

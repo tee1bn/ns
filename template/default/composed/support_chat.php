@@ -41,10 +41,9 @@
                                     </p>
                             </div>
                              <div class="col-sm-4 ">
-                                    <small class="float-right">Ticket ID: <?=$ticket->code;?></small><br>
+                                    <small class="float-right">Ticket ID: <?=$ticket->code;?> <?=$ticket->displayStatus;?></small></small><br>
                                     <small class="float-right"> <?=$ticket->created_at->format('M j, Y g:i A');?></small><br>
-                                    <small class="float-right"><?=$ticket->displayStatus;?></small><br>
-                                    <?=$ticket->closeButton;?>
+                                     <small class="float-right"><?=$ticket->closeButton;?></small>
                                 </div>         
                           
                       </div>
@@ -110,9 +109,10 @@
                     </div>
 
 
-                    <?php if (@$_SESSION['admin_code']) :?>
+                    <?php if ($this->admin()) :?>
                       <script>
                           CKEDITOR.replace('editor1');
+                         
                       </script>
                     <?php endif ;?>
 

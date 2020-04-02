@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Capsule\Manager as DB;
 use  Filters\Filters\WalletFilter;
+use  Filters\Filters\SupportTicketFilter;
 
 use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
@@ -26,6 +27,67 @@ class AdminController extends controller
 
 		$this->view('admin/packages');
 
+	}
+
+	
+
+	public function support_messages()
+	{
+
+		$this->view('admin/support-messages');
+	}
+
+	private function ticket_matters($extra_sieve)
+	{
+
+
+		$sieve = $_REQUEST;
+		$sieve = array_merge($sieve, $extra_sieve);
+
+		$query = SupportTicket::latest();
+		// ->where('status', 1);  //in review
+		$sieve = array_merge($sieve);
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$filter =  new  SupportTicketFilter($sieve);
+
+		$data =  $query->Filter($filter)->count();
+
+		$tickets =  $query->Filter($filter)
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+		return compact('tickets', 'sieve', 'data','per_page');
+		
+	}
+
+
+
+
+
+
+	public function open_tickets()
+	{
+		$sieve = ['status' => 0];
+		$compact =  $this->ticket_matters($sieve);
+		extract($compact);
+		$page_title = 'Open Tickets';
+
+		$this->view('admin/all_tickets', compact('tickets', 'sieve', 'data','per_page', 'page_title'));
+	}
+
+
+	public function closed_tickets()
+	{
+		$sieve = ['status' => 1];
+		$compact =  $this->ticket_matters($sieve);
+		extract($compact);
+		$page_title = 'Closed Tickets';
+
+		$this->view('admin/all_tickets', compact('tickets', 'sieve', 'data','per_page', 'page_title'));
 	}
 
 

@@ -75,7 +75,6 @@ class current_user extends controller
 	
 	
 
-
 	public function mustbe_loggedin(){
 
 		if($this->auth()){
@@ -83,13 +82,12 @@ class current_user extends controller
 		return $this;
 
 		}else{
-
-		Redirect::to('login');
+			Session::putFlash("danger","Please login or sign up to continue.");
+			$intended_url= $_GET['url'];
+			Redirect::to("login?intended_url=$intended_url");
 		}
 
 	}
-
-
 
 
 

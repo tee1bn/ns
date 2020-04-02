@@ -45,7 +45,8 @@ class TicketCrudController extends controller
 
         $client_email_message = "<p>Hello $ticket->customer_name,</p>
 		                             <p>$message->message </p>
-		                         <p>You can respond by clicking this button <a href='{$ticket->link}'><button> Respond</button></a></p>
+		                         <p>You can respond by clicking this link <a href='{$ticket->link}'> Respond </a></p>
+                                 
 		                         <br><br>
 		                         <p>Please note that to update this support request, you need to click the link above. Please do not click your email reply button as you would be replying to an unattended email. </p>
 
@@ -56,6 +57,7 @@ class TicketCrudController extends controller
                                  </p>
 		                         ";
 
+        $client_email_message = MIS::compile_email($client_email_message);
         $mailer = new Mailer();
 
         $mailer->sendMail(

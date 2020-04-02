@@ -9,14 +9,14 @@
                 <div class="row">
                     <div class="form-group col-sm-12">
                         <label>Name</label><br>
-                        <input type="" name="name" placeholder="Name, email, phone" class="form-control" value="<?=$sieve['name'];?>">
+                        <input type="" name="name" placeholder="Name, email, phone" class="form-control" value="<?=$sieve['name'] ?? '';?>">
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label>Ticket Id</label>
-                        <input type="" name="ticket_id" value="<?= $sieve['ticket_id']; ?>" class="form-control">
+                        <input type="" name="ticket_id" value="<?= $sieve['ticket_id'] ?? ''; ?>" class="form-control">
                     </div>
 
                     
