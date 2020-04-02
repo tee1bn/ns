@@ -35,6 +35,7 @@ return array(
     'LicenseKey' => $baseDir . '/app/models/LicenseKey.php',
     'Location' => $baseDir . '/app/classes/Location.php',
     'MIS' => $baseDir . '/app/classes/MIS.php',
+    'Mailer' => $baseDir . '/app/classes/Mailer.php',
     'MlmSales' => $baseDir . '/app/models/MlmSales.php',
     'MlmSetting' => $baseDir . '/app/models/MlmSetting.php',
     'Newsletter' => $baseDir . '/app/models/Newsletter.php',

@@ -7,6 +7,34 @@ class MIS
 {
 	
 	
+	public static function compile_email($core_msg) {
+			$controller = new home;
+			$message = $core_msg;
+	        $my_message_template = $controller->buildView('emails/contact-message', compact('message'), true);
+	    return $my_message_template;
+	}
+
+
+	public static function current_url($type='short')
+	{
+		$full_url =  @$_GET['url'];
+		$main_url = explode("/", $full_url);
+		array_splice($main_url, 2);
+
+		$short_url =  implode($main_url, "/");
+
+		$short_url = str_replace('-', '_', $short_url);
+
+		$urls = [
+			'full' =>  $full_url,
+			'short' =>  $short_url
+		];
+
+		return $urls[$type];
+	}
+
+	
+	
 	public static function money_format($string)
 	{
 		return number_format("$string",2);		

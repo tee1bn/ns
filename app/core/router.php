@@ -36,6 +36,10 @@ $router =[
 	'subscription_reminder' => 'SubscriptionReminder',
 
 
+	'ticket_crud' => 'crud/TicketCrudController',
+	'cms_crud' => 'crud/CmsCrud',
+	'user_doc_crud' => 'crud/UserDocCrudController',
+
 
 
 

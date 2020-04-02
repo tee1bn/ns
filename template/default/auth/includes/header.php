@@ -41,6 +41,8 @@
     <link rel="stylesheet" type="text/css" href="../../../assets/css/style.css">
     <!-- END: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="<?=asset;?>/fonts/feather/style.min.css">
+     <link rel="stylesheet" type="text/css" href="<?=asset;?>/fonts/meteocons/style.min.css">
+
     <script src="<?=asset;?>/js/jquery1.12.min.js"></script>
   </head>
   <!-- END: Head-->

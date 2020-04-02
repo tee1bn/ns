@@ -167,21 +167,21 @@ public function inputError($field)
 
 
   
+  
 
-		public function buildView($view, $data=null)
-		{
-
-
-			ob_start();
-			$this->view($view, $data);
-			$output = ob_get_contents();
-			ob_end_clean();
+  public function buildView($view , $data = [], $multiple=false)
+  {
 
 
-			return $output;
+  	ob_start();
+  	$this->view($view, $data, $multiple);
+  	$output = ob_get_contents();
+  	ob_end_clean();
 
-		}
 
+  	return $output;
+
+  }
 
 		protected function logout()
 		{
@@ -299,7 +299,7 @@ if ($response == true) {
 
 
 
-		public function view($view , $data = []){
+		public function view($view , $data = [], $multiple=false){
 
 			foreach ($data as $key => $value) { $$key = $value ;}
 			$view_path = explode('/', $view);
@@ -339,7 +339,17 @@ if ($response == true) {
 			define("fav_icon", 	$fav_icon, 	true);
 			define("websocket_url", $websocket_url, 	true);
 			echo'<link rel="canonical" href="http://gitstardigital.com/"/>';
-			require_once "template/".Config::views_template()."/{$view}.php" ;
+
+
+
+
+			if ($multiple==false) {
+				require_once "template/".Config::views_template()."/{$view}.php" ;
+
+			}else {
+				require "template/".Config::views_template()."/{$view}.php" ;
+			}
+
 			require_once "app/others/confirmation_dialog.php" ; 
 			require_once "app/others/show_notifications.php" ; 
 			

@@ -194,74 +194,105 @@ class home extends controller
 	}
 
 
-	public function send_message()
+
+
+	public function contact_us()
 	{
 
-		if (Input::exists() || true) {
-			$this->validator()->check(Input::all() , array(
 
-		
-			'name' =>[
+	        // verify_google_captcha();
 
-				'required'=> true,
-				'min'=> 3,
-				'max'=> 42,
-					],
-			'email' =>[
+		echo "<pre>";
 
-						'required'=> true,
-						'email'=> true,
-						'max'=> 52,
-							],
+		print_r($_REQUEST);
+	        extract($_REQUEST);	
 
-			'subject' =>[
-						'min'=> 7,
-							],
+	        $project_name = Config::project_name();
+	        $domain = Config::domain();
+
+			$settings = SiteSettings::site_settings();
+			$noreply_email = $settings['noreply_email'];
+			$support_email = $settings['support_email'];
+
+	        $email_message = "
+			       <p>Dear Admin, Please respond to this support ticket on the $project_name admin </p>
 
 
-			'message' =>[
+			       <p>Details:</p>
+			       <p>
+			       Name: " . $full_name . "<br>
+			       Phone Number: " . $phone . "<br>
+			       Email: " . $email . "<br>
+			       Comment: " . $comment . "<br>
+			       </p>
 
-						'required'=> true,
-						'min'=> 5,
-							],
-		));
-		
-		if($this->validator->passed()){
-
-					$settings = SiteSettings::site_settings();
-
-					$to = $settings['contact_email'];
-
-					$phone = $_POST['subject'];
-					$from = "$name, $email ";
-					$message = "$from - $phone ".$_POST['message'];
+			       ";
 
 
-					$mailer = new Mailer();
-					$response = $mailer->sendMail($to,'New Message',$message);	
+	        $client = User::where('email', $_POST['email'])->first();
+	        $support_ticket = SupportTicket::create([
+	            'subject_of_ticket' => $_POST['comment'],
+	            'user_id' => $client->id,
+	            'customer_name' => $_POST['full_name'],
+	            'customer_phone' => $_POST['phone'],
+	            'customer_email' => $_POST['email'],
+	        ]);
+
+	        $code = $support_ticket->id . MIS::random_string(7);
+	        $support_ticket->update(['code' => $code]);
+	        //log in the DB
+
+	        $client_email_message = "
+			       Hello {$support_ticket->customer_name},
+
+			       <p>We have received your inquiry and a support ticket with the ID: <b>{$support_ticket->code}</b>
+			        has been generated for you. We would respond shortly.</p>
+
+			      <p>You can click the link below to update your inquiry.</p>
+
+			       <p><a href='{$support_ticket->link}'>{$support_ticket->link}</a></p>
+
+	               <br />
+	               <br />
+	               <br />
+	               <a href='$domain'> $project_name </a>
 
 
-					if ($response == true) {
-					 	Session::putFlash('success', '<div id="sendmessage" style="display: block;">Your message has been sent. Thank you!</div>');
-					}else{
-					 	Session::putFlash('danger', '<div id="errormessage" style="display: block;">Could not send message. Please try again </div> ');
-
-					}
+	               ";
 
 
-					 }else{
+	        $support_email_address = $noreply_email;
 
-					 	
-					 	Session::putFlash('danger', '<div id="errormessage" style="display: block;">Could not send message. Please try again </div> ');
-						print_r($this->validator->errors());
+	        $client_email_message = MIS::compile_email($client_email_message);
+	        $email_message = MIS::compile_email($email_message);
+
+	        $mailer = new Mailer();
+
+	        $mailer->sendMail(
+	            $email_message,
+	        	"$project_name Support - Ticket ID: $support_ticket->code",
+	            $client_email_message,
+	            "Support");
 
 
-					 }
+	        $response = $mailer->sendMail(
+	        	  "$support_ticket->customer_email",
+	        	"$project_name Support - Ticket ID: $support_ticket->code", 
+	        	$client_email_message, 
+	        	 $support_ticket->customer_name
+	        	);
+
+	        Session::putFlash('primary', "Message sent successfully.");
+
+	        Redirect::back();
+	    
+	        die();
+
+
 	}
 
 
-		Redirect::back();
-	}
+
 
 
 	public function test()

@@ -275,6 +275,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'LicenseKey' => __DIR__ . '/../..' . '/app/models/LicenseKey.php',
         'Location' => __DIR__ . '/../..' . '/app/classes/Location.php',
         'MIS' => __DIR__ . '/../..' . '/app/classes/MIS.php',
+        'Mailer' => __DIR__ . '/../..' . '/app/classes/Mailer.php',
         'MlmSales' => __DIR__ . '/../..' . '/app/models/MlmSales.php',
         'MlmSetting' => __DIR__ . '/../..' . '/app/models/MlmSetting.php',
         'Newsletter' => __DIR__ . '/../..' . '/app/models/Newsletter.php',

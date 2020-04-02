@@ -1,9 +1,4 @@
 <?php include 'includes/header.php';?>
-
-      <span style="text-transform: capitalize; color: #203864">
-         From <?=$name;?> <br>
-         Email <a href="mailto://<?=$email;?>"><?=$email;?></a> <br>
-       </span>
       
   </td></tr></tbody></table>
 
@@ -13,11 +8,6 @@
             <?=$message;?>
       <br>
 
-     <!--   <br>
-        Regards,
-       <br>
-        Team <span style="text-transform: uppercase;"><?=project_name;?></span>
-       <br> -->
     </div>
 
   </td></tr></tbody></table>

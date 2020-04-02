@@ -3,6 +3,7 @@ use v2\Shop\Shop;
 use v2\Models\Wallet;
 use v2\Models\Withdrawal;
 use  Filters\Filters\WalletFilter;
+use  Filters\Filters\SupportTicketFilter;
 use Illuminate\Database\Capsule\Manager as DB;
 
 
@@ -474,12 +475,41 @@ class UserController extends controller
 	}
 
 
+	
+
+	public function contact_us()
+	{
+		$this->view('auth/contact-us');
+
+	}
 
 
 
 	public function support()
 	{
-		$this->view('auth/support');
+		$auth = $this->auth();
+
+		$sieve = $_REQUEST;
+		$sieve = array_merge($sieve);
+
+		$query = SupportTicket::where('user_id', $auth->id)->latest();
+		// ->where('status', 1);  //in review
+		$sieve = array_merge($sieve);
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$filter =  new  SupportTicketFilter($sieve);
+
+		$data =  $query->Filter($filter)->count();
+
+		$tickets =  $query->Filter($filter)
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+
+		$this->view('auth/support', compact('tickets', 'sieve', 'data','per_page'));
 
 	}
 
