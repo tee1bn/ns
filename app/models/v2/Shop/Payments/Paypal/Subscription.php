@@ -86,9 +86,9 @@ class Subscription  extends cPaypal{
 		$this->paymentDefinition->setName('Regular Payments')
 		    ->setType('REGULAR')
 		    ->setFrequency('Month')
-		    ->setFrequencyInterval("1")
+		    ->setFrequencyInterval($this->order->no_of_month)
 		    ->setCycles("12")
-		    ->setAmount(new Currency(array('value' => $this->subscriptionPlan->PriceBreakdown['set_price'],
+		    ->setAmount(new Currency(array('value' => $this->order->total_tax_inclusive()['price_exclusive_of_tax'],
 		    											 'currency' => parent::$currency)));
 
 
@@ -100,7 +100,7 @@ class Subscription  extends cPaypal{
 
 		$this->chargeModel = new ChargeModel();
 		$this->chargeModel->setType('TAX')
-		    ->setAmount(new Currency(array('value' => $this->subscriptionPlan->PriceBreakdown['tax'], 'currency' => parent::$currency)));
+		    ->setAmount(new Currency(array('value' => $this->order->total_tax_inclusive()['total_sum_tax'], 'currency' => parent::$currency)));
 
 		$this->paymentDefinition->setChargeModels(array($this->chargeModel));
 

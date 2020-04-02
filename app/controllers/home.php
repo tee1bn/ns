@@ -29,10 +29,12 @@ class home extends controller
 
 		echo "<pre>";
 
-		$wallet = Wallet::all();
+		$wallet = SubscriptionOrder::find(87);
 
 		
 		print_r($wallet->toArray());
+
+		$wallet->mark_paid();
 
 
 		return;

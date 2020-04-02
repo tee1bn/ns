@@ -70,12 +70,13 @@ $page_title = "Package";
                       <?php foreach (SubscriptionPlan::$benefits as $key => $benefit): ?>
 
                         <li class="list-group-item use-bg small-padding">
-                          <?php if ($subscription->DetailsArray['benefits'][$key] == 1) :?>
+                          <?php if (isset($subscription->DetailsArray['benefits'][$key]) && $subscription->DetailsArray['benefits'][$key] == 1) :?>
                             <span class="badge badge-primary float-left"><i class="fa fa-check-circle"></i></span>
                             <?php else :?>
                               <span class="badge bg-danger float-left"><i class="fa fa-times-circle"></i></span>
                             <?php endif ;?>
                              &nbsp;  &nbsp; <i><?=$benefit['title'];?></i>
+
                           </li>
 
                         <?php endforeach;?>
@@ -93,12 +94,17 @@ $page_title = "Package";
 
 
                       <label>
-                        <input type="checkbox" name="month_6"> Service for 6 Months 
+                        <input type="checkbox" name="payment_type" value="subscription"> Monthly payment (Automatic collection) 
                       </label>
                       <br>
 
                       <label>
-                        <input type="checkbox" name="month_12"> Service for 12 Months 
+                        <input type="radio" name="prepaid_month" value="6"> Service for 6 Months 
+                      </label>
+                      <br>
+
+                      <label>
+                        <input type="radio" name="prepaid_month" value="12"> Service for 12 Months 
                       </label>
 
                       <br>
@@ -143,7 +149,8 @@ $page_title = "Package";
 
               <script>
                 initiate_payment= function($data){
-                  
+                  try{
+
                   switch($data.payment_method) {
                      case 'coinpay':
                        // code block
@@ -165,6 +172,11 @@ $page_title = "Package";
                      default:
                        // code block
                    }
+
+                  }catch(e){
+
+                  }
+
                 }
               </script>
 

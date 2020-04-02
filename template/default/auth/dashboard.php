@@ -101,7 +101,7 @@ $page_title = "Dashboard";
                     <div class="p-2 bg-gradient-x-success white media-body">
                         <a href="<?=domain;?>/user/earnings" class="text-white">
                         <h5>Wallet</h5>
-                        <h5 class="text-bold-400 mb-0"> <?=$currency;?> <?=MIS::money_format($balance);?></h5>
+                        <h5 class="text-bold-400 mb-0"> <?=$currency;?> <?=MIS::money_format($balances['total_earnings']);?></h5>
                         </a>
                     </div>
                 </div>
@@ -180,7 +180,7 @@ $page_title = "Dashboard";
                      
                         <li class="list-group-item">
                             <span class="badge badge-pill bg-primary float-right">
-                                <?=$broadcast->created_at->toFormattedDateString();?></span>
+                                <?= $broadcast->created_at->toFormattedDateString();?></span>
                             <?=$broadcast->broadcast_message;?>
                         </li>
                         

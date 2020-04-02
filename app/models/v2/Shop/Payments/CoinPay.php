@@ -128,79 +128,95 @@ fclose($myfile);
 		return $amount;
 	}
 
+	private function makeOneTimePayment(){
 
-	public function initializePayment()
+
+
+				$payment_method = $this->name;
+
+				$order_ref = $this->order->generateOrderID();
+
+				$amount = $this->amountPayable();
+
+				$user = $this->order->user;
+				$domain = Config::domain();
+
+
+
+				$callback_param = http_build_query([
+					'item_purchased'=> $this->order->name_in_shop,
+					'order_unique_id'=> $this->order->id,
+				]);
+
+
+				$callback_url = "{$domain}/shop/callback?$callback_param";
+
+			
+
+				$payment_details = [
+								'gateway' => $this->name,
+								'ref' => $order_ref,
+								'order_unique_id' => $this->order->id,
+
+								"walletId" 	 =>  $this->api_keys['wallet_id'],
+								"referenceId"=>  $order_ref,
+								"amount" 	 =>  $amount,
+								"currency" 	 =>  "EUR",
+								"successRedirectUrl" =>  $callback_url."&t=success",
+								"failRedirectUrl" =>  $callback_url."&t=fail",
+								"cancelRedirectUrl" =>  $callback_url."&t=cancel",
+								];
+
+
+
+				$formatted_authorization = ("{$this->api_keys['username']}:{$this->api_keys['password']}");
+				$formatted_authorization = base64_encode($formatted_authorization);
+
+				$headers = [
+
+							"Content-Type"=>" application/json",
+							"Authorization"=>" Basic $formatted_authorization",
+							"Accept"=>" application/json",
+					];
+
+					$client = new \GuzzleHttp\Client();
+					$options = [
+					    'json' => $payment_details,
+					    'headers' => $headers,
+					   ]; 
+					   
+		    		$url =  $this->urls['create_payment_page'];
+					$response = $client->post("$url", $options);
+			
+
+				$payment_details['approval_url'] = json_decode($response->getBody()->getContents(), true)['redirectUrl'];
+
+				$this->order->setPayment($payment_method , $payment_details);
+
+				return $this;
+
+			
+	}
+
+	public function makeSubscriptionPayment()
 	{
-
-		$payment_method = $this->name;
-
-		$order_ref = $this->order->generateOrderID();
-
-		$amount = $this->amountPayable();
-
-		$user = $this->order->user;
-		$domain = Config::domain();
-
-
-
-		$callback_param = http_build_query([
-			'item_purchased'=> $this->order->name_in_shop,
-			'order_unique_id'=> $this->order->id,
-		]);
-
-
-		$callback_url = "{$domain}/shop/callback?$callback_param";
-
-
-
-
-
-
-		
-
-		$payment_details = [
-						'gateway' => $this->name,
-						'ref' => $order_ref,
-						'order_unique_id' => $this->order->id,
-
-						"walletId" 	 =>  $this->api_keys['wallet_id'],
-						"referenceId"=>  $order_ref,
-						"amount" 	 =>  $amount,
-						"currency" 	 =>  "EUR",
-						"successRedirectUrl" =>  $callback_url."&t=success",
-						"failRedirectUrl" =>  $callback_url."&t=fail",
-						"cancelRedirectUrl" =>  $callback_url."&t=cancel",
-						];
-
-
-
-		$formatted_authorization = ("{$this->api_keys['username']}:{$this->api_keys['password']}");
-		$formatted_authorization = base64_encode($formatted_authorization);
-
-		$headers = [
-
-					"Content-Type"=>" application/json",
-					"Authorization"=>" Basic $formatted_authorization",
-					"Accept"=>" application/json",
-			];
-
-			$client = new \GuzzleHttp\Client();
-			$options = [
-			    'json' => $payment_details,
-			    'headers' => $headers,
-			   ]; 
-			   
-    		$url =  $this->urls['create_payment_page'];
-			$response = $client->post("$url", $options);
-	
-
-		$payment_details['approval_url'] = json_decode($response->getBody()->getContents(), true)['redirectUrl'];
-
+		Session::putFlash("danger", "$this->name is unable to process subscription(Automatic) based payment.");
 		$this->order->setPayment($payment_method , $payment_details);
 
 		return $this;
-
 	}
+
+	public function initializePayment()
+	{	
+		$actions = [
+			'one_time' => 'makeOneTimePayment',
+			'subscription' => 'makeSubscriptionPayment',
+		];
+
+		$method = $actions[$this->payment_type];
+
+		return $this->$method();
+}
 
 	public function attemptPayment()
 	{
@@ -208,6 +224,7 @@ fclose($myfile);
 
 		if ($this->order->is_paid()) {
 			throw new Exception("This Order has been paid with {$this->order->payment_method}", 1);
+
 		}
 
 

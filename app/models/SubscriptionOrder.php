@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model as Eloquent;
 use Illuminate\Database\Capsule\Manager as DB;
 use v2\Shop\Contracts\OrderInterface;
 use  v2\Shop\Shop;
+use  v2\Models\Wallet;
 
 
 class SubscriptionOrder extends Eloquent implements OrderInterface
@@ -103,13 +104,13 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 				$agreement_details = $this->fetchAgreement();
 				$next_billing_date = date("M j, Y", strtotime($agreement_details['next_billing_date']));
 
-				$today = strtotime(date("Y-m-d"));
+				$after_x_days = strtotime("$this->paid_at +2 days");
 				$next_billing = strtotime(date("Y-m-d", strtotime($agreement_details['next_billing_date'])));
 
 
 				$note="";
-
-				if ($next_billing > $today) {
+				//ensure cancellation is possible after x days to ensure we bill the user
+				if ($next_billing > $after_x_days) {
 					$note .= MIS::generate_form([
 								'order_unique_id' => $this->id,
 								'item_purchased' => 'packages',
@@ -199,7 +200,14 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		DB::beginTransaction();
 		try {
 
-			$this->update(['paid_at' => date("Y-m-d H:i:s")]);
+			$today = date("Y-m-d H:i:s");
+			$no_of_month = $this->no_of_month;
+			$expires_at = date("Y-m-d H:i:s", strtotime("$today +$no_of_month months"));
+
+			$this->update([
+							'paid_at' => date("Y-m-d H:i:s"),
+							'expires_at'=> $expires_at
+						]);
 			$this->give_value();
 
 
@@ -306,15 +314,14 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		 // print_r($detail);
 		 // print_r($settings);
 		 // print_r($tree);
-
 		foreach ($tree as $level => $upline) {
 					if ($settings[$level]['packages']==0) {continue;}
 
 		 		    $amount_earned = $settings[$level]['packages'] * 0.01 * $detail['commission_price'];
-					$comment = $detail['package_type']." Package Level {$level} Bonus";
+					$comment = $detail['package_type']." Level {$level} Bonus";
 
 					if ($level == 0) {
-						 $comment = $detail['package_type']." Package self Bonus";
+						 $comment = $detail['package_type']." self Bonus";
 					}
 
 					// ensure  upliner is qualified for commission
@@ -322,7 +329,26 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 							continue;
 					}
 					
-			$credit[]  = LevelIncomeReport::credit_user($upline['id'], $amount_earned, $comment , $upline->id, $this->id);
+			$paid_at = date("Y-m-d H:i:s");
+
+
+			$identifier = "$this->id#P$level";
+			$credit[]  = Wallet::createTransaction(	
+										'credit',
+										$upline['id'],
+										$user->id,
+										$amount_earned,
+										'completed',
+										'package',
+										$comment ,
+										$identifier, 
+										$this->id , 
+										null,
+										null,
+										$paid_at
+									);
+
+
 		}
 
 		return $credit;
@@ -384,7 +410,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	public function total_tax_inclusive()
 	{
 
-		$breakdown = $this->payment_plan->PriceBreakdown;
+		$breakdown = $this->payment_plan->PriceBreakdowns($this->no_of_month);
 
 		$tax = [
 					'price_inclusive_of_tax' => $breakdown['total_payable'],
@@ -394,6 +420,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 		return $tax;
 	}
+
 	public function total_price()
 	{
 		return $this->price;
@@ -483,6 +510,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		$payment_plan = SubscriptionPlan::find($plan_id);
 		$new_payment_order = self::create([
 								 'plan_id'  	=> $plan_id,
+								 'no_of_month'  	=> $no_of_month,
 								 'user_id' 		=> $user_id,
 								 'price'   		=> $price,
 								 'details'		=> json_encode($payment_plan),

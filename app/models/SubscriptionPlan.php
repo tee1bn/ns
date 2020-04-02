@@ -99,16 +99,19 @@ class SubscriptionPlan extends Eloquent
 		return (0.01 * $this->percent_vat * $this->price) + $this->price;
 	}
 
-	public function getPriceBreakdownAttribute()
+	public function PriceBreakdowns($no_of_month = 1)
 	{
-		$tax = 0.01 * $this->percent_vat * $this->price;
+		$price = $this->price * $no_of_month;
+
+		$tax = 0.01 * $this->percent_vat * $price;
+		$final_cost = (0.01 * $this->percent_vat * $price) + $price;
 		$breakdown = [
-			'before_tax'=> $this->price,
-			'set_price'=> $this->price,
+			'before_tax'=> $price,
+			'set_price'=> $price,
 			'total_percent_tax'=> $this->percent_vat,
 			'tax'=>  $tax,
 			'type'=>  "exclusive",
-			'total_payable'=>  $this->Finalcost,
+			'total_payable'=>  $final_cost,
 		];
 
 		return $breakdown;
@@ -169,16 +172,27 @@ class SubscriptionPlan extends Eloquent
 
 			 	//cancel current subscription if automatic
 
+			 	if (isset($_POST['payment_type'])) {
+			 		$payment_type = 'subscription';
+			 	}else{
+
+			 		$payment_type = 'one_time';
+			 	}
+
+
 			 	$plan_id = $subscription_id;
-			 	$price = $new_sub->PriceBreakdown['total_payable'];
-			 	$cart = compact('plan_id','user_id','price');
+			 	$no_of_month = $_POST['prepaid_month'] ?? 1;
+			 	$price = $new_sub->PriceBreakdowns($no_of_month)['total_payable'];
+
+			 	$cart = compact('plan_id','user_id','price','no_of_month');
+
 
 		 		$shop = new Shop();
 		 		$payment_details =	$shop
 		 							->setOrderType('packages') //what is being bought
 		 							->receiveOrder($cart)
 		 							->setPaymentMethod($_POST['payment_method'])
-		 							->setPaymentType(SubscriptionOrder::$payment_types[$_POST['payment_method']])
+		 							->setPaymentType($payment_type)
 		 							->initializePayment()
 		 							->attemptPayment()
 		 							;
@@ -192,7 +206,8 @@ class SubscriptionPlan extends Eloquent
 			return $shop->order;
 		} catch (Exception $e) {
 			DB::rollback();
-			print_r($e->getMessage());
+
+			// print_r($e->getMessage());
 		}
 
 		return false;

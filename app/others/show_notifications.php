@@ -108,7 +108,7 @@
 
 show_notification = function ($notification, $error_type='info') {
 $('#error_note').html($notification);
-    $('#gitstar-notification').css('display', 'block').fadeOut(5000);
+    $('#gitstar-notification').css('display', 'block');
 
 
     $('#gitstar-notification').hover(
