@@ -16,25 +16,28 @@
 
 
 
- <div id="page_preloader" style="
-    background: #65323230;
-    position: fixed;
-    top: 0px;
-    right: 0px;
-    width: 100%;
-    height: 100%;
-    padding-top: 22%;
-    display: none;
-    z-index: 9;">
 
-            <i class="fa fa-spinner fa-spin" style="
-                                              position: fixed;
-                                              left: 50%;
-                                              z-index: 99999;
-                                              font-size: 90px;">
-                                              </i>
 
-        </div>
+<div id="page_preloader" style="
+background: #65323230;
+position: fixed;
+top: 0px;
+right: 0px;
+width: 100%;
+height: 100%;
+padding-top: 22%;
+text-align:center;
+display: none;
+z-index: 9;">
+
+<i class="fa fa-circle-notch fa-spin" style="
+z-index: 99999;
+font-size: 90px;">
+</i>
+
+</div>
+
+
 
 
 

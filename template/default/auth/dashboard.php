@@ -7,7 +7,7 @@ $page_title = "Dashboard";
     $balances = Withdrawal::payoutBalanceFor($auth->id);
 
 
-    $pool_target = $auth->pool_target();
+    // $pool_target = $auth->pool_target();
 
     ;?>
 
@@ -37,186 +37,365 @@ $page_title = "Dashboard";
 
 
 
+            <div class="row grouped-multiple-statistics-card">
+              <div class="col-12">
+                <div class="card">
+                  <div class="card-body">
+                    <div class="row">
+                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
+                        <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
+                          <span class="card-icon primary d-flex justify-content-center mr-3">
+                            <i class="icon p-1 icon-bar-chart customize-icon font-large-2 p-1"></i>
+                          </span>
+                          <div class="stats-amount mr-3">
+                            <h3 class="heading-text text-bold-600">$95k</h3>
+                            <p class="sub-heading">Revenue</p>
+                          </div>
+                          <span class="inc-dec-percentage">
+                            <small class="success"><i class="fa fa-long-arrow-up"></i> 5.2%</small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
+                        <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
+                          <span class="card-icon danger d-flex justify-content-center mr-3">
+                            <i class="icon p-1 icon-pie-chart customize-icon font-large-2 p-1"></i>
+                          </span>
+                          <div class="stats-amount mr-3">
+                            <h3 class="heading-text text-bold-600">18.63%</h3>
+                            <p class="sub-heading">Growth Rate</p>
+                          </div>
+                          <span class="inc-dec-percentage">
+                            <small class="danger"><i class="fa fa-long-arrow-down"></i> 2.0%</small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
+                        <div class="d-flex align-items-start border-right-blue-grey border-right-lighten-5">
+                          <span class="card-icon success d-flex justify-content-center mr-3">
+                            <i class="icon p-1 icon-graph customize-icon font-large-2 p-1"></i>
+                          </span>
+                          <div class="stats-amount mr-3">
+                            <h3 class="heading-text text-bold-600">$27k</h3>
+                            <p class="sub-heading">Sales</p>
+                          </div>
+                          <span class="inc-dec-percentage">
+                            <small class="success"><i class="fa fa-long-arrow-up"></i> 10.0%</small>
+                          </span>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
+                        <div class="d-flex align-items-start">
+                          <span class="card-icon warning d-flex justify-content-center mr-3">
+                            <i class="icon p-1 icon-basket-loaded customize-icon font-large-2 p-1"></i>
+                          </span>
+                          <div class="stats-amount mr-3">
+                            <h3 class="heading-text text-bold-600">13700</h3>
+                            <p class="sub-heading">Orders</p>
+                          </div>
+                          <span class="inc-dec-percentage">
+                            <small class="danger"><i class="fa fa-long-arrow-down"></i> 13.6%</small>
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <style>
+               .d-box{
+
+                padding: 5px;
+                padding-top: 20px;
+                padding-bottom: 20px;
+                display: block;
+                text-align: center;
+                border-radius: 5px;
+                box-shadow: 0 10px 40px 0 rgba(62,57,107,.07), 0 2px 9px 0 rgba(62,57,107,.06);
+                }
+                .b-box{
+                    margin-top: 5px;
+                    margin-bottom: 10px;
+                }
+                
+                .small-padding{
+                  padding: 10px;
+                }
+
+            </style>
+
+
           <div class="row">
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="media align-items-stretch">
-                    <div class="p-2 text-center bg-primary bg-darken-2">
-                        <i class="icon-arrow-up font-large-2 white"></i>
+
+            <div class=" col-md-6 col-sm-12">
+                        <div class="card" style="">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-tile border-0">International Sales Pool - Silver Incentive</h4>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="b-box">
+                                                <small>Total Credits</small>
+                                                <span class="d-box">
+                                                    43453
+                                                </span>
+                                            </div>
+
+                                            <div class="b-box">
+                                                <small>Entitled</small>
+                                                <span class="d-box">
+                                                    43453
+                                                </span>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-10">
+                                            
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item small-padding">
+                                                    <span class=" float-right">
+                                                        <i class="ft-check fa-2x"></i>
+                                                    </span>
+                                                    Package: Professional 
+                                                </li>
+                                                <li class="list-group-item small-padding">
+                                                    <span class="float-right">02/04/2020</span>
+                                                    Initial activation: 
+                                                </li>
+                                                <li class="list-group-item small-padding">
+                                                    <span class="float-right">02/04/2020</span>
+                                                    Without interuption since: 
+                                                </li>
+                                                <li class="list-group-item small-padding">
+                                                    <span class="float-right">02/04/2020</span>
+                                                  Next Silver-Coin: 
+                                                </li>                                               
+                                            </ul>
+
+                                        </div>
+                                     
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-2 bg-gradient-x-primary white media-body">
-                        <h5>Upline</h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-pus"></i> 
-                          <?=@$auth->referred_members_uplines(1)[1]['username'];?>
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="media align-items-stretch">
-                    <div class="p-2 text-center bg-danger bg-darken-2">
-                        <i class="ft-briefcase font-large-2 white"></i>
-                    </div>
-                    <div class="p-2 bg-gradient-x-danger white media-body">
-                        <a href="<?=domain;?>/user/package" class="text-white">
-                        <h5>Package</h5>
-                        <small class="text-bold-400 mb-0"><i class="ft-c"></i>    
-                            <?=$auth->subscription->payment_plan->package_type;?> 
-                        </small>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="media align-items-stretch">
-                    <div class="p-2 text-center bg-warning bg-darken-2">
-                        <i class="fa fa-sitemap font-large-2 white"></i>
-                    </div>
-                    <div class="p-2 bg-gradient-x-warning white media-body">
-                        <h5>Referrals</h5>
-                        <h5 class="text-bold-400 mb-0"><i class="ft-uses"></i>    
-                          <?=count($auth->referred_members_downlines(1)[1]);?> 
-                        </h5>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-lg-6 col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="media align-items-stretch">
-                    <div class="p-2 text-center bg-success bg-darken-2">
-                        <i class="icon-wallet font-large-2 white"></i>
-                    </div>
-                    <div class="p-2 bg-gradient-x-success white media-body">
-                        <a href="<?=domain;?>/user/earnings" class="text-white">
-                        <h5>Wallet</h5>
-                        <h5 class="text-bold-400 mb-0"> <?=$currency;?> <?=MIS::money_format($balances['total_earnings']);?></h5>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+  <div class=" col-md-6 col-sm-12">
+                        <div class="card" style="">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-tile border-0">International Sales Pool - Silver </h4>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="b-box">
+                                                <small>Total Credits</small>
+                                                <span class="d-box">
+                                                    43453
+                                                </span>
+                                            </div>
+
+                                            <div class="b-box">
+                                                <small>Entitled</small>
+                                                <span class="d-box">
+                                                    43453
+                                                </span>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-10">
+                                            
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item ">
+                                                    <div class="row">
+                                                        
+                                                    <span class="col-6">
+                                                        Direct sales partner: 
+                                                    </span>
+                                                    <span class="col-4">
+                                                        02/4  
+                                                    </span>
+                                                    <span class=" col-2">
+                                                        <span class=" float-right">
+                                                            <i class="ft-check fa-2x"></i>
+                                                        </span>
+                                                    </span>
+                                                    </div>
+                                                </li>
+
+                                                <li class="list-group-item ">
+                                                    <div class="row">
+                                                        
+                                                    <span class="col-6">
+                                                        Own merchant connection: 
+                                                    </span>
+                                                    <span class="col-4">
+                                                        02/4  
+                                                    </span>
+                                                    <span class=" col-2">
+                                                        <span class=" float-right">
+                                                            <i class="ft-check fa-2x"></i>
+                                                        </span>
+                                                    </span>
+                                                    </div>
+                                                </li>
 
 
-    <div class="col-xl-4 col-lg-6 col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="media align-items-stretch">
-                    <div class="p-2 text-center bg-success bg-darken-2">
-                        <i class="icon-wallet font-large-2 white"></i>
-                    </div>
-                    <div class="p-2 bg-gradient-x-success white media-body">
-                        <a href="#" class="text-white">
-                        <h5>Pools Commission</h5>
-                        <h5 class="text-bold-400 mb-0"><?=$pool_target['month'];?>
-                         - <?=intval($pool_target['current_no_of_merchants']);?>/<?=$pool_target['min_merchant_recruitment'];?></h5>
-                        <small style="text-transform: capitalize;"><?=$pool_target['level'];?></small>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                                            </ul>
 
-    <div class="col-xl-4 col-lg-6 col-12">
-        <div class="card">
-            <div class="card-content">
-                <div class="media align-items-stretch">
-                    <div class="p-2 text-center bg-facebook bg-darken-2">
-                        <i class="fa fa-facebook font-large-2 white"></i>
+                                        </div>
+                                     
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="p-2 bg-facebook white media-body">
-                        <a href="https://facebook.com/newsalesway" target="_blank" class="text-white">
-                        <h5>Follow us</h5>
-                        <h5 class="text-bold-400 mb-0"></h5>
-                        <small style="text-transform: capitalize;">We are Social</small>
-                        </a>
+
+  
+            <div class=" col-md-6 col-sm-12">
+                        <div class="card" style="">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-tile border-0">International Sales Pool - Gold</h4>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-md-2">
+                                            <div class="b-box">
+                                                <small>Total Credits</small>
+                                                <span class="d-box">
+                                                    43453
+                                                </span>
+                                            </div>
+
+                                            <div class="b-box">
+                                                <small>Entitled</small>
+                                                <span class="d-box">
+                                                    43453
+                                                </span>
+                                            </div>
+                                            
+                                        </div>
+                                        <div class="col-md-10">
+                                           
+                                            
+                                            <ul class="list-group list-group-flush">
+                                                <li class="list-group-item small-padding">
+
+                                                    <div class="row">
+                                                        
+                                                    <span class="col-6">
+                                                         Direct sales partner: 
+                                                    </span>
+                                                    <span class="col-4">
+                                                        02/4  
+                                                    </span>
+                                                    <span class=" col-2">
+                                                        <span class=" float-right">
+                                                            <i class="ft-check fa-2x"></i>
+                                                        </span>
+                                                    </span>
+                                                    </div>
+
+                                                   
+                                                </li>
+                                                <li class="list-group-item small-padding">
+
+                                                    <div class="row">
+                                                        
+                                                    <span class="col-6">
+                                                        Own merchant connections:
+                                                    </span>
+                                                    <span class="col-4">
+                                                        02/4  
+                                                    </span>
+                                                    <span class=" col-2">
+                                                        <span class=" float-right">
+                                                            <i class="ft-check fa-2x"></i>
+                                                        </span>
+                                                    </span>
+                                                    </div>
+
+                                                   
+                                                </li>
+                                                <li class="list-group-item small-padding">
+
+                                                    <div class="row">
+                                                        
+                                                    <span class="col-6">
+                                                        Direct sales partner
+                                                        merchant connections:
+                                                    </span>
+                                                    <span class="col-4">
+                                                        02/4  
+                                                    </span>
+                                                    <span class=" col-2">
+                                                        <span class=" float-right">
+                                                            <i class="ft-check fa-2x"></i>
+                                                        </span>
+                                                    </span>
+                                                    </div>
+
+                                                   
+                                                </li>
+                                                <li class="list-group-item small-padding">
+
+                                                    <div class="row">
+                                                        
+                                                    <span class="col-6">
+                                                        Total sales partner:
+                                                    </span>
+                                                    <span class="col-4">
+                                                        02/4  
+                                                    </span>
+                                                    <span class=" col-2">
+                                                        <span class=" float-right">
+                                                            <i class="ft-check fa-2x"></i>
+                                                        </span>
+                                                    </span>
+                                                    </div>
+
+                                                   
+                                                </li>
+                                            </ul>
+
+                                        </div>
+                                     
+                                        
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+
+            <div class=" col-md-6 col-sm-12">
+                        <div class="card" style="">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <h4 class="card-tile border-0">Note: Clain for ISP</h4>
+                                    <hr>
+                                     <p class="card-text">
+                                       <?=CMS::fetch('isp_dashboard_note');?>
+                                     </p>
+                                     
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
 
 
 </div>
 
 
-
-
-
-      <section id="video-gallery" class="card">
-        <div class="card-header">
-          <h4 class="card-title">News</h4>
-          <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-              <div class="heading-elements">
-                <ul class="list-inline mb-0">
-                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                </ul>
-            </div>
-        </div>
-         <div class="card-content">
-      <div class="card-body row">
-
-        <div class="col-md-12">
-            <div class="card" style="height: 508px;">
-                <div class="card-content">
-                  
-                    <ul class="list-group list-group-flush">
-                     
-                           <?php $i=1; foreach (BroadCast::live()->take(3) as $broadcast) :?>
-                     
-                        <li class="list-group-item">
-                            <span class="badge badge-pill bg-primary float-right">
-                                <?= $broadcast->created_at->toFormattedDateString();?></span>
-                            <?=$broadcast->broadcast_message;?>
-                        </li>
-                        
-
-
-                        <?php $i++; endforeach ;?>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-<!-- 
-
-        <table class="table mb-0">
-                        <thead>
-                            <tr>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                        <?php $i=1; foreach (BroadCast::live() as $broadcast) :?>
-                        <tr>
-                            <td><?=$broadcast->broadcast_message;?></td>
-                            <td><?=$broadcast->created_at->toFormattedDateString();?></td>
-                        </tr>
-                        <?php $i++; endforeach ;?>
-
-
-                        </tbody>
-                    </table> -->
-
-
-        
-      </div>
-    </div>
-      </section>
 
 
         </div>
