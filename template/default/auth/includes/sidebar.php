@@ -68,6 +68,7 @@
 
               <li class=" nav-item"><a href="#"><i class="fa fa-sitemap"></i><span class="menu-title" data-i18n="">My Team</span></a>
               <ul class="menu-content">
+                  <li><a class="menu-item" href="<?=domain;?>/genealogy/team">Team</a>
                   <li><a class="menu-item" href="<?=domain;?>/genealogy/placement_list"> List</a>
             
                   <li><a class="menu-item" href="<?=domain;?>/genealogy/placement">Tree</a>
@@ -77,7 +78,24 @@
 
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="icon-wallet"></i> Wallet</a>
+                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="icon-wallet"></i> Remuneration</a>
+              </li>
+
+              <li>
+                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="icon-wallet"></i> InvitePro</a>
+              </li>
+
+              <li>
+                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="icon-wallet"></i> Events & Webinar</a>
+              </li>
+
+              <li>
+                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="icon-wallet"></i> Media Center</a>
+              </li>
+
+
+              <li>
+                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="ft-shopping-cart"></i> Online Store</a>
               </li>
 
 

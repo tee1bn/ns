@@ -212,6 +212,32 @@ class GenealogyController extends controller
 
 
 
+	public function team($username=null, $level_of_referral=1)
+	{
+		$user 	= User::where('username' ,$username)->first();
+		
+		if ($user == null) {
+			if ($this->auth()) {
+				$user = User::where('username' ,$this->auth()->username)->first();
+			}
+		}
+			
+
+		$page = (isset($_GET['page']))? $_GET['page'] : 1  ; 
+		$per_page = 500;
+
+		$list =	User::referred_members_downlines_paginated($user->id, $level_of_referral, $per_page , $page );
+
+
+
+
+		$this->view('auth/team', compact('list', 'user','per_page', 'level_of_referral'));
+
+	}
+
+
+
+
 
 
 }

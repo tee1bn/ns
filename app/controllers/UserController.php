@@ -246,6 +246,12 @@ class UserController extends controller
 	}
 
 
+	public function media()
+	{
+			$this->view('auth/media');
+	}
+
+
 
 
 
