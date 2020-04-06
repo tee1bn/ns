@@ -1,11 +1,45 @@
+  <style>
+    .side-avatar{
+
+      height: 60px;
+      border-radius: 35px;
+      width: 62px;
+      object-fit: cover;
+    }
+    .side-user{
+
+      text-transform: capitalize;
+      padding-left: 30px;
+      padding-top: 20px;
+      font-size: 10px;
+    }
+
+    
+    .small-padding{
+      padding: 10px;
+    }
+
+  </style>
+
    <!-- BEGIN: Main Menu-->
     <div class="main-menu menu-fixed menu-dark menu-accordion menu-shadow" data-scroll-to-active="true">
       <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
 
-          <li class=" navigation-header"><span>GENERAL</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
+          <li class=" navigation-header">
+            <div class="row">
+              <div class="col-3">
+                  <img class="side-avatar img-round" src="<?=domain;?>/<?=$auth->profilepic;?>" alt=""  >
+              </div>
+              <div class="col-9 side-user">
+                <span><?=$auth->username;?></span>
+                <br>
+                <br>
+                <span><?=$auth->fullname;?> | ID:<?=$auth->id;?></span>
+              </div>
+            </div>
           </li>          
-      
+        
               <li>
                 <a class="menu-item" href="<?=domain;?>/user/dashboard"><i class="ft-home"></i> Dashboard</a>
               </li>

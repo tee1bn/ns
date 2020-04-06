@@ -7,13 +7,13 @@ include 'includes/header.php';?>
 <div ng-controller="CompanyController" class="app-content content" ng-cloak>
   <div class="content-wrapper">
     <div class="content-header row">
-      <div class="content-header-left col-md-6 col-12 mb-2">
+      <div class="content-header-left col-md-6 mb-2">
         <?php include 'includes/breadcrumb.php';?>
 
         <h3 class="content-header-title mb-0">Profile</h3>
       </div>
       
-      <div class="content-header-right col-md-6 col-12">
+      <div class="content-header-right col-md-6">
         <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
           <a class="btn btn-outline-primary" href="javascript:void(0);" 
           data-toggle="modal"
@@ -140,326 +140,291 @@ include 'includes/header.php';?>
   </div>
 <?php endif;?>
 
-<section id="video-gallery" class="card">
-  <div class="card-header">
-    <h4 class="card-title">Company</h4>
-    <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-    <div class="heading-elements">
-      <ul class="list-inline mb-0">
-        <li>
-          <a class="btn btn-sm btn-success" href="javascript:void(0);" ng-click="$list.attempt_request_for_review();">
-          Request Review</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-
-  <style>
-    .full_pro_pix{
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 100%;
-      border: 1px solid #cc444433;
+<style>
+  .main-avatar{
+    height: 160px;
+    border-radius: 80px;
+    width: 160px;
+    object-fit: cover;
     }
-  </style>
+</style>
+
+<div class="row">
+  <div class="col-md-3">
+            <div class="card">
+                <div class="card-content">
+                    <div class="media align-items-stretch">
+                        <div class="p-2 text-center bg-white bg-darken-2">
+                            <i class="ft-block font-large-2"></i>
+                        </div>
+                        <div class="p-2 bg-gradient-x-white  media-body">
+                            <h5>Professional</h5>
+                            <h5 class="text-bold-400 mb-0"> Package</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+           <div class="card" >
+               <div class="card-content">
+                   <div class="card-body">
+                       <h6 class="card-tile">Profile Information</h6>
+                       <div class="row">
+                        <div class="col-md-12 text-center pt-2 mb-1" >
+                          <img class="main-avatar img-round" src="<?=domain;?>/<?=$auth->profilepic;?>" alt=""  >
+                        </div>
+                        <div class="col-md-12 text-center" >
+                                       
+                          <form class="form-horizontal ajax_for" action="<?=domain;?>/user-profile/update_profile_picture" id="p_form" method="post" enctype="multipart/form-data" >
+                            <div class="user-profile-image" align="center" style="">
+                              <input type='file' name="profile_pix" onchange="$('#change_btn').click();" id="uploadImage" style="display:none ;" />
+                              <button type="submit" style="display: none;" id="change_btn"></button>
+                              <label href="#" for="uploadImage" style="text-decoration: underline;cursor: pointer;">Upload or delete photo</label>
+                            </div>
+                          </form>
+
+                          </div>
+
+                        <div class="col-md-12 text-center" >
+                          <form class="">
+                            <div class="form-group">
+                              <input type="" class="form-control" name="" placeholder="Username">
+                             
+                            </div>
+
+                            <div class="form-group">
+                              <input type="" class="form-control" name="" placeholder="Password">
+                            </div>
+
+                            <div class="form-group">
+                              <input type="" class="form-control" name="" placeholder="Confirm Password">
+                            </div>
+                          </form>
+                        </div>
+
+                          
+                       </div>
+
+                   </div>
+               </div>
+       </div>
 
 
-  <div class="card-content">
+  </div>
+  <div class="col-md-9">
 
-    <div class="card-body row">
-      <div class="col-md-4" style="
-      margin-bottom: 20px;
-      border: 1px solid #14181f42;
-      padding: 19px;">
-      <form class="form-horizontal ajax_form" 
-      id="p_form" method="post" enctype="multipart/form-data" action="<?=domain;?>/company/update_company_logo">
-      <div class="user-profile-image" align="center" style="">
-        <img id="myImage" src="<?=$company->getLogo;?>" alt="your-image" class="full_pro_pix" />
-        <input type='file' name="profile_pix" onchange="form.submit();" id="uploadImage" style="display:none ;" />
-        <h6><?=$company->name;?></h6>
-        <?=$company->Approval;?>
-        <label for="uploadImage" class="btn btn-secondary" style=""> Change Logo</label>
-        
-        <br>
-        <!-- <span class="text-danger">*click update profile to apply change</span> -->
-      </div>
-      <input type="hidden" name="company_id" value="<?=$company->id;?>">
-    </form>
+        <div class="card" >
+            <div class="card-content">
+                <div class="card-body">
+                    <h6 class="card-tile">Contact Person</h6>
+                    <div class="row">
+                         <div class="form-group col-md-2">
+                            <select class="form-control" name="personal[salutation]">
+                              <option value="">Salutation</option>
+                              <option value="">Option</option>
+                            </select>
+                          </div>
+                         <div class="form-group col-md-2">
+                           <input type="" class="form-control" name="personal[title]" placeholder="Title">
+                         </div>
 
-    <hr>
+                         <div class="form-group col-md-4">
+                           <input type="" class="form-control" name="personal[firstname]" placeholder="First name">
+                         </div>
+
+                         <div class="form-group col-md-4">
+                           <input type="" class="form-control" name="personal[lastname]" placeholder="Surname">
+                         </div>
+
+                         <div class="form-group col-md-3">
+                            <select class="form-control" name="personal[country]">
+                              <option value="">Country</option>
+                              <option value="">Option</option>
+                            </select>
+                          </div>
+                       
+                         <div class="form-group col-md-5">
+                           <input type="" class="form-control" name="personal[address][place]" placeholder="Place">
+                         </div>
+
+                         <div class="form-group col-md-4">
+                           <input type="" class="form-control" name="personal[address][postcode]" placeholder="Postcode">
+                         </div>
+
+                       
+                         <div class="form-group col-md-7">
+                           <input type="" class="form-control" name="personal[address][address]" placeholder="Residential address">
+                         </div>
+
+                       
+                         <div class="form-group col-md-5">
+                           <input type="" class="form-control" name="personal[address][house_number]" placeholder="House number">
+                         </div>
+
+                    </div>
+                       <hr>
+                    <h6 class="card-tile">Your Business</h6>
+                    <div class="row">
+
+                      <div class="form-group col-md-5">
+                        <input type="" class="form-control" name="company[name]" placeholder="Company name">
+                      </div>
+
+                      <div class="form-group col-md-5">
+                         <select class="form-control" name="company[legal_form]">
+                           <option value="">Legal Form</option>
+                           <option value="">Option</option>
+                         </select>
+                       </div>
+                      
+                      <div class="form-group col-md-2">
+                        <input type="" class="form-control" name="company[tax]" placeholder="Taxes">
+                      </div>
 
 
-    <style>
-      button.bootstrap-touchspin-up{
-        font-size:10px !important;
-      }
-    </style>
 
-    <div class="col-md-12">
-      <div class="card" style="height: 508px;">
-        <div class="card-content">
-          <div class="card-body">
-            <h4 cla5s="card-title">Documents 
+                      <div class="form-group col-md-2">
+                         <select class="form-control" name="company[country]">
+                           <option value="">Country</option>
+                           <option value="">Option</option>
+                         </select>
+                       </div>
 
-              <button  data-toggle="modal" data-target="#upload_company_supporting_document" 
-              title="Upload supporting company documents"  class="float-right ft-paperclip btn btn-sm btn-secondary"
-              style="font-size: 20px;">
-            </button>
-          </h4>
+                      <div class="form-group col-md-5">
+                        <input type="" class="form-control" name="company[place]" placeholder="Place">
+                      </div>
+
+                      <div class="form-group col-md-5">
+                        <input type="" class="form-control" name="company[postcode]" placeholder="Postcode">
+                      </div>
+
+
+                      
+                      <div class="form-group col-md-7">
+                        <input type="" class="form-control" name="company[address][address]" placeholder="Business address">
+                      </div>
+
+                      
+                      <div class="form-group col-md-5">
+                        <input type="" class="form-control" name="company[address][house_number]" placeholder="House number">
+                      </div>
+
+                      <div class="form-group col-md-6">
+                        <input type="" class="form-control" name="company[office_email]" placeholder="E-mail address">
+                      </div>
+
+                      
+                      <div class="form-group col-md-6">
+                        <input type="" class="form-control" name="company[office_phone]" placeholder="Phone number">
+                      </div>
+                      
+                      <div class="form-group col-md-12">
+                        <input type="" class="form-control" name="company[iban_number]" placeholder="IBAN">
+                        <small class="float-right">for commission payments </small>
+                      </div>
+
+
+                    </div>
+
+                </div>
+            </div>
         </div>
 
 
-        
+  </div>
 
-        <ul class="list-group list-group-flush">
-          <li ng-repeat="(key, $doc) in $list.$lists" class="list-group-item" style="text-transform: capitalize;">
-            <a href="javascript:void(0);" ng-click="$list.attempt_delete($doc, key);"
-            class="fa fa-trash text-danger float-right" style="font-size: 20px;"><i class=""></i></a>
-            <a target="_blank" href="<?=domain;?>/{{$doc.files}}"><b>{{$doc.label}}</b></a>
-          </li>
-        </ul>
-        
-        <center ng-show="$list.$lists==0" class="text-danger">*Please upload company documents</center>
-         <!--  <div class="card-body">
-            <a href="javascript:void(0);" data-toggle="modal" data-target="#upload_company_supporting_document" 
-                    title="Upload supporting company documents" class="card-link">Upload Documents</a>
-                  </div> -->
+  <div class="col-md-4">
+        <div class="card" >
+            <div class="card-content">
+                <div class="card-body">
+                    <h6 class="card-tile">Please upload the required documents here:</h6>
+                    <hr>
+                    <div class="row">
+                     <div class="col-md-12 text-center" >
+                                    
+                     
+                    </div>
+
                 </div>
-              </div>
             </div>
+    </div>
 
 
-          </div>
-
-
-          <div class="col-md-4" style="margin-bottom: 20px;  border: 1px solid #14181f42;padding: 19px;">
-            <h4>Personal Detail</h4><hr>
-
-            <form id="profile_form"
-            class="ajax_form" 
-            action="<?=domain;?>/user-profile/update_profile" method="post">
-
-            <div class="form-group">
-             <label for="title" class="pull-left">Title *</label>
-             <select class="form-control" name="title">
-               <option value=""></option>
-               <?php foreach ($auth::$available_titles as $key => $value) :?>
-                 <option <?=($auth->title== $key)?'selected' : '';?> value="<?=$key;?>"><?=$value;?></option>
-               <?php endforeach ;?>
-             </select>
-           </div>
-
-           <div class="form-group">
-             <label for="firstName" class="pull-left">First Name *</label>
-             <input type="text" name="firstname"  value="<?=$auth->firstname;?>" id="firstName" class="form-control">
-           </div>
-
-           <div class="form-group">
-             <label for="lastName" class="pull-left">Last Name <sup>*</sup></label>
-             <input type="text" name="lastname" id="lastName" class="form-control"  value="<?=$auth->lastname;?>">
-           </div>
-
-           <div class="form-group">
-             <label for="email" class="pull-left">Email Address<sup>*</sup></label>
-             <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-               <span class="input-group-btn input-group-prepend"></span>
-               <input id="tch3" name="email"   value="<?=$auth->email;?>"
-               data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
-               <span class="input-group-btn input-group-append">
-                 <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
-               </span>
-             </div> 
-           </div>
-
-           
-           
-           <div class="form-group">
-             <label for="country" class="pull-left">Country<sup>*</sup></label>
-             <select class="form-control" name="country" required="">
-              <option value=""></option>
-              <?php foreach (World\Country::all() as $key => $country) :?>
-                <option <?=($auth->country == $country->id)?'selected' : '';?> value="<?=$country->id;?>"><?=$country->name;?></option>
-              <?php endforeach ;?>
-            </select>
-          </div>
-
-
-          
-          <div class="form-group">
-           <label for="address" class="pull-left">Address <sup>*</sup></label>
-           <input type="text" name="address" id="address" class="form-control"  value="<?=$auth->address;?>">
-         </div>
-
-
-
-         <div class="form-group">
-           <label for="phone" class="pull-left">Phone<sup>*</sup></label>
-           <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-             <span class="input-group-btn input-group-prepend"></span>
-             <input id="tch3" name="phone"   value="<?=$auth->phone;?>"
-             data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
-             <span class="input-group-btn input-group-append">
-               <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
-             </span>
-           </div> 
-         </div>                                        
-         
-         
-         <div class="form-group">
-           <label for="username" class="pull-left">Username *</label>
-           <input type="text"  name="username" disabled="" value="<?=$auth->username;?>" id="username" class="form-control" value="">
-         </div>
-
-         
-
-         
-                                  <!--    <div class="form-group">
-                                         <label for="bank_name" class="pull-left">Bank Name <sup>*</sup></label>
-                                         <input type="" name="bank_name"  value="<?=$auth->bank_name;?>" id="bank_name" class="form-control" >
-                                     </div>
-
-                                       
-                                   
-                                     <div class="form-group">
-                                        <label for="bank_account_name" class="pull-left">Bank Account Name<sup></sup></label>
-                                         <input type="bank_account_name" name="bank_account_name"  value="<?=$auth->bank_account_name;?>" id="bank_account_name" class="form-control" >
-                                     </div>
-
-                                   
-                                   
-
-                                   
-                                     <div class="form-group">
-                                        <label for="bank_account_number" class="pull-left">Bank Account Number <sup></sup></label>
-                                         <input type="bank_account_number" name="bank_account_number"  value="<?=$auth->bank_account_number;?>" id="bank_account_number" class="form-control" >
-                                       </div> -->
-
-
-                                       <div class="form-group">
-
-                                         <button type="submit" class="btn btn-secondary btn-block btn-flat">Save Profile</button>
-
-                                       </div>
-                                     </form>
-
-                                   </div>
-
-
-
-
-                                   <div class="col-md-4" style="margin-bottom: 20px;  border: 1px solid #14181f42;padding: 19px;">
-                                    <h4>Company Detail</h4><hr>
-
-                                    <div class="card-body card-body-bordered collapse show" id="demo1" >
-                                      
-
-                                     <form id="profile_form"
-                                     class="ajax_form m-t-30 " 
-                                     action="<?=domain;?>/company/update_company" method="post">
-                                     <div class="form-group">
-                                      <label for="name" class="pull-left">Name *</label>
-                                      <input type="text" required="" name="name" value="<?=$company->name;?>"  class="form-control" placeholder="Your Company Name" >
-                                    </div>
-
-
-
-                                    <div class="form-group">
-                                      <label for="country" class="pull-left">Country<sup>*</sup></label>
-                                      <select class="form-control" name="country" required="">
-                                       <option value=""></option>
-                                       <?php foreach (World\Country::all() as $key => $country) :?>
-                                         <option <?=($company->country == $country->id)?'selected' : '';?> value="<?=$country->id;?>"><?=$country->name;?></option>
-                                       <?php endforeach ;?>
-                                     </select>
-                                   </div>
-
-
-
-
-                                   <div class="form-group">
-                                    <label for="address" class="pull-left">Address *</label>
-                                    <input type="text" name="address"  value="<?=$company->address;?>" id="address" class="form-control" placeholder="Your Company ddress" >
-                                  </div>
-
-
-                                  <input type="hidden" name="id" value="<?=$company->id;?>">
+      
+  </div>
+  
+</div>
+  <div class="col-md-4">
+        <div class="card" >
+            <div class="card-content">
+                <div class="card-body">
+                    <h6 class="card-tile">Please download the following documents high:</h6>
+                    <hr>
+                    <div class="row">
+                     <div class="col-md-12 " >
+                                    
+                      
+                      <ul class="list-group list-group-flush">
+                          <li class="list-group-item small-padding ">
+                              <div class="row">
                                   
-
-                                  <div class="form-group">
-                                    <label for="email" class="pull-left">Official Email Address<sup>*</sup></label>
-                                    <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                      <span class="input-group-btn input-group-prepend"></span>
-                                      <input id="tch3" name="office_email" placeholder="Your Official Email Address"  value="<?=$company->office_email;?>"
-                                      data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
-                                      <span class="input-group-btn input-group-append">
-                                        <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification
-                                        </button>
-                                      </span>
-                                    </div> 
-                                  </div>
-
-
-                                  
-
-                                  <div class="form-group">
-                                    <label for="office_phone" class="pull-left">Official Phone<sup>*</sup></label>
-                                    <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                      <span class="input-group-btn input-group-prepend"></span>
-                                      <input id="tch3" name="office_phone"  placeholder="Your Official Phone"  value="<?=$company->office_phone;?>"
-                                      data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
-                                      <span class="input-group-btn input-group-append">
-                                        <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
-                                      </span>
-                                    </div> 
-                                  </div>         
-
-                                  <div class="form-group">
-                                    <label for="office_phone" class="pull-left">IBAN Number<sup>*</sup></label>
-                                    <div class="input-group bootstrap-touchspin bootstrap-touchspin-injected">
-                                      <span class="input-group-btn input-group-prepend"></span>
-                                      <input id="tch3" name="iban_number"  placeholder="Your IBAN Number"  value="<?=$company->iban_number;?>"
-                                      data-bts-button-down-class="btn btn-secondary btn-outline" data-bts-button-up-class="btn btn-secondary btn-outline" class="form-control">
-                                      <span class="input-group-btn input-group-append">
-                                        <button class="btn btn-secondary btn-outline bootstrap-touchspin-up" type="button">Require Verification</button>
-                                      </span>
-                                    </div> 
-                                  </div>                                        
-
-                                  <div style="display:none;" class="form-group">
-                                    <label for="lastName" class="pull-left">Pefcom Id <sup></sup></label>
-                                    <input type="text" name="pefcom_id" class="form-control"  value="<?=$company->pefcom_id;?>">
-                                  </div>
-
-
-                                  <div class="form-group">
-                                    <label for="rc_number" class="pull-left">VAT Number<sup>*</sup></label>
-                                    <input type="text" name="rc_number"  placeholder="Your VAT Number" 
-                                    class="form-control" required value="<?=$company->rc_number;?>">
-                                  </div>
-
-
-
-                                  <div class="form-group">
-
-                                    <button type="submit" class="btn btn-secondary btn-block btn-flat">Save</button>
-
-                                  </div>
-                                </form>
-
-
-                                
+                              <span class="col-6">
+                                 <small>
+                                   
+                                  Direct sales partner: 
+                                 </small>
+                              </span>
+                              <span class="col-4">
+                                  02/4  
+                              </span>
+                              <span class=" col-2">
+                                  <span class=" float-right">
+                                      <i class="ft-check fa-2x"></i>
+                                  </span>
+                              </span>
                               </div>
+                          </li>
+
+                          <li class="list-group-item small-padding ">
+                              <div class="row">
+                                  
+                              <span class="col-6">
+                                  Own merchant connection: 
+                              </span>
+                              <span class="col-4">
+                                  02/4  
+                              </span>
+                              <span class=" col-2">
+                                  <span class=" float-right">
+                                      <i class="ft-check fa-2x"></i>
+                                  </span>
+                              </span>
+                              </div>
+                          </li>
 
 
-                            </div>
+                      </ul>
 
-                            
+                    </div>
 
-                            
-                          </div>
-                        </div>
-                      </section>
+                </div>
+            </div>
+    </div>
+
+
+      
+  </div>
+  
+</div>
+  <div class="col-md-4 text-center">
+       <button class="btn btn-block btn-outline-teal btn-lg">Save Changes</button>
+       <p></p>
+       <p>or</p>
+       <button class="btn btn-block btn-outline-teal btn-lg">Verify Lets Save</button>
+  
+</div>
+
+
+
 
 
 

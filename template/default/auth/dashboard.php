@@ -45,57 +45,60 @@ $page_title = "Dashboard";
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon primary d-flex justify-content-center mr-3">
-                            <i class="icon p-1 icon-bar-chart customize-icon font-large-2 p-1"></i>
+                            <i class="icon p-1 ft-box customize-icon font-large-2 p-1"></i>
                           </span>
                           <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">$95k</h3>
-                            <p class="sub-heading">Revenue</p>
+                            <h3 class="heading-text text-bold-600">Professional</h3>
+                            <p class="sub-heading">Package</p>
                           </div>
-                          <span class="inc-dec-percentage">
-                            <small class="success"><i class="fa fa-long-arrow-up"></i> 5.2%</small>
-                          </span>
                         </div>
                       </div>
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon danger d-flex justify-content-center mr-3">
-                            <i class="icon p-1 icon-pie-chart customize-icon font-large-2 p-1"></i>
+
+                            <div class="b-box">
+                                <span class="d-box">
+                                    453
+                                </span>
+                            </div>
                           </span>
                           <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">18.63%</h3>
-                            <p class="sub-heading">Growth Rate</p>
+                            <h3 class="heading-text text-bold-600">Own</h3>
+                            <small>Merchant Connections</small>
                           </div>
-                          <span class="inc-dec-percentage">
-                            <small class="danger"><i class="fa fa-long-arrow-down"></i> 2.0%</small>
-                          </span>
                         </div>
                       </div>
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon success d-flex justify-content-center mr-3">
-                            <i class="icon p-1 icon-graph customize-icon font-large-2 p-1"></i>
+
+                            <div class="b-box">
+                                <span class="d-box">
+                                    453
+                                </span>
+                            </div>
                           </span>
                           <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">$27k</h3>
-                            <p class="sub-heading">Sales</p>
+                            <h3 class="heading-text text-bold-600">Total</h3>
+                            <small>Merchant Connections</small>
                           </div>
-                          <span class="inc-dec-percentage">
-                            <small class="success"><i class="fa fa-long-arrow-up"></i> 10.0%</small>
-                          </span>
                         </div>
                       </div>
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start">
                           <span class="card-icon warning d-flex justify-content-center mr-3">
-                            <i class="icon p-1 icon-basket-loaded customize-icon font-large-2 p-1"></i>
-                          </span>
+
+                            <div class="b-box">
+                                <span class="d-box">
+                                    453
+                                </span>
+                            </div>
+                                </span>
                           <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">13700</h3>
-                            <p class="sub-heading">Orders</p>
+                            <h3 class="heading-text text-bold-600">Direct</h3>
+                            <small>Sales Partner</small>
                           </div>
-                          <span class="inc-dec-percentage">
-                            <small class="danger"><i class="fa fa-long-arrow-down"></i> 13.6%</small>
-                          </span>
                         </div>
                       </div>
                     </div>
@@ -106,7 +109,7 @@ $page_title = "Dashboard";
 
             <style>
                .d-box{
-
+                    min-width: 70px;
                 padding: 5px;
                 padding-top: 20px;
                 padding-bottom: 20px;
@@ -119,17 +122,13 @@ $page_title = "Dashboard";
                     margin-top: 5px;
                     margin-bottom: 10px;
                 }
-                
-                .small-padding{
-                  padding: 10px;
-                }
-
+               
             </style>
 
 
           <div class="row">
 
-            <div class=" col-md-6 col-sm-12">
+            <div class="col-md-6">
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
@@ -185,7 +184,7 @@ $page_title = "Dashboard";
                         </div>
                     </div>
 
-  <div class=" col-md-6 col-sm-12">
+  <div class=" col-md-6">
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
@@ -259,7 +258,7 @@ $page_title = "Dashboard";
                     </div>
 
   
-            <div class=" col-md-6 col-sm-12">
+            <div class=" col-md-6">
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
@@ -376,7 +375,7 @@ $page_title = "Dashboard";
                     </div>
 
 
-            <div class=" col-md-6 col-sm-12">
+            <div class=" col-md-6">
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
@@ -391,6 +390,9 @@ $page_title = "Dashboard";
                         </div>
                     </div>
 
+                    <div class="col-md-12">
+                        <button class="btn btn-block btn-outline-teal ">MY COMMISSIONS</button>
+                    </div>
 
 
 </div>
