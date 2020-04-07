@@ -27,12 +27,12 @@ include 'includes/header.php';
           <div class="row">
               <div class="col-md-12">
                 <div class="card">
-                  <div class="card-header">
-                    <h4 class="card-title">Card Title</h4>
-                  </div>
+                  
                   <div class="card-content">
                     <div class="card-body">
-                      <p>Basic card without any heading elements and border.</p>
+                      <h4 class="card-tile border-0">You have a concern or an unanswered question?</h4>
+                      <hr>
+                      <p>- Fill out our form and send us your request, a representative will contact you shortly.</p>
                     </div>
                   </div>
                 </div>
@@ -50,20 +50,52 @@ include 'includes/header.php';
 
                 <!-- Contact FORM -->
                 <div class="row">
-                  <div class="col-md-12 col-lg-12">
 
-                    <div class="form-field">
+<!--                     <div class="form-group">
                       <input  class="form-control"
                       value="<?=$auth->full_name;?>" 
                       readonly="readonly"
                       id="name" type="" required="" name="full_name" placeholder="Your Name">
+                        </div>
 
+ -->
+
+     <div class="form-group col-md-2">
+        <select class="form-control" name="personal[salutation]">
+          <option value="">Salutation</option>
+          <option value="">Option</option>
+        </select>
+      </div>
+     <div class="form-group col-md-2">
+       <input type="" class="form-control" name="personal[title]" placeholder="Title">
+     </div>
+
+
+
+
+
+                     <div class="form-group col-md-4">
+                      <input  class="form-control"
+                      value="<?=$auth->firstname;?>" 
+                      readonly="readonly"
+                      id="name" type="" required="" name="firstname" placeholder="First Name">
+                        </div>
+                        
+                    <div class="form-group col-md-4">
+                      <input  class="form-control"
+                      value="<?=$auth->lastname;?>" 
+                      readonly="readonly"
+                      id="name" type="" required="" name="lastname" placeholder="Surname">
+                        </div>
+                        
+                    <div class="form-group col-md-6">
                       <input  class="form-control" id="email"
                       value="<?=$auth->email;?>" 
                       readonly="readonly"
                       type="" required="" name="email" placeholder="Email">
                     </div>
-                    <div class="form-field">
+
+                    <div class="form-group col-md-6">
                       <input  class="form-control" id="sub"
                       value="<?=$auth->phone;?>" 
                       readonly="readonly"
@@ -72,14 +104,11 @@ include 'includes/header.php';
 
                     <input type="hidden" name="from_client" value="true">
 
-                  </div>
-                  <div class="col-md-12 col-lg-12">
-                    <div class="form-field">
+                    <div class="form-group col-md-12">
 
                       <textarea class="form-control" id="message" rows="7" name="comment" required=""
-                      placeholder="Your Message"></textarea>
+                      placeholder="Your concern to us"></textarea>
                     </div>
-                  </div>
                   <div class="col-md-6 col-offset-md-2">
                     <br>
                     <?=MIS::use_google_recaptcha();?>
@@ -96,7 +125,7 @@ include 'includes/header.php';
 
           <div class="col-md-12 col-lg-12 mt-30">
             <button class=" btn btn-outline-warning float-right" type="submit" id="submit" name="button">
-              Send Message
+              Send an inquiry
             </button>
           </div>
         </form>

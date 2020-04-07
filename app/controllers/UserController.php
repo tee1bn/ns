@@ -40,6 +40,16 @@ class UserController extends controller
 		$this->view('auth/support-messages');
 	}
 
+	public function merchant_packages()
+	{
+		$this->view('auth/merchant_packages');
+	}
+
+	public function online_shop()
+	{
+		$this->view('auth/online_shop');
+	}
+
 
 	public function notifications($notification_id = 'all')
 	{

@@ -73,6 +73,7 @@
               <li class=" nav-item"><a href="#"><i class="fa fa-briefcase"></i><span class="menu-title" data-i18n="">Subscriptions</span></a>
               <ul class="menu-content">
                   <li><a class="menu-item" href="<?=domain;?>/user/package"> Packages</a>
+                  <li><a class="menu-item" href="<?=domain;?>/user/merchant-packages">Merchant Packages</a>
             
                   <li><a class="menu-item" href="<?=domain;?>/user/package-orders">Orders</a>
                   </li>
@@ -110,7 +111,7 @@
 
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="ft-shopping-cart"></i> Online Store</a>
+                <a class="menu-item" href="<?=domain;?>/user/online_shop"><i class="ft-shopping-cart"></i> Online Store</a>
               </li>
 
 
