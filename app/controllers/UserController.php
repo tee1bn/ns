@@ -45,6 +45,11 @@ class UserController extends controller
 		$this->view('auth/merchant_packages');
 	}
 
+	public function partner_packages()
+	{
+		$this->view('auth/partner_packages');
+	}
+
 	public function online_shop()
 	{
 		$this->view('auth/online_shop');

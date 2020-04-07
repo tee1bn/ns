@@ -3,6 +3,7 @@
 use Illuminate\Database\Capsule\Manager as DB;
 use  Filters\Filters\WalletFilter;
 use  Filters\Filters\SupportTicketFilter;
+use  Filters\Filters\UserFilter;
 
 use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
@@ -888,9 +889,50 @@ class AdminController extends controller
 
 
 
-	public function users(){
-		$this->view('admin/users');
+
+	private function users_matters($extra_sieve)
+	{
+
+
+		$sieve = $_REQUEST;
+		$sieve = array_merge($sieve, $extra_sieve);
+
+		$query = User::latest();
+		// ->where('status', 1);  //in review
+		$sieve = array_merge($sieve);
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$filter =  new  UserFilter($sieve);
+
+		$data =  $query->Filter($filter)->count();
+
+		$sql = $query->Filter($filter);
+
+		$users =  $query->Filter($filter)
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+
+		return compact('users', 'sieve', 'data','per_page');
+		
 	}
+	
+
+	
+	public function users()
+	{
+
+
+		$compact =  $this->users_matters([]);
+		extract($compact);
+		$page_title = 'Users';
+
+		$this->view('admin/users', compact('users', 'sieve', 'data','per_page', 'page_title'));
+	}
+
 
 
 
