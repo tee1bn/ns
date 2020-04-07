@@ -195,7 +195,7 @@ function copy_text($text) {
     (  document.execCommand("copy"));
     // Remove temporary element
    document.body.removeChild(copyText);
-   show_notification("Linked Copied "+ $text, "success");
+   show_notification("<code> Copied</code> "+ $text, "dark");
    }
 
 

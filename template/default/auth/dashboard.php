@@ -107,24 +107,7 @@ $page_title = "Dashboard";
               </div>
             </div>
 
-            <style>
-               .d-box{
-                    min-width: 70px;
-                padding: 5px;
-                padding-top: 20px;
-                padding-bottom: 20px;
-                display: block;
-                text-align: center;
-                border-radius: 5px;
-                box-shadow: 0 10px 40px 0 rgba(62,57,107,.07), 0 2px 9px 0 rgba(62,57,107,.06);
-                }
-                .b-box{
-                    margin-top: 5px;
-                    margin-bottom: 10px;
-                }
-               
-            </style>
-
+           
 
           <div class="row">
 
