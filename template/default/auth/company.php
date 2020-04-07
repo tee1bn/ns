@@ -388,7 +388,9 @@ include 'includes/header.php';?>
                               <div class="row">
                                   
                               <span class="col-6">
+                                <small>
                                   Own merchant connection: 
+                                </small>
                               </span>
                               <span class="col-4">
                                   02/4  

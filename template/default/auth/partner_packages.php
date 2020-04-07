@@ -16,7 +16,7 @@ $page_title = "Merchant Packages";
           <div class="content-header-left col-md-6 col-12 mb-2">
             <?php include 'includes/breadcrumb.php';?>
 
-            <h3 class="content-header-title mb-0">Packages / Dealer Packages</h3>
+            <h3 class="content-header-title mb-0">Packages / Partner Packages</h3>
           </div>
           
          <!--  <div class="content-header-right col-md-6 col-12">
@@ -94,7 +94,7 @@ $page_title = "Merchant Packages";
                             </div>
                                 </span>
                           <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">Merchant Connections</h3>
+                            <h3 class="heading-text text-bold-600">Sales partner</h3>
                             <small>Total</small>
                           </div>
                         </div>
@@ -121,24 +121,24 @@ $page_title = "Merchant Packages";
                                         <table class="table">
                                             <tr>
                                                 <td></td>
-                                                <td>Merchant ID</td>
-                                                <td>Companies</td>
+                                                <td>Sales partner ID</td>
+                                                <td>Surname</td>
                                                 <td>Level</td>
                                                 <td>Package</td>
-                                                <td>Phone</td>
-                                                <td>Order date</td>
+                                                <td>First order</td>
                                                 <td>Status</td>
+                                                <td>Bill</td>
                                             </tr>
                                             <tbody>
                                                 <tr>
                                                     <td>1</td>
                                                     <td>1324</td>
-                                                    <td>Indain Ltd</td>
+                                                    <td>Opeifa</td>
                                                     <td>2</td>
                                                     <td>Professional</td>
                                                     <td>***</td>
-                                                    <td>02/2/2020</td>
                                                     <td>paid</td>
+                                                    <td>.pdf</td>
                                                 </tr>
                                             </tbody>
                                         </table>
@@ -158,7 +158,7 @@ $page_title = "Merchant Packages";
 
 
 <div>
-    <small> * * Due to data protection regulations only contacts data may be angzeigt of dealers which you have connected personally. 
+    <small> * * * Due to data protection regulations only contacts data or names can be viewed by direct distributors. Exception: distributors have released what their contact details for the upline.
 </small>
 </div>
 

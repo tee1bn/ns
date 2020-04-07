@@ -88,6 +88,8 @@
                   <li><a class="menu-item" href="<?=domain;?>/genealogy/team">Team</a>
                   <li><a class="menu-item" href="<?=domain;?>/genealogy/placement_list"> List</a>
             
+                  <li><a class="menu-item" href="<?=domain;?>/genealogy/team_tree">Team Tree</a>
+
                   <li><a class="menu-item" href="<?=domain;?>/genealogy/placement">Tree</a>
                   </li>
                 </ul>

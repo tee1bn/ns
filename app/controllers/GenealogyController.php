@@ -185,6 +185,34 @@ class GenealogyController extends controller
 	}
 
 
+	public function team_tree($user_id='')
+	{	
+		$use = 'username';
+
+		if ($use=='id') {
+			if ($user_id == '') {
+				$user_id = $this->auth()->id;
+			}
+		}else{
+			$requested_user 	= User::where('username' ,$user_id)->first();
+			@$user_id 	= $requested_user->id;
+
+			if ($requested_user == null) {
+				if ($this->auth()) {
+					$user_id = User::where('username' ,$this->auth()->username)->first()->id;
+				}
+			}
+			
+		}
+
+
+
+
+		$this->view('auth/team_tree', ['user_id'=>$user_id]);
+
+	}
+
+
 
 	public function placement_list($username=null, $level_of_referral=1)
 	{
