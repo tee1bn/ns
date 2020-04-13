@@ -3,7 +3,6 @@
 namespace v2\Models;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
-use  v2\Traits\Wallet;
 use  Filters\Traits\Filterable;
 use Illuminate\Database\Capsule\Manager as DB;
 use Upload, Session;

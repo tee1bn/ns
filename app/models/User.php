@@ -133,6 +133,28 @@ class User extends Eloquent
         ],*/
     ];  
 
+
+
+    public function getaddressArrayAttribute()
+    {   
+        $value = $this->address;
+
+
+        if ($value == null) {
+            
+            return [];          
+        }
+        $response = json_decode($value , true); 
+
+        if (is_array($response)) {
+            return $response;
+        }
+
+        return ['address'=>$value];
+    }
+
+
+
     
 
     public function max_uplevel($tree_key)

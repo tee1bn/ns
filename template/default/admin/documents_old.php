@@ -50,18 +50,14 @@ $page_title = "Documents";
 
       </div>
 
-      <datalist id="category_list">
-        <?php foreach ($documents_categories as $key => $category) :?>
-        <option><?=$category;?></option>
-        <?php endforeach ;?>
-      </datalist>
+
 
       <!-- Modal body -->
-        <form id="document_form" data-function="refresh_page"  class="col-md-12 ajax_for" enctype="multipart/form-data" 
+        <form id="document_form" data-function="refresh_page"  class="col-md-12 ajax_form" enctype="multipart/form-data" 
         action="<?=domain;?>/admin/upload_supporting_document" method="post" >  
           <div class="modal-body">
             <style>
-              .no_padding{padding:0px !important;}
+              td{padding:0px !important;}
             </style>
 
 
@@ -71,42 +67,23 @@ $page_title = "Documents";
                                 <br>
                                 <!-- <i class="card-text"> *All documents will be verified.</i> -->
                                 <br>
-                                   <table id="document_form_table" class="table table-hover table-condensed">
+                                   <table class="table table-hover table-condensed">
 
                                       <thead>
                                         <tr>
                                           <th>Label</th>
-                                          <th>Category</th>
                                           <th>Files</th>
                                         </tr>
                                       </thead>
                                       <tbody>
                                         <tr ng-repeat="(key, $hospital) in $list.$active_list">
-                                         <td class="no_padding">
+                                         <td>
                                             <input 
                                                 placeholder="Name" required="" 
                                                class="form-control" type=""  
-                                                name="label[]">
-                                          </td>
+                                                name="label[]"></td>
 
-
-                                         <td class="no_padding">
-                                          <!--   <input 
-                                                list="category_list" 
-                                                placeholder="Category" required="" 
-                                               class="form-control" type=""  
-                                                name="category[]">
- -->
-                                                <select class="form-control" name="category[]">
-                                                    <option value="">Select Category</option>
-                                                    <?php foreach ($documents_categories as $key => $value) :?>
-                                                    <option value="<?=$value;?>"><?=$value;?></option>
-                                                    <?php endforeach;?>
-                                                </select>
-
-                                          </td>
-
-                                          <td class="no_padding">
+                                          <td>
 
                                                 <div
                                                  class="input-group col-md-12">
@@ -151,62 +128,62 @@ $page_title = "Documents";
                 </ul>
             </div>
         </div>
-    <div class="card-content">
-      <div class="card-body">
-              <table id="myTable" class="table table-bordered table-striped">
-              <thead>
-                <tr>
-                  <th>Sn</th>
-                  <th>Label</th>
-                  <th>Category</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <?php $i=1; foreach ($all_documents as $key => $document) :?>
-                <tr>
-                 <td>
-                  <?=$i++;?>
-                  </td>
 
-                 <td>
-                    <a target="_blank" href="<?=domain;?>/<?=$document->path;?>"><b><?=$document->filename;?></b></a>
-                  </td>
-
-                 <td>
-                    <b><?=$document->category;?></b>
-                  </td>
+         <style>
+                    .full_pro_pix{
+                          width: 120px;
+                          height: 120px;
+                          object-fit: cover;
+                          border-radius: 100%;
+                          border: 1px solid #cc444433;
+                    }
+          </style>
 
 
+         <div class="card-content">
 
-                  <td>
-
-                    <a href="javascript:void(0);" 
-                    onclick="$confirm_dialog= new ConfirmationDialog('<?=domain;?>/admin/delete_doc/<?=$document->id;?>', 'Are you sure you want to delete <?=$document->filename;?>')" class="fa fa-trash text-danger" style="font-size: 20px;">
-
-                    </td>
-                </tr>
-              <?php endforeach ;?>
-            </table>
+                                    <div class="card-body row">
+                                <div class="col-md-12" style="
+                                                        margin-bottom: 20px;
+                                                        border: 1px solid #14181f42;
+                                                        padding: 19px;">
 
 
+                                    <div class="col-md-12">
+                                      <div class="card" style="height: 508px;">
+                                        <div class="card-content">
+                                          <div class="card-body">
+                                            <h4 cla5s="card-title">Documents 
 
-         <!--   <ul class="list-group list-group-flush">
-             <li ng-repeat="(key, $doc) in $list.$lists" class="list-group-item" style="text-transform: capitalize;">
-               <span class="label label-primary float-left">{{$index + 1}})</span> &nbsp;
-                <a href="javascript:void(0);" ng-click="$list.attempt_delete($doc, key);"
-               class="fa fa-trash text-danger float-right" style="font-size: 20px;">
-               <i class=""></i></a>
-               <a target="_blank" href="<?=domain;?>/{{$doc.files}}"><b>{{$doc.label}}</b></a>
-             </li>
-           
-           </ul> -->
-          <!--  <div class="card-body">
-             <a href="javascript:void(0);" data-toggle="modal" data-target="#upload_company_supporting_document" 
-                     title="Upload supporting company documents" class="card-link">Upload Documents</a>
-           </div> -->
-         </div>
-       </div>
+                                           
+                                            </h4>
+                                          </div>                                          
 
+                                          <ul class="list-group list-group-flush">
+                                            <li ng-repeat="(key, $doc) in $list.$lists" class="list-group-item" style="text-transform: capitalize;">
+                                              <span class="label label-primary float-left">{{$index + 1}})</span> &nbsp;
+                                               <a href="javascript:void(0);" ng-click="$list.attempt_delete($doc, key);"
+                                              class="fa fa-trash text-danger float-right" style="font-size: 20px;">
+                                              <i class=""></i></a>
+                                              <a target="_blank" href="<?=domain;?>/{{$doc.files}}"><b>{{$doc.label}}</b></a>
+                                            </li>
+                                          
+                                          </ul>
+                                         <!--  <div class="card-body">
+                                            <a href="javascript:void(0);" data-toggle="modal" data-target="#upload_company_supporting_document" 
+                                                    title="Upload supporting company documents" class="card-link">Upload Documents</a>
+                                          </div> -->
+                                        </div>
+                                      </div>
+                                    </div>
+                                
+                                        <hr>
+
+
+                                </div>
+          
+      </div>
+    </div>
       </section>
 
 

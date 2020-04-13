@@ -27,7 +27,7 @@ if (Input::errors()) {
 
 		$field = ucfirst(str_replace('_', ' ', $field));
 
-		 $output.=  ' <a class="list-group-item list-group-item-danger">
+        $output.=  ' <a class="list-group-item list-group-item-danger" style="padding:0px;">
 		         <strong class="list-group-item-heading">'.$field.'</strong>';
 
 		        foreach ($errors as $error) {

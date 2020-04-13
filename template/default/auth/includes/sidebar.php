@@ -16,7 +16,7 @@
 
     
     .small-padding{
-      padding: 10px;
+      padding: 10px !important;
     }
 
      .d-box{
@@ -119,7 +119,7 @@
 
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/documents"><i class="fa fa-folder"></i> Documents</a>
+                <a class="menu-item" href="<?=domain;?>/user/resources"><i class="fa fa-folder"></i> Documents</a>
               </li>
 
              <!--  <li>

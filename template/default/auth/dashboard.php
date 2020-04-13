@@ -6,7 +6,7 @@ $page_title = "Dashboard";
 
     $balances = Withdrawal::payoutBalanceFor($auth->id);
 
-
+      $package =  $auth->subscription->payment_plan;
     // $pool_target = $auth->pool_target();
 
     ;?>
@@ -42,20 +42,23 @@ $page_title = "Dashboard";
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
-                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
+                      <div class="col-md-3">
                         <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon primary d-flex justify-content-center mr-3">
-                            <i class="icon p-1 ft-box customize-icon font-large-2 p-1"></i>
+                            <img class="icon p-1  customize-icon font-large-2 p-1" src="<?=$package->Image;?>" style="
+    height: 130px;
+    width: 100px;
+    object-fit: cover;">
                           </span>
-                          <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">Professional</h3>
+                          <div class="stats-amount mr-3 mt-3">
+                            <h3 class="heading-text text-bold-600"> <?=$package->package_type;?> </h3>
                             <p class="sub-heading">Package</p>
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
+                      <div class="col-md-3">
                         <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
-                          <span class="card-icon danger d-flex justify-content-center mr-3">
+                          <span class="card-icon danger d-flex justify-content-center mr-3 mt-3">
 
                             <div class="b-box">
                                 <span class="d-box">
@@ -63,15 +66,15 @@ $page_title = "Dashboard";
                                 </span>
                             </div>
                           </span>
-                          <div class="stats-amount mr-3">
+                          <div class="stats-amount mr-3 mt-3">
                             <h3 class="heading-text text-bold-600">Own</h3>
                             <small>Merchant Connections</small>
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
+                      <div class="col-md-3">
                         <div class="d-flex align-items-start border-right-blue-grey border-right-lighten-5">
-                          <span class="card-icon success d-flex justify-content-center mr-3">
+                          <span class="card-icon danger d-flex justify-content-center mr-3 mt-3">
 
                             <div class="b-box">
                                 <span class="d-box">
@@ -79,15 +82,15 @@ $page_title = "Dashboard";
                                 </span>
                             </div>
                           </span>
-                          <div class="stats-amount mr-3">
+                          <div class="stats-amount mr-3 mt-3">
                             <h3 class="heading-text text-bold-600">Total</h3>
                             <small>Merchant Connections</small>
                           </div>
                         </div>
                       </div>
-                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
+                      <div class="col-md-3">
                         <div class="d-flex align-items-start">
-                          <span class="card-icon warning d-flex justify-content-center mr-3">
+                          <span class="card-icon danger d-flex justify-content-center mr-3 mt-3">
 
                             <div class="b-box">
                                 <span class="d-box">
@@ -95,7 +98,7 @@ $page_title = "Dashboard";
                                 </span>
                             </div>
                                 </span>
-                          <div class="stats-amount mr-3">
+                          <div class="stats-amount mr-3 mt-3">
                             <h3 class="heading-text text-bold-600">Direct</h3>
                             <small>Sales Partner</small>
                           </div>

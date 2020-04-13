@@ -8,6 +8,7 @@ use  Filters\Filters\UserFilter;
 use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
 use v2\Models\Wallet;
+use v2\Models\Document;
 /**
  * this class is the default controller of our application,
  * 
@@ -491,38 +492,63 @@ class AdminController extends controller
 	}
 
 
+
 	public function upload_supporting_document()
 	{
 
 
+	    $documents_settings = SiteSettings::where('criteria', 'documents_settings')->first();
 
-		$documents_settings =  SiteSettings::where('criteria', 'documents_settings')->first();
-
-		$files =  MIS::refine_multiple_files($_FILES['files']);
-
-		$combined_files = array_combine($_POST['label'], $files);
-
-		$response = $documents_settings->upload_documents($combined_files);
+	    $files = MIS::refine_multiple_files($_FILES['files']);
 
 
-		// Redirect::back();
-		
+	    foreach ($files as $key => $value) {
+	        $value['category'] = $_POST['category'][$key];
+	        $files[$key] = $value;
+	    }
 
+	    $combined_files = array_combine($_POST['label'], $files);
+
+	    Document::upload_documents($combined_files);
+	    // $response = $documents_settings->upload_documents($combined_files);
+	    Redirect::back();
+
+
+	}
+
+
+	public function delete_doc($id)
+	{
+	    $document = Document::find($id);
+	    if ($document == null) {
+	        Session::putFlash("danger", "Document not found");
+	        Redirect::back();
+	    }
+
+	    DB::beginTransaction();
+	    try {
+
+	        $document->delete();
+	        DB::commit();
+	        Session::putFlash("success", "Document deleted succesfully");
+
+	    } catch (Exception $e) {
+	        Session::putFlash("danger", "Something went wrong");
+
+	    }
+
+	    Redirect::back();
 	}
 
 
 	public function delete_document($key)
 	{
-		
-		$documents_settings =  SiteSettings::where('criteria', 'documents_settings')->first();
-		$response = $documents_settings->delete_document($key);
-		header("content-type:application/json");
 
-		echo json_encode(compact('response'));
+	    $documents_settings = SiteSettings::where('criteria', 'documents_settings')->first();
+	    $response = $documents_settings->delete_document($key);
+	    header("content-type:application/json");
 
-
-		
-		
+	    echo json_encode(compact('response'));
 	}
 
 
@@ -545,9 +571,14 @@ class AdminController extends controller
 
 	public function documents()
 	{
-		$show = true;
-		$this->view('admin/documents', compact('show'));
-	}	
+
+        $all_documents = Document::all();
+        // $documents_categories = Document::groupBy('category')->get()->pluck('category')->toArray();
+        $documents_categories = Document::$categories;
+
+        $show = true;
+        $this->view('admin/documents', compact('show', 'all_documents', 'documents_categories'));
+    }	
 
 	public function edit_testimony($testimony_id =null)
 	{

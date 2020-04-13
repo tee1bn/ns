@@ -12,6 +12,15 @@ ALTER TABLE `users` ADD `binary_id` BIGINT NULL AFTER `introduced_by`, ADD `enro
 ALTER TABLE `subscription_payment_orders` ADD `no_of_month` INT NULL AFTER `sent_email`;
 
 
+ALTER TABLE `companies` CHANGE `rc_number` `vat_number` VARCHAR(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'cac rc number';
+ALTER TABLE `companies` ADD `rc_number` VARCHAR(255) NULL AFTER `pefcom_id`;
+
+ALTER TABLE `users` CHANGE `address` `address` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+ALTER TABLE `companies` CHANGE `office_email` `office_email` LONGTEXT CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+ALTER TABLE `companies` ADD `legal_form` VARCHAR(255) NULL AFTER `vat_number`;
+
 -- for isp compensation and new design --ends
 
 

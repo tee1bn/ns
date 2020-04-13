@@ -433,9 +433,9 @@ include 'includes/header.php';?>
 
 
                                   <div class="form-group">
-                                    <label for="rc_number" class="pull-left">VAT Number<sup>*</sup></label>
-                                    <input type="text" name="rc_number"  placeholder="Your VAT Number" 
-                                    class="form-control" required value="<?=$company->rc_number;?>">
+                                    <label for="vat_number" class="pull-left">VAT Number<sup>*</sup></label>
+                                    <input type="text" name="vat_number"  placeholder="Your VAT Number" 
+                                    class="form-control" required value="<?=$company->vat_number;?>">
                                   </div>
 
 

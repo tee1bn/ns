@@ -23,6 +23,8 @@ class Withdrawal extends Eloquent
 		'fee',
 		'withdrawal_method_id',
 		'method_details',
+		'details',
+		'admin_id',
 		'completed_at',
 		'status'
 	];
@@ -97,6 +99,16 @@ class Withdrawal extends Eloquent
 
 
 	}
+
+	
+	
+
+	public function admin()
+	{
+		return $this->belongsTo('Admin', 'admin_id');
+
+	}
+	
 
 
 	public function getAmountToPayAttribute()

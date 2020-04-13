@@ -20,6 +20,8 @@ class Company extends Eloquent
 				'pefcom_id',	//pension fund employer code
 				'rc_number',   //cac registration number
 				'bn_number',	//cac business registration number
+				'vat_number',
+				'legal_form',
 				'company_description',
 				'approval_status',
 				'documents',
@@ -279,6 +281,26 @@ class Company extends Eloquent
     	$pic = Config::domain()."/$value";
 
 	   	return $pic;
+	}
+
+
+
+
+	public function getaddressArrayAttribute()
+	{   
+	    $value = $this->address;
+
+	    if ($value == null) {
+	        
+	        return [];          
+	    }
+	    $response = json_decode($value , true); 
+
+	    if (is_array($response)) {
+	        return $response;
+	    }
+
+	    return ['address'=>$value];
 	}
 
 

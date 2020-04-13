@@ -69,6 +69,15 @@ class SubscriptionPlan extends Eloquent
 		];
 
 
+	public function getImageAttribute()
+	{
+		$domain = Config::domain();
+
+		$name = strtolower($this->id);
+		$src = "$domain/template/default/app-assets/images/logo/package$name.png";
+		return $src;
+	}
+
 	public function scopeAvailableForAdmin($query)
 	{
 		return $query->where('show_admin', 1);

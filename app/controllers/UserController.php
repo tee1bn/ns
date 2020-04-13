@@ -2,6 +2,7 @@
 use v2\Shop\Shop;
 use v2\Models\Wallet;
 use v2\Models\Withdrawal;
+use v2\Models\Document;
 use  Filters\Filters\WalletFilter;
 use  Filters\Filters\SupportTicketFilter;
 use Illuminate\Database\Capsule\Manager as DB;
@@ -34,6 +35,23 @@ class UserController extends controller
 
 
 	}
+
+    public function resources($category_key = null)
+    {
+
+        $category = Document::$categories[$category_key] ?? null;
+
+        $documents = Document::where('category', $category)->get();
+        $title = "$category";
+
+        if ($documents->isEmpty()) {
+            $documents = Document::get();
+            $title = "All Documents";
+        }
+
+        $this->view('auth/resources', compact('title', 'documents'));
+
+    }
 
 	public function supportmessages($value='')
 	{
