@@ -15,6 +15,31 @@ class UserProfileController extends controller
 
     }
 
+
+    /**
+     *
+     */
+    public function set_contact_availability()
+    {
+
+        $auth = $this->auth();
+        $existing_settings = $auth->SettingsArray;
+        $existing_settings['contact_availability'] = $_POST['contact_availability'] ?? 0 ;
+        $auth->save_settings($existing_settings);
+        switch ($existing_settings['contact_availability']) {
+            case 1:
+                Session::putFlash('success', "Your contact will be available to your entire upline");
+                break;
+
+            default:
+                Session::putFlash('success', "Your contact will not be available to your entire upline");
+                break;
+        }
+
+        Redirect::back();
+
+
+    }
     public function update_payment_info()
     {
         echo "<pre>";

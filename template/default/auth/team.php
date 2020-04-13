@@ -1,158 +1,172 @@
 <?php
-$upline = User::where('mlm_id',$user->referred_by)->first();
+$upline = User::where('mlm_id', $user->referred_by)->first();
 $page_title = "Overview Team";
- include 'includes/header.php';?>
+include 'includes/header.php'; ?>
 
 
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-      <div class="content-wrapper">
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-wrapper">
         <div class="content-header row">
-          <div class="content-header-left col-md-6 col-12 mb-2">
-            <?php include 'includes/breadcrumb.php';?>
+            <div class="content-header-left col-md-6 col-12 mb-2">
+                <?php include 'includes/breadcrumb.php'; ?>
 
-            <h3 class="content-header-title mb-0">Overview Team</h3>
-          </div>
-          
+                <h3 class="content-header-title mb-0">Overview Team</h3>
+            </div>
+
         </div>
 
         <style>
-          .team-leader{
+            .team-leader {
 
-            height: 100px;
-            border-radius: 46px;
-            width: 100px;
-            object-fit: cover;
-          }
+                height: 100px;
+                border-radius: 46px;
+                width: 100px;
+                object-fit: cover;
+            }
         </style>
 
 
         <div class="content-body">
-          <?php require_once 'template/default/auth/includes/team_page.php';?>
-         
-              <div class="row">
+            <?php require_once 'template/default/auth/includes/team_page.php'; ?>
 
-               <div class="col-md-4">
+            <div class="row">
 
-                <div class="dropdown">
-                  <button class="btn btn-dark btn-block  dropdown-toggle" type="button" data-toggle="dropdown"> 
-                    Lifeline Level <span class="badge badge-secondary"> <?=$level_of_referral;?> </span>
-                  <span class="caret"></span></button>
-                  <ul class="dropdown-menu">
-                   <?php for ($i=1; $i <=3 ; $i++):?>
-                        <li>
-                          <a class="dropdown-item" href="<?=domain;?>/genealogy/placement_list/<?=$user->username;?>/<?=$i;?>">
-                          Level <?=$i;?>
-                          </a>
-                        </li>
-                   <?php endfor;?>
-                  </ul>
+                <div class="col-md-4">
+
+                    <div class="dropdown">
+                        <button class="btn btn-dark btn-block  dropdown-toggle" type="button" data-toggle="dropdown">
+                            Lifeline Level <span class="badge badge-secondary"> <?= $level_of_referral; ?> </span>
+                            <span class="caret"></span></button>
+                        <ul class="dropdown-menu">
+                            <?php for ($i = 1; $i <= 3; $i++): ?>
+                                <li>
+                                    <a class="dropdown-item"
+                                       href="<?= domain; ?>/genealogy/team/<?= $user->username; ?>/<?= $i; ?>">
+                                        Level <?= $i; ?>
+                                    </a>
+                                </li>
+                            <?php endfor; ?>
+                        </ul>
+                    </div>
+
+
                 </div>
 
-               
-             </div>
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body"
+                                 style="padding: 7px !important;padding-bottom: 5px!important;padding-top: 10px!important;">
+                                <form class="ajax_form" action="<?= domain; ?>/user-profile/set_contact_availability" method="post" style="margin: 0px;">
+                                    <label>
+                                        <input type="checkbox" onchange="$('#submit_btn').click();" name="contact_availability"
+                                               value="1"
+                                               <?=((isset($auth->SettingsArray['contact_availability']) ) &&
+                                                   ($auth->SettingsArray['contact_availability'] == 1 )?'checked' : '');?>
+                                               style="height: 20px;width: 20px;position: absolute;top: 11px;">
+                                        <span style="margin-left: 20px;">share my personal information (name, email, phone) for the entire Upline</span>
+                                    </label>
+                                    <button id="submit_btn" type="submit" style="display: none"></button>
+                                </form>
 
-               <div class="col-md-8">
-                     <div class="card" >
-                         <div class="card-content">
-                             <div class="card-body" style="
-    padding: 7px !important;
-    padding-bottom: 5px!important;
-    padding-top: 10px!important;">
-                                  <label>
-                                    
-                                    <input type="checkbox" name="" style="
-    height: 20px;
-    width: 20px;
-    position: absolute;
-    top: 11px;">
-                                     <span style="margin-left: 20px;">share my personal information (name, email, phone) for the entire Upline</span>
-                                  </label>
-                                
-                         </div>
-                 </div>
-                   
-               </div>
-               
-             </div>
-               <div class="col-md-12">
-                   <div class="form-group col-md-3">
-                     <input type="" class="form-control" placeholder="Search for sales partner ID" name="">
-                   </div>
-               
-             </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group col-md-3">
+                        <input type="" class="form-control" placeholder="Search for sales partner ID" name="">
+                    </div>
+
+                </div>
 
 
-<style>
-  
-  td{
-    padding-right: 1px !important;
-    padding-left: 1px !important;
-    text-align: center;
-  }
-</style>
-               <div class="col-md-12">
-                     <div class="card" >
-                         <div class="card-content">
-                             <div class="card-body table-responsive">
+                <style>
+
+                    td {
+                        padding-right: 1px !important;
+                        padding-left: 1px !important;
+                        text-align: center;
+                    }
+                </style>
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-body table-responsive">
                                 <table class="table">
-                                                 <tr>
-                                                   <td style="width: 5%;">Sn</td>
-                                                   <td>Partner ID</td>
-                                                   <td>Surname</td>
-                                                   <td>Level</td>
-                                                   <td>E-mail</td>
-                                                   <td>Phone</td>
-                                                   <td>Registered</td>
-                                                   <td>Direct <br>sales partner</td>
-                                                   <td>Own <br>Merchants</td>
-                                                   <td>Status</td>
-                                                 </tr>
-                                                 <tbody>
-                                                   <tr>
-                                                     <td>1</td>
-                                                     <td>12</td>
-                                                     <td>opeifa</td>
-                                                     <td>3</td>
-                                                     <td>32@gmail.com</td>
-                                                     <td>08323323232</td>
-                                                     <td>4/12/3233</td>
-                                                     <td>3</td>
-                                                     <td>32</td>
-                                                     <td>active</td>
-                                                   </tr>
-                                                   <tr>
-                                                     <td>1</td>
-                                                     <td colspan="6"><b>Total</b></td>
-                                                     <td>3</td>
-                                                     <td>32</td>
-                                                     <td>active</td>
-                                                   </tr>
-                                                 </tbody>
-                                                   
-                                                </table>
-                         </div>
-                 </div>
-                   
-               </div>
-               
-             </div>
-
-               <div class="col-md-12">
-                
-                <small class="text-muted">* * * Due to data protection regulations only contacts data may be viewed by direct distributors. Ausnamhe: Distributors have shared that their contact information for the upline</small>
-               
-             </div>
-             
-
-           </div>
+                                    <tr>
+                                        <td style="width: 5%;">Sn</td>
+                                        <td>Partner ID</td>
+                                        <td>Surname</td>
+                                        <td>Level</td>
+                                        <td>E-mail</td>
+                                        <td>Phone</td>
+                                        <td>Registered</td>
+                                        <td>Direct <br>sales partner</td>
+                                        <td>Own <br>Merchants</td>
+                                        <td>Status</td>
+                                    </tr>
+                                    <tbody>
+                                    <?php $i = 1;
+                                    foreach ($list['list'] as $key => $downline):
+                                        $contact = $downline->getContact($user->mlm_id);
+                                        $status = $downline->MembershipStatusDisplay;
+                                        $status_count[] = $status['value'];
+                                        $own_merchant_count[] = $status['value'];
+                                        $direct_sales_partner_count[] = $status['value'];
+                                        ?>
 
 
+                                        <tr>
+                                            <td><?= $i; ?></td>
+                                            <td><?=$downline->id;?></td>
+                                            <td><?=$contact['fullname'];?></td>
+                                            <td><?=$level_of_referral;?></td>
+                                            <td><?=$contact['email'];?></td>
+                                            <td><?=$contact['phone'];?></td>
+                                            <td><?=date("d/m/Y", strtotime($downline->created_at));?></td>
+                                            <td>3</td>
+                                            <td>32</td>
+                                            <td><?=$status['display'];?></td>
+                                        </tr>
+                                        <?php $i++; endforeach; ?>
+
+                                    <tr>
+                                        <td></td>
+                                        <td colspan="6"><b>Total</b></td>
+                                        <td>3</td>
+                                        <td>32</td>
+                                        <td><?php print_r(collect($status_count)->countBy());?>/<?=count($status_count);?></td>
+                                    </tr>
+                                    </tbody>
+
+                                </table>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-12">
+
+                    <small class="text-muted">* * * Due to data protection regulations only contacts data may be viewed
+                        by direct distributors. Exception: Distributors have shared that their contact information for
+                        the upline
+                    </small>
+
+                </div>
+
+
+            </div>
 
 
         </div>
-      </div>
     </div>
-    <!-- END: Content-->
+</div>
+<!-- END: Content-->
 
-<?php include 'includes/footer.php';?>
+<?php include 'includes/footer.php'; ?>

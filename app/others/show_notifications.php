@@ -30,7 +30,7 @@ text-align:center;
 display: none;
 z-index: 9;">
 
-<i class="fa fa-circle-notch fa-spin" style="
+<i class="fa fa-eercast fa-spin" style="
 z-index: 99999;
 font-size: 90px;">
 </i>

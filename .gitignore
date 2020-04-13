@@ -3,3 +3,4 @@ app/database.php
 app/classes/Config.php
 app/classes/Mailer.php
 .cpanel.yml
+.idea/workspace.xml
