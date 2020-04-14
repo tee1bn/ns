@@ -151,6 +151,8 @@ class User extends Eloquent
             'email' => "***",
             'phone' => "***",
         ];
+
+
         if ($mlm_id == $this->$user_column) {
             return $contact;
         }
@@ -527,10 +529,10 @@ class User extends Eloquent
     {
         if ($this->subscription->payment_plan->id == 1) {
             $display = "<em class='text-danger'>Inactive</em>";
-            $value = 1;
+            $value = 0;
         }else{
             $display = "<em class='text-success'>Active</em>";
-            $value = 0;
+            $value = 1;
         }
 
         $result = compact('display','value' );

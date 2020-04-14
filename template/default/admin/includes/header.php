@@ -42,8 +42,7 @@
     <!-- END: Custom CSS-->
     <link rel="stylesheet" type="text/css" href="<?=asset;?>/fonts/feather/style.min.css">
 
-    <script src="https://cdn.ckeditor.com/4.11.3/standard/ckeditor.js"></script>
-       <script src="https://cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+       <script src="https://cdn.ckeditor.com/4.11.4/full/ckeditor.js"></script>
     
     
     <script src="<?=asset;?>/tinymce/tinymce/tinymce.js" referrerpolicy="origin"></script>
@@ -59,8 +58,6 @@
         let $base_url = "<?=domain;?>";
         var app = angular.module('app', ['ngSanitize']);
     </script>
-
-
 
 
 

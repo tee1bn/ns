@@ -1,188 +1,201 @@
 <?php
 $page_title = "Package";
- include 'includes/header.php';
-
- ;?>
+include 'includes/header.php';; ?>
 
 
-
-
-    <!-- BEGIN: Content-->
-    <div class="app-content content">
-      <div class="content-wrapper">
+<!-- BEGIN: Content-->
+<div class="app-content content">
+    <div class="content-wrapper">
         <div class="content-header row">
-          <div class="content-header-left col-md-6 col-12 mb-2">
-            <?php include 'includes/breadcrumb.php';?>
+            <div class="content-header-left col-md-6 col-12 mb-2">
+                <?php include 'includes/breadcrumb.php'; ?>
 
-            <h3 class="content-header-title mb-0">Package</h3>
-          </div>
-          
+                <h3 class="content-header-title mb-0">Package</h3>
+            </div>
+
         </div>
         <div class="content-body">
 
-          <style>
-            .small-padding{
-              padding: 3px;
-            }
+            <style>
+                .small-padding {
+                    padding: 3px;
+                }
 
-            .popular{
+                .xm-padding {
+                    padding: 1px;
+                }
 
-              text-align: center;
-              position: absolute;
-              top: -12px;
-              padding: 0px 10px 0px 10px;
-              border-radius: 4px;
-            }
-          </style>
+                .popular {
 
-              <div class="row match-height">   
-          <?php 
-            $subscriptions =  SubscriptionPlan::available()->get() ;
-            $display_order = SubscriptionPlan::$display_order;
+                    text-align: center;
+                    position: absolute;
+                    top: -12px;
+                    padding: 0px 10px 0px 10px;
+                    border-radius: 4px;
+                }
+            </style>
 
-            $sorted = $subscriptions->sortBy(function($subscriptions) use ($display_order) {
-                return array_search($subscriptions->getKey(), $display_order);
-            });
+            <div class="row match-height">
+                <?php
+                $subscriptions = SubscriptionPlan::available()->get();
+                $display_order = SubscriptionPlan::$display_order;
 
-          foreach ($sorted as  $subscription):?>
+                $sorted = $subscriptions->sortBy(function ($subscriptions) use ($display_order) {
+                    return array_search($subscriptions->getKey(), $display_order);
+                });
 
-              <div class=" col-md-4">   
-              <div class="card">   
-                 <div class="card-content">
-                  <div class="card-body">
-                    <h4 class="card-title"><?=$subscription->package_type;?></h4>
-                    <?php if ($subscription->id == $subscription::$popular) :?>
-                    <h4 class="popular bg-primary text-white">Most Popular</h4>
-                    <?php endif ;?>
+                foreach ($sorted as $subscription):?>
 
-                    <h6 class="card-subtitle text-muted"> <b class="float-right">
-                      <?=$currency;?><?=MIS::money_format($subscription->price);?> /Month</b><br>
-                      <small class="float-right">Excluding VAT <?=(int)$subscription->percent_vat;?>% </small>
-                    </h6> 
-                  </div>
+                    <div class=" col-md-4">
+                        <div class="card">
+                            <div class="card-content">
+                                <div class="card-body">
+                                    <img class="icon  customize-icon font-large-2" src="<?=$subscription->Image;?>"
+                                         style="height: 110px;width: 100px;object-fit: contain;">
 
-                        <div class="card-body">
-                      <!-- <h6 class="card-subtitle text-muted">Support card subtitle</h6> -->
-                    <!-- <p class="card-text">Excluding VAT <?=(int)$subscription->percent_vat;?>% </p> -->
+                                    <?php if ($subscription->id == $subscription::$popular) : ?>
+                                        <h4 class="popular bg-primary text-white">Most Popular</h4>
+                                    <?php endif; ?>
 
+                                    <h6 class="card-subtitle text-muted"><b class="float-right">
+                                            <?= $currency; ?><?= MIS::money_format($subscription->price); ?>
+                                            /Month</b><br>
+                                        <span class="float-left" style="font-size: 15px;font-weight: 900;"><?= $subscription->package_type; ?>
+                                        </span>
+                                        <small class="float-right">Excluding VAT <?= (int)$subscription->percent_vat; ?>
+                                            %
+                                        </small>
+                                    </h6>
+                                </div>
 
-                    <ul class="list-group list-group-flush">
-                      <?php foreach (SubscriptionPlan::$benefits as $key => $benefit): ?>
-
-                        <li class="list-group-item use-bg small-padding">
-                          <?php if (isset($subscription->DetailsArray['benefits'][$key]) && $subscription->DetailsArray['benefits'][$key] == 1) :?>
-                            <span class="badge badge-primary float-left"><i class="fa fa-check-circle"></i></span>
-                            <?php else :?>
-                              <span class="badge bg-danger float-left"><i class="fa fa-times-circle"></i></span>
-                            <?php endif ;?>
-                             &nbsp;  &nbsp; <i><?=$benefit['title'];?></i>
-
-                          </li>
-
-                        <?php endforeach;?>
-                      </ul>
-                      <br>
-
-                  <?php if (@$auth->subscription->payment_plan['price']  < $subscription->price):?>
-                   <form 
-                      id="upgrade_form<?=$subscription->id;?>"
-                      method="post"
-                      class="ajax_form"
-                      data-overlay="in"
-                      data-function="initiate_payment"
-                      action="<?=domain;?>/user/create_upgrade_request">
+                                <div class="card-body">
+                                                       <!-- <h6 class="card-subtitle text-muted">Support card subtitle</h6> -->
+                                    <!-- <p class="card-text">Excluding VAT <?= (int)$subscription->percent_vat; ?>% </p> -->
 
 
-                      <label>
-                        <input type="checkbox" name="payment_type" value="subscription"> Monthly payment (Automatic collection) 
-                      </label>
-                      <br>
+                                    <ul class="list-group list-group-flush">
+                                        <?php foreach (SubscriptionPlan::$benefits as $key => $benefit): ?>
 
-                      <label>
-                        <input type="radio" name="prepaid_month" value="6"> Service for 6 Months 
-                      </label>
-                      <br>
+                                            <li class="list-group-item use-bg xm-padding">
+                                                <?php if (isset($subscription->DetailsArray['benefits'][$key]) && $subscription->DetailsArray['benefits'][$key] == 1) : ?>
+                                                    <span class="badge badge-primary float-left"><i
+                                                                class="fa fa-check-circle"></i></span>
+                                                <?php else : ?>
+                                                    <span class="badge bg-danger float-left"><i
+                                                                class="fa fa-times-circle"></i></span>
+                                                <?php endif; ?>
+                                                &nbsp; &nbsp; <i class="text-muted"><?= $benefit['title']; ?></i>
 
-                      <label>
-                        <input type="radio" name="prepaid_month" value="12"> Service for 12 Months 
-                      </label>
+                                            </li>
 
-                      <br>
-                      <br>
-                    <div class="form-group">
-                     <select class="form-control" required="" name="payment_method">
-                         <option value="">Select Payment method</option>
-                         <?php foreach ($shop->get_available_payment_methods() as $key => $option):?>
-                             <option value="<?=$key;?>"><?=$option['name'];?></option>
-                         <?php endforeach;?>
-                     </select>
+                                        <?php endforeach; ?>
+                                    </ul>
+                                    <br>
+
+                                    <?php if (@$auth->subscription->payment_plan['price'] < $subscription->price): ?>
+                                        <form
+                                                id="upgrade_form<?= $subscription->id; ?>"
+                                                method="post"
+                                                class="ajax_form"
+                                                data-overlay="in"
+                                                data-function="initiate_payment"
+                                                action="<?= domain; ?>/user/create_upgrade_request">
+
+
+                                            <label>
+                                                <input type="checkbox" name="payment_type" value="subscription"> Monthly
+                                                payment (Automatic collection)
+                                            </label>
+                                            <br>
+
+                                            <label>
+                                                <input type="radio" name="prepaid_month" value="6"> Service for 6 Months
+                                            </label>
+                                            <br>
+
+                                            <label>
+                                                <input type="radio" name="prepaid_month" value="12"> Service for 12
+                                                Months
+                                            </label>
+
+                                            <br>
+                                            <br>
+                                            <div class="form-group">
+                                                <select class="form-control" required="" name="payment_method">
+                                                    <option value="">Select Payment method</option>
+                                                    <?php foreach ($shop->get_available_payment_methods() as $key => $option): ?>
+                                                        <option value="<?= $key; ?>"><?= $option['name']; ?></option>
+                                                    <?php endforeach; ?>
+                                                </select>
+                                            </div>
+                                            <input type="hidden" name="subscription_id"
+                                                   value="<?= $subscription->id; ?>">
+
+                                            <div class="form-group">
+                                                <button href="#" class="btn btn-outline-teal">Buy</button>
+                                            </div>
+                                        </form>
+                                    <?php endif; ?>
+
+                                    <?php if (@$auth->subscription->payment_plan['id'] == $subscription->id): ?>
+                                        <div class="form-group text-center">
+                                            <button type="button" class="btn btn-primary btn-sm">Current <i
+                                                        class="fa fa-check-circle"></i></button>
+                                            <small><?= $auth->subscription->NotificationText; ?></small>
+                                        </div>
+                                    <?php endif; ?>
+
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <input type="hidden" name="subscription_id" value="<?=$subscription->id;?>">
 
-                    <div class="form-group">
-                      <button href="#" class="btn btn-outline-teal">Buy</button>
-                    </div>
-                    </form>
-                    <?php endif ;?>
-
-                    <?php if (@$auth->subscription->payment_plan['id']  == $subscription->id):?>
-                    <div class="form-group">
-                      <button type="button" class="btn btn-primary btn-sm">Current <i class="fa fa-check-circle"></i></button>
-                      <small><?=$auth->subscription->NotificationText;?></small>
-                    </div>
-                    <?php endif ;?>
-
-                  </div>
-                </div>
-              </div>
+                <?php endforeach; ?>
             </div>
-          
-          <?php endforeach;?>
-              </div>
-              
 
-              <div>
+<!--
+            <div>
                 <button class="btn btn-outline-warning float-right">ZX Packahge</button>
-              </div>
-            
-              <br>
+            </div>-->
 
-              <script>
-                initiate_payment= function($data){
-                  try{
+            <br>
 
-                  switch($data.payment_method) {
-                     case 'coinpay':
-                       // code block
-                           window.location.href = $base_url+ 
-                           "/shop/checkout?item_purchased=packages&order_unique_id="+$data.id+"&payment_method=coinpay";
+            <script>
+                initiate_payment = function ($data) {
+                    try {
 
-                       break;
+                        switch ($data.payment_method) {
+                            case 'coinpay':
+                                // code block
+                                window.location.href = $base_url +
+                                    "/shop/checkout?item_purchased=packages&order_unique_id=" + $data.id + "&payment_method=coinpay";
 
-                     case 'paypal':
-                       // code block
-                           window.location.href = $base_url+ 
-                           "/shop/checkout?item_purchased=packages&order_unique_id="+$data.id+"&payment_method=paypal";
+                                break;
 
-                       break;
-                     case 'razor_pay':
-                       // code block
-                       window.SchemeInitPayment($data.id);
-                       break;
-                     default:
-                       // code block
-                   }
+                            case 'paypal':
+                                // code block
+                                window.location.href = $base_url +
+                                    "/shop/checkout?item_purchased=packages&order_unique_id=" + $data.id + "&payment_method=paypal";
 
-                  }catch(e){
+                                break;
+                            case 'razor_pay':
+                                // code block
+                                window.SchemeInitPayment($data.id);
+                                break;
+                            default:
+                            // code block
+                        }
 
-                  }
+                    } catch (e) {
+
+                    }
 
                 }
-              </script>
+            </script>
 
         </div>
-      </div>
     </div>
-    <!-- END: Content-->
+</div>
+<!-- END: Content-->
 
-<?php include 'includes/footer.php';?>
+<?php include 'includes/footer.php'; ?>

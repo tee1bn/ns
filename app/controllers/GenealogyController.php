@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Database\Capsule\Manager as DB;
 
 /**
  * this class is the default controller of our application,
@@ -231,8 +232,15 @@ class GenealogyController extends controller
 
         $list = User::referred_members_downlines_paginated($user->id, $level_of_referral, $per_page, $page);
 
+        $downlines_ids = $list['list']->pluck('mlm_id')->toArray();
+        $no = User::whereIn('referred_by', $downlines_ids)
+            ->select(DB::raw('count(*) as no_of_direct_lines'), 'referred_by')
+            ->groupBy('referred_by')
+            ->get()
+            ->keyBy('referred_by')
+        ;
 
-        $this->view('auth/team', compact('list', 'user', 'per_page', 'level_of_referral'));
+        $this->view('auth/team', compact('list', 'user', 'per_page', 'level_of_referral','no'));
 
     }
 

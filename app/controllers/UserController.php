@@ -281,7 +281,10 @@ class UserController extends controller
 
 	public function media()
 	{
-			$this->view('auth/media');
+        $documents = Document::get()->groupBy('category')->toArray();
+
+
+        $this->view('auth/media', compact('documents'));
 	}
 
 

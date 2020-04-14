@@ -58,12 +58,14 @@ include 'includes/header.php'; ?>
                         <div class="card-content">
                             <div class="card-body"
                                  style="padding: 7px !important;padding-bottom: 5px!important;padding-top: 10px!important;">
-                                <form class="ajax_form" action="<?= domain; ?>/user-profile/set_contact_availability" method="post" style="margin: 0px;">
+                                <form class="ajax_form" action="<?= domain; ?>/user-profile/set_contact_availability"
+                                      method="post" style="margin: 0px;">
                                     <label>
-                                        <input type="checkbox" onchange="$('#submit_btn').click();" name="contact_availability"
+                                        <input type="checkbox" onchange="$('#submit_btn').click();"
+                                               name="contact_availability"
                                                value="1"
-                                               <?=((isset($auth->SettingsArray['contact_availability']) ) &&
-                                                   ($auth->SettingsArray['contact_availability'] == 1 )?'checked' : '');?>
+                                            <?= ((isset($auth->SettingsArray['contact_availability'])) &&
+                                            ($auth->SettingsArray['contact_availability'] == 1) ? 'checked' : ''); ?>
                                                style="height: 20px;width: 20px;position: absolute;top: 11px;">
                                         <span style="margin-left: 20px;">share my personal information (name, email, phone) for the entire Upline</span>
                                     </label>
@@ -111,6 +113,7 @@ include 'includes/header.php'; ?>
                                     </tr>
                                     <tbody>
                                     <?php $i = 1;
+                                    $status_count= [];
                                     foreach ($list['list'] as $key => $downline):
                                         $contact = $downline->getContact($user->mlm_id);
                                         $status = $downline->MembershipStatusDisplay;
@@ -122,24 +125,24 @@ include 'includes/header.php'; ?>
 
                                         <tr>
                                             <td><?= $i; ?></td>
-                                            <td><?=$downline->id;?></td>
-                                            <td><?=$contact['fullname'];?></td>
-                                            <td><?=$level_of_referral;?></td>
-                                            <td><?=$contact['email'];?></td>
-                                            <td><?=$contact['phone'];?></td>
-                                            <td><?=date("d/m/Y", strtotime($downline->created_at));?></td>
-                                            <td>3</td>
+                                            <td><?= $downline->id; ?></td>
+                                            <td><?= $contact['fullname']; ?></td>
+                                            <td><?= $level_of_referral; ?></td>
+                                            <td><?= $contact['email']; ?></td>
+                                            <td><?= $contact['phone']; ?></td>
+                                            <td><?= date("d/m/Y", strtotime($downline->created_at)); ?></td>
+                                            <td><?=$no[$downline->mlm_id]['no_of_direct_lines'] ?? 0;?></td>
                                             <td>32</td>
-                                            <td><?=$status['display'];?></td>
+                                            <td><?= $status['display']; ?></td>
                                         </tr>
                                         <?php $i++; endforeach; ?>
 
                                     <tr>
                                         <td></td>
                                         <td colspan="6"><b>Total</b></td>
+                                        <td><?=$no->sum('no_of_direct_lines');?></td>
                                         <td>3</td>
-                                        <td>32</td>
-                                        <td><?php print_r(collect($status_count)->countBy());?>/<?=count($status_count);?></td>
+                                        <td><?= (collect($status_count)->countBy()->toArray()[1]); ?>/<?= count($status_count); ?></td>
                                     </tr>
                                     </tbody>
 

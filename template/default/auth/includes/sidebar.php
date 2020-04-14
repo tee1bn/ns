@@ -109,7 +109,7 @@
               </li>
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="fa fa-film"></i> Media Center</a>
+                <a class="menu-item" href="<?=domain;?>/user/media"><i class="fa fa-film"></i> Media Center</a>
               </li>
 
 

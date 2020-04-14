@@ -97,12 +97,15 @@ $page_title = "Documents";
                                                class="form-control" type=""  
                                                 name="category[]">
  -->
+                                                <input class="form-control" placeholder="Enter Category" list="category_list" name="category[]">
+                                              <!--
                                                 <select class="form-control" name="category[]">
+
                                                     <option value="">Select Category</option>
-                                                    <?php foreach ($documents_categories as $key => $value) :?>
-                                                    <option value="<?=$value;?>"><?=$value;?></option>
-                                                    <?php endforeach;?>
-                                                </select>
+                                                    <?php /*foreach ($documents_categories as $key => $value) :*/?>
+                                                    <option value="<?/*=$value;*/?>"><?/*=$value;*/?></option>
+                                                    <?php /*endforeach;*/?>
+                                                </select>-->
 
                                           </td>
 

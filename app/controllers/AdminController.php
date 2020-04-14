@@ -573,8 +573,8 @@ class AdminController extends controller
 	{
 
         $all_documents = Document::all();
-        // $documents_categories = Document::groupBy('category')->get()->pluck('category')->toArray();
-        $documents_categories = Document::$categories;
+         $documents_categories = Document::select('category')->groupBy('category')->get()->pluck('category')->toArray();
+//        $documents_categories = Document::$categories;
 
         $show = true;
         $this->view('admin/documents', compact('show', 'all_documents', 'documents_categories'));
