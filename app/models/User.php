@@ -1,8 +1,5 @@
 <?php
-/*ini_set('display_errors', 0);
-ini_set('display_startup_errors', 0);
-error_reporting(E_ALL);
-*/
+
 
 use Apis\CoinWayApi;
 use Filters\Traits\Filterable;
@@ -186,6 +183,19 @@ class User extends Eloquent
         return ['address' => $value];
     }
 
+    public function determine_level($position, $tree_key)
+    {
+        $tree = self::$tree[$tree_key];
+        $user_column = $tree['position'];
+
+        $mlm_id_1 = explode("/", $this->$user_column);
+        $mlm_id_2 = explode("/", $position);
+
+        $level = abs(count($mlm_id_1) - count($mlm_id_2));
+
+        return $level;
+
+    }
 
     public function max_uplevel($tree_key)
     {
@@ -1844,9 +1854,30 @@ class User extends Eloquent
 
     public function getfullAddressAttribute()
     {
-        /*, {$this->city} {$this->state}, */
-        return "{$this->address}<br>{$this->decoded_country->name}";
+        $house_number ='';
+        $address ='';
+        $place ='';
+
+        $getaddress = $this->addressArray;
+        extract($getaddress);
+        $country = $this->decoded_country->name;
+        $full_address = "$house_number, $address, $place. $country";
+
+        return "$full_address";
     }
+
+
+
+    public function decoded_country()
+    {
+        return $this->belongsTo('World\Country', 'country');
+    }
+
+    public function decoded_state()
+    {
+        return $this->belongsTo('World\State', 'state');
+    }
+
 
 
     /**

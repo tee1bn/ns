@@ -20,8 +20,7 @@ class Company extends Eloquent
 				'pefcom_id',	//pension fund employer code
 				'rc_number',   //cac registration number
 				'bn_number',	//cac business registration number
-				'vat_number',
-				'legal_form',
+				'vat_number',	//cac business registration number
 				'company_description',
 				'approval_status',
 				'documents',
@@ -282,11 +281,25 @@ class Company extends Eloquent
 
 	   	return $pic;
 	}
+    public function getfullAddressAttribute()
+    {
+        $house_number ='';
+        $address ='';
+        $place ='';
+
+        $getaddress = $this->addressArray;
+        extract($getaddress);
+        $country = $this->decoded_country->name;
+        $full_address = "$house_number, $address, $place. $country";
+
+        return "$full_address";
+    }
 
 
 
 
-	public function getaddressArrayAttribute()
+
+    public function getaddressArrayAttribute()
 	{   
 	    $value = $this->address;
 

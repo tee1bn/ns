@@ -86,7 +86,7 @@
                                 <br>Company: 
                                     <?=$user->company->name;?>
                                 <br>Address: 
-                                    <?=$user->company->address;?>
+                                    <?=$user->company->DisplayAddress;?>
                                 
                             </address>
 
