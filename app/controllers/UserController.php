@@ -121,10 +121,9 @@ class UserController extends controller
             ->take($per_page)
             ->get();  //filtered
 
+        $note = MIS::filter_note($all_downlines->count() , $data, $total_sales_partner,  $sieve, 1);
 
-//        die();
-
-        $this->view('auth/partner_packages', compact('total','total_sales_partner','all_downlines', 'sieve', 'data', 'per_page'));
+        $this->view('auth/partner_packages', compact('total','total_sales_partner','all_downlines', 'sieve', 'data','note','per_page'));
     }
 
     public function online_shop()

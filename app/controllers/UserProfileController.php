@@ -167,6 +167,7 @@ class UserProfileController extends controller
 
             } else {
 
+                Session::putFlash('danger', Input::inputErrors());
                 // Session::putFlash('danger', "Please try again ");
 
             }
@@ -189,9 +190,15 @@ class UserProfileController extends controller
         //personal
         $validator->check($_POST['personal'], array(
 
-            'salutation' => [
-                'required' => true,
+
+            'username' => [
+                 'required'=> true,
+                'min' => 1,
+                'one_word' => true,
+                'no_special_character' => true,
+                'replaceable' => 'User|' . $this->auth()->id,
             ],
+
 
             'title' => [
                 'required' => true,
@@ -299,6 +306,7 @@ class UserProfileController extends controller
             $auth = $this->auth();
             $personal = $_POST['personal'];
             $auth->update([
+                "username" => $personal['username'],
                 "salutation" => $personal['salutation'],
                 "title" => $personal['title'],
                 "firstname" => $personal['firstname'],

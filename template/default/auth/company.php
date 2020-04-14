@@ -206,21 +206,31 @@ include 'includes/header.php'; ?>
                                     </div>
 
                                     <div class="col-md-12 text-center">
-                                        <form class="">
-                                            <div class="form-group">
-                                                <input type="" class="form-control" name="" placeholder="Username">
-
+                                        <form  method="post" class="ajax_form" action="<?=domain;?>/user-profile/change_password" style="padding: 10px;">
+                                            <?=@$this->csrf_field('change_password');?>
+                                            <div class="form-group mb-0">
+                                                <input type="password" required="required" name="current_password" class="form-control" placeholder="Current Password">
+                                                <span class="text-danger"><?=@$this->inputError('current_password');?></span>
                                             </div>
 
-                                            <div class="form-group">
-                                                <input type="" class="form-control" name="" placeholder="Password">
+                                            <div class="form-group mb-0">
+                                                <input type="password" required="required"  name="new_password" class="form-control" placeholder="New Password">
+                                                <span class="text-danger"><?=@$this->inputError('new_password');?></span>
                                             </div>
 
-                                            <div class="form-group">
-                                                <input type="" class="form-control" name=""
-                                                       placeholder="Confirm Password">
+                                            <div class="form-group mb-1">
+                                                <input type="password" required="required" name="confirm_password" class="form-control" placeholder="Confirm password">
+                                                <span class="text-danger"><?=@$this->inputError('confirm_password');?></span>
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-sm-12">
+                                                    <button type="submit" class="btn btn-outline-dark btn-block ">Submit</button>
+                                                </div>
+                                                <!-- /.col -->
                                             </div>
                                         </form>
+
                                     </div>
 
 
@@ -241,12 +251,7 @@ include 'includes/header.php'; ?>
                                 <div class="card-body">
                                     <h6 class="card-tile">Contact Person</h6>
                                     <div class="row">
-                                        <div class="form-group col-md-2">
-                                            <select class="form-control" name="personal[salutation]">
-                                                <option value="">Salutation</option>
-                                                <option value="">Option</option>
-                                            </select>
-                                        </div>
+
 
                                         <div class="form-group col-md-2">
                                             <!-- <label for="title" class="pull-left">Title </label> -->
@@ -258,6 +263,11 @@ include 'includes/header.php'; ?>
                                                 <?php endforeach; ?>
                                             </select>
                                         </div>
+
+                                        <div class="form-group col-md-2">
+                                            <input class="form-control" name="personal[username]" value="<?=$auth->username;?>" placeholder="Username">
+                                        </div>
+
                                         <div class="form-group col-md-4">
                                             <input type="" class="form-control" name="personal[firstname]"
                                                    value="<?= $auth->firstname; ?>" placeholder="First name">

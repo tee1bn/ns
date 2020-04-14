@@ -13,14 +13,10 @@ class GenealogyController extends controller
     public function __construct()
     {
 
-        /*
                 if (! $this->admin()) {
-
                     $this->middleware('current_user')
                         ->mustbe_loggedin();
-                        // ->mustbe_pay_registration_fee();
-                }*/
-
+                }
 
     }
 
@@ -231,7 +227,6 @@ class GenealogyController extends controller
         $per_page = 500;
 
         $list = User::referred_members_downlines_paginated($user->id, $level_of_referral, $per_page, $page);
-
         $downlines_ids = $list['list']->pluck('mlm_id')->toArray();
         $no = User::whereIn('referred_by', $downlines_ids)
             ->select(DB::raw('count(*) as no_of_direct_lines'), 'referred_by')
@@ -240,7 +235,12 @@ class GenealogyController extends controller
             ->keyBy('referred_by')
         ;
 
-        $this->view('auth/team', compact('list', 'user', 'per_page', 'level_of_referral','no'));
+
+        $note = MIS::filter_note(count($list['list']) , $list['data'], $list['total'],  $list['sieve'], 1);
+
+
+
+        $this->view('auth/team', compact('list', 'user', 'per_page', 'note','level_of_referral','no'));
 
     }
 

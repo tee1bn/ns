@@ -6,6 +6,7 @@ use Filters\Traits\Filterable;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use v2\Models\UserDocument;
+use Filters\Filters\UserFilter;
 
 
 class User extends Eloquent
@@ -1711,10 +1712,30 @@ class User extends Eloquent
                 $per_page = 'all';
             }
 
-            $downlines = User::referred_members_downlines_optimised($recruiters, $page, $per_page);
+            $downlines = User::referred_members_downlines_optimised($recruiters, $page);
             $recruiters = $downlines['list'];
         }
-        $downlines['list'] = self::whereIn('mlm_id', $downlines['list'])->get();
+
+        $query = self::whereIn('mlm_id', $downlines['list']);
+
+
+        $sieve = $_REQUEST;
+        $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+        $skip = (($page - 1) * $per_page);
+
+        $filter = new  UserFilter($sieve);
+        $total = $query->count();
+        $data = $query->Filter($filter)->count();
+
+        $list = $query->Filter($filter)
+                        ->offset($skip)
+                        ->take($per_page)
+                        ->get();  //filtered
+
+        $downlines = compact('list', 'total','sieve', 'data');
+
+
+//        $downlines['list'] = self::whereIn('mlm_id', $downlines['list'])->get();
         return $downlines;
     }
 

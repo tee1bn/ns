@@ -78,12 +78,7 @@ include 'includes/header.php'; ?>
                     </div>
 
                 </div>
-                <div class="col-md-12">
-                    <div class="form-group col-md-3">
-                        <input type="" class="form-control" placeholder="Search for sales partner ID" name="">
-                    </div>
 
-                </div>
 
 
                 <style>
@@ -97,61 +92,80 @@ include 'includes/header.php'; ?>
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-content">
-                            <div class="card-body table-responsive">
-                                <table class="table">
-                                    <tr>
-                                        <td style="width: 5%;">Sn</td>
-                                        <td>Partner ID</td>
-                                        <td>Surname</td>
-                                        <td>Level</td>
-                                        <td>E-mail</td>
-                                        <td>Phone</td>
-                                        <td>Registered</td>
-                                        <td>Direct <br>sales partner</td>
-                                        <td>Own <br>Merchants</td>
-                                        <td>Status</td>
-                                    </tr>
-                                    <tbody>
-                                    <?php $i = 1;
-                                    $status_count= [];
-                                    foreach ($list['list'] as $key => $downline):
-                                        $contact = $downline->getContact($user->mlm_id);
-                                        $status = $downline->MembershipStatusDisplay;
-                                        $status_count[] = $status['value'];
-                                        $own_merchant_count[] = $status['value'];
-                                        $direct_sales_partner_count[] = $status['value'];
-                                        ?>
+                            <div class="card-body ">
+                                <?php
+                                $sieve = $list['sieve'];
+                                include_once 'template/default/composed/filters/team.php'; ?>
 
+                                <h4 class="card-tile border-0" style="position: absolute;right: 35px;top: 20px;">
+                                    <small class="float-right">
+                                        <?= $note; ?>
+
+                                    </small>
+
+                                </h4>
+                                <hr>
+
+                                <div class="row table-responsive">
+                                    <table class="table">
+                                        <tr>
+                                            <td style="width: 5%;">Sn</td>
+                                            <td>Partner ID</td>
+                                            <td>Surname</td>
+                                            <td>Level</td>
+                                            <td>E-mail</td>
+                                            <td>Phone</td>
+                                            <td>Registered</td>
+                                            <td>Direct <br>sales partner</td>
+                                            <td>Own <br>Merchants</td>
+                                            <td>Status</td>
+                                        </tr>
+                                        <tbody>
+                                        <?php $i = 1;
+                                        $status_count = [];
+                                        foreach ($list['list'] as $key => $downline):
+                                            $contact = $downline->getContact($user->mlm_id);
+                                            $status = $downline->MembershipStatusDisplay;
+                                            $status_count[] = $status['value'];
+                                            $own_merchant_count[] = $status['value'];
+                                            $direct_sales_partner_count[] = $status['value'];
+                                            ?>
+
+
+                                            <tr>
+                                                <td><?= $i; ?></td>
+                                                <td><?= $downline->id; ?></td>
+                                                <td><?= $contact['fullname']; ?></td>
+                                                <td><?= $level_of_referral; ?></td>
+                                                <td><?= $contact['email']; ?></td>
+                                                <td><?= $contact['phone']; ?></td>
+                                                <td><?= date("d/m/Y", strtotime($downline->created_at)); ?></td>
+                                                <td><?= $no[$downline->mlm_id]['no_of_direct_lines'] ?? 0; ?></td>
+                                                <td>32</td>
+                                                <td><?= $status['display']; ?></td>
+                                            </tr>
+                                            <?php $i++; endforeach; ?>
 
                                         <tr>
-                                            <td><?= $i; ?></td>
-                                            <td><?= $downline->id; ?></td>
-                                            <td><?= $contact['fullname']; ?></td>
-                                            <td><?= $level_of_referral; ?></td>
-                                            <td><?= $contact['email']; ?></td>
-                                            <td><?= $contact['phone']; ?></td>
-                                            <td><?= date("d/m/Y", strtotime($downline->created_at)); ?></td>
-                                            <td><?=$no[$downline->mlm_id]['no_of_direct_lines'] ?? 0;?></td>
-                                            <td>32</td>
-                                            <td><?= $status['display']; ?></td>
+                                            <td></td>
+                                            <td colspan="6"><b>Total</b></td>
+                                            <td><?= $no->sum('no_of_direct_lines'); ?></td>
+                                            <td>3</td>
+                                            <td><?= (collect($status_count)->countBy()->toArray()[1] ?? 0); ?>
+                                                /<?= count($status_count); ?></td>
                                         </tr>
-                                        <?php $i++; endforeach; ?>
+                                        </tbody>
 
-                                    <tr>
-                                        <td></td>
-                                        <td colspan="6"><b>Total</b></td>
-                                        <td><?=$no->sum('no_of_direct_lines');?></td>
-                                        <td>3</td>
-                                        <td><?= (collect($status_count)->countBy()->toArray()[1]); ?>/<?= count($status_count); ?></td>
-                                    </tr>
-                                    </tbody>
-
-                                </table>
+                                    </table>
+                                </div>
                             </div>
                         </div>
 
-                    </div>
 
+                    </div>
+                    <ul class="pagination">
+                        <?= $this->pagination_links($list['data'], $per_page);?>
+                    </ul>
                 </div>
 
                 <div class="col-md-12">

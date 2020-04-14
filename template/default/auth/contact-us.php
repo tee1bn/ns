@@ -51,15 +51,15 @@ include 'includes/header.php';; ?>
                                     <div class="row">
 
 
-                                        <div class="form-group col-md-2">
-                                            <select class="form-control" name="personal[salutation]">
-                                                <option value="">Salutation</option>
-                                                <option value="">Option</option>
+                                        <div class="form-group col-md-4">
+                                            <!-- <label for="title" class="pull-left">Title </label> -->
+                                            <select class="form-control" name="personal[title]">
+                                                <option value="">Select title</option>
+                                                <?php foreach ($auth::$available_titles as $key => $value) : ?>
+                                                    <option <?= ($auth->title == $key) ? 'selected' : ''; ?>
+                                                            value="<?= $key; ?>"><?= $value; ?></option>
+                                                <?php endforeach; ?>
                                             </select>
-                                        </div>
-                                        <div class="form-group col-md-2">
-                                            <input type="" class="form-control" name="personal[title]"
-                                                   placeholder="Title">
                                         </div>
 
 

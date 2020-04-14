@@ -11,7 +11,7 @@ class Input
 	
 
 
-public function inputErrors()
+public static  function inputErrors()
 {
 if (Input::errors()) {
 

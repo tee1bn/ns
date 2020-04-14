@@ -95,12 +95,9 @@ include 'includes/header.php'; ?>
                                 <?php
                                 include_once 'template/default/composed/filters/team.php';?>
 
-                                <h4 class="card-tile border-0">
-                                    <small class="float-right">Showing
-                                        <?=$all_downlines->count();?> of <?=$data;?>
-                                        <?php if(! isset($sieve)):?>
-                                        filtered from <?=$total_sales_partner;?>
-                                        <?php endif;?>
+                                <h4 class="card-tile border-0" style="position: absolute;right: 35px;top: 20px;">
+                                    <small class="float-right">
+                                        <?=$note;?>
 
                                     </small>
 

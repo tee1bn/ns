@@ -1,4 +1,4 @@
-<div class="dropdown">
+<div class="dropdown" style="display: block">
     <button type="button" class="btn btn-dark btn-sm dropdown-toggle" data-toggle="dropdown">
         <i class="fa fa-filter"></i>
     </button>

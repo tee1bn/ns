@@ -1,6 +1,5 @@
 <?php
       $package =  $auth->subscription->payment_plan;
-
 ;?>
 <div class="row match-height">
     <div class="col-md-4">
@@ -10,10 +9,10 @@
 
                     <div class="row">
 
-                        <div class="col-3">
+                        <div class="col-3 col-md-12 col-lg-3">
                             <img class="team-leader img-round" src="<?= domain; ?>/<?= $auth->profilepic; ?>" alt="">
                         </div>
-                        <div class="col-9 side-user">
+                        <div class="col-9 col-md-12 col-lg-9 side-user">
                             <h4><b><?= $auth->username; ?></b></h4>
                             <h4><?= $auth->fullname; ?> <br> <i>ID:<?= $auth->id; ?></i></h4>
                         </div>
@@ -31,15 +30,15 @@
         <div class="card">
             <div class="card-content">
                 <div class="media align-items-stretch">
-                    <div class="p-1 text-center bg-white bg-darken-2">
-                        <img class="icon p-1  customize-icon font-large-2 p-1" src="<?=$package->Image;?>" style="
-    height: 130px;
-    width: 100px;
-    object-fit: cover;">
-                    </div>
-                    <div class="p-3 bg-gradient-x-white  media-body">
+                    <div class="row">
+
+                        <div class="p-1 text-center bg-white bg-darken-2 col-3 col-md-12 col-lg-3">
+                        <img class="img-responsive" src="<?=$package->Image;?>" style="height: 130px;width: 100px;object-fit: contain;">
+                        </div>
+                            <div class="pt-3 ml-3 bg-gradient-x-white  media-body col-9 col-md-9 col-lg-9">
                         <h3><?=$package->package_type;?></h3>
                         <h5 class="text-bold-400 mb-0"> Package</h5>
+                    </div>
                     </div>
                 </div>
             </div>
