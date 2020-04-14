@@ -74,7 +74,7 @@ class UserController extends controller
 
         $sieve = $_REQUEST;
         $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
-        $per_page = 2;
+        $per_page = 50;
         $skip = (($page - 1) * $per_page);
 
         $filter = new  UserFilter($sieve);

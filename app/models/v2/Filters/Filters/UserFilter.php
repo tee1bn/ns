@@ -17,6 +17,14 @@ class UserFilter extends QueryFilter
 
 
 
+	public function id($id = null)
+	{
+		if ($id == null) {
+			return ;
+		}
+		$this->builder->where('id', "like",  "%$id%");
+	}
+
 	public function firstname($firstname = null)
 	{
 		if ($firstname == null) {

@@ -92,7 +92,8 @@ include 'includes/header.php'; ?>
                     <div class="card" style="">
                         <div class="card-content">
                             <div class="card-body">
-                                <?php include_once 'template/default/composed/filters/team.php';?>
+                                <?php
+                                include_once 'template/default/composed/filters/team.php';?>
 
                                 <h4 class="card-tile border-0">
                                     <small class="float-right">Showing

@@ -6,58 +6,20 @@
         <form action="<?=$action ?? '';?>" method="get" id="filter_form">
             <div class="row">
 
-                <div class="form-group col-sm-12">
+                <div class="form-group col-sm-6">
                     <label>Name</label><br>
-                    <input type="" name="name" placeholder="First or Last Name" class="form-control" value="<?=$sieve['name']??'';?>">
+                    <input type="" name="name" placeholder="First or Last Name or Username" class="form-control" value="<?=$sieve['name']??'';?>">
                 </div>
-            </div>
 
-            <div class="row">
                 <div class="form-group col-sm-6">
-                    <label>Client Email</label><br>
-                    <input type="email" name="email" class="form-control" value="<?=$sieve['email']??'';?>">
-                </div>
-                <div class="form-group col-sm-6">
-                    <label>Phone</label><br>
-                    <input type="text" name="phone" class="form-control" value="<?=$sieve['phone']??'';?>">
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="form-group col-sm-6">
-                    <label>Username</label><br>
-                    <input type="text" name="username" class="form-control" value="<?=$sieve['username']??'';?>">
+                    <label>Partner ID</label><br>
+                    <input type="text" placeholder="Sales Partner Id" name="id" class="form-control" value="<?=$sieve['id']??'';?>">
                 </div>
 
-                <div class="form-group col-md-6">
-                    <label>Status</label>
-                    <select class="form-control" name="active_status">
-                        <option value="">Select</option>
-                        <?php foreach ([2=> 'Blocked' , 1=> 'Active'] as $key => $value):?>
-                            <option <?=(isset($sieve['active_status']) && ($sieve['active_status']==(int)$key)) ?'selected':'';?> value="<?=$key;?>">
-                                <?=$value;?>
-                            </option>
-                        <?php endforeach ;?>
-                    </select>
-                </div>
 
             </div>
 
 
-            <div class="row">
-
-
-                <div class="form-group col-md-6">
-                    <label>Country</label>
-                    <select class="form-control" name="country">
-                        <option value="">Select Country</option>
-                        <?php foreach (World\Country::all() as $key => $country) :?>
-                            <option <?=((isset($sieve['country'])) && ($sieve['country']==(int)$country->id)) ?'selected':'';?>
-                                    value="<?=$country->id;?>"><?=$country->name;?></option>
-                        <?php endforeach ;?>
-                    </select>
-                </div>
-            </div>
             <div class="row">
                 <div class=" form-group col-sm-6">
                     <label>*  Registration(From):</label>

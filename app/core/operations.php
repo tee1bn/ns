@@ -12,12 +12,22 @@ class operations
 
 
         $query_string = $_SERVER['QUERY_STRING'];
-        $url = config::domain() . "/?$query_string";
+
+        parse_str($query_string, $q_array);
+        $route = $q_array['url'];
+        unset($q_array['url']);
+        unset($q_array['page']);
+
+        $q_string = http_build_query($q_array);
+
+
+        $url = config::domain().'/'.$route . "?$q_string";
 
 
         if ($url == null) {
 
             $url = Config::domain() . "/" . $_GET['url'] . '?';
+
         } else {
 
             $url .= '&';
