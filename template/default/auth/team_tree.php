@@ -166,7 +166,7 @@ $auth_user = $auth;
 
            $.ajax({
              type: "POST",
-             url: $base_url+"/genealogy/fetch/<?=$user_id;?>/<?=$tree_key;?>/4?month=<?=$month;?>",
+             url: $base_url+"/genealogy/fetch/<?=$user_id;?>/<?=$tree_key;?>/3?month=<?=$month;?>",
              data: null,
                  contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
                  processData: false, // NEEDED, DON'T OMIT THIS
