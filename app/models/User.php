@@ -106,6 +106,7 @@ class User extends Eloquent
             'column' => 'introduced_by',
             'title' => 'Enrolment',
             'position' => 'enrolment_position',
+            'point' => null,
         ],
 
         'placement' => [
@@ -114,6 +115,7 @@ class User extends Eloquent
             'column' => 'referred_by',
             'title' => 'Direct Referral',
             'position' => 'placement_position',
+            'point' => null,
         ],
 
         /*    'binary' =>[
@@ -122,6 +124,7 @@ class User extends Eloquent
                 'column' => 'binary_id',
                 'title' => 'Binary Tree',
                 'position' => 'binary_position',
+                'point' => 'binary_point',
             ],*/
     ];
 
@@ -1870,6 +1873,13 @@ class User extends Eloquent
     {
 
         return "{$this->lastname} {$this->firstname}";
+    }
+
+
+    public function getNameInitialsAttribute()
+    {
+
+        return substr($this->lastname, 0 ,1)."".substr($this->firstname, 0 ,1);
     }
 
 

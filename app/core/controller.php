@@ -327,18 +327,38 @@ if ($response == true) {
 			$auth =  $this->auth();
 			$page_author =  "gitstardigital.com";
 
-			define("$auth", 	$auth, 	true);
+		
 
+			if(! defined('domain')) {
 
-			define("$this_folder", 	$this_folder, 	true);
-			define("domain", 	$domain, 	true);
-			define("project_name", 	$project_name, 	true);
-			define("asset", 	$asset, 	true);
-			define("general_asset", 	$general_asset, 	true);
-			define("logo", 	$logo, 	true);
-			define("fav_icon", 	$fav_icon, 	true);
-			define("websocket_url", $websocket_url, 	true);
-			echo'<link rel="canonical" href="http://gitstardigital.com/"/>';
+				define("domain", 	$domain, 	false);
+			}
+			if(! defined('project_name')) {
+
+				define("project_name", 	$project_name, 	false);
+			}
+			if(! defined('asset')) {
+
+				define("asset", 	$asset, 	false);
+			}
+			if(! defined('general_asset')) {
+
+				define("general_asset", 	$general_asset, 	false);
+			}
+			if(! defined('logo')) {
+
+				define("logo", 	$logo, 	false);
+			}
+			
+			if(! defined('fav_icon')) {
+
+				define("fav_icon", 	$fav_icon, 	false);
+			}
+			if(! defined('websocket_url')) {
+
+				define("websocket_url", $websocket_url, 	false);
+			}
+
 
 
 
