@@ -78,6 +78,19 @@ class SubscriptionPlan extends Eloquent
 		return $src;
 	}
 
+	public function getBackgroundAttribute()
+	{
+		$name = strtolower($this->id);
+		$colors = [
+			1 => '#404E67',
+			9 => 'silver',
+			10 => '#ceae00'
+		];
+
+		$color = $colors[$name] ?? '#404E67';
+		return  $color; 
+	}
+
 	public function scopeAvailableForAdmin($query)
 	{
 		return $query->where('show_admin', 1);

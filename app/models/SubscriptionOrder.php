@@ -62,6 +62,10 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 	}
 
+	public function is_expired()
+	{
+		return (strtotime($this->ExpiryDate) < time());
+	}
 
 
 	public function getExpiryDateAttribute()

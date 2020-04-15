@@ -7,7 +7,7 @@ $membership_status = $user->MembershipStatusDisplay['display'];
 
 
 <a class="dropdown-item text-sm" href="#" style="padding: 0px;">
-  <table class="mlm_detail table table-borderless " style="border: none;margin: 0px;margin-bottom: 3px;">
+  <table class="mlm_detail table table-borderless " style="border: none;margin: 5px;margin-bottom: 3px;">
     <tr>
       <td colspan ="2" style="text-align: center; color:#073f2dc7; border-bottom: 1px solid #073f2dc7;"> <b><?=$user->fullname;?> </b></td>
     </tr>

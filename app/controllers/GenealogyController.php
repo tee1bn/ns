@@ -200,12 +200,12 @@ class GenealogyController extends controller
         $level_up = $_POST['level_up'];
         $tree_key = $_POST['tree_key'];
 
-        $upline_mlm_id = $user->max_uplevel('binary')['mlm_ids'][$level_up];
+        $upline_mlm_id = $user->max_uplevel('placement')['mlm_ids'][$level_up];
         $upline = User::where('mlm_id', $upline_mlm_id)->first();
 
 
         $domain = Config::domain();
-        $link = "$domain/genealogy/placement/$upline->username/$tree_key";
+        $link = "$domain/genealogy/team_tree/$upline->username/$tree_key";
         Redirect::to($link);
 
 
@@ -223,7 +223,7 @@ class GenealogyController extends controller
         }
 
         $domain = Config::domain();
-        $link = "$domain/genealogy/placement/$last->username/$tree_key";
+        $link = "$domain/genealogy/team_tree/$last->username/$tree_key";
         Redirect::to($link);
     }
 
@@ -438,7 +438,7 @@ class GenealogyController extends controller
         return $flatten_downlines;
     }
 
-    public function fetch($user_id = '', $tree_key = 'placement', $requested_depth = null)
+    public function fetch($user_id = '', $tree_key = 'placement', $requested_depth = null, $month =null)
     {
         if (!in_array($tree_key, array_keys(User::$tree))) {
             // Session::putFlash("danger","Invalid Request");
@@ -479,6 +479,8 @@ class GenealogyController extends controller
         // $flatten_downlines = $this->complete_downline($downlines, $tree_key, $levels);
 
         $flatten_downlines = array_flatten($downlines, 1);
+
+
 
 
         // print_r($flatten_downlines);
@@ -576,7 +578,7 @@ echo         $view = $this->buildView('composed/mlm_detail', compact('user'));
             } else {
 
 
-                $pack = $user->subscription;
+                 $pack = $user->MembershipStatusDisplay['subscription']['payment_plan'];
                 if ($pack == null) {
 
                     $image_src = "$domain/$user->profilepic";
@@ -584,6 +586,7 @@ echo         $view = $this->buildView('composed/mlm_detail', compact('user'));
                 } else {
                     $pack_id = "";
                     $image_src = "$icon/$pack_id.png";
+                    $background = $pack->Background;
                 }
 
 
@@ -609,15 +612,15 @@ EL;
         <li>
                 <div class="dropdown" style="padding:0px;">
 
-        <span  class="dropdown-toggle" data-toggle="dropdown" style="border: 1px solid #00000052 !important;padding-bottom: 0px;padding-top: 0px;">
-        <br>
+        <span  class="dropdown-toggle text-white" data-toggle="dropdown" style="background:$background; border: 1px solid $background !important;padding-bottom: 0px;padding-top: 0px;">
+
         <b style="text-transform:capitalize;">$user->NameInitials </b>
 
         </span>
-          <div class="dropdown-menu" style="padding:0px; border-radius:5px;" aria-labelledby="dropdownMenuButton$i">
+          <div class="dropdown-menu" style="padding:10px; border-radius:5px;" aria-labelledby="dropdownMenuButton$i">
             $view
 
-            <a class="text-primary" href="$domain/genealogy/placement/$user->username/binary/2" style="font-size:12px; margin-left:30px;">See Tree</a>
+            <a class="text-primary" href="$domain/genealogy/team_tree/$user->username/placement/2" style="font-size:12px; margin-left:30px;">See Tree</a>
 
           </div>
         </div>
@@ -688,7 +691,7 @@ EL;
 
         //perpare the dates range
         $dates = [];
-        for ($i = 1; $i <= 5; $i++) {
+        for ($i = 1; $i <= 9; $i++) {
           $dates[] = date('Y-n', strtotime("-$i month"));
         }
 

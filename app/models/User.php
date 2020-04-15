@@ -541,15 +541,35 @@ class User extends Eloquent
 
     public function getMembershipStatusDisplayAttribute()
     {
-        if ($this->subscription->payment_plan->id == 1) {
+        $last_subscription = SubscriptionOrder::where('user_id', $this->id)->Paid()->latest('paid_at')->first();
+
+        $default = SubscriptionPlan::default_sub();
+        $another = SubscriptionPlan::default_sub();
+        $default->payment_plan = $another;
+
+
+
+        if ($last_subscription == null) {
+
             $display = "<em class='text-danger'>Inactive</em>";
             $value = 0;
+            $subscription = $default;
+            $result = compact('display','value', 'subscription' );
+            return $result;
+
+        }
+
+        if ($last_subscription->is_expired()) {
+            $display = "<em class='text-danger'>Inactive</em>";
+            $value = 0;
+            $subscription = $last_subscription;
         }else{
             $display = "<em class='text-success'>Active</em>";
             $value = 1;
+            $subscription = $last_subscription;
         }
 
-        $result = compact('display','value' );
+        $result = compact('display','value','subscription' );
         return $result;
     }
 
@@ -1779,8 +1799,19 @@ class User extends Eloquent
 
 
         $recruiters = [$this->mlm_id];
+
+        $sieve = $_REQUEST;
+        $filter = new  UserFilter($sieve);
         for ($iteration = 1; $iteration <= $level; $iteration++) {
-            $this_user_downlines[$iteration] = self::whereIn($user_column, $recruiters)->where('mlm_id', '!=', null)->get(['mlm_id'])->toArray();
+
+            $this_user_downlines[$iteration] = self::whereIn($user_column, $recruiters)
+            ->where('mlm_id', '!=', null)
+            ->Filter($filter)
+            ->get(['mlm_id'])->toArray();
+
+
+
+
             $recruiters = $this_user_downlines[$iteration];
         }
 

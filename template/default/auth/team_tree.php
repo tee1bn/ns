@@ -62,7 +62,7 @@ $auth_user = $auth;
      <div class="card-header">
 
          <form action="<?=domain;?>/genealogy/showout" method="post" style="display: inline; ">
-       <div class="input-group col-6">
+       <div class="input-group col-md-4">
            <input type="text"  class="form-control" name="username" onkeyup="populate_option(this.value)" list="my_downlines"  placeholder="Search your downline" aria-describedby="button-addon2">
            <input type="hidden" name="tree_key" value="<?=$tree_key;?>">
            <div class="input-group-append" id="button-addon2">
@@ -80,36 +80,37 @@ $auth_user = $auth;
              Filters
            </span>
            <div class="dropdown-menu">
-             <a class="dropdown-item " href="<?=domain;?>/genealogy/placement/<?=$auth->username;?>/binary/2"> 
+             <a class="dropdown-item " href="<?=domain;?>/genealogy/team_tree/<?=$auth->username;?>/binary/2"> 
                <i class="fa fa-sitemap "></i> My Genealogy </a>
-             <a class="dropdown-item " href="<?=domain;?>/genealogy/last/0/<?=$tree_key;?>"> <i class=" ft-chevrons-left"></i> Last Left</a>
-             <a class="dropdown-item " href="<?=domain;?>/genealogy/last/1/<?=$tree_key;?>"><i class=" ft-chevrons-right"></i>Last Right</a>
-             <a href="#" id="gfilter" class="dropdown-item"  class="text-center">
+          <!--    <a class="dropdown-item " href="<?=domain;?>/genealogy/last/0/<?=$tree_key;?>"> <i class=" ft-chevrons-left"></i> Last Left</a>
+             <a class="dropdown-item " href="<?=domain;?>/genealogy/last/1/<?=$tree_key;?>"><i class=" ft-chevrons-right"></i>Last Right</a> -->
+             <span  id="gfilter" class="dropdown-item"  class="text-center">
 
-               <i class="ft-corner-left-up" ></i>
-               <label class="">Level up</label>
+               <!-- <i class="ft-corner-left-up" ></i> -->
+               <!-- <label class="">Level up</label> -->
               <form action="<?=domain;?>/genealogy/up" method="post">
-               <!--   <div class="input-group col-12" style="padding: 0px;">
-                     <input type="number" min="0"  max="<?=$max_uplevel;?>" required="" class="form-control form-control-sm" 
-                     name="level_up" placeholder="x-level up" aria-describedby="button-addon2">
-                     <input type="hidden" name="tree_key" value="<?=$tree_key;?>">
-                     <input type="hidden" name="user_id" value="<?=$user_id;?>">
-                     <div class="input-group-append" id="button-addon2">
-                       <button class="btn btn-sm btn-outline-dark" type="submit">Up</button>
-                     </div>
-                 </div> -->
-
                  <div class="input-group col-12" style="padding: 0px;">
-                     <input type="month" min="0"  required="" class="form-control form-control-sm" 
+                     <input type="number" min="0"  max="<?=$max_uplevel;?>" required="" class="form-control form-control" 
                      name="level_up" placeholder="x-level up" aria-describedby="button-addon2">
                      <input type="hidden" name="tree_key" value="<?=$tree_key;?>">
                      <input type="hidden" name="user_id" value="<?=$user_id;?>">
                      <div class="input-group-append" id="button-addon2">
-                       <button class="btn btn-sm btn-outline-dark" type="submit">Go</button>
+                       <button class="btn btn btn-outline-dark" type="submit">Up</button>
+                     </div>
+                 </div>
+             </form>
+
+              <form action="?" method="get">
+               <label class="">Month</label>
+                 <div class="input-group col-12" style="padding: 0px;">
+                     <input type="month" value="<?=$_GET['month']??'';?>"  required="" class="form-control form-control" 
+                     name="month" placeholder="Month" aria-describedby="button-addon2">
+                     <div class="input-group-append" id="button-addon2">
+                       <button class="btn btn btn-outline-dark" type="submit">Go</button>
                      </div>
                  </div>
                 </form>
-             </a>
+             </span>
            </div>
          </div>            
        </div>
@@ -147,10 +148,14 @@ $auth_user = $auth;
  -->
     
 
-         <center>
-           <ul class="tree" id="tree" style="width:100%;">
+         <center  style="overflow-x: scroll; height: auto;">
+           <ul class="tree" id="tree">
            </ul>
          </center>
+
+         <?php
+            $month = $_GET['month'] ?? '';
+         ;?>
 
          <script>
            $('.dropdown-menu').click(function(e) {
@@ -161,7 +166,7 @@ $auth_user = $auth;
 
            $.ajax({
              type: "POST",
-             url: $base_url+"/genealogy/fetch/<?=$user_id;?>/<?=$tree_key;?>/2",
+             url: $base_url+"/genealogy/fetch/<?=$user_id;?>/<?=$tree_key;?>/4?month=<?=$month;?>",
              data: null,
                  contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
                  processData: false, // NEEDED, DON'T OMIT THIS
@@ -250,7 +255,10 @@ $auth_user = $auth;
 </div>
 
 
+</div>
 
+
+<div class="row match-height"> 
 
 <div class=" col-md-6">
    <div class="card" style="">
@@ -358,27 +366,13 @@ $auth_user = $auth;
                                   Surname: <?=$auth_user->lastname;?>
                               </span>
                               <span class="col-6">
-                               02/4  Right renumeration
+                            Phone: <?=$auth_user->phone;?>
                            </span>
                        </div>
 
 
                    </li>
-                   <li class="list-group-item small-padding">
-
-                       <div class="row">
-
-                           <span class="col-6">
-                              Number NSW Gold-Coins: 
-                          </span>
-                          <span class="col-6">
-                            Phone: <?=$auth_user->phone;?>
-                        </span>
-                    </div>
-
-
-                </li>
-
+                  
 
             </ul>
 
@@ -393,14 +387,11 @@ $auth_user = $auth;
 </div>
 
 
-
+</div>
 
 <div class="col-md-12">
 
     <small class="text-muted">* * * Due to data protection regulations only contacts data or names can be viewed by direct distributors. Exception: distributors have released what their contact details for the upline.</small>
-
-</div>
-
 
 </div>
 

@@ -3,7 +3,7 @@
 
 namespace Filters\Filters;
 use Filters\QueryFilter;
-use User ;
+use User, MIS ;
 use Filters\Traits\RangeFilterable;
 
 
@@ -16,6 +16,17 @@ class UserFilter extends QueryFilter
 	use RangeFilterable;
 
 
+
+	public function month($month = null)
+	{
+		if ($month == null) {
+			return ;
+		}
+
+		$date = MIS::date_range($month, 'month');
+
+		$this->date($date, 'created_at');
+	}
 
 	public function id($id = null)
 	{
