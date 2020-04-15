@@ -31,6 +31,9 @@
     <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/components.min.css">
     <!-- END: Theme CSS-->
 
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/binary-tree.css">
+
+
     <!-- BEGIN: Page CSS-->
     <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/core/menu/menu-types/vertical-menu.min.css">
     <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/core/colors/palette-gradient.min.css">

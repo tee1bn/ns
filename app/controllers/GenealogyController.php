@@ -164,28 +164,54 @@ class GenealogyController extends controller
     }
 
 
+    
+
     public function team_tree($user_id = '')
     {
+
+        $auth = $this->auth();
         $use = 'username';
 
         if ($use == 'id') {
             if ($user_id == '') {
-                $user_id = $this->auth()->id;
+                $user_id = $auth->id;
             }
         } else {
             $requested_user = User::where('username', $user_id)->first();
             @$user_id = $requested_user->id;
 
             if ($requested_user == null) {
-                if ($this->auth()) {
-                    $user_id = User::where('username', $this->auth()->username)->first()->id;
+                if ($auth) {
+                    $user_id = User::where('username', $auth->username)->first()->id;
                 }
             }
 
         }
 
 
-        $this->view('auth/team_tree', ['user_id' => $user_id]);
+        //perpare the dates range
+        $dates = [];
+        for ($i = 1; $i <= 5; $i++) {
+          $dates[] = date('Y-n', strtotime("-$i month"));
+        }
+
+
+        $direct_sales_agent = $auth->all_downlines_by_path()
+        ->where('referred_by', $auth->mlm_id)
+        ->select(DB::raw('concat(year(created_at),"-", month(created_at) )AS year_month_date_field'), DB::raw('count(*) as total'))
+        ->groupBy('year_month_date_field')->get()->keyBy('year_month_date_field');
+        ;
+
+        $sales_agent = $auth->all_downlines_by_path()
+        ->select(DB::raw('concat(year(created_at),"-", month(created_at) )AS year_month_date_field'), DB::raw('count(*) as total'))
+        ->groupBy('year_month_date_field')->get()->keyBy('year_month_date_field');
+        ;
+
+        krsort($dates);
+   
+
+
+        $this->view('auth/team_tree', compact('user_id', 'direct_sales_agent', 'sales_agent','dates'));
 
     }
 
@@ -206,7 +232,6 @@ class GenealogyController extends controller
 
         $list = User::referred_members_downlines_paginated($user->id, $level_of_referral, $per_page, $page);
 
-
         $this->view('auth/placement-structure-list', compact('list', 'user', 'per_page', 'level_of_referral'));
 
     }
@@ -216,9 +241,11 @@ class GenealogyController extends controller
     {
         $user = User::where('username', $username)->first();
 
+        $auth = $this->auth();
+
         if ($user == null) {
-            if ($this->auth()) {
-                $user = User::where('username', $this->auth()->username)->first();
+            if ($auth) {
+                $user = User::where('username', $auth->username)->first();
             }
         }
 
