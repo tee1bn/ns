@@ -579,6 +579,7 @@ echo         $view = $this->buildView('composed/mlm_detail', compact('user'));
 
 
                  $pack = $user->MembershipStatusDisplay['subscription']['payment_plan'];
+                 $fa_status = $user->MembershipStatusDisplay['fa'];
                 if ($pack == null) {
 
                     $image_src = "$domain/$user->profilepic";
@@ -612,8 +613,8 @@ EL;
         <li>
                 <div class="dropdown" style="padding:0px;">
 
-        <span  class="dropdown-toggle text-white" data-toggle="dropdown" style="background:$background; border: 1px solid $background !important;padding-bottom: 0px;padding-top: 0px;">
-
+        <span  class="dropdown-toggl text-white" data-toggle="dropdow" style="background:$background; border: 1px solid $background !important;padding-bottom: 0px;padding-top: 0px;">
+        <a style="position: absolute;top: -20px;border: none;right: -14px;font-size:20px;">$fa_status</a>
         <b style="text-transform:capitalize;">$user->NameInitials </b>
 
         </span>

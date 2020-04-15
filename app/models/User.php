@@ -552,24 +552,27 @@ class User extends Eloquent
         if ($last_subscription == null) {
 
             $display = "<em class='text-danger'>Inactive</em>";
+            $fa = "<i style='background: white; border-radius:15px;' class='fa fa-times-circle text-danger'></i>";
             $value = 0;
             $subscription = $default;
-            $result = compact('display','value', 'subscription' );
+            $result = compact('display','value', 'subscription','fa' );
             return $result;
 
         }
 
         if ($last_subscription->is_expired()) {
             $display = "<em class='text-danger'>Inactive</em>";
+            $fa = "<i style='background: white; border-radius:15px;' class='fa fa-times-circle text-danger'></i>";
             $value = 0;
             $subscription = $last_subscription;
         }else{
+            $fa = "<i style='background: white; border-radius:15px;' class='fa fa-check-circle text-success'></i>";
             $display = "<em class='text-success'>Active</em>";
             $value = 1;
             $subscription = $last_subscription;
         }
 
-        $result = compact('display','value','subscription' );
+        $result = compact('display','value','subscription' ,'fa');
         return $result;
     }
 

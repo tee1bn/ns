@@ -62,7 +62,7 @@ $auth_user = $auth;
      <div class="card-header">
 
          <form action="<?=domain;?>/genealogy/showout" method="post" style="display: inline; ">
-       <div class="input-group col-md-4">
+       <div class="input-group col-md-4 col-8">
            <input type="text"  class="form-control" name="username" onkeyup="populate_option(this.value)" list="my_downlines"  placeholder="Search your downline" aria-describedby="button-addon2">
            <input type="hidden" name="tree_key" value="<?=$tree_key;?>">
            <div class="input-group-append" id="button-addon2">
@@ -72,6 +72,7 @@ $auth_user = $auth;
          </form>
 
 
+  
 
        <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
        <div class="heading-elements">
@@ -115,40 +116,33 @@ $auth_user = $auth;
          </div>            
        </div>
      </div>
+
+
+     <?php 
+
+        $box_colors = array_values(SubscriptionPlan::$colors);
+
+     ;?>
+
+
      <div class="card-content">
        <div class="card-body">
-       <!--   <style>
-           #gfilter:hover{
-             background: transparent;
-           }
+            <div class="" style="display:inline;">
+                 <ol>
+                   <li style="display: inline; margin-right: 3px;"><i class="fa fa-stop" style="color:<?=$box_colors[0];?>"></i> Basic
+                   </li>
+                   <li style="display: inline; margin-right: 3px;"><i class="fa fa-stop" style="color:<?=$box_colors[1];?>"></i> Advanced
+                   </li>
+                   <li style="display: inline; margin-right: 3px;"><i class="fa fa-stop" style="color:<?=$box_colors[2];?>"></i> Professional
+                   </li>
+                   <li style="display: inline; margin-right: 3px;margin-left: 3px;"> 
+                    <i class="fa fa-check-circle text-success"> </i><i class="fa fa-times-circle text-danger"> </i>
+                    Order Status: active / inactive
+                   </li>
+                 </ol>
+             </div>
 
-           .mlm_detail > tbody> tr > td{
-             padding-top: 0px ;
-             padding-bottom: 0px ;
-           }
-
-
-           .drop-down{
-               position:relative !important;
-           }
-
-           .label{
-             color:#63b4b4;
-             font-size: 12px;
-           }
-           .label-value{
-             color: <?=$light;?>;
-             font-size: 12px;
-           }
-
-           em{
-             font-style: normal !important;
-           }
-         </style>
- -->
-    
-
-         <center  style="overflow-x: scroll; height: auto;">
+         <center  style="overflow-x: scroll; overflow-y: none; height: auto;">
            <ul class="tree" id="tree">
            </ul>
          </center>

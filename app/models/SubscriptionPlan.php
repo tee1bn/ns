@@ -68,6 +68,11 @@ class SubscriptionPlan extends Eloquent
 
 		];
 
+		public static $colors = [
+						1 => '#404E67',
+						9 => 'silver',
+						10 => '#ceae00'
+					];
 
 	public function getImageAttribute()
 	{
@@ -81,13 +86,9 @@ class SubscriptionPlan extends Eloquent
 	public function getBackgroundAttribute()
 	{
 		$name = strtolower($this->id);
-		$colors = [
-			1 => '#404E67',
-			9 => 'silver',
-			10 => '#ceae00'
-		];
+		
 
-		$color = $colors[$name] ?? '#404E67';
+		$color = self::$colors[$name] ?? '#404E67';
 		return  $color; 
 	}
 
