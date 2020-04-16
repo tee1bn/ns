@@ -6,6 +6,7 @@ use Filters\Traits\Filterable;
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use v2\Models\UserDocument;
+use v2\Models\ISPWallet;
 use Filters\Filters\UserFilter;
 
 
@@ -169,6 +170,84 @@ class User extends Eloquent
 
     }
 
+    //for  dashboard
+    public function isp_gold()
+    {
+        $gold = collect(SiteSettings::find_criteria('isp')->settingsArray['isp'])->keyBy('key')['gold'];
+
+
+
+        $today = date("Y-m-d");
+        $gold_total_credit = ISPWallet::availableBalanceOnUser($this->id, 'gold');
+        $gold_total_entitled = ISPWallet::for($this->id)->Category('gold')->Cleared( $today, 'month')->Pending()->sum('amount');
+
+
+        $result = compact('gold_total_credit' , 'gold_total_entitled');
+
+        print_r($result);
+        print_r($gold);
+
+    }
+
+
+
+    //for dashboard
+    public function isp_silver($plan_id)
+    {
+
+        $silber = collect(SiteSettings::find_criteria('isp')->settingsArray['isp'])->keyBy('key')['silber'];
+        $no_of_month = $silber['requirement']['step_3']['each_x_month'];
+
+
+        $first_subscription = SubscriptionOrder::where('user_id', $this->id)->Paid()
+                                ->where('plan_id', $plan_id)
+                                ->where('no_of_month' ,'>=', $no_of_month)
+                                ->oldest('paid_at')
+                                ->first();
+
+
+        $initial_activation = ($first_subscription != null) ? date("d/m/Y", strtotime($first_subscription->paid_at)) : 'Nil';
+
+        $default = SubscriptionPlan::default_sub();
+        $another = SubscriptionPlan::default_sub();
+        $default->payment_plan = $another;
+
+
+
+        if ($first_subscription ) {
+            $display = "<em class='text-success'>Active</em>";
+            $fa = '<i class="ft-check fa-2x "></i>';
+            $value = 1;
+            $subscription = $this->subscription;
+
+            $without_interuption = date("d/m/Y", strtotime($subscription->paid_at)) ;
+            $next_coin = date("d/m/Y", strtotime("$subscription->paid_at +6 months")) ;
+        }else{
+
+            $display = "<em class='text-danger'>Inactive</em>";
+            $fa = '<i class="ft-x fa-2x text-danger"></i>';
+            $value = 0;
+
+            $subscription = $default;
+
+            $without_interuption = 'Nil';
+            $next_coin = "Nil";
+        }
+
+
+/*
+        print_r($silber);
+
+        $isp2 = [];*/
+
+
+
+        $result = compact('display','value', 'subscription','fa', 'initial_activation','without_interuption','next_coin' );
+
+        return $result;
+
+    }
+
     public function getaddressArrayAttribute()
     {
         $value = $this->address;
@@ -292,10 +371,12 @@ class User extends Eloquent
         return $status;
     }
 
+
     public function has_verified_email()
     {
-        return (intval($this->email_verification) == 1);
+        return (strlen($this->email_verification) == 1);
     }
+
 
     public function getemailVerificationStatusAttribute()
     {
@@ -445,7 +526,7 @@ class User extends Eloquent
     }
 
 
-    public function all_downlines_by_path($tree_key = 'placement', $add_self = false)
+    public function all_downlines_by_path($tree_key = 'placement', $add_self = false, $sieve=[])
     {
 
         $tree = self::$tree[$tree_key];
@@ -460,7 +541,9 @@ class User extends Eloquent
 
         }
 
-        $query = self::where($user_column, 'like', "%$identifier%");
+        $filter = new  UserFilter($sieve);
+
+        $query = self::where($user_column, 'like', "%$identifier%")->Filter($filter);
 
 
         return $query;
@@ -626,17 +709,20 @@ class User extends Eloquent
     }
 
 
+
     public function pool_target()
     {
 
 
         $coin_way = new CoinWayApi;
 
-        $date_range = MIS::date_range(date("Y-m-d"));
+        $today = date("Y-m-d");
+
+        $date_range = MIS::date_range($today);
         $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
             ->connect()->get_response()->keyBy('supervisorNumber');
 
-        $no_of_merchants = @$response[$this->id]['tenantCount'];
+        $no_of_merchants = $response[$this->id]['tenantCount'] ?? 0;
 
         // $no_of_merchants = 20;
 
@@ -1795,7 +1881,7 @@ class User extends Eloquent
     *@param takes the depth of doenlnes to calaclate
     *returns array of this downlines
     */
-    public function referred_members_downlines($level, $tree_key = "placement")
+    public function referred_members_downlines($level, $tree_key = "placement", $dedicated_sieve=null)
     {
         $tree = self::$tree[$tree_key];
         $user_column = $tree['column'];
@@ -1803,7 +1889,9 @@ class User extends Eloquent
 
         $recruiters = [$this->mlm_id];
 
-        $sieve = $_REQUEST;
+        $sieve = $dedicated_sieve ?? $_REQUEST;
+
+
         $filter = new  UserFilter($sieve);
         for ($iteration = 1; $iteration <= $level; $iteration++) {
 

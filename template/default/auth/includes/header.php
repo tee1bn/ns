@@ -49,7 +49,8 @@
     
     
     <script src="<?=asset;?>/tinymce/tinymce/tinymce.js" referrerpolicy="origin"></script>
-    <script src="<?=asset;?>/js/jquery1.12.min.js"></script>
+    <!-- <script src="<?=asset;?>/js/jquery1.12.min.js"></script> -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 
   </head>
   <!-- END: Head-->
@@ -60,11 +61,9 @@
     <script>
         let $base_url = "<?=domain;?>";
         var app = angular.module('app', ['ngSanitize']);
+
+
     </script>
-
-
-
-
 
 
   <!-- BEGIN: Body-->
@@ -100,10 +99,13 @@
                     <?php if (MIS::current_url() == "user/dashboard"):?>
 
                     <li class="nav-item">
+
                       <div>
-                          <form action="<?=domain;?>/genealogy/showout" method="post" style="display: inline;">
+
+                          <form action="?" method="get" style="display: inline;">
+
                         <div class="input-group" style="padding-top: 16px;">
-                            <input type="month"  class="form-control form-control-sm" name="period" placeholder="Period" aria-describedby="button-addon2">
+                            <input type=""   class="form-control datepicker  form-control-sm" name="month" placeholder="month" aria-describedby="button-addon2">
                             <div class="input-group-append" id="button-addon2">
                               <button class="btn btn-outline-dark btn-sm " style="" type="submit">Go</button>
                             </div>
@@ -111,6 +113,19 @@
                           </form>
                       </div>
                     </li>
+
+                    <script>
+
+                      $(document).ready(function(){
+                        var date_input=$('.datepicker'); //our date input has the name "date"
+                        date_input.datepicker({
+                          format: 'yyyy-mm',
+                          toggleActive: true,
+                          todayHighlight: true,
+                          autoclose: true,
+                        });
+                      })
+                    </script>
 
                     <?php endif ;?>
 

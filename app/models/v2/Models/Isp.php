@@ -4,7 +4,11 @@
 namespace v2\Models;
 use SiteSettings,SubscriptionOrder;
 use v2\Models\ISPWallet;
+use MIS;
 use Illuminate\Database\Capsule\Manager as DB;
+use Filters\Filters\UserFilter;
+use Apis\CoinWayApi;
+
 
 class Isp
 {
@@ -13,6 +17,7 @@ class Isp
 	private $isp_setting;
 
 	private $coins = [];
+	private $month = "";
 
 	public function __construct()
 	{
@@ -20,6 +25,7 @@ class Isp
 		$this->isp_setting = SiteSettings::find_criteria('isp')->settingsArray;
 
 
+		$this->month = date("Y-m");
 		// print_r($this->isp_setting);
 
 		// krsort($this->rank_qualifications);
@@ -53,8 +59,10 @@ class Isp
 		$comment = "Gold coin received for reaching $achieved_network in network";
 		$paid_at = date("Y-m-d H:i:s");
 
-		ISPWallet::for($this->user->id)->Category('gold')->delete();
-		$gold_identifier = $this->user->id.'gold';
+		//delete all pending or entitled coins
+		// ISPWallet::for($this->user->id)->Category('gold')->Pending()->delete();
+
+		$gold_identifier = $this->user->id."gold/$this->month";
 
 
 
@@ -100,7 +108,8 @@ class Isp
 				);
 			}
 
-			ISPWallet::for($this->user->id)->Category('silber')->delete();
+			//delete all pending or entitled coins
+			// ISPWallet::for($this->user->id)->Category('silber')->Pending()->delete();
 
 			//silber
 			$silber = $response['silber'];
@@ -111,7 +120,11 @@ class Isp
 			$achieved_network = $silber['step_3'] * $isp['silber']['requirement']['step_3']['each_x_month'];
 
 			$comment = "Silber coin received for reaching $achieved_network months subscription";
-			$silber_identifier = $this->user->id.'silber';
+			$silber_identifier = $this->user->id."silber$this->month";
+
+			$extra_detail = json_encode([
+				'reason'=>'x_month_active_pp'
+			]);
 
 			if ($amount > 0) {
 
@@ -127,13 +140,36 @@ class Isp
 					$silber_identifier, 
 					null , 
 					null,
-					null,
+					$extra_detail,
 					$paid_at
 				);
 
 			}
 
+			//second type of silber coin earning
 
+
+
+			$extra_detail = json_encode([
+				'reason'=>'second_way'
+			]);
+
+			// give new coin update
+/*			ISPWallet::createTransaction(	
+				'credit',
+				$this->user->id,
+				null,
+				$amount,
+				'completed',
+				'silber',
+				$comment ,
+				$silber_identifier, 
+				null , 
+				null,
+				$extra_detail,
+				$paid_at
+			);
+*/
 
 
 	}
@@ -188,9 +224,12 @@ class Isp
 		return $response['each_x_in_whole_network'];
 	}
 
-	//determine coins by lenght of package subscription
+
+	//determine coins by length of package subscription
 	public function step_3($conditions)
 	{
+
+		//for silber isp
 
 		$no_of_month = SubscriptionOrder::Paid()
 						->where('user_id', $this->user->id)
@@ -200,8 +239,19 @@ class Isp
 		
 		$multiple_of_coins_earned = floor($no_of_month / $conditions['each_x_month']) ;
 
+		//silber_coin already earned 
 
-		return $multiple_of_coins_earned;
+		//get daterange for this month
+		$daterange = MIS::daterange($this->month, 'month', true);
+		$aleady_paid_coin = ISPWallet::for($this->user->id)->Category('silber')
+							->whereDate('paid_at', '<', $daterange['start_date'])
+							->Completed()->sum('amount');
+		
+		$coin_earned_this_month = $multiple_of_coins_earned - $already_paid_coin;							
+
+		// TODO: remove ALREADYEARNED COIN FROM THIS $multiple_of_coins_earned
+
+		return $coin_earned_this_month;
 
 	}
 
@@ -232,25 +282,46 @@ class Isp
 		return $response;
 	}
 
-	public function in_direct_active_member($expected_no)
+
+	//this is actually indirect_active_merchants
+	public function in_direct_active_merchants($expected_no)
 	{
 		$response = false;
 
-		$no_indirect_line = $this->user->all_downlines_by_path('placement');
+		$sieve = ['month'=> $this->month];
 
-		$today = date("Y-m-d");
+	    // $filter = new  UserFilter($sieve);
+
+
+
+	    //call api
+		$api_response  = CoinWayApi::api($this->month);
+		$own_merchants = $api_response[$this->user->id]['tenantCount'] ?? 0;
+
+
+
+		//indirect_lines
+		$no_indirect_line = $this->user->all_downlines_by_path('placement', false);
+
+
+		//get those with active subscription
+		$today = date("Y-m-01");
 		$active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','<' , $today);
-
-
-
         $active_members = $no_indirect_line
                 ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
                     $join->on('users.id', '=', 'active_subscriptions.user_id');
                 }); 
 
-         $no_indirect_active_line =   $active_members->count();
+         //get ids
+        $in_direct_sales_partners_ids = $active_members->get()->pluck('id')->toArray();
 
-		if ($no_indirect_active_line >= $expected_no) {
+		$total_merchants = $api_response->whereIn('supervisorNumber', $in_direct_sales_partners_ids)->sum('tenantCount');
+
+
+         $no_indirect_active_merchants =   $total_merchants;
+
+
+		if ($no_indirect_active_merchants >= $expected_no) {
 			$response = true;
 		}
 
@@ -260,12 +331,25 @@ class Isp
 
 	public function each_x_in_whole_network($chunk)
 	{
+		//for gold isp
 
+		$sieve = ['month'=> $this->month];
 
-		$no_in_whole_network = $this->user->all_downlines_by_path('placement')->count();
+		$no_in_whole_network = $this->user->all_downlines_by_path('placement', false)->count();
 		$multiple_of_coins_earned = floor($no_in_whole_network / $chunk) ;
 
-		return $multiple_of_coins_earned;
+
+		//get daterange for this month
+		$daterange = MIS::daterange($this->month, 'month', true);
+		$aleady_paid_coin = ISPWallet::for($this->user->id)->Category('gold')
+							->whereDate('paid_at', '<', $daterange['start_date'])
+							->Completed()->sum('amount');
+		
+		$coin_earned_this_month = $multiple_of_coins_earned - $already_paid_coin;							
+
+		// TODO: remove ALREADYEARNED COIN FROM THIS $multiple_of_coins_earned
+
+		return $coin_earned_this_month;
 	}
 
 }

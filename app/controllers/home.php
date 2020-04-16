@@ -27,6 +27,16 @@ class home extends controller
 
         echo "<pre>";
 
+
+
+            $response = CoinWayApi::api('2019-07-01');
+
+            print_r($response);
+
+
+
+
+        return;
         $wallet = SubscriptionOrder::find(87);
 
 

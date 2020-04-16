@@ -17,7 +17,7 @@ class current_user extends controller
 	{
 
 		if (($this->setting['email_verification'] == 1) && 
-			(intval($this->auth()->email_verification) !== 1)) {
+			(! $this->auth()->has_verified_email())) {
 
 			Redirect::to('verify/email');
 		}

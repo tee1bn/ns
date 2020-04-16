@@ -4,7 +4,7 @@ namespace v2\Traits;
 include_once 'app/controllers/home.php';
 use Illuminate\Database\Capsule\Manager as DB;
 
-use SiteSettings, User, Config, Notifications, Session, home;
+use SiteSettings, User, Config, Notifications, Session, home, MIS;
 
 
 
@@ -134,14 +134,6 @@ trait Wallet
 	}
 
 
-	
-	public function scopeClearedWithin($query, array $daterange)
-	{
-		extract($daterange);
-		$column = 'paid_at';
-		return $query->whereDate($column,'>=',  $start_date)->whereDate($column, '<=',$end_date);
-	}
-
 
 	public static function makeTransfer($from, $to, $amount, $earning_category)
 	{
@@ -246,25 +238,64 @@ trait Wallet
 	}
 
 
+
 	public function scopeCategory($query, $category)
 	{
+		if (is_array($category)) {
+
+			$up = array_map(function($item){
+					$string = "earning_category='$item'";
+					return $string;
+				}, $category);
+
+			$clause = implode(" OR ", $up);
+
+			return $query->whereRaw($clause);
+		}
+
 		return $query->where('earning_category', $category);
 	}
 
 
 
-	public function scopeCleared($query , $date = null)
+	
+	public function scopeClearedWithin($query, array $daterange)
+	{
+		extract($daterange);
+		$column = 'paid_at';
+		return $query->whereDate($column,'>=',  $start_date)->whereDate($column, '<=',$end_date);
+	}
+
+
+	/**
+		$range is 'month' or week eg 2020-07
+	*/
+	public function scopeCleared($query , $date = null, $range=null)
 	{	
 		if ($date==null) {
 			$today = date("Y-m-d");
 
 		}else{
-
 			$today = $date;
 		}
 
-		return $query->whereDate('paid_at','<=', $today);
+		if ($range == null) {
+			
+			return $query->whereDate('paid_at','<=', $today);
+
+		}elseif(is_string($range)){
+
+			$daterange = MIS::date_range($today, $range, true);
+
+			return $query->ClearedWithin($daterange);
+		}else{
+			
+			return $query->ClearedWithin($daterange);
+		}
+
 	}
+
+
 
 
 

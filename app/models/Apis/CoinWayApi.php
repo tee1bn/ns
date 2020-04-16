@@ -33,6 +33,20 @@ class CoinWayApi
 	}
 
 
+	public static function api($date = null)
+	{
+	    $coin_way = new self;
+
+	    $today = $date ?? date("Y-m-d");
+	    $date_range = MIS::date_range($today);
+	    $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
+	        ->connect()->get_response()->keyBy('supervisorNumber');
+
+
+	   return $response;
+
+	}
+
 
 	public function setPeriod($start_date , $end_date)
 	{

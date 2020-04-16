@@ -19,6 +19,12 @@
     <script src="<?=$asset;?>/vendors/js/vendors.min.js"></script>
     <!-- BEGIN Vendor JS-->
 
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/js/bootstrap-datepicker.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.4.1/css/bootstrap-datepicker3.css"/>
+
 
     <!-- datatables -->
    <!-- BEGIN: Page Vendor JS-->
@@ -33,7 +39,7 @@
     <!-- END: Page Vendor JS-->    <!-- datatables -->
 
 
-    <!-- BEGIN: Page Vendor JS-->
+    <!-- BEGIN: Page Vendor JS--><!-- 
     <script src="<?=$asset;?>/vendors/js/extensions/jquery.knob.min.js"></script>
     <script src="<?=$asset;?>/js/scripts/extensions/knob.min.js"></script>
     <script src="<?=$asset;?>/vendors/js/charts/raphael-min.js"></script>
@@ -45,7 +51,7 @@
     <script src="<?=$asset;?>/vendors/js/charts/jquery.sparkline.min.js"></script>
     <script src="<?=$asset;?>/vendors/js/extensions/unslider-min.js"></script>
     <link rel="stylesheet" type="text/css" href="<?=$asset;?>/css/core/colors/palette-climacon.css">
-    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/fonts/simple-line-icons/style.min.css">
+    <link rel="stylesheet" type="text/css" href="<?=$asset;?>/fonts/simple-line-icons/style.min.css"> -->
     <!-- END: Page Vendor JS-->
 
     <!-- BEGIN: Theme JS-->
@@ -54,6 +60,7 @@
     <script src="<?=$asset;?>/js/scripts/customizer.min.js"></script>
     <!-- END: Theme JS-->
 
+    
     <!-- BEGIN: Page JS-->
     <script src="<?=$asset;?>/js/scripts/pages/dashboard-analytics.min.js"></script>
     <!-- END: Page JS-->

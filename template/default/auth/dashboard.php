@@ -3,19 +3,48 @@ $page_title = "Dashboard";
  include 'includes/header.php';?>
   <?php
     use v2\Models\Withdrawal;
+    use v2\Models\ISPWallet;
+    use Filters\Filters\UserFilter;
+    use Apis\CoinWayApi;
 
-    $balances = Withdrawal::payoutBalanceFor($auth->id);
+    // $balances = Withdrawal::payoutBalanceFor($auth->id);
 
       $package =  $auth->subscription->payment_plan;
     // $pool_target = $auth->pool_target();
 
-      $direct_sales = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id)->count();
+     $sieve = $_REQUEST;
+     $filter = new  UserFilter($sieve);
 
+      $direct_sales = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id)->Filter($filter);
+      $direct_sales_count = $direct_sales->count();
 
+      $direct_merhcants = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id)->Filter($filter);
+
+      $direct_merhcants_ids =  $direct_merhcants->get(['id'])->pluck('id')->toArray();
+      $direct_merhcants_ids[] = $auth->id;
+      $month = $_REQUEST['month'] ?? null;
+
+   /*   $api_response  = CoinWayApi::api($month);
+      $own_merchants = $api_response[$auth->id]['tenantCount'] ?? 0;
+
+      $total_merchants = $api_response->whereIn('supervisorNumber', $direct_merhcants_ids)->sum('tenantCount');
+
+*/
+      $professional_check = $auth->isp_silver(10);
+
+      $today = date("Y-m-d");
+      $silver_total_credit_incentive = ISPWallet::availableBalanceOnUser($auth->id, 'silber');
+      $silver_total_entitled_incentive = ISPWallet::for($auth->id)->Category('silber')->Cleared( $today, 'month')->Pending()->sum('amount');
 
       $domain = Config::domain();
       $silver_coin = "$domain/template/default/app-assets/images/logo/silver-coin.png";
       $gold_coin = "$domain/template/default/app-assets/images/logo/gold-coin.png";
+
+      $silver_total_credit_incentive = ISPWallet::availableBalanceOnUser($auth->id, 'silber');
+
+      $gold_tab  = $auth->isp_gold();
+
+      die();
     ;?>
 
 
@@ -52,10 +81,7 @@ $page_title = "Dashboard";
                       <div class="col-md-3">
                         <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon primary d-flex justify-content-center mr-3">
-                            <img class="icon p-1  customize-icon font-large-2 p-1" src="<?=$package->Image;?>" style="
-    height: 130px;
-    width: 100px;
-    object-fit: cover;">
+                            <img class="icon p-1  customize-icon font-large-2 p-1" src="<?=$package->Image;?>" style="height: 130px;width: 100px;object-fit: cover;">
                           </span>
                           <div class="stats-amount mr-3 mt-3">
                             <h3 class="heading-text text-bold-600"> <?=$package->package_type;?> </h3>
@@ -69,7 +95,7 @@ $page_title = "Dashboard";
 
                             <div class="b-box">
                                 <span class="d-box">
-                                    453
+                                    <?=$own_merchants;?>
                                 </span>
                             </div>
                           </span>
@@ -85,7 +111,7 @@ $page_title = "Dashboard";
 
                             <div class="b-box">
                                 <span class="d-box">
-                                    453
+                                    <?=$total_merchants;?>
                                 </span>
                             </div>
                           </span>
@@ -101,7 +127,7 @@ $page_title = "Dashboard";
 
                             <div class="b-box">
                                 <span class="d-box">
-                                    <?=$direct_sales;?>
+                                    <?=$direct_sales_count;?>
                                 </span>
                             </div>
                                 </span>
@@ -119,7 +145,7 @@ $page_title = "Dashboard";
 
            
 
-          <div class="row">
+          <div class="row match-height">
 
             <div class="col-md-6">
                         <div class="card" style="">
@@ -134,14 +160,14 @@ $page_title = "Dashboard";
                                             <div class="b-box">
                                                 <small>Total Credits</small>
                                                 <span class="d-box">
-                                                    43453
+                                                    <?=$silver_total_credit_incentive;?>
                                                 </span>
                                             </div>
 
                                             <div class="b-box">
                                                 <small>Entitled</small>
                                                 <span class="d-box">
-                                                    43453
+                                                    <?=$silver_total_entitled_incentive;?>
                                                 </span>
                                             </div>
                                             
@@ -151,20 +177,20 @@ $page_title = "Dashboard";
                                             <ul class="list-group list-group-flush">
                                                 <li class="list-group-item small-padding">
                                                     <span class=" float-right">
-                                                        <i class="ft-check fa-2x"></i>
+                                                        <?=$professional_check['fa'];?>
                                                     </span>
                                                     Package: Professional 
                                                 </li>
                                                 <li class="list-group-item small-padding">
-                                                    <span class="float-right">02/04/2020</span>
+                                                    <span class="float-right"><?=$professional_check['initial_activation'];?></span>
                                                     Initial activation: 
                                                 </li>
                                                 <li class="list-group-item small-padding">
-                                                    <span class="float-right">02/04/2020</span>
+                                                    <span class="float-right"><?=$professional_check['without_interuption'];?></span>
                                                     Without interuption since: 
                                                 </li>
                                                 <li class="list-group-item small-padding">
-                                                    <span class="float-right">02/04/2020</span>
+                                                    <span class="float-right"><?=$professional_check['next_coin'];?></span>
                                                   Next Silver-Coin: 
                                                 </li>                                               
                                             </ul>
@@ -375,6 +401,7 @@ $page_title = "Dashboard";
                     </div>
 
 
+
             <div class=" col-md-6">
                         <div class="card" style="">
                             <div class="card-content">
@@ -391,7 +418,7 @@ $page_title = "Dashboard";
                     </div>
 
                     <div class="col-md-12">
-                        <button class="btn btn-block btn-outline-teal ">MY COMMISSIONS</button>
+                        <a href="<?=domain;?>/user/earnings" class="btn btn-block btn-outline-teal ">MY COMMISSIONS</a>
                     </div>
 
 
