@@ -157,6 +157,15 @@
 
     border: 1px solid #c985294a;
     }
+
+    .coin{
+      
+      height: 40px;
+      position: absolute;
+      right: 15px;
+      top: 10px;
+    }
+
     </style>
 
 <script>

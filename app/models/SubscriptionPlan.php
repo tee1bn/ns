@@ -70,8 +70,8 @@ class SubscriptionPlan extends Eloquent
 
 		public static $colors = [
 						1 => '#404E67',
-						9 => 'silver',
-						10 => '#ceae00'
+						9 => '#d4d4d4',
+						10 => '#f0d355'
 					];
 
 	public function getImageAttribute()

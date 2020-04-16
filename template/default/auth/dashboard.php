@@ -9,6 +9,13 @@ $page_title = "Dashboard";
       $package =  $auth->subscription->payment_plan;
     // $pool_target = $auth->pool_target();
 
+      $direct_sales = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id)->count();
+
+
+
+      $domain = Config::domain();
+      $silver_coin = "$domain/template/default/app-assets/images/logo/silver-coin.png";
+      $gold_coin = "$domain/template/default/app-assets/images/logo/gold-coin.png";
     ;?>
 
 
@@ -94,7 +101,7 @@ $page_title = "Dashboard";
 
                             <div class="b-box">
                                 <span class="d-box">
-                                    453
+                                    <?=$direct_sales;?>
                                 </span>
                             </div>
                                 </span>
@@ -118,7 +125,9 @@ $page_title = "Dashboard";
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <h4 class="card-tile border-0">International Sales Pool - Silver Incentive</h4>
+                                    <h4 class="card-tile border-0">International Sales Pool - Silver Incentive
+                                        <img src="<?=$silver_coin;?>" class="coin">
+                                    </h4>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-2">
@@ -174,7 +183,9 @@ $page_title = "Dashboard";
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <h4 class="card-tile border-0">International Sales Pool - Silver </h4>
+                                    <h4 class="card-tile border-0">International Sales Pool - Silver 
+                                        <img src="<?=$silver_coin;?>" class="coin">
+                                    </h4>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-2">
@@ -248,7 +259,10 @@ $page_title = "Dashboard";
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <h4 class="card-tile border-0">International Sales Pool - Gold</h4>
+                                    <h4 class="card-tile border-0">International Sales Pool - Gold
+                                        <img src="<?=$gold_coin;?>" class="coin">
+
+                                    </h4>
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-2">
