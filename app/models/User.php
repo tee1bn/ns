@@ -182,11 +182,41 @@ class User extends Eloquent
         $gold_total_entitled = ISPWallet::for($this->id)->Category('gold')->Cleared( $today, 'month')->Pending()->sum('amount');
 
 
-        $result = compact('gold_total_credit' , 'gold_total_entitled');
+        $in_direct_active_merchants_required = $gold['requirement']['step_1']['in_direct_active_merchants'];
+        $direct_sales_partner_required = $gold['requirement']['step_1']['direct_line'];
 
-        print_r($result);
+
+        $direct_sales = $this->all_downlines_by_path()->where('referred_by', $this->mlm_id);
+
+        $all_sales_partner = $this->all_downlines_by_path()->count();
+
+        $direct_merchants_ids =  $direct_sales->get(['id'])->pluck('id')->toArray();
+
+
+        $direct_sales_partner_count = $direct_sales->count();
+        $api_response  = CoinWayApi::api($today);
+        $own_merchants = $api_response[$this->id]['tenantCount'] ?? 0;
+
+        $direct_sales_partner_merchant_connections = $api_response->whereIn('supervisorNumber', $direct_merchants_ids)->sum('tenantCount');
+
+        $total_sales_partner_required  =  $gold['requirement']['step_2']['each_x_in_whole_network'];
+
+
+        $result = compact('gold_total_credit' ,
+                         'gold_total_entitled',
+                         'in_direct_active_merchants_required',
+                         'direct_sales_partner_merchant_connections',
+                         'direct_sales_partner_count',
+                         'direct_sales_partner_required',
+                         'all_sales_partner',
+                         'total_sales_partner_required',
+                         'own_merchants'
+                     );
+
+/*        print_r($result);
         print_r($gold);
-
+*/        
+        return $result;
     }
 
 

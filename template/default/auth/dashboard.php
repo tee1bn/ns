@@ -18,16 +18,16 @@ $page_title = "Dashboard";
       $direct_sales = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id)->Filter($filter);
       $direct_sales_count = $direct_sales->count();
 
-      $direct_merhcants = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id)->Filter($filter);
+      $direct_merchants_ids =  $direct_sales->get(['id'])->pluck('id')->toArray();
+      $direct_merchants_ids[] = $auth->id;
 
-      $direct_merhcants_ids =  $direct_merhcants->get(['id'])->pluck('id')->toArray();
-      $direct_merhcants_ids[] = $auth->id;
+
       $month = $_REQUEST['month'] ?? null;
 
    /*   $api_response  = CoinWayApi::api($month);
       $own_merchants = $api_response[$auth->id]['tenantCount'] ?? 0;
 
-      $total_merchants = $api_response->whereIn('supervisorNumber', $direct_merhcants_ids)->sum('tenantCount');
+      $total_merchants = $api_response->whereIn('supervisorNumber', $direct_merchants_ids)->sum('tenantCount');
 
 */
       $professional_check = $auth->isp_silver(10);

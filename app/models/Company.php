@@ -21,6 +21,7 @@ class Company extends Eloquent
 				'rc_number',   //cac registration number
 				'bn_number',	//cac business registration number
 				'vat_number',	//cac business registration number
+				'legal_form',
 				'company_description',
 				'approval_status',
 				'documents',
@@ -35,6 +36,13 @@ class Company extends Eloquent
 						'name',
 						'office_email',
 						'documents'
+							];
+
+
+
+	public static $legal_forms = [ 
+								'ltd' =>	'Limited Liability',
+								'sole_proprietorship'	=>	'Personal Business'
 							];
 
 

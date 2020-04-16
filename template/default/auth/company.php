@@ -189,7 +189,7 @@ include 'includes/header.php'; ?>
                                     </div>
                                     <div class="col-md-12 text-center">
 
-                                        <form class="form-horizontal ajax_for"
+                                        <form class="form-horizontal ajax_form"
                                               action="<?= domain; ?>/user-profile/update_profile_picture" id="p_form"
                                               method="post" enctype="multipart/form-data">
                                             <div class="user-profile-image" align="center" style="">
@@ -326,8 +326,11 @@ include 'includes/header.php'; ?>
 
                                         <div class="form-group col-md-5">
                                             <select class="form-control" name="company[legal_form]">
-                                                <option value="">Legal Form</option>
-                                                <option value="">Option</option>
+                                                <option value="">Select Legal Form</option>
+                                                <?php foreach (Company::$legal_forms as $key => $form) : ?>
+                                                    <option <?= ($company->legal_form == $key) ? 'selected' : ''; ?>
+                                                            value="<?= $key; ?>"><?= $form; ?></option>
+                                                <?php endforeach; ?>
                                             </select>
                                         </div>
 
