@@ -22,6 +22,14 @@ class IspUpgradeController extends controller
 	}
 
 
+	public function all()
+	{
+		$this->set_users_positions();
+		$this->transfer_wallet();
+		$this->update_expires_at();
+		$this->update_no_of_month();
+	}
+
 
 	public function update_no_of_month()
 	{
