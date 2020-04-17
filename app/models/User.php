@@ -221,10 +221,10 @@ class User extends Eloquent
                          'in_direct_merchant_check',
                          'own_merchants'
                      );
-/*
+
         print_r($result);
         print_r($gold);
-        */
+        
         return $result;
     }
 

@@ -598,18 +598,18 @@ echo         $view = $this->buildView('composed/mlm_detail', compact('user'));
             if ($user == null) {
                 $image_src = "$domain/template/default/app-assets/images/logo/Logo-head.png";
 
-                $drop = <<<EL
+                $drop = <<<ELL
         <li>
 
         <span style="border:0px !important; padding-bottom: 10px;">
         <img src="$image_src" style="background: #0000007a;padding: 4px; border-radius: 70%;height: 55px; object-fit:contain;"><br>
         </span>
           
-EL;     
+ELL;     
 
 }else{
 
-        $drop = <<<EL
+        $drop = <<<ELM
         <li>
                 <div class="dropdown" style="padding:0px;">
 
@@ -626,7 +626,7 @@ EL;
           </div>
         </div>
 
-EL;     
+ELM;     
 
 }
 

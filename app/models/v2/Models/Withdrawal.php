@@ -87,7 +87,7 @@ class Withdrawal extends Eloquent
 			'this_month',
 			'withdrawal_fee',
 			'min_withdrawal',
-			'total_earnings',
+			'total_earnings'
 /*			'payout_balance',
 			'payout_book_balance',
 			'available_payout_balance',
