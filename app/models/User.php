@@ -222,8 +222,8 @@ class User extends Eloquent
                          'own_merchants'
                      );
 
-        print_r($result);
-        print_r($gold);
+  /*      print_r($result);
+        print_r($gold);*/
         
         return $result;
     }
