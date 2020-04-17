@@ -1,5 +1,5 @@
 <?php
-$page_title = "Wallet";
+$page_title = "VP Remuneration";
 include 'includes/header.php';?>
 
 
@@ -7,18 +7,18 @@ include 'includes/header.php';?>
 <div class="app-content content">
   <div class="content-wrapper">
     <div class="content-header row">
-      <div class="content-header-left col-md-6 col-12 mb-2">
+      <div class="content-header-left col-6 mb-2">
         <?php include 'includes/breadcrumb.php';?>
 
-        <h3 class="content-header-title mb-0">Wallet</h3>
+        <h3 class="content-header-title mb-0">VP Remuneration</h3>
       </div>
       
-      <div class="content-header-right col-md-6 col-12">
-        <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+      <div class="content-header-right col-6">
+        <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
           <div class="btn-group" role="group">
           </div>
-          <a class="btn btn-outline-primary" href="#">Last Month: <?=$currency;?><?=MIS::money_format($balances['last_month']);?></a>
-          <a class="btn btn-outline-primary" href="#">The Month: <?=$currency;?><?=MIS::money_format($balances['this_month']);?></a>
+          <a class="btn btn-outline-primary" href="#"><small>Last Month:</small> <?=$currency;?><?=MIS::money_format($balances['last_month']);?></a>
+          <a class="btn btn-outline-primary" href="#"><small>The Month:</small> <?=$currency;?><?=MIS::money_format($balances['this_month']);?></a>
           <!-- <a class="btn btn-outline-primary" href="timeline-center.html"><i class="ft-pie-chart"></i></a> -->
         </div>
       </div>

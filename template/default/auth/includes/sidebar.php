@@ -99,13 +99,13 @@
               <li>
                 <a class="menu-item" href="<?=domain;?>/user/vp-remuneration"><i class="ft-align-justify"></i>VP Remuneration</a>
               </li>
-
+<!-- 
               <li>
                 <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="ft-star"></i> InvitePro</a>
-              </li>
+              </li> -->
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/media"><i class="ft-airplay"></i> Events & Webinar</a>
+                <a class="menu-item" href="<?=domain;?>/user/events-and-webinar"><i class="ft-airplay"></i> Events & Webinar</a>
               </li>
 
               <li>
@@ -117,10 +117,10 @@
                 <a class="menu-item" href="<?=domain;?>/user/online_shop"><i class="ft-shopping-cart"></i> Online Shop</a>
               </li>
 
-
+<!-- 
               <li>
                 <a class="menu-item" href="<?=domain;?>/user/resources"><i class="fa fa-folder"></i> Documents</a>
-              </li>
+              </li> -->
 
              <!--  <li>
                 <a class="menu-item" href="<?=domain;?>/user/withdrawals"><i class="fa fa-credit-card"></i> Withdrawals</a>

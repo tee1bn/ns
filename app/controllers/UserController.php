@@ -533,6 +533,11 @@ class UserController extends controller
     }
 
 
+    public function events_and_webinar()
+    {
+        $this->view("auth/events_and_webinar");
+    }
+
 
     public function earnings()
     {
