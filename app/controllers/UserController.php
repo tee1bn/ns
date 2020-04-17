@@ -59,11 +59,74 @@ class UserController extends controller
     {
         $this->view('auth/support-messages');
     }
-
+/*
     public function merchant_packages()
     {
         $this->view('auth/merchant_packages');
+    }*/
+
+
+    public function merchant_packages()
+    {
+        $auth = $this->auth();
+
+        $query = $auth->all_downlines_by_path('placement');
+
+
+        $sieve = $_REQUEST;
+        $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+        $per_page = 50;
+        $skip = (($page - 1) * $per_page);
+
+        $filter = new  UserFilter($sieve);
+
+        $total_sales_partner = $query->count();
+        $data = $query->Filter($filter)->count();
+
+
+
+        $today = date("Y-m-d");
+        $subscriptions = SubscriptionOrder::where('paid_at', '!=', null)
+            ->whereDate('expires_at', '<', $today)
+        ;
+        $query_2 = $auth->all_downlines_by_path('placement');
+        $packages_count = $query_2
+            ->joinSub($subscriptions, '$subscriptions', function ($join) {
+                $join->on('users.id', '=', '$subscriptions.user_id');
+            })
+            ->select(DB::raw('count(*) as total'), 'plan_id')->groupBy('plan_id');
+
+        $packages_count = $packages_count->get()->keyBy('plan_id');
+
+        $ids = [
+            'basic' => [1],
+            'advanced' => [9],
+            'professional' => [10]
+        ];
+        $packages_count_array = $packages_count->toArray();
+        $total = [];
+        foreach ($ids as $key =>  $id) {
+            foreach ($id as $item) {
+                $total[$key][] = $packages_count_array[$item]['total'] ?? 0;
+            }
+        }
+
+        foreach ($ids as $key => $id) {
+            $total[$key] = array_sum($total[$key]);
+        }
+
+        $total['basic'] = $total_sales_partner - ($total['advanced']) - ($total['professional']);
+
+        $all_downlines = $query->Filter($filter)
+            ->offset($skip)
+            ->take($per_page)
+            ->get();  //filtered
+
+        $note = MIS::filter_note($all_downlines->count() , $data, $total_sales_partner,  $sieve, 1);
+
+        $this->view('auth/merchant_packages', compact('total','total_sales_partner','all_downlines', 'sieve', 'data','note','per_page'));
     }
+
 
     public function partner_packages()
     {
@@ -463,21 +526,16 @@ class UserController extends controller
     }
 
 
-    public function earnings($from = null, $to = null)
+
+    public function vp_remuneration()
     {
-        /*$query =  LevelIncomeReport::where('status','Credit')->where('owner_user_id', $this->auth()->id)->latest();
-        if (($from != null) && ($to != null)) {
-            $query =  $query->whereDate('created_at', '>=', $from)->whereDate('created_at', '<=', $to);
-        }
+        $this->earnings();
+    }
 
 
-        $earnings = $query->get();
-        $earnings_total = $query->sum('amount_earned');
-        $this->view('auth/earnings', [
-                                            'earnings'=>$earnings,
-                                            'earnings_total'=>$earnings_total,
-                                            ]);*/
 
+    public function earnings()
+    {
 
         $auth = $this->auth();
 

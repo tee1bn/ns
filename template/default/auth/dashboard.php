@@ -44,7 +44,7 @@ $page_title = "Dashboard";
 
       $gold_tab  = $auth->isp_gold();
 
-      die();
+      // die();
     ;?>
 
 
@@ -281,6 +281,11 @@ $page_title = "Dashboard";
                     </div>
 
   
+
+
+  
+
+
             <div class=" col-md-6">
                         <div class="card" style="">
                             <div class="card-content">
@@ -295,14 +300,14 @@ $page_title = "Dashboard";
                                             <div class="b-box">
                                                 <small>Total Credits</small>
                                                 <span class="d-box">
-                                                    43453
+                                                    <?=$gold_tab['gold_total_credit'];?>
                                                 </span>
                                             </div>
 
                                             <div class="b-box">
                                                 <small>Entitled</small>
                                                 <span class="d-box">
-                                                    43453
+                                                    <?=$gold_tab['gold_total_entitled'];?>
                                                 </span>
                                             </div>
                                             
@@ -319,17 +324,19 @@ $page_title = "Dashboard";
                                                          Direct sales partner: 
                                                     </span>
                                                     <span class="col-4">
-                                                        02/4  
+                                                        <?=$gold_tab['direct_sales_partner_count'];?>/<?=$gold_tab['direct_sales_partner_required'];?>
                                                     </span>
                                                     <span class=" col-2">
                                                         <span class=" float-right">
-                                                            <i class="ft-check fa-2x"></i>
+                                                            <?=$gold_tab['direct_sales_check'];?>
                                                         </span>
                                                     </span>
                                                     </div>
 
                                                    
                                                 </li>
+
+                                                  <!-- [total_sales_partner_required] => 10                                                -->
                                                 <li class="list-group-item small-padding">
 
                                                     <div class="row">
@@ -338,13 +345,13 @@ $page_title = "Dashboard";
                                                         Own merchant connections:
                                                     </span>
                                                     <span class="col-4">
-                                                        02/4  
+                                                        <?=$gold_tab['own_merchants'];?>
                                                     </span>
-                                                    <span class=" col-2">
+                                                    <!-- <span class=" col-2">
                                                         <span class=" float-right">
                                                             <i class="ft-check fa-2x"></i>
                                                         </span>
-                                                    </span>
+                                                    </span> -->
                                                     </div>
 
                                                    
@@ -358,11 +365,11 @@ $page_title = "Dashboard";
                                                         merchant connections:
                                                     </span>
                                                     <span class="col-4">
-                                                        02/4  
+                                                        <?=$gold_tab['direct_sales_partner_merchant_connections'];?>/<?=$gold_tab['in_direct_active_merchants_required'];?>
                                                     </span>
                                                     <span class=" col-2">
                                                         <span class=" float-right">
-                                                            <i class="ft-check fa-2x"></i>
+                                                            <?=$gold_tab['in_direct_merchant_check'];?>
                                                         </span>
                                                     </span>
                                                     </div>
@@ -377,13 +384,9 @@ $page_title = "Dashboard";
                                                         Total sales partner:
                                                     </span>
                                                     <span class="col-4">
-                                                        02/4  
+                                                        <?=$gold_tab['all_sales_partner'];?> 
                                                     </span>
-                                                    <span class=" col-2">
-                                                        <span class=" float-right">
-                                                            <i class="ft-check fa-2x"></i>
-                                                        </span>
-                                                    </span>
+                                                  
                                                     </div>
 
                                                    

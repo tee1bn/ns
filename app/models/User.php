@@ -179,7 +179,7 @@ class User extends Eloquent
 
         $today = date("Y-m-d");
         $gold_total_credit = ISPWallet::availableBalanceOnUser($this->id, 'gold');
-        $gold_total_entitled = ISPWallet::for($this->id)->Category('gold')->Cleared( $today, 'month')->Pending()->sum('amount');
+        $gold_total_entitled = (int)ISPWallet::for($this->id)->Category('gold')->Cleared( $today, 'month')->Pending()->sum('amount');
 
 
         $in_direct_active_merchants_required = $gold['requirement']['step_1']['in_direct_active_merchants'];
@@ -202,6 +202,13 @@ class User extends Eloquent
         $total_sales_partner_required  =  $gold['requirement']['step_2']['each_x_in_whole_network'];
 
 
+        $direct_sales_check = ($direct_sales_partner_count >= $direct_sales_partner_required) ?
+         '<i class="ft-check text-success fa-2x"></i>' : '<i class="ft-x text-danger fa-2x"></i>' ;
+
+
+        $in_direct_merchant_check = ($direct_sales_partner_merchant_connections >= $in_direct_active_merchants_required) ?
+         '<i class="ft-check text-success fa-2x"></i>' : '<i class="ft-x text-danger fa-2x"></i>' ;
+
         $result = compact('gold_total_credit' ,
                          'gold_total_entitled',
                          'in_direct_active_merchants_required',
@@ -210,12 +217,14 @@ class User extends Eloquent
                          'direct_sales_partner_required',
                          'all_sales_partner',
                          'total_sales_partner_required',
+                         'direct_sales_check',
+                         'in_direct_merchant_check',
                          'own_merchants'
                      );
-
-/*        print_r($result);
+/*
+        print_r($result);
         print_r($gold);
-*/        
+        */
         return $result;
     }
 

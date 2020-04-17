@@ -70,9 +70,9 @@
 
               </li>
 
-              <li class=" nav-item"><a href="#"><i class="fa fa-briefcase"></i><span class="menu-title" data-i18n="">Subscriptions</span></a>
+              <li class=" nav-item"><a href="#"><i class="fa fa-briefcase"></i><span class="menu-title" data-i18n="">Packages</span></a>
               <ul class="menu-content">
-                  <li><a class="menu-item" href="<?=domain;?>/user/package"> Packages</a>
+                  <li><a class="menu-item" href="<?=domain;?>/user/package">All Packages</a>
                   <li><a class="menu-item" href="<?=domain;?>/user/merchant-packages">Merchant Packages</a>
             
                   <li><a class="menu-item" href="<?=domain;?>/user/partner-packages">Partner Packages</a>
@@ -83,29 +83,29 @@
 
 
 
-              <li class=" nav-item"><a href="#"><i class="fa fa-sitemap"></i><span class="menu-title" data-i18n="">My Team</span></a>
+              <li class=" nav-item"><a href="#"><i class="ft-users"></i><span class="menu-title" data-i18n="">My Team</span></a>
               <ul class="menu-content">
                   <li><a class="menu-item" href="<?=domain;?>/genealogy/team">Team</a>
-                  <li><a class="menu-item" href="<?=domain;?>/genealogy/placement_list"> List</a>
+                  <!-- <li><a class="menu-item" href="<?=domain;?>/genealogy/placement_list"> List</a> -->
             
                   <li><a class="menu-item" href="<?=domain;?>/genealogy/team_tree">Team Tree</a>
 
-                  <li><a class="menu-item" href="<?=domain;?>/genealogy/placement">Tree</a>
+                  <!-- <li><a class="menu-item" href="<?=domain;?>/genealogy/placement">Tree</a> -->
                   </li>
                 </ul>
              </li> 
 
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="icon-wallet"></i> Remuneration</a>
+                <a class="menu-item" href="<?=domain;?>/user/vp-remuneration"><i class="ft-align-justify"></i>VP Remuneration</a>
               </li>
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="icon-wallet"></i> InvitePro</a>
+                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="ft-star"></i> InvitePro</a>
               </li>
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/media"><i class="icon-wallet"></i> Events & Webinar</a>
+                <a class="menu-item" href="<?=domain;?>/user/media"><i class="ft-airplay"></i> Events & Webinar</a>
               </li>
 
               <li>
@@ -114,7 +114,7 @@
 
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/online_shop"><i class="ft-shopping-cart"></i> Online Store</a>
+                <a class="menu-item" href="<?=domain;?>/user/online_shop"><i class="ft-shopping-cart"></i> Online Shop</a>
               </li>
 
 
@@ -128,14 +128,10 @@
  -->
 
 
-          <li class=" navigation-header"><span>COMMUNICATION</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
-          </li>
-              
-
-
+            <hr>
 
             <li class=" nav-item"><a href="#">                
-              <i class="icon-question"></i>
+              <i class="fa fa-question-circle-o"></i>
              <span class="menu-title" data-i18n="">Support</span></a>
              <ul class="menu-content">
                <li><a class="menu-item" href="<?=domain;?>/user/support"> Support Tickets</a>
