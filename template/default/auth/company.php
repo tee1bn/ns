@@ -15,9 +15,7 @@ include 'includes/header.php'; ?>
 
             <div class="content-header-right col-6">
                 <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
-                    <a class="btn btn-outline-primary" href="javascript:void(0);"
-                       data-toggle="modal"
-                       data-target="#upload_company_supporting_document">+<i class="ft-file"></i>Upload</a>
+                    <a class="btn btn-outline-primary" href="javascript:void(0);" onclick="open_doc();" >+<i class="ft-file"></i>Upload</a>
                    <!-- <a ng-click="$list.attempt_request_for_review();" id="request_review_btn"
                        class="btn btn-outline-primary"
                        href="javascript:void(0);"><i class="ft-pie-chart"></i> Request Review</a>
@@ -52,6 +50,10 @@ include 'includes/header.php'; ?>
             <script>
                 refresh_page = function () {
                     angular.element($('#document_form')).scope().fetch_page_content();
+                }
+
+                open_doc = function() {
+                    $('#upload_company_supporting_document').modal('show');
                 }
             </script>
 
@@ -418,10 +420,8 @@ include 'includes/header.php'; ?>
                                 <div class="row">
                                     <div class="col-md-12 text-center"
                                          style="border: 1px dashed #0000002b ;min-height: 95px;">
-                                        <a ref="javascript:void(0);"
-                                           data-toggle="modal"
-                                           data-target="#upload_company_supporting_document"
-                                           style="cursor: pointer; padding: 0;position: absolute;left:35%;top: 20%;color: #0000002b;">
+                                        <a href="javascript:void(0);"  onclick="open_doc();" 
+                                        style="cursor: pointer; padding: 0;position: absolute;left:35%;top: 20%;color: #0000002b;">
 
                                             <i class="ft-upload-cloud" style="font-size: 40px;"></i><br>
                                             <small>Upload files here</small>
