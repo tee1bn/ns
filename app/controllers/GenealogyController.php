@@ -605,7 +605,7 @@ echo         $view = $this->buildView('composed/mlm_detail', compact('user'));
         <img src="$image_src" style="background: #0000007a;padding: 4px; border-radius: 70%;height: 55px; object-fit:contain;"><br>
         </span>
           
-ELL;     
+ELL;
 
 }else{
 
@@ -626,7 +626,7 @@ ELL;
           </div>
         </div>
 
-ELM;     
+ELM;
 
 }
 
