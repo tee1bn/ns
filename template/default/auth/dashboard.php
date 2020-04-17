@@ -24,12 +24,12 @@ $page_title = "Dashboard";
 
       $month = $_REQUEST['month'] ?? null;
 
-   /*   $api_response  = CoinWayApi::api($month);
+      $api_response  = CoinWayApi::api($month);
       $own_merchants = $api_response[$auth->id]['tenantCount'] ?? 0;
 
       $total_merchants = $api_response->whereIn('supervisorNumber', $direct_merchants_ids)->sum('tenantCount');
 
-*/
+
       $professional_check = $auth->isp_silver(10);
 
       $today = date("Y-m-d");
