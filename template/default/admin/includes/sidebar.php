@@ -16,6 +16,10 @@
               </li>
 
               <li>
+                <a class="menu-item" href="<?=domain;?>/admin/cms"><i class="fa fa-edit"></i>CMS</a>
+              </li>
+
+              <li>
                 <a class="menu-item" href="<?=domain;?>/admin/orders"><i class="fa fa-list"></i>Package Orders</a>
               </li>
 
