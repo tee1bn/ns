@@ -73,12 +73,8 @@ class AutoMatchingController extends controller
 	{
 
 		$last_settlement = SettlementTracker::where('paid_at','!=', null)->latest()->first();
-		$last_settlement_date = $last_settlement->period;
+		$last_settlement_date = $last_settlement->period ??  '2019-08-01';
 
-
-		if ($last_settlement_date == "") {
-			$last_settlement_date = '2019-08-01';
-		}
 
 
 
@@ -117,7 +113,7 @@ class AutoMatchingController extends controller
 		$date_condition = (time() >= $action_start_time);
 
 		if (!$date_condition) {
-			// return;
+			return;
 		}
 
 		//deduce payment month

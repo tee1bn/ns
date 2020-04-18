@@ -4,7 +4,7 @@
 namespace v2\Models;
 use SiteSettings,SubscriptionOrder;
 use v2\Models\ISPWallet;
-use MIS;
+use MIS, Exception;
 use Illuminate\Database\Capsule\Manager as DB;
 use Filters\Filters\UserFilter;
 use Apis\CoinWayApi;
@@ -24,8 +24,10 @@ class Isp
 
 		$this->isp_setting = SiteSettings::find_criteria('isp')->settingsArray;
 
+	    //call api
 
 		$this->month = date("Y-m");
+		$this->api_response  = CoinWayApi::api($this->month);
 		// print_r($this->isp_setting);
 
 		// krsort($this->rank_qualifications);
@@ -49,6 +51,9 @@ class Isp
 	{
 		$isp = collect($this->isp_setting['isp'])->keyBy('key')->toArray();
 
+
+		print_r($response);
+
 		//gold
 		$gold = $response['gold'];
 
@@ -64,48 +69,60 @@ class Isp
 
 		$gold_identifier = $this->user->id."gold/$this->month";
 
+		$extra_detail = json_encode([
+			'reason'=>'gold_term'
+		]);
+
 
 
 			if ($gold['step_1'] == 1) { //user qualify to receive gold
 
 				//delete all existing gold coins
 
+				try {
+					
+					// give new coin update
+					ISPWallet::createTransaction(	
+						'credit',
+						$this->user->id,
+						null,
+						$amount,
+						'completed',
+						'gold',
+						$comment ,
+						$gold_identifier, 
+						null , 
+						null,
+						$extra_detail,
+						$paid_at
+					);
 
-				// give new coin update
-				ISPWallet::createTransaction(	
-					'credit',
-					$this->user->id,
-					null,
-					$amount,
-					'completed',
-					'gold',
-					$comment ,
-					$gold_identifier, 
-					null , 
-					null,
-					null,
-					$paid_at
-				);
-
+				} catch (Exception $e) {
+					
+				}
 
 			}else{ //user should get pending gold coin
-
 				// $amount = 
-				
-				ISPWallet::createTransaction(	
-					'credit',
-					$this->user->id,
-					null,
-					$amount,
-					'pending',
-					'gold',
-					$comment ,
-					$gold_identifier, 
-					null , 
-					null,
-					null,
-					$paid_at
-				);
+				try {
+						
+					ISPWallet::createTransaction(	
+						'credit',
+						$this->user->id,
+						null,
+						$amount,
+						'pending',
+						'gold',
+						$comment ,
+						$gold_identifier, 
+						null , 
+						null,
+						$extra_detail,
+						$paid_at
+					);
+				} catch (Exception $e) {
+						
+						// print($e->getMessage());
+				}
 			}
 
 			//delete all pending or entitled coins
@@ -120,13 +137,16 @@ class Isp
 			$achieved_network = $silber['step_3'] * $isp['silber']['requirement']['step_3']['each_x_month'];
 
 			$comment = "Silber coin received for reaching $achieved_network months subscription";
-			$silber_identifier = $this->user->id."silber$this->month";
+			$silber_identifier = $this->user->id."silber_step_3$this->month";
 
 			$extra_detail = json_encode([
 				'reason'=>'x_month_active_pp'
 			]);
 
 			if ($amount > 0) {
+
+				try {
+					
 
 				// give new coin update
 				ISPWallet::createTransaction(	
@@ -144,6 +164,9 @@ class Isp
 					$paid_at
 				);
 
+				} catch (Exception $e) {
+					
+				}
 			}
 
 			//second type of silber coin earning
@@ -151,25 +174,72 @@ class Isp
 
 
 			$extra_detail = json_encode([
-				'reason'=>'second_way'
+				'reason'=>'second_way_step_4'
 			]);
 
-			// give new coin update
-/*			ISPWallet::createTransaction(	
-				'credit',
-				$this->user->id,
-				null,
-				$amount,
-				'completed',
-				'silber',
-				$comment ,
-				$silber_identifier, 
-				null , 
-				null,
-				$extra_detail,
-				$paid_at
-			);
-*/
+			$amount = $silber['step_4']['multiple_of_coins_earned'] * $isp['silber']['coin_received'];
+			$silber_identifier = $this->user->id."silber_step_4$this->month";
+
+			$no_of_direct_paid_line = $silber['step_4']['no_of_direct_paid_line'];
+			$no_of_direct_paid_line = $silber['step_4']['no_of_direct_paid_line'];
+
+
+
+$comment = <<<ELO
+ 	"Silber coin received for having $no_of_direct_paid_line direct paid lines and for 
+ 	 $no_of_direct_paid_line active direct merchant connection";
+ELO;
+
+echo "$comment";
+
+			if ($silber['step_4']['no_of_direct_paid_line'] == 1) {
+
+				try {
+					
+					// give new coin update
+					ISPWallet::createTransaction(	
+						'credit',
+						$this->user->id,
+						null,
+						$amount,
+						'completed',
+						'silber',
+						$comment ,
+						$silber_identifier, 
+						null , 
+						null,
+						$extra_detail,
+						$paid_at
+					);
+				} catch (Exception $e) {
+					
+				}
+
+			}else{
+
+				try {
+									
+				// give new coin update
+				ISPWallet::createTransaction(	
+					'credit',
+					$this->user->id,
+					null,
+					$amount,
+					'pending',
+					'silber',
+					$comment ,
+					$silber_identifier, 
+					null , 
+					null,
+					$extra_detail,
+					$paid_at
+				);
+			} catch (Exception $e) {
+				
+			}				
+	
+
+			}
 
 
 	}
@@ -182,7 +252,7 @@ class Isp
 			foreach ($coin['requirement'] as $requirement => $conditions) {
 
 				if(method_exists($this, $requirement)){
-					$response[$coin['key']][$requirement] =  (int)	$this->$requirement($conditions);
+					$response[$coin['key']][$requirement] =  	$this->$requirement($conditions);
 				}
 			}
 
@@ -204,10 +274,10 @@ class Isp
 		}
 
 		if (array_sum($response) == count($response)) {
-			return true;
+			return 1;
 		}
 
-			return false;
+		 return 0;
 	}
 
 
@@ -242,8 +312,8 @@ class Isp
 		//silber_coin already earned 
 
 		//get daterange for this month
-		$daterange = MIS::daterange($this->month, 'month', true);
-		$aleady_paid_coin = ISPWallet::for($this->user->id)->Category('silber')
+		$daterange = MIS::date_range($this->month, 'month', true);
+		$already_paid_coin = ISPWallet::for($this->user->id)->Category('silber')
 							->whereDate('paid_at', '<', $daterange['start_date'])
 							->Completed()->sum('amount');
 		
@@ -256,6 +326,58 @@ class Isp
 	}
 
 
+
+	/**
+	if the sales agent has 5 direct paid advanced or professionals and 5 active direct merchants 
+		than the user get also a silver coin. if 10 /10 then he gets 2 if 15/15 he gets 3 and so on.
+	*/
+	public function step_4($content)
+	{
+
+		$paid_packages = explode(",", $content['direct_paid_packages']);
+
+
+		//indirect_lines
+		$direct_line = $this->user->all_downlines_by_path('placement', false)->where('referred_by', $this->user->mlm_id);
+
+
+		//get those with active subscription
+		$today = date("Y-m-01");
+		$active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','<' , $today);
+        $active_members = $direct_line
+                ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
+                    $join->on('users.id', '=', 'active_subscriptions.user_id');
+                }); 
+
+
+
+        if ($active_members->count() >= $content['no_of_direct_paid_line']) {
+
+        	$no_of_direct_paid_line = 1;
+        }else{
+
+        	$no_of_direct_paid_line = 0;
+        }
+
+
+        //no of direct merchants
+
+         //get ids
+        $direct_sales_partners_ids = $active_members->get()->pluck('id')->toArray();
+		$total_direct_merchants = $this->api_response->whereIn('supervisorNumber', $direct_sales_partners_ids)->sum('tenantCount');
+
+
+
+		$multiple_of_coins_earned = floor($total_direct_merchants / $content['each_x_active_direct_merchant']) ;
+
+
+
+        $result = compact('no_of_direct_paid_line','multiple_of_coins_earned');
+
+		print_r($result);
+		
+		return $result;
+	}
 
 
 
@@ -294,9 +416,7 @@ class Isp
 
 
 
-	    //call api
-		$api_response  = CoinWayApi::api($this->month);
-		$own_merchants = $api_response[$this->user->id]['tenantCount'] ?? 0;
+		$own_merchants = $this->api_response[$this->user->id]['tenantCount'] ?? 0;
 
 
 
@@ -315,7 +435,7 @@ class Isp
          //get ids
         $in_direct_sales_partners_ids = $active_members->get()->pluck('id')->toArray();
 
-		$total_merchants = $api_response->whereIn('supervisorNumber', $in_direct_sales_partners_ids)->sum('tenantCount');
+		$total_merchants = $this->api_response->whereIn('supervisorNumber', $in_direct_sales_partners_ids)->sum('tenantCount');
 
 
          $no_indirect_active_merchants =   $total_merchants;
@@ -340,8 +460,8 @@ class Isp
 
 
 		//get daterange for this month
-		$daterange = MIS::daterange($this->month, 'month', true);
-		$aleady_paid_coin = ISPWallet::for($this->user->id)->Category('gold')
+		$daterange = MIS::date_range($this->month, 'month', true);
+		$already_paid_coin = ISPWallet::for($this->user->id)->Category('gold')
 							->whereDate('paid_at', '<', $daterange['start_date'])
 							->Completed()->sum('amount');
 		

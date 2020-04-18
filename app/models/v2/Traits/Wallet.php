@@ -631,7 +631,7 @@ trait Wallet
 			return $earning;
 
 		}catch(Exception $e){
-			print_r($e->getMessage());
+			// print_r($e->getMessage());
 		}
 
 		return false;
