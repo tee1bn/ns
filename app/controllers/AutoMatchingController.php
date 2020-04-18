@@ -54,7 +54,7 @@ class AutoMatchingController extends controller
 	}
 
 
-
+	//settle isp coins earned for all users
 	public function coinage_on_all(){
 
 		$users = User::query();
@@ -82,7 +82,7 @@ class AutoMatchingController extends controller
 
 	}
 
-
+	//settle isp coins earned for set user_id
 	public function coinage_on($user_id){
 		$user = User::find($user_id);
 
