@@ -660,6 +660,8 @@ class UserController extends controller
 
     public function index()
     {
+        Redirect::to('user/dashboard');
+
         $settings = SiteSettings::site_settings();
         $this->view('auth/dashboard', compact('settings'));
     }

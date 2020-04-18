@@ -97,7 +97,7 @@ class AutoMatchingController extends controller
 	{
 
 		$last_settlement = SettlementTracker::where('paid_at','!=', null)->latest()->first();
-		$last_settlement_date = $last_settlement->period ??  '2020-04-01';
+		$last_settlement_date = $last_settlement->period ??  '2019-08-01';
 
 
 
