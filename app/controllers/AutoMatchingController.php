@@ -15,12 +15,20 @@ use v2\Models\Isp;
 class AutoMatchingController extends controller
 {
 
+	public $settings;
+	public $url;
+	public $api_key;
+	public $header;
+	public $period;
+
+	public $all_settings;
 
 
 	public function __construct()
 	{
 
-		$this->settings = SiteSettings::site_settings();
+		$this->all_settings = SiteSettings::all()->keyBy('criteria');
+		$this->settings = $this->all_settings['site_settings']->settingsArray;
 
 
 		$this->url = "https://api.coinwaypay.com/api/supervisor/turnover";
@@ -32,9 +40,10 @@ class AutoMatchingController extends controller
 
 		$this->get_period();
 
-		if ($this->settings['distribute_commissions']== 1) {
 
-					$this->schedule_due_commissions();
+
+		if ($this->settings['distribute_commissions']== 1) {
+			$this->schedule_due_commissions();
 		}else{
 			echo "not yet set b admin";
 		}
@@ -48,9 +57,25 @@ class AutoMatchingController extends controller
 
 	public function coinage_on_all(){
 
-		$users = User::all();
+		$users = User::query();
 
-		foreach ($users as $key => $user) {
+		$paid_coins = "";
+
+		$date_range = $this->period['payment_date_range'];
+
+		$paid_coins = 	ISPWallet::whereDate('paid_at', '>=' , $date_range['start_date'])->whereDate('paid_at', '<=' , $date_range['end_date']);
+
+        $not_paid_users_sql = $users
+                ->leftJoinSub($paid_coins, 'paid_coins', function ($join) {
+                    $join->on('users.id', '=', 'paid_coins.user_id');
+                })->where('paid_coins.user_id','=', NULL); 
+
+
+         $not_paid_users = $not_paid_users_sql->get(['*', 'users.id as id']);
+
+     
+		// 
+		foreach ($not_paid_users as $key => $user) {
 			$coinage_on = new Isp;
 			$coinage_on->setUser($user)->doCheck();
 		}
@@ -59,7 +84,6 @@ class AutoMatchingController extends controller
 
 
 	public function coinage_on($user_id){
-
 		$user = User::find($user_id);
 
 		$coinage_on = new Isp;
@@ -73,7 +97,7 @@ class AutoMatchingController extends controller
 	{
 
 		$last_settlement = SettlementTracker::where('paid_at','!=', null)->latest()->first();
-		$last_settlement_date = $last_settlement->period ??  '2019-08-01';
+		$last_settlement_date = $last_settlement->period ??  '2020-04-01';
 
 
 
@@ -233,9 +257,12 @@ class AutoMatchingController extends controller
 	public function treat_supervisors_commissions($records_from_api, $supervisor_ids, $payment_month)
 	{
 
-			// DB::beginTransaction();
+
+			$already_settled_user_ids = SettlementTracker::where('period', $payment_month)->get(['user_id'])->pluck('user_id')->toArray();
 
 			foreach ($supervisor_ids as $id => $supervisor_id) {
+
+				if (in_array($supervisor_id, $already_settled_user_ids)) {continue;}
 
 				$commissions = $records_from_api[$supervisor_id];
 
@@ -243,7 +270,6 @@ class AutoMatchingController extends controller
 					
 
 						$settlement[] =	SettlementTracker::create([
-
 								'user_id'	=> $supervisor_id,
 								'user_no'	=> $supervisor_id,	
 								'period'	=> $payment_month,
@@ -280,7 +306,7 @@ class AutoMatchingController extends controller
 		$total_setup_fee = $scheduled_commissions->sum('settled_license_fee'); //get from api
 
 
-		$isp_settings = SiteSettings::find_criteria('isp')->settingsArray;
+		$isp_settings = $this->all_settings['isp']->settingsArray;
 		$isp_make_up = $isp_settings['isp_make_up'];
 
 
@@ -511,7 +537,7 @@ class AutoMatchingController extends controller
 
 		echo $total_disagio = $scheduled_commissions->sum('settled_disagio');
 
-		$pools_settings = SiteSettings::pools_settings();
+		$pools_settings = $this->all_settings['pools_settings']->settingsArray ;
 
 
 		$pools_settings = array_map(function($step) use ($total_disagio){
