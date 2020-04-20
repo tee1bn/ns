@@ -379,6 +379,8 @@ class AutoMatchingController extends controller
 		//gold
 		$sharable_total_on_gold = $isp_coin['gold']['isp_percent'] * 0.01 * $sharable_total;
 
+		
+
 		$this->share_gold_pool($sharable_total_on_gold, $period);
 
 

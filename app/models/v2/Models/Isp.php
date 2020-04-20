@@ -27,6 +27,7 @@ class Isp
 	    //call api
 
 		$this->month = date("Y-m");
+		// $this->month = date('2019-07');
 		$this->api_response  = CoinWayApi::api($this->month);
 		// print_r($this->isp_setting);
 
@@ -51,8 +52,6 @@ class Isp
 	{
 		$isp = collect($this->isp_setting['isp'])->keyBy('key')->toArray();
 
-
-		print_r($response);
 
 		//gold
 		$gold = $response['gold'];
@@ -79,7 +78,7 @@ class Isp
 		$already_paid_coin = ISPWallet::for($this->user->id)->Category('silber')
 							->whereDate('paid_at', '<', $daterange['start_date'])
 							->Completed()->sum('amount');
-							
+
 			$coin_earned_this_month = $amount - $already_paid_coin;	
 
 
@@ -388,6 +387,9 @@ echo "$comment";
         $direct_sales_partners_ids = $active_members->get()->pluck('id')->toArray();
 		$total_direct_merchants = $this->api_response->whereIn('supervisorNumber', $direct_sales_partners_ids)->sum('tenantCount');
 
+		$self_ids = [];
+		$self_ids[] = $this->user->id;
+		$total_direct_merchants = $this->api_response->whereIn('supervisorNumber', $self_ids)->sum('tenantCount');
 
 
 		$multiple_of_coins_earned = floor($total_direct_merchants / $content['each_x_active_direct_merchant']) ;
