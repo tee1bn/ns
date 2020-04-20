@@ -229,6 +229,50 @@ class User extends Eloquent
     }
 
 
+    public function isp_silver2($value='')
+    {
+
+              $silber = collect(SiteSettings::find_criteria('isp')->settingsArray['isp'])->keyBy('key')['silber'];
+
+
+
+
+              $today = date("Y-m-d");
+              $silber2_total_credit = ISPWallet::availableBalanceOnUser($this->id, 'silber2');
+              $silber2_total_entitled = (int)ISPWallet::for($this->id)->Category('silber2')->Cleared( $today, 'month')->Pending()->sum('amount');
+
+
+              $direct_sales = $this->all_downlines_by_path()->where('referred_by', $this->mlm_id);
+
+              // $all_sales_partner = $this->all_downlines_by_path()->count();
+
+              $direct_merchants_ids =  $direct_sales->get(['id'])->pluck('id')->toArray();
+
+
+              $direct_sales_partner_count = $direct_sales->count();
+              $api_response  = CoinWayApi::api($today);
+              $own_merchants = $api_response[$this->id]['tenantCount'] ?? 0;
+
+              $direct_sales_partner_required  =  $silber['requirement']['step_4']['no_of_direct_paid_line'];
+
+
+              $direct_merchant_required  =  $silber['requirement']['step_4']['each_x_active_direct_merchant'];
+
+              $result = compact('silber2_total_credit' ,
+                               'silber2_total_entitled',
+                               'direct_merchant_required',
+                               'direct_sales_partner_count',
+                               'direct_sales_partner_required',
+                               // 'all_sales_partner',
+                               'direct_sales_check',
+                               'own_merchants'
+                           );
+              
+              return $result;
+
+    }
+
+
 
     //for dashboard
     public function isp_silver($plan_id)
@@ -284,6 +328,11 @@ class User extends Eloquent
             $without_interuption =  '<i class="ft-x text-danger fa-2x "></i>';
             $next_coin =  '<i class="ft-x text-danger fa-2x "></i>';
         }
+
+
+
+        //silber2
+
 
 
 /*

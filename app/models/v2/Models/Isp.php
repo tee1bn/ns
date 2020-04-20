@@ -52,7 +52,6 @@ class Isp
 	{
 		$isp = collect($this->isp_setting['isp'])->keyBy('key')->toArray();
 
-
 		//gold
 		$gold = $response['gold'];
 

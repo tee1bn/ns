@@ -44,6 +44,9 @@ $page_title = "Dashboard";
 
       $gold_tab  = $auth->isp_gold();
 
+
+      $silber2  = $auth->isp_silver2();
+
       // die();
     ;?>
 
@@ -218,14 +221,14 @@ $page_title = "Dashboard";
                                             <div class="b-box">
                                                 <small>Total Credits</small>
                                                 <span class="d-box">
-                                                    43453
+                                                    <?=$silber2['silber2_total_credit'];?>
                                                 </span>
                                             </div>
 
                                             <div class="b-box">
                                                 <small>Entitled</small>
                                                 <span class="d-box">
-                                                    43453
+                                                    <?=$silber2['silber2_total_entitled'];?>
                                                 </span>
                                             </div>
                                             
@@ -240,7 +243,7 @@ $page_title = "Dashboard";
                                                         Direct sales partner: 
                                                     </span>
                                                     <span class="col-4">
-                                                        02/4  
+                                                    <?=$silber2['direct_sales_partner_count'];?>/<?=$silber2['direct_sales_partner_required'];?>
                                                     </span>
                                                     <span class=" col-2">
                                                         <span class=" float-right">
@@ -257,7 +260,7 @@ $page_title = "Dashboard";
                                                         Own merchant connection: 
                                                     </span>
                                                     <span class="col-4">
-                                                        02/4  
+                                                    <?=$silber2['own_merchants'];?>/<?=$silber2['direct_merchant_required'];?>
                                                     </span>
                                                     <span class=" col-2">
                                                         <span class=" float-right">
