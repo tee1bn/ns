@@ -133,7 +133,7 @@ $page_title = "Merchant Packages";
                                                 <tr>
                                                     <td>1</td>
                                                     <td>1324</td>
-                                                    <td>Indain Ltd</td>
+                                                    <td>Company Ltd</td>
                                                     <td>2</td>
                                                     <td>Professional</td>
                                                     <td>***</td>
