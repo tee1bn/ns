@@ -5,11 +5,13 @@ use  Filters\Filters\WalletFilter;
 use  Filters\Filters\SupportTicketFilter;
 use  Filters\Filters\SubscriptionOrderFilter;
 use  Filters\Filters\UserFilter;
+use  Filters\Filters\UserDocumentFilter;
 
 use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
 use v2\Models\Wallet;
 use v2\Models\Document;
+use v2\Models\UserDocument;
 
 use  v2\Shop\Shop;
 
@@ -34,6 +36,38 @@ class AdminController extends controller
 		$this->view('admin/packages');
 
 	}
+
+	
+
+	
+
+	public function user_verification()
+	{
+
+
+	    $sieve = $_REQUEST;
+	    $query = UserDocument::latest();
+	    // ->where('status', 1);  //in review
+
+
+	    $sieve = array_merge($sieve);
+	    $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+	    $per_page = 50;
+	    $skip = (($page - 1) * $per_page);
+
+	    $filter = new  UserDocumentFilter($sieve);
+
+	    $data = $query->Filter($filter)->count();
+
+	    $documents = $query->Filter($filter)
+	        ->offset($skip)
+	        ->take($per_page)
+	        ->get();  //filtered
+
+
+	    $this->view('admin/user_verification', compact('documents', 'sieve', 'data', 'per_page'));
+	}
+
 
 	
 

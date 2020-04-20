@@ -10,6 +10,12 @@
                 <a class="menu-item" href="<?=domain;?>/admin/users"><i class="ft-users"></i> Users</a>
               </li>
 
+              <li>
+                <a class="menu-item" href="<?=domain;?>/admin/user_verification"><i class="ft-folder"></i> User Verification</a>
+              </li>
+
+
+
 
               <li>
                 <a class="menu-item" href="<?=domain;?>/admin/companies"><i class="fa fa-building-o"></i> Companies</a>

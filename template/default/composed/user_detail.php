@@ -1,9 +1,9 @@
 <table class="table table-striped table-sm">
   
-    <tr>
+ <!--    <tr>
       <td>Sex(Verification)</td>
       <td><?=$user->DisplayGender;?>  <?=$user->VerifiedBagde;?></td>
-    </tr>
+    </tr> -->
     <tr>
       <td>Name  (L M F)</td>
       <td><?=$user->DisplayTitle;?> <?=$user->fullname;?></td>
@@ -18,9 +18,10 @@
     </tr>
     <tr>
       <td>Address</td>
-      <td><?=$user->address;?></td>
+      <td><?=$user->fullAddress;?></td>
     </tr>
-   
+    
+  <!--  
     <tr>
       <td>State, Country</td>
       <td><?=$user->decoded_state->name;?>, <?=$user->decoded_country->name;?></td>
@@ -28,7 +29,7 @@
     <tr>
       <td title="date of birth(DOB)">DOB (Age)</td>
       <td><?=$user->birthdate;?> (<?=$user->Age;?>yrs)</td>
-    </tr>
+    </tr> -->
     <tr>
       <td>Registration date</td>
       <td><?=date("M j, Y", strtotime($user->created_at));?></td>

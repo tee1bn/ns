@@ -62,7 +62,7 @@ class UserDocument extends Eloquent
 
     public function getTypeAttribute()
     {
-        return self::$document_types[$this->document_type];
+        return self::$document_types[$this->document_type] ?? $this->category;
     }
 
 

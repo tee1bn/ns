@@ -47,6 +47,15 @@ class Company extends Eloquent
 
 
 
+
+
+
+	public function getDecodedLegalFormAttribute()
+	{
+	    return self::$legal_forms[$this->legal_form];
+	}
+
+
 	public function request_for_review()
 	{
 
@@ -297,7 +306,7 @@ class Company extends Eloquent
 
         $getaddress = $this->addressArray;
         extract($getaddress);
-        $country = $this->decoded_country->name;
+        $country = $this->decoded_country->name ?? '';
         $full_address = "$house_number, $address, $place. $country";
 
         return "$full_address";
