@@ -29,7 +29,7 @@ class UserDocCrudController extends controller
         $comment = $_POST['comment'];
         $doc = UserDocument::find($doc_id);
 
-        if (($doc == null) || (!file_exists($doc->path))) {
+        if (($doc == null)/* || (!file_exists($doc->path))*/) {
             Session::putFlash('danger', 'File Not Found');
             Redirect::back();
         }

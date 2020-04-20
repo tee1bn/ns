@@ -49,6 +49,7 @@ include 'includes/header.php'; ?>
 
             <script>
                 refresh_page = function () {
+                    location.reload();
                     angular.element($('#document_form')).scope().fetch_page_content();
                 }
 
@@ -439,22 +440,32 @@ include 'includes/header.php'; ?>
 
                 </div>
                 <div class="col-md-4">
-                    <div class="card">
+                    <div class="card" style="overflow-y: scroll;max-height: 196px!important;">
                         <div class="card-content">
                             <div class="card-body">
-                                <h6 class="card-tile">Please download the following documents high:</h6>
+                                <h6 class="card-tile">Please download the following documents here:</h6>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-12 ">
 
                                         <ul class="list-group list-group-flush">
+                                            <?php $i=1; foreach ($auth->documents as $key => $doc) :?>
+                                            <li  class="list-group-item small-padding" style="text-transform: capitalize;">
+                                                <a href="javascript:void(0);"
+                                                   class="float-right" style="font-size: 20px;"><?=$doc->DisplayStatus;?></a>
+                                                <a target="_blank" href="<?=domain;?>/<?=$doc->path;?>"><b><?=$doc->Type['name'];?></b></a>
+                                            </li>
+                                            <?php endforeach ;?>
+                                        </ul> 
+
+                                        <!-- <ul class="list-group list-group-flush">
                                             <li ng-repeat="(key, $doc) in $list.$lists" class="list-group-item small-padding" style="text-transform: capitalize;">
                                                 <a href="javascript:void(0);" ng-click="$list.attempt_delete($doc, key);"
                                                    class="fa fa-trash text-danger float-right" style="font-size: 20px;"><i class=""></i></a>
                                                 <a target="_blank" href="<?=domain;?>/{{$doc.files}}"><b>{{$doc.label}}</b></a>
                                             </li>
                                         </ul>
-
+ -->
 
 
                                     </div>

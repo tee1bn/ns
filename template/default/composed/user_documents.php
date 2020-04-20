@@ -13,8 +13,10 @@
     $i=1; foreach ($documents as $key => $doc) :?>
 
   <tr>
-    <td><?=$i;?>) <?=$doc->DisplayStatus;?>  <a
-     href="javascript:void(0);" onclick="open_smodal('<?=domain;?>/<?=$doc->path;?>')" class="float-right"><?=$doc->Type['name'];?></a></td>
+
+    <td><?=$i;?>) <?=$doc->DisplayStatus;?>  
+    <!-- onclick="open_smodal('<?=domain;?>/<?=$doc->path;?>')" -->
+    <a href="<?=domain;?>/<?=$doc->path;?>" target="_blank"  class="float-right"><?=$doc->Type['name'];?></a></td>
   </tr>
   <?php $i++; endforeach ;?>
 

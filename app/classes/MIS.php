@@ -1,4 +1,5 @@
 <?php
+require_once "app/controllers/home.php";
 
 /**
  * This is where all miscellaneous operational functions is done

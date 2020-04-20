@@ -5,8 +5,12 @@
       <td><?=$user->DisplayGender;?>  <?=$user->VerifiedBagde;?></td>
     </tr> -->
     <tr>
-      <td>Name  (L M F)</td>
-      <td><?=$user->DisplayTitle;?> <?=$user->fullname;?></td>
+      <td>First Name </td>
+      <td><?=$user->DisplayTitle;?> <?=$user->firstname;?></td>
+    </tr>
+    <tr>
+      <td>Last Name </td>
+      <td><?=$user->DisplayTitle;?> <?=$user->lastname;?></td>
     </tr>
     <tr>
       <td>Email</td>
@@ -21,6 +25,11 @@
       <td><?=$user->fullAddress;?></td>
     </tr>
     
+    <tr>
+      <td>Post Code</td>
+      <td><?=$user->addressArray['post_code'];?></td>
+    </tr>
+    
   <!--  
     <tr>
       <td>State, Country</td>
@@ -32,6 +41,6 @@
     </tr> -->
     <tr>
       <td>Registration date</td>
-      <td><?=date("M j, Y", strtotime($user->created_at));?></td>
+      <td><?=date("M j, Y h:iA", strtotime($user->created_at));?></td>
     </tr>
 </table>

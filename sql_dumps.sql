@@ -24,6 +24,13 @@ ALTER TABLE `companies` ADD `legal_form` VARCHAR(255) NULL AFTER `vat_number`;
 -- for isp compensation and new design --ends
 
 
+ALTER TABLE `users_documents` ADD `label` VARCHAR(255) NULL AFTER `user_id`;
+ALTER TABLE `users_documents` CHANGE `document_type` `document_type` INT(11) NULL;
+
+
+
+
+
 
 ALTER TABLE `subscription_payment_orders` ADD `expires_at` DATETIME NULL AFTER `payment_details`, ADD `payment_state` ENUM('automatic','manual','cancelled') NULL AFTER `expires_at`;
 

@@ -16,6 +16,7 @@ class UserDocument extends Eloquent
 		'user_id', 
 		'document_type',
 		'path',
+        'label',
 		'status',
 	];
 	
@@ -62,7 +63,7 @@ class UserDocument extends Eloquent
 
     public function getTypeAttribute()
     {
-        return self::$document_types[$this->document_type] ?? $this->category;
+        return self::$document_types[$this->document_type] ?? ['name'=>$this->label];
     }
 
 
@@ -86,19 +87,19 @@ class UserDocument extends Eloquent
     {
     	switch ((string)($this->status)) {
     		case 2:
-    			$status = '<span class="badge badge-success"> Approved</span>';
+    			$status = '<span class="badge-sm badge badge-success ft-check fa-2x"> Approved</span>';
     			break;
     		
     		case 1:
-    			$status = '<span class="badge badge-warning"> In review</span>';
+    			$status = '<span class="badge-sm badge badge-warning"> In review</span>';
     			break;
     		
     		case 3:
-    			$status = '<span class="badge badge-danger"> Declined</span>';
+    			$status = '<span class="badge-sm badge badge-danger ft-x fa-2x"> Declined</span>';
     			break;
     		
     		default:
-    			$status = '<span class="badge badge-warning"> Unknown</span>';
+    			$status = '<span class="badge-sm badge badge-warning"> Unknown</span>';
     			break;
     	}
 

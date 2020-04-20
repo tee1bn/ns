@@ -85,23 +85,24 @@ $page_title = "User Verification";
                                 <div class="modal-body">
 
                                     <div class="row">
+                                    <div class="col-md-12">
                                       Total Documents - <?=$user->VerifiedBagde;?>
                                     </div>
-                                    <div class="row">
                                       <div class="col-md-4">
                                         <?php 
                                          echo $this->view('composed/user_detail', compact('user'), true);?>
-                                      </div>
-                                      <div class="col-md-4">
-                                          <?php
-                                            $which = 'pending';
-                                           $this->view('composed/user_documents', compact('user','which'), true);?>
                                       </div>
 
                                       <div class="col-md-4">
                                           <?php
                                             $company = $user->company;
                                            $this->view('composed/company_detail', compact('company'), true);?>
+                                      </div>
+
+                                      <div class="col-md-4">
+                                          <?php
+                                            $which = 'pending';
+                                           $this->view('composed/user_documents', compact('user','which'), true);?>
                                       </div>
 
 
@@ -193,18 +194,19 @@ $page_title = "User Verification";
 
                     <!-- The Modal -->
                     <div class="modal" id="view">
-                      <div class="modal-dialog modal-lg">
+                      <div class="modal-dialog modal-xl">
                         <div class="modal-content">
 
                           <!-- Modal Header -->
                           <div class="modal-header">
-                            <h4 class="modal-title">Modal Heading</h4>
+                            <h4 class="modal-title">Document</h4>
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                           </div>
 
                           <!-- Modal body -->
                           <div class="modal-body">
-                            <div><img src="" id="image" style="height: auto;width: 100%;"></div>
+                            <iframe src="" id="image" style="width: 100%; height: 600px;"></iframe>
+                            <!-- <div><img src="" id="image" style="height: auto;width: 100%;"></div> -->
 
                           </div>
 

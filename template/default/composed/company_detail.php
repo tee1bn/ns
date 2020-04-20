@@ -23,6 +23,10 @@
       <td><?=$company->fullAddress;?></td>
     </tr>
    
+   <tr>
+     <td>Post Code</td>
+     <td><?=$company->addressArray['post_code'];?></td>
+   </tr>
     <tr>
       <td>IBAN</td>
       <td><?=$company->iban_number;?></td>

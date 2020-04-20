@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use v2\Models\UserDocument;
 
 
 
@@ -52,7 +53,7 @@ class Company extends Eloquent
 
 	public function getDecodedLegalFormAttribute()
 	{
-	    return self::$legal_forms[$this->legal_form];
+	    return self::$legal_forms[$this->legal_form] ?? '';
 	}
 
 
@@ -157,6 +158,14 @@ class Company extends Eloquent
 			}
 
 
+				foreach ($new_file as $label => $document) {
+						$doc = UserDocument::create([
+						    'user_id' => $this->user_id,
+						    'path' => $document['files'],
+						    'label' => $document['label'],
+						    'status' => 1,
+						]);
+				}	
 
 				$this->update([
 						'documents'=> json_encode($documents)
@@ -339,6 +348,17 @@ class Company extends Eloquent
 
 
 	public function getdocumentsAttribute($value)
+	{	
+		if ($value == null) {
+			
+			return [];			
+		}
+		return json_decode($value , true);
+	}
+
+
+
+	public function getdocumentsArrayAttribute($value)
 	{	
 		if ($value == null) {
 			

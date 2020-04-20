@@ -4,6 +4,7 @@
 use Illuminate\Database\Capsule\Manager as DB;
 use v2\Models\Wallet;
 use v2\Models\Withdrawal;
+use v2\Models\UserDocument;
 
 
 /**
@@ -28,6 +29,37 @@ class IspUpgradeController extends controller
 		$this->transfer_wallet();
 		$this->update_expires_at();
 		$this->update_no_of_month();
+	}
+
+
+	public function update_documents()
+	{
+		 $companies =  Company::where('documents', '!=', NULL)->get();
+
+
+		 echo "<pre>";
+		 // print_r($companies->toArray());
+
+		 $statuses = ['approved'=> 2, 'verifying'=> 1, 'declined'=>3];
+
+		 foreach ($companies as $key => $company) {
+
+		 	$docs = $company->documents;
+
+		 	foreach ($docs as $key => $doc) {
+
+		 	print_r($doc);
+			 	UserDocument::create([
+			 	    'user_id' => $company->user_id,
+			 	    'path' => $doc['files'],
+			 	    'label' => $doc['label'],
+			 	    'status' => $statuses[$company->approval_status],
+			 	]);
+		 	}
+
+
+		 }
+
 	}
 
 

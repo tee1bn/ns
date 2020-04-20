@@ -2065,7 +2065,7 @@ class User extends Eloquent
         $getaddress = $this->addressArray;
         extract($getaddress);
         $country = $this->decoded_country->name;
-        $full_address = "$house_number, $address, $place. $country<br> Post Code: $post_code";
+        $full_address = "$house_number, $address, $place. $country";
 
         return "$full_address";
     }
