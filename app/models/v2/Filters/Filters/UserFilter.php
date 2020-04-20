@@ -81,11 +81,13 @@ class UserFilter extends QueryFilter
 
 			$user_ids = User::WhereRaw("firstname like ? 
 	                                      OR lastname like ? 
+	                                      OR id like ? 
 	                                      OR username like ? 
 	                                      OR email like ? 
 	                                      OR phone like ? 
 	                                      ",
 	                                      array(
+	                                          '%'.$name.'%',
 	                                          '%'.$name.'%',
 	                                          '%'.$name.'%',
 	                                          '%'.$name.'%',

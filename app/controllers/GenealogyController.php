@@ -244,7 +244,9 @@ class GenealogyController extends controller
         $sieve = $_REQUEST;
         $sieve = array_merge($sieve, $extra_sieve);
 
-        $query = $this->auth()->all_downlines_by_path($tree_key);
+        // print_r($sieve);
+        // $query = $this->auth()->all_downlines_by_path($tree_key); only downline
+        $query = User::query(); //all user
 
 
         // ->where('status', 1);  //in review
@@ -279,7 +281,8 @@ class GenealogyController extends controller
         foreach ($users as $key => $user) {
             $username = $user->username;
             $fullname = $user->fullname;
-            $line .= "<option value='$username'> $fullname ($username)</option>";
+            $id = $user->id;
+            $line .= "<option value='$username'> $fullname ($username) ID:$id</option>";
         }
 
         header("content-type:application/json");
@@ -613,12 +616,12 @@ ELL;
         <li>
                 <div class="dropdown" style="padding:0px;">
 
-        <span  class="dropdown-toggl text-white" data-toggle="dropdow" style="background:$background; border: 1px solid $background !important;padding-bottom: 0px;padding-top: 0px;">
+        <span  class="dropdown-toggle dropdown-toggle-no-after text-white" data-toggle="dropdown" style="background:$background; border: 1px solid $background !important;padding-bottom: 0px;padding-top: 0px;cursor:pointer;">
         <a style="position: absolute;top: -20px;border: none;right: -14px;font-size:20px;">$fa_status</a>
         <b style="text-transform:capitalize;">$user->NameInitials </b>
 
         </span>
-          <div class="dropdown-menu" style="padding:10px; border-radius:5px;" aria-labelledby="dropdownMenuButton$i">
+          <div class="dropdown-menu" style="padding:10px;padding-top:0px !important; border-radius:5px;" aria-labelledby="dropdownMenuButton$i">
             $view
 
             <a class="text-primary" href="$domain/genealogy/team_tree/$user->username/placement/2" style="font-size:12px; margin-left:30px;">See Tree</a>

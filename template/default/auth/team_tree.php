@@ -63,7 +63,8 @@ $auth_user = $auth;
 
          <form action="<?=domain;?>/genealogy/showout" method="post" style="display: inline; ">
        <div class="input-group col-md-4 col-8">
-           <input type="text"  class="form-control" name="username" onkeyup="populate_option(this.value)" list="my_downlines"  placeholder="Search your downline" aria-describedby="button-addon2">
+           <input type="text"  class="form-control" name="username" onkeyup="populate_option(this.value)" list="my_downlines"  
+           placeholder="Search your downline & select from the predictions " aria-describedby="button-addon2">
            <input type="hidden" name="tree_key" value="<?=$tree_key;?>">
            <div class="input-group-append" id="button-addon2">
              <button class="btn btn-outline-dark" style="" type="submit">Go</button>
@@ -142,10 +143,17 @@ $auth_user = $auth;
                  </ol>
              </div>
 
-         <center  style="overflow-x: scroll; overflow-y: none; height: auto;">
+         <!-- <center  style="overflow-x: scroll; overflow-y: none; height: auto;"> -->
+         <center  style="">
            <ul class="tree" id="tree">
            </ul>
          </center>
+         <style>
+           
+           .dropdown-toggle-no-after::after {
+              content: none !important;
+           }
+         </style>
 
          <?php
             $month = $_GET['month'] ?? '';
@@ -176,7 +184,7 @@ $auth_user = $auth;
 
            populate_option = function($query){
 
-             if ($query.length < 2) {return;}
+             // if ($query.length < 2) {return;}
 
              $.ajax({
                  type: "POST",
