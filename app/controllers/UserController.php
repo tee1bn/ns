@@ -353,7 +353,7 @@ class UserController extends controller
             }
     */
 
-
+        
         $response = SubscriptionPlan::create_subscription_request($subscription_id, $this->auth()->id);
 
 

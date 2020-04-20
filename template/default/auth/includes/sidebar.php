@@ -142,6 +142,9 @@
 
 
             <li><a class="menu-item" href="<?=domain;?>/user/broadcast"> <i class="fa fa-file-text-o"></i> News</a></li>
+            <hr>
+
+            <li><a class="menu-item" href="<?=domain;?>/login/logout"> <i class="ft-power"></i> Log Out</a></li>
 
             <!-- <li><a class="menu-item" href="<?=domain;?>/user/testimony"><i class="fa fa-certificate"></i>Testimonials</a></li> -->
 

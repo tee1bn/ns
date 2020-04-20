@@ -18,11 +18,11 @@ class LoginController extends controller
 	public function adminLogindfghjkioiuy3hj8()
 	{
 		
-	/*if($this->auth() ){
-		Redirect::to('admin-dashboard');
-	}*/
-	$this->view('admin/login', []);
+	if($this->admin() ){
+		Redirect::to('admin/users');
+	}
 
+		$this->view('admin/login', []);
 	}
 
 

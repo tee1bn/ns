@@ -245,7 +245,7 @@ class User extends Eloquent
                                 ->first();
 
 
-        $initial_activation = ($first_subscription != null) ? date("d/m/Y", strtotime($first_subscription->paid_at)) : 'Nil';
+        $initial_activation = ($first_subscription != null) ? date("d/m/Y", strtotime($first_subscription->paid_at)) : '<i class="ft-x text-danger fa-2x "></i>';
 
         $default = SubscriptionPlan::default_sub();
         $another = SubscriptionPlan::default_sub();
@@ -259,8 +259,20 @@ class User extends Eloquent
             $value = 1;
             $subscription = $this->subscription;
 
-            $without_interuption = date("d/m/Y", strtotime($subscription->paid_at)) ;
-            $next_coin = date("d/m/Y", strtotime("$subscription->paid_at +6 months")) ;
+            if ($subscription->id == 1) {
+
+                $without_interuption = '<i class="ft-x text-danger fa-2x "></i>';
+                $next_coin = '<i class="ft-x text-danger fa-2x "></i>';
+
+
+            }else{
+
+                $without_interuption = date("d/m/Y", strtotime($subscription->paid_at)) ;
+                $next_coin = date("d/m/Y", strtotime("$subscription->paid_at +6 months"));
+
+            }
+
+
         }else{
 
             $display = "<em class='text-danger'>Inactive</em>";
@@ -269,8 +281,8 @@ class User extends Eloquent
 
             $subscription = $default;
 
-            $without_interuption = 'Nil';
-            $next_coin = "Nil";
+            $without_interuption =  '<i class="ft-x text-danger fa-2x "></i>';
+            $next_coin =  '<i class="ft-x text-danger fa-2x "></i>';
         }
 
 

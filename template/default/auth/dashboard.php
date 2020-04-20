@@ -421,7 +421,7 @@ $page_title = "Dashboard";
                     </div>
 
                     <div class="col-md-12">
-                        <a href="<?=domain;?>/user/earnings" class="btn btn-block btn-outline-teal ">MY COMMISSIONS</a>
+                        <a href="javascript:void(0);" class="btn btn-block btn-outline-teal ">MY COMMISSIONS</a>
                     </div>
 
 

@@ -101,7 +101,7 @@
                     <li class="nav-item">
 
                       <div>
-
+<!-- 
                           <form action="?" method="get" style="display: inline;">
 
                         <div class="input-group" style="padding-top: 16px;">
@@ -110,7 +110,7 @@
                               <button class="btn btn-outline-dark btn-sm " style="" type="submit">Go</button>
                             </div>
                         </div>
-                          </form>
+                          </form> -->
                       </div>
                     </li>
 
