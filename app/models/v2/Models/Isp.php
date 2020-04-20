@@ -74,6 +74,15 @@ class Isp
 		]);
 
 
+		$daterange = MIS::date_range($this->month, 'month', true);
+
+		$already_paid_coin = ISPWallet::for($this->user->id)->Category('silber')
+							->whereDate('paid_at', '<', $daterange['start_date'])
+							->Completed()->sum('amount');
+							
+			$coin_earned_this_month = $amount - $already_paid_coin;	
+
+
 
 			if ($gold['step_1'] == 1) { //user qualify to receive gold
 
@@ -86,7 +95,7 @@ class Isp
 						'credit',
 						$this->user->id,
 						null,
-						$amount,
+						$coin_earned_this_month,
 						'completed',
 						'gold',
 						$comment ,
@@ -102,14 +111,14 @@ class Isp
 				}
 
 			}else{ //user should get pending gold coin
-				// $amount = 
+				// $coin_earned_this_month = 
 				try {
 						
 					ISPWallet::createTransaction(	
 						'credit',
 						$this->user->id,
 						null,
-						$amount,
+						$coin_earned_this_month,
 						'pending',
 						'gold',
 						$comment ,
@@ -143,7 +152,17 @@ class Isp
 				'reason'=>'x_month_active_pp'
 			]);
 
-			if ($amount > 0) {
+
+			$daterange = MIS::date_range($this->month, 'month', true);
+
+			$already_paid_coin = ISPWallet::for($this->user->id)->Category('silber')
+								->whereDate('paid_at', '<', $daterange['start_date'])
+								->Completed()->sum('amount');
+
+
+			$coin_earned_this_month = $amount - $already_paid_coin;	
+
+			if ($coin_earned_this_month > 0) {
 
 				try {
 					
@@ -153,7 +172,7 @@ class Isp
 					'credit',
 					$this->user->id,
 					null,
-					$amount,
+					$coin_earned_this_month,
 					'completed',
 					'silber',
 					$comment ,
@@ -192,6 +211,18 @@ ELO;
 
 echo "$comment";
 
+
+		$daterange = MIS::date_range($this->month, 'month', true);
+
+		$already_paid_coin = ISPWallet::for($this->user->id)->Category('silber2')
+							->whereDate('paid_at', '<', $daterange['start_date'])
+							->Completed()->sum('amount');
+
+
+		$coin_earned_this_month = $amount - $already_paid_coin;							
+
+
+
 			if ($silber['step_4']['no_of_direct_paid_line'] == 1) {
 
 				try {
@@ -201,9 +232,9 @@ echo "$comment";
 						'credit',
 						$this->user->id,
 						null,
-						$amount,
+						$coin_earned_this_month,
 						'completed',
-						'silber',
+						'silber2',
 						$comment ,
 						$silber_identifier, 
 						null , 
@@ -224,9 +255,9 @@ echo "$comment";
 					'credit',
 					$this->user->id,
 					null,
-					$amount,
+					$coin_earned_this_month,
 					'pending',
-					'silber',
+					'silber2',
 					$comment ,
 					$silber_identifier, 
 					null , 
@@ -311,17 +342,8 @@ echo "$comment";
 
 		//silber_coin already earned 
 
-		//get daterange for this month
-		$daterange = MIS::date_range($this->month, 'month', true);
-		$already_paid_coin = ISPWallet::for($this->user->id)->Category('silber')
-							->whereDate('paid_at', '<', $daterange['start_date'])
-							->Completed()->sum('amount');
-		
-		$coin_earned_this_month = $multiple_of_coins_earned - $already_paid_coin;							
-
-		// TODO: remove ALREADYEARNED COIN FROM THIS $multiple_of_coins_earned
-
-		return $coin_earned_this_month;
+	
+		return $multiple_of_coins_earned;
 
 	}
 
@@ -459,17 +481,7 @@ echo "$comment";
 		$multiple_of_coins_earned = floor($no_in_whole_network / $chunk) ;
 
 
-		//get daterange for this month
-		$daterange = MIS::date_range($this->month, 'month', true);
-		$already_paid_coin = ISPWallet::for($this->user->id)->Category('gold')
-							->whereDate('paid_at', '<', $daterange['start_date'])
-							->Completed()->sum('amount');
-		
-		$coin_earned_this_month = $multiple_of_coins_earned - $already_paid_coin;							
-
-		// TODO: remove ALREADYEARNED COIN FROM THIS $multiple_of_coins_earned
-
-		return $coin_earned_this_month;
+		return $multiple_of_coins_earned;
 	}
 
 }

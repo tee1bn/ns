@@ -27,6 +27,7 @@ ALTER TABLE `companies` ADD `legal_form` VARCHAR(255) NULL AFTER `vat_number`;
 ALTER TABLE `users_documents` ADD `label` VARCHAR(255) NULL AFTER `user_id`;
 ALTER TABLE `users_documents` CHANGE `document_type` `document_type` INT(11) NULL;
 
+ALTER TABLE `isp_wallet` CHANGE `earning_category` `earning_category` ENUM('bonus','package','disagio','gold','silber','license','silber2') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 
 
 

@@ -397,7 +397,14 @@ class AutoMatchingController extends controller
 	{
 		//find all user on gold or silber
 
-		$users_coins = ISPWallet::whereRaw("earning_category = 'gold' OR earning_category = 'silber'")->Completed()->Cleared();
+		$date_range = $this->period['payment_date_range'];
+		extract($date_range);
+
+		$users_coins = ISPWallet::whereRaw("earning_category = 'gold' OR earning_category = 'silber' OR earning_category = 'silber2'")
+		// ->whereDate('paid_at','>=',  $start_date)->whereDate('paid_at', '<=',$end_date)
+		->Completed()->Cleared();
+
+
 
 		$total_coin = $users_coins->sum('amount');
 
@@ -461,9 +468,20 @@ class AutoMatchingController extends controller
 	{
 		//find all user on gold
 
-		$users_having_gold = ISPWallet::Completed()->Category('gold')->Cleared()->with('user');
+		$date_range = $this->period['payment_date_range'];
+		extract($date_range);
+
+		$users_having_gold = ISPWallet::Completed()->Category('gold')->Cleared()
+		// ->whereDate('paid_at','>=',  $start_date)->whereDate('paid_at', '<=',$end_date)
+		->with('user');
+
+
+
+
 		$total_gold_coin = $users_having_gold->sum('amount');
  		$worth_of_a_gold =  round(($sharable_total / $total_gold_coin), 2);
+
+
 
 
 
