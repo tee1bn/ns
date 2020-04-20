@@ -247,7 +247,7 @@ $page_title = "Dashboard";
                                                     </span>
                                                     <span class=" col-2">
                                                         <span class=" float-right">
-                                                            <i class="ft-check fa-2x"></i>
+                                                            <?=$silber2['direct_sales_check'];?>
                                                         </span>
                                                     </span>
                                                     </div>
@@ -264,7 +264,7 @@ $page_title = "Dashboard";
                                                     </span>
                                                     <span class=" col-2">
                                                         <span class=" float-right">
-                                                            <i class="ft-check fa-2x"></i>
+                                                            <?=$silber2['direct_merchant_check'];?>
                                                         </span>
                                                     </span>
                                                     </div>

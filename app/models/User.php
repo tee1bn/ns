@@ -258,6 +258,16 @@ class User extends Eloquent
 
               $direct_merchant_required  =  $silber['requirement']['step_4']['each_x_active_direct_merchant'];
 
+
+              $direct_sales_check = ($direct_sales_partner_count >= $direct_sales_partner_required) ?
+               '<i class="ft-check text-success fa-2x"></i>' : '<i class="ft-x text-danger fa-2x"></i>' ;
+
+
+              $direct_merchant_check = ($own_merchants >= $direct_merchant_required) ?
+               '<i class="ft-check text-success fa-2x"></i>' : '<i class="ft-x text-danger fa-2x"></i>' ;
+
+
+
               $result = compact('silber2_total_credit' ,
                                'silber2_total_entitled',
                                'direct_merchant_required',
@@ -265,6 +275,7 @@ class User extends Eloquent
                                'direct_sales_partner_required',
                                // 'all_sales_partner',
                                'direct_sales_check',
+                               'direct_merchant_check',
                                'own_merchants'
                            );
               
