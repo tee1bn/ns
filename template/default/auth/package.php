@@ -103,7 +103,7 @@ include 'includes/header.php';; ?>
 
 
                                             <label>
-                                                <input type="checkbox" name="payment_type" value="subscription"> Monthly
+                                                <input type="radio" name="prepaid_month" value="1"> Monthly
                                                 payment (Automatic collection)
                                             </label>
                                             <br>

@@ -19,6 +19,7 @@ return array(
     'Filters\\Filters\\EarningFilter' => $baseDir . '/app/models/v2/Filters/Filters/EarningFilter.php',
     'Filters\\Filters\\Mt4TradesFilter' => $baseDir . '/app/models/v2/Filters/Filters/testFilter.php',
     'Filters\\Filters\\OrderFilter' => $baseDir . '/app/models/v2/Filters/Filters/OrderFilter.php',
+    'Filters\\Filters\\SubscriptionOrderFilter' => $baseDir . '/app/models/v2/Filters/Filters/SubscriptionOrderFilter.php',
     'Filters\\Filters\\SupportTicketFilter' => $baseDir . '/app/models/v2/Filters/Filters/SupportTicketFilter.php',
     'Filters\\Filters\\TradingAccountFilter' => $baseDir . '/app/models/v2/Filters/Filters/TradingAccountFilter.php',
     'Filters\\Filters\\UserBankFilter' => $baseDir . '/app/models/v2/Filters/Filters/UserBankFilter.php',

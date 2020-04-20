@@ -8,10 +8,14 @@ use Illuminate\Database\Capsule\Manager as DB;
 use v2\Shop\Contracts\OrderInterface;
 use  v2\Shop\Shop;
 use  v2\Models\Wallet;
+use  Filters\Traits\Filterable;
+
 
 
 class SubscriptionOrder extends Eloquent implements OrderInterface
 {
+
+	use Filterable;
 	
 	protected $fillable = [
 							'plan_id',

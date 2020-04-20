@@ -3,12 +3,16 @@
 use Illuminate\Database\Capsule\Manager as DB;
 use  Filters\Filters\WalletFilter;
 use  Filters\Filters\SupportTicketFilter;
+use  Filters\Filters\SubscriptionOrderFilter;
 use  Filters\Filters\UserFilter;
 
 use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
 use v2\Models\Wallet;
 use v2\Models\Document;
+
+use  v2\Shop\Shop;
+
 /**
  * this class is the default controller of our application,
  * 
@@ -1155,22 +1159,39 @@ EOL;
 	}
 
 
-	public function orders($from=null , $to=null)
+	public function orders()
 	{	
 
+				$sieve = $_REQUEST;
+				$query = SubscriptionOrder::where('id', '!=', null);
+				$sieve = array_merge($sieve);
+				
+				$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+				$per_page = 50;
+				$skip = (($page -1 ) * $per_page) ;
 
-		$query =  SubscriptionOrder::latest();
+				$filter =  new  SubscriptionOrderFilter($sieve);
+
+				$data =  $query->Filter($filter)->count();
+
+		    	$result_query = SubscriptionOrder::query()->Filter($filter);
+		    	
+
+				$subscription_orders =  $query->Filter($filter)
+								->offset($skip)
+								->take($per_page)
+								->get();  //filtered
 
 
-		if (($from != null) && ($to != null)) {
-			$query =  $query->whereDate('created_at', '>=', $from)->whereDate('created_at', '<=', $to);
-		}
-
-	 	$subscription_orders = $query->get();
-		$inflows_total = $query->where('paid_at','!=', null)->sum('price');
-	
-		$this->view('admin/subscription_orders', compact('subscription_orders',
-														'inflows_total'));
+				$shop = new Shop;
+			
+				$this->view('admin/subscription_orders', compact('subscription_orders',
+																'data',
+																'per_page',
+																'shop',
+																'sieve'
+																));
+			
 	}
 
 

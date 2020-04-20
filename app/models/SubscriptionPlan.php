@@ -195,12 +195,7 @@ class SubscriptionPlan extends Eloquent
 
 			 	//cancel current subscription if automatic
 
-			 	if (isset($_POST['payment_type'])) {
-			 		$payment_type = 'subscription';
-			 	}else{
-
-			 		$payment_type = 'one_time';
-			 	}
+			 	$payment_type = SubscriptionOrder::$payment_types[$_POST['payment_method']];
 
 
 			 	$plan_id = $subscription_id;
