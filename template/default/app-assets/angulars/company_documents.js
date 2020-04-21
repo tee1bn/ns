@@ -1,5 +1,5 @@
     List = function($data = []){
-        this.$active_list = [];
+        this.$active_list = [{}];
         this.$edit_list = [];
         this.$lists = $data;
 

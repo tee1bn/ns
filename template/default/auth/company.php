@@ -1,6 +1,13 @@
 <?php
 $page_title = "Company";
-include 'includes/header.php'; ?>
+include 'includes/header.php'; 
+
+use v2\Models\UserDocument;
+
+$approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_type')->toArray());
+
+
+;?>
 <script src="<?= asset; ?>/angulars/company_documents.js"></script>
 
 <!-- BEGIN: Content-->
@@ -90,6 +97,7 @@ include 'includes/header.php'; ?>
                                 <br>
                                 <i class="card-text"> *All documents will be verified.</i>
                                 <br>
+
                                 <table class="table table-hover table-condensed">
 
                                     <thead>
@@ -99,13 +107,28 @@ include 'includes/header.php'; ?>
                                     </tr>
                                     </thead>
                                     <tbody>
+                                    <?php foreach (UserDocument::$document_types as $key => $doc) :
+                                            if (in_array($key, $approved_documents_keys)) {continue;}
+                                        ?>
                                     <tr ng-repeat="(key, $hospital) in $list.$active_list">
+
                                         <td>
                                             <input
-                                                    placeholder="Name" required=""
-                                                    class="form-control" type=""
-                                                    name="label[]"></td>
+                                                    placeholder="Name" 
+                                                    value="<?=$key;?>"
+                                                    required=""
+                                                    class="form-control" type="hidden"
+                                                    name="label[]">
 
+                                                    <?=$doc['name'];?><br>
+                                                    <small><?=$doc['instruction'];?></small>
+                                         <!--    <input
+                                                    placeholder="Name" 
+                                                    value="<?=$doc['name'];?>"
+                                                    required=""
+                                                    class="form-control" type=""
+                                                    name=""></td>
+ -->
                                         <td>
 
                                             <div
@@ -125,6 +148,7 @@ include 'includes/header.php'; ?>
 
                                         </td>
                                     </tr>
+                                <?php endforeach;?>
                                     </tbody>
                                 </table>
 

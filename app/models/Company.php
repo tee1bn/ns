@@ -162,7 +162,7 @@ class Company extends Eloquent
 						$doc = UserDocument::create([
 						    'user_id' => $this->user_id,
 						    'path' => $document['files'],
-						    'label' => $document['label'],
+						    'document_type' => $document['label'],
 						    'status' => 1,
 						]);
 				}	

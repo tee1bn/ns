@@ -26,21 +26,21 @@ class UserDocument extends Eloquent
     
     public static $statuses = [1=> 'In Review',2=> 'Approved', 3=> 'Declined'];
     public static $document_types = [
-   /*     1 => [
-                'name'=> 'Passport Photo',
-                'instruction'=> 'Passport Photo',
-            ],*/
+        1 => [
+                'name'=> 'Business License',
+                'instruction'=> '',
+            ],
 
         2 => [
-                'name'=> 'ID Card',
-                'instruction'=> 'ID Photo',
+                'name'=> 'Photo ID',
+                'instruction'=> '',
             ],
-/*
+
         3 => [
-                'name'=> 'Address ',
-                'instruction'=> 'Address',
+                'name'=> 'Extract of the criminal record ',
+                'instruction'=> '',
             ],
-*/
+
      
     ];	 
 
@@ -87,7 +87,7 @@ class UserDocument extends Eloquent
     {
     	switch ((string)($this->status)) {
     		case 2:
-    			$status = '<span class="badge-sm badge badge-success ft-check fa-2x"> Approved</span>';
+    			$status = '<span class="badge-sm badge badge-success"> Approved</span>';
     			break;
     		
     		case 1:
@@ -95,7 +95,7 @@ class UserDocument extends Eloquent
     			break;
     		
     		case 3:
-    			$status = '<span class="badge-sm badge badge-danger ft-x fa-2x"> Declined</span>';
+    			$status = '<span class="badge-sm badge badge-danger"> Declined</span>';
     			break;
     		
     		default:
