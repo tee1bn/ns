@@ -27,7 +27,7 @@
     
     <tr>
       <td>Post Code</td>
-      <td><?=$user->addressArray['post_code'];?></td>
+      <td><?=$user->addressArray['post_code'] ?? '';?></td>
     </tr>
     
   <!--  

@@ -25,7 +25,7 @@
    
    <tr>
      <td>Post Code</td>
-     <td><?=$company->addressArray['post_code'];?></td>
+     <td><?=$company->addressArray['post_code'] ?? '';?></td>
    </tr>
     <tr>
       <td>IBAN</td>
