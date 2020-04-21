@@ -147,7 +147,7 @@ $token =  uniqid();
 		$body = "<h1>".Config::project_name()."</h1>Pls click the link to reset your password 
 		<a href='".Config::domain()."/forgot-password/confirm_reset/$email/$token'>Reset Password</a>";
 		
-		$body = $this->buildView('emails/password-reset', compact('link', 'email' , 'token') );
+		$body = $this->buildView('emails/password-reset', compact('link', 'email' , 'token', 'user') );
 
 		if ($mailer->sendMail($to, $subject, $body)) {
 				Session::putFlash('success','Reset link has been sent to your email. ');
