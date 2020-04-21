@@ -25,9 +25,11 @@ class home extends controller
     public function test2()
     {
 
-        echo "<pre>";
+
+echo         $content = MIS::compile_email($content);
 
 
+        return;
 
             $response = CoinWayApi::api('2019-07-01');
 
