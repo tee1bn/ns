@@ -4,6 +4,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 use  Filters\Filters\WalletFilter;
 use  Filters\Filters\SupportTicketFilter;
 use  Filters\Filters\SubscriptionOrderFilter;
+use  Filters\Filters\CompanyFilter;
 use  Filters\Filters\UserFilter;
 use  Filters\Filters\UserDocumentFilter;
 
@@ -1006,7 +1007,33 @@ class AdminController extends controller
 
 
 	public function companies(){
-		$this->view('admin/companies');
+
+
+
+
+		$sieve = $_REQUEST;
+		$sieve = array_merge($sieve, []);
+
+		$query = Company::latest();
+		// ->where('status', 1);  //in review
+		$sieve = array_merge($sieve);
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$filter =  new  CompanyFilter($sieve);
+
+		$data =  $query->Filter($filter)->count();
+
+		$sql = $query->Filter($filter);
+
+		$companies =  $query->Filter($filter)
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+
+		$this->view('admin/companies', compact('companies', 'sieve', 'data','per_page'));
 	}
 
 

@@ -4,10 +4,12 @@ use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use v2\Models\UserDocument;
 
+use Filters\Traits\Filterable;
 
 
 class Company extends Eloquent 
 {
+    use Filterable;
 	
 	protected $fillable = [
 				'organisation_id',

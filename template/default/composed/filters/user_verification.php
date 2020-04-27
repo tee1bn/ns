@@ -9,7 +9,7 @@
                 <div class="row">
                     <div class="form-group col-sm-12">
                         <label>Name</label><br>
-                        <input type="" name="name" placeholder="First, Last, Middle Name, email, phone, or username" class="form-control" value="<?=$sieve['name'];?>">
+                        <input type="" name="name" placeholder="First, Last, Middle Name, email, phone, or username" class="form-control" value="<?=$sieve['name']??'';?>">
                     </div>
                 </div>
 
@@ -20,7 +20,7 @@
                         <select class="form-control" name="type">
                             <option value="">Select</option>
                             <?php foreach(v2\Models\UserDocument::$document_types as $key => $value) :?>
-                                <option value="<?=$key;?>" <?=($sieve['type']==$key)?'selected':'';?>> <?=$value['name'];?></option>
+                                <option value="<?=$key;?>" <?=($sieve['type']==$key)?'selected':'';?>> <?=$value['name'] ?? '';?></option>
                             <?php endforeach ; ?>
                         </select>
 
@@ -30,7 +30,7 @@
                         <select class="form-control" name="status">
                             <option value="">Select</option>
                             <?php foreach(v2\Models\UserDocument::$statuses as $key => $value) :?>
-                                <option value="<?=$key;?>" <?=(intval($sieve['status'])===$key)?'selected':'';?>> <?=$value;?></option>
+                                <option value="<?=$key;?>" <?=((isset($sieve['status'])) && (intval($sieve['status'])===$key))?'selected':'';?>> <?=$value;?></option>
                             <?php endforeach ; ?>
                         </select>
 

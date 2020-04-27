@@ -255,6 +255,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'Config' => __DIR__ . '/../..' . '/app/classes/Config.php',
         'Filters\\Filters\\CampaignCategoryFilter' => __DIR__ . '/../..' . '/app/models/v2/Filters/Filters/CampaignCategoryFilter.php',
         'Filters\\Filters\\CampaignFilter' => __DIR__ . '/../..' . '/app/models/v2/Filters/Filters/CampaignFilter.php',
+        'Filters\\Filters\\CompanyFilter' => __DIR__ . '/../..' . '/app/models/v2/Filters/Filters/CompanyFilter.php',
         'Filters\\Filters\\DepositOrderFilter' => __DIR__ . '/../..' . '/app/models/v2/Filters/Filters/DepositOrderFilter.php',
         'Filters\\Filters\\EarningFilter' => __DIR__ . '/../..' . '/app/models/v2/Filters/Filters/EarningFilter.php',
         'Filters\\Filters\\Mt4TradesFilter' => __DIR__ . '/../..' . '/app/models/v2/Filters/Filters/testFilter.php',

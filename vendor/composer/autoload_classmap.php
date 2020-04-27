@@ -15,6 +15,7 @@ return array(
     'Config' => $baseDir . '/app/classes/Config.php',
     'Filters\\Filters\\CampaignCategoryFilter' => $baseDir . '/app/models/v2/Filters/Filters/CampaignCategoryFilter.php',
     'Filters\\Filters\\CampaignFilter' => $baseDir . '/app/models/v2/Filters/Filters/CampaignFilter.php',
+    'Filters\\Filters\\CompanyFilter' => $baseDir . '/app/models/v2/Filters/Filters/CompanyFilter.php',
     'Filters\\Filters\\DepositOrderFilter' => $baseDir . '/app/models/v2/Filters/Filters/DepositOrderFilter.php',
     'Filters\\Filters\\EarningFilter' => $baseDir . '/app/models/v2/Filters/Filters/EarningFilter.php',
     'Filters\\Filters\\Mt4TradesFilter' => $baseDir . '/app/models/v2/Filters/Filters/testFilter.php',
