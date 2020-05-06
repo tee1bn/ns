@@ -139,12 +139,32 @@ class User extends Eloquent
     {
         $tree = self::$tree[$tree_key];
         $user_column = $tree['column'];
+
+        $package = $this->subscription;
+        $domain = Config::domain();
+        $d_link = MIS::dec_enc('encrypt', $package);
+
+        if (isset($package->paid_at)){
+
+        $link = <<<ELL
+        <a target='_blank'
+           href='$domain/user/download_invoice/<?= '>.Pdf</a>
+ELL;        
+        }else{
+            $link = "-";
+
+        }
+
+
+
+
         $contact = [
             'fullname' => $this->fullname,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'email' => $this->email,
             'phone' => $this->phone,
+            'invoice' => $link,
         ];
         $no_contact = [
             'fullname' => "***",
@@ -152,6 +172,7 @@ class User extends Eloquent
             'lastname' => "***",
             'email' => "***",
             'phone' => "***",
+            'invoice' => "-",
         ];
 
 
@@ -190,6 +211,22 @@ class User extends Eloquent
 
         $all_sales_partner = $this->all_downlines_by_path()->count();
 
+
+
+                //indirect_lines
+                $all_sales_partner_q = $this->all_downlines_by_path('placement', false);
+
+
+                //get those with active subscription
+                $today = date("Y-m-01");
+                $active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','<' , $today);
+                $active_members = $all_sales_partner_q
+                        ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
+                            $join->on('users.id', '=', 'active_subscriptions.user_id');
+                        }); 
+
+                        $active_members_count = $active_members->count();
+
         $direct_merchants_ids =  $direct_sales->get(['id'])->pluck('id')->toArray();
 
 
@@ -219,6 +256,7 @@ class User extends Eloquent
                          'total_sales_partner_required',
                          'direct_sales_check',
                          'in_direct_merchant_check',
+                         'active_members_count',
                          'own_merchants'
                      );
 
@@ -747,6 +785,7 @@ class User extends Eloquent
 
             $display = "<em class='text-danger'>Inactive</em>";
             $fa = "<i style='background: white; border-radius:15px;' class='fa fa-times-circle text-danger'></i>";
+            $fa2 = "<i style='background: white;' class='ft-x text-danger'></i>";
             $value = 0;
             $subscription = $default;
             $result = compact('display','value', 'subscription','fa' );
@@ -757,16 +796,18 @@ class User extends Eloquent
         if ($last_subscription->is_expired()) {
             $display = "<em class='text-danger'>Inactive</em>";
             $fa = "<i style='background: white; border-radius:15px;' class='fa fa-times-circle text-danger'></i>";
+            $fa2 = "<i style='background: white;' class='ft-x text-danger'></i>";
             $value = 0;
             $subscription = $last_subscription;
         }else{
             $fa = "<i style='background: white; border-radius:15px;' class='fa fa-check-circle text-success'></i>";
+            $fa2 = "<i style='background: white;' class='ft-check text-success'></i>";
             $display = "<em class='text-success'>Active</em>";
             $value = 1;
             $subscription = $last_subscription;
         }
 
-        $result = compact('display','value','subscription' ,'fa');
+        $result = compact('display','value','subscription' ,'fa','fa2');
         return $result;
     }
 

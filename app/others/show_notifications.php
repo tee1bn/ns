@@ -169,17 +169,17 @@ font-size: 90px;">
         $(this).closest('form').find("input[type=text], textarea, select").val("");
     });
     function copy_text($text) {
-        var copyText = document.createElement('input');
-        copyText.setAttribute('readonly', '');
-        copyText.style = {position: 'absolute', left: '-9999px'};
-        document.body.appendChild(copyText);
-        copyText.value = $text;
-        copyText.select();
-        (document.execCommand("copy"));
-        // Remove temporary element
-        document.body.removeChild(copyText);
-        show_notification("<code> Copied</code> " + $text, "dark");
-    }
+    var copyText = document.createElement('input');
+    copyText.setAttribute('readonly', '');
+    copyText.style = {position: 'absolute', left: '-9999px'};
+    document.body.appendChild(copyText);
+    copyText.value = $text;
+    copyText.select();
+    (  document.execCommand("copy"));
+    // Remove temporary element
+    document.body.removeChild(copyText);
+    show_notification("<code>Copied</code> "+ $text, "dark");
+  }
 
 
 </script>

@@ -8,7 +8,7 @@ include 'includes/header.php'; ?>
         <div class="content-header row">
             <div class="content-header-left col-md-6 col-12 mb-2">
                 <?php include 'includes/breadcrumb.php'; ?>
-                <h3 class="content-header-title mb-0">Packages / Partner Packages</h3>
+                <h3 class="content-header-title mb-0">Sales partners support packages</h3>
             </div>
         </div>
         <div class="content-body">
@@ -131,16 +131,10 @@ include 'includes/header.php'; ?>
                                                 <td><?= $downline->determine_level($auth->placement_position, 'placement'); ?></td>
                                                 <td><?= $package->payment_plan->package_type; ?></td>
                                                 <td><?= (isset($package->paid_at)) ? date('d/m/Y', strtotime($package->paid_at)) : 'Nil'; ?></td>
-                                                <td>paid</td>
+                                                <td><?=$downline->MembershipStatusDisplay['fa2'] ?? "<i class='ft-x text-danger'></i>";?></td>
                                                 <td>
-                                                    <?php if (isset($package->paid_at)) : ?>
-
-                                                        <a target='_blank'
-                                                           href='<?= domain; ?>/user/download_invoice/<?= MIS::dec_enc('encrypt', $package->id); ?>'>.Pdf</a>
-                                                    <?php else: ?>
-                                                        -
-                                                    <?php endif; ?>
-
+                                                    <?=$contact['invoice'];?>
+                                                  
 
                                                 </td>
                                             </tr>

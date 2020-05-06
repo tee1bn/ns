@@ -26,16 +26,23 @@ class home extends controller
     {
 
 
-echo         $content = MIS::compile_email($content);
+        echo "<pre>";
+
+        $coin_way = new CoinWayApi;
+        $date = '2019-08-01';
+        $today = $date ?? date("Y-m-d");
+        $date_range = MIS::date_range($today);
+        $url = "https://api.coinwaypay.com/api/supervisor/accounts?supervisor_number=1";
+        $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
+            ->setUrl($url)
+            ->connect()
+            ->get_response()
+            ->keyBy('supervisorNumber');
 
 
-        return;
 
-            $response = CoinWayApi::api('2019-07-01');
-
+            $response =  CoinWayApi::api($date);
             print_r($response);
-
-
 
 
         return;

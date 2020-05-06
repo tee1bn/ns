@@ -11,7 +11,7 @@ include 'includes/header.php'; ?>
             <div class="content-header-left col-md-6 col-12 mb-2">
                 <?php include 'includes/breadcrumb.php'; ?>
 
-                <h3 class="content-header-title mb-0">Overview Team</h3>
+                <h3 class="content-header-title mb-0">Overview of my Team</h3>
             </div>
 
         </div>
@@ -116,6 +116,7 @@ include 'includes/header.php'; ?>
                                             <td>E-mail</td>
                                             <td>Phone</td>
                                             <td>Registered</td>
+                                            <td>Package</td>
                                             <td>Direct <br>sales partner</td>
                                             <td>Own <br>Merchants</td>
                                             <td>Status</td>
@@ -139,7 +140,9 @@ include 'includes/header.php'; ?>
                                                 <td><?= $level_of_referral; ?></td>
                                                 <td><?= $contact['email']; ?></td>
                                                 <td><?= $contact['phone']; ?></td>
+
                                                 <td><?= date("d/m/Y", strtotime($downline->created_at)); ?></td>
+                                                <td><?= $downline->subscription->payment_plan['package_type']; ?></td>
                                                 <td><?= $no[$downline->mlm_id]['no_of_direct_lines'] ?? 0; ?></td>
                                                 <td>32</td>
                                                 <td><?= $status['display']; ?></td>

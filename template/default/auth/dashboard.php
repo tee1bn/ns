@@ -78,7 +78,7 @@ $page_title = "Dashboard";
 
             <div class="row grouped-multiple-statistics-card">
               <div class="col-12">
-                <div class="card">
+                <div class="card bordered">
                   <div class="card-body">
                     <div class="row">
                       <div class="col-md-3">
@@ -161,14 +161,14 @@ $page_title = "Dashboard";
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="b-box">
-                                                <small>Total Credits</small>
+                                                <small>Taler in total</small>
                                                 <span class="d-box">
                                                     <?=$silver_total_credit_incentive;?>
                                                 </span>
                                             </div>
 
                                             <div class="b-box">
-                                                <small>Entitled</small>
+                                                <small>Payout Entitlement</small>
                                                 <span class="d-box">
                                                     <?=$silver_total_entitled_incentive;?>
                                                 </span>
@@ -219,14 +219,14 @@ $page_title = "Dashboard";
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="b-box">
-                                                <small>Total Credits</small>
+                                                <small>Taler in total</small>
                                                 <span class="d-box">
                                                     <?=$silber2['silber2_total_credit'];?>
                                                 </span>
                                             </div>
 
                                             <div class="b-box">
-                                                <small>Entitled</small>
+                                                <small>Payout Entitlement</small>
                                                 <span class="d-box">
                                                     <?=$silber2['silber2_total_entitled'];?>
                                                 </span>
@@ -301,14 +301,14 @@ $page_title = "Dashboard";
                                     <div class="row">
                                         <div class="col-md-2">
                                             <div class="b-box">
-                                                <small>Total Credits</small>
+                                                <small>Taler in total</small>
                                                 <span class="d-box">
                                                     <?=$gold_tab['gold_total_credit'];?>
                                                 </span>
                                             </div>
 
                                             <div class="b-box">
-                                                <small>Entitled</small>
+                                                <small>Payout Entitlement</small>
                                                 <span class="d-box">
                                                     <?=$gold_tab['gold_total_entitled'];?>
                                                 </span>
@@ -387,7 +387,7 @@ $page_title = "Dashboard";
                                                         Total sales partner:
                                                     </span>
                                                     <span class="col-4">
-                                                        <?=$gold_tab['all_sales_partner'];?> 
+                                                        <?=$gold_tab['all_sales_partner'];?>/<?=$gold_tab['active_members_count'];?> 
                                                     </span>
                                                   
                                                     </div>
@@ -424,7 +424,7 @@ $page_title = "Dashboard";
                     </div>
 
                     <div class="col-md-12">
-                        <a href="javascript:void(0);" class="btn btn-block btn-outline-teal ">MY COMMISSIONS</a>
+                        <a href="javascript:void(0);" class="btn btn-block  btn-success ">MY COMMISSIONS</a>
                     </div>
 
 

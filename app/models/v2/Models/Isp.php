@@ -35,6 +35,13 @@ class Isp
 	}
 
 
+	public function setMonth($month = null)
+	{
+		$set_month = $month ?? date("Y-m");
+		$this->month = $set_month;
+		return $this;
+	}
+
 	public function setUser($user)
 	{
 		$this->user = $user;

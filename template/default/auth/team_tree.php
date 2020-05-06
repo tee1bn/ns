@@ -1,5 +1,5 @@
 <?php
-$page_title = "My Team/Tree";
+$page_title = "My Team Tree";
 include 'includes/header.php';
 
 $user   =  User::find($user_id);
@@ -17,7 +17,7 @@ $auth_user = $auth;
       <div class="content-header-left col-md-6 col-12 mb-2">
         <?php include 'includes/breadcrumb.php';?>
 
-        <h3 class="content-header-title mb-0">My Team/Tree</h3>
+        <h3 class="content-header-title mb-0">My Team tree</h3>
     </div>
 
 </div>
@@ -216,22 +216,22 @@ $auth_user = $auth;
 
 
 
-
-<div class="col-md-12">
+<!-- //TOD dupliacte this table for merchants
+ --><div class="col-md-12">
    <div class="card" >
        <div class="card-content">
            <div class="card-body ">
             <div class="table-responsive">
                 <table class="table table-sm">
                    <tr>
-                     <td>Sales agent ID: <?=$user->id;?></td>
+                     <td>Sales Partner<!--  <?=$user->id;?> --></td>
                      <?php foreach ($dates as $key => $date):?>
                          <td><?=date("F Y", strtotime($date));?> </td>
                      <?php endforeach ;?>
                  </tr>
                  <tbody>
                      <tr>
-                         <td>Direct sales agent newly</td>
+                         <td>Direct sales agent new</td>
                        <?php foreach ($dates as $key => $date):?>
                            <td><?=$direct_sales_agent[$date]['total'] ?? 0;?> </td>
                        <?php endforeach ;?>
@@ -240,7 +240,7 @@ $auth_user = $auth;
 
                      </tr>
                      <tr>
-                         <td>sales agent total</td>
+                         <td>Sales Partner total</td>
                            <?php foreach ($dates as $key => $date):?>
                                <td><?=$sales_agent[$date]['total'] ?? 0;?> </td>
                            <?php endforeach ;?>
@@ -266,7 +266,7 @@ $auth_user = $auth;
    <div class="card" style="">
        <div class="card-content">
            <div class="card-body">
-            <h4 class="card-tile border-0">SALES AGENT ID .: <?=$auth_user->id;?> </h4>
+            <h4 class="card-tile border-0">Sales Partner ID: <?=$auth_user->id;?> </h4>
                <hr>
                <div class="row">
 
@@ -282,7 +282,7 @@ $auth_user = $auth;
                                       Number NSW Silver-Coins Incenvite: 
                                   </span>
                                   <span class="col-6">
-                                   02/4  Right renumeration
+                                   02/4  with payout entitlement
                                </span>
                            </div>
 
@@ -297,7 +297,7 @@ $auth_user = $auth;
                                   Number NSW Silver -Coins: 
                               </span>
                               <span class="col-6">
-                               02/4  Right renumeration
+                               02/4  with payout entitlement
                            </span>
                        </div>
 
@@ -311,7 +311,7 @@ $auth_user = $auth;
                               Number NSW Gold-Coins: 
                           </span>
                           <span class="col-6">
-                           02/4  Right renumeration
+                           02/4  with payout entitlement
                        </span>
                    </div>
 
@@ -337,7 +337,7 @@ $auth_user = $auth;
    <div class="card" style="">
        <div class="card-content">
            <div class="card-body">
-               <h4 class="card-tile border-0"><?=$auth_user->fullname;?>, <?=$auth_user->id;?></h4>
+               <h4 class="card-tile border-0"><?=$auth_user->fullname;?>,ID:<?=$auth_user->id;?></h4>
                <hr>
                <div class="row">
 

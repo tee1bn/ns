@@ -55,7 +55,7 @@
                         <div class="col-md-3 ">
 
                             <div class="b-box" onclick="copy_text('<?= $auth->referral_link(); ?>')">
-                                        <span class="d-box">
+                                        <span class="d-box"  onclick="copy_text('<?= $auth->referral_link(); ?>')">
                                             <i class="fa fa-link fa-2x"></i>
                                         </span>
                             </div>
@@ -64,7 +64,8 @@
                         <div class="col-md-9 ">
                             <p></p>
                             <span>Share the registration link with other</span><br>
-                            <small><i>Registration link just share with potential partners</i></small>
+                            <small><i>Registration link just share with potential partners</i></small><br>
+                            <small><i><?= $auth->referral_link(); ?></i></small>
 
                         </div>
 

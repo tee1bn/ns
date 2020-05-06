@@ -19,16 +19,23 @@
       padding: 10px !important;
     }
 
+    .bordered{
+      
+    border: 1px solid #00000047;
+    }
+
      .d-box{
-          min-width: 70px;
-      padding: 5px;
-      padding-top: 20px;
-      padding-bottom: 20px;
-      display: block;
-      text-align: center;
-      border-radius: 5px;
-      box-shadow: 0 10px 40px 0 rgba(62,57,107,.07), 0 2px 9px 0 rgba(62,57,107,.06);
-      }
+    background: #bcd4ff8a;
+    color: #0c111c;
+    font-size: 20px;
+    min-width: 70px;
+    padding: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: block;
+    text-align: center;
+    border-radius: 5px;
+    box-shadow: 0 4px 4px 0 rgba(62, 57, 107, 0.48), 0 2px 9px 0 rgba(62,57,107,.06);}
       .b-box{
           margin-top: 5px;
           margin-bottom: 10px;
@@ -76,6 +83,7 @@
                   <li><a class="menu-item" href="<?=domain;?>/user/merchant-packages">Merchant Packages</a>
             
                   <li><a class="menu-item" href="<?=domain;?>/user/partner-packages">Partner Packages</a>
+                  <li><a class="menu-item" href="<?=domain;?>/user/vp-packages">VP Packages</a>
                   <li><a class="menu-item" href="<?=domain;?>/user/package-orders">Orders</a>
                   </li>
                 </ul>

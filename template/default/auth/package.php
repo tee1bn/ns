@@ -10,7 +10,7 @@ include 'includes/header.php';; ?>
             <div class="content-header-left col-md-6 col-12 mb-2">
                 <?php include 'includes/breadcrumb.php'; ?>
 
-                <h3 class="content-header-title mb-0">Package</h3>
+        <h3 class="content-header-title mb-0">Overview of all support packages</h3>
             </div>
 
         </div>
@@ -104,7 +104,7 @@ include 'includes/header.php';; ?>
 
                                             <label>
                                                 <input type="radio" name="prepaid_month" value="1"> Monthly
-                                                payment (Automatic collection)
+                                                payment (Monthly automatic direct debit)
                                             </label>
                                             <br>
 
@@ -143,6 +143,15 @@ include 'includes/header.php';; ?>
                                                         class="fa fa-check-circle"></i></button>
                                             <small><?= $auth->subscription->NotificationText; ?></small>
                                         </div>
+
+                                    <?php endif; ?>
+
+                                    <?php if ($subscription['id'] == 1): ?>
+                                    <div class="text-center">
+                                        <label>
+                                            <input type="checkbox" name="">Tip encoder for merchant connection
+                                        </label>
+                                    </div>
                                     <?php endif; ?>
 
                                 </div>

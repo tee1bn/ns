@@ -1,5 +1,5 @@
 <?php
-$page_title = "Merchant Packages";
+$page_title = "Vp Packages";
  include 'includes/header.php';?>
   <?php
     use v2\Models\Withdrawal;
@@ -16,7 +16,7 @@ $page_title = "Merchant Packages";
           <div class="content-header-left col-md-6 col-12 mb-2">
             <?php include 'includes/breadcrumb.php';?>
 
-            <h3 class="content-header-title mb-0">Merchant</h3>
+            <h3 class="content-header-title mb-0">Vp Packages</h3>
           </div>
           
          <!--  <div class="content-header-right col-md-6 col-12">

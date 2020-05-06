@@ -30,9 +30,10 @@ class CoinWayApi
 			$this->api_key
 		];
 
+		// print_r($this->header);
 	}
 
-
+	//RETURNS sales partners and their quantitative details
 	public static function api($date = null)
 	{
 	    $coin_way = new self;
@@ -48,6 +49,13 @@ class CoinWayApi
 	}
 
 
+	public function setUrl($url)
+	{
+		$this->url = $url;
+
+		return $this;
+	}
+
 	public function setPeriod($start_date , $end_date)
 	{
 		$this->period =  [
@@ -56,21 +64,32 @@ class CoinWayApi
 		];
 
 		return $this;
-
 	}
 
-	public function connect()
+
+
+
+
+
+	//connect with the API using the sent param
+	public function connect($param = null)
 	{
 
 		// connect with API
-		$query_string = http_build_query([
+
+		$param_array = $param ?? [
 			'from' 	=> $this->period['start_date'],
 			'to' 	=> $this->period['end_date'],
-		]);
+		];
 
-		$url = "{$this->url}?$query_string";
+		$query_string = http_build_query($param_array);
+
+echo		$url = "{$this->url}?$query_string";
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
+
+		print_r($response);
+
 
 		$this->total_no  = $response['totalCount'];
 

@@ -1,5 +1,5 @@
 <?php
-$page_title = "Company";
+$page_title = "My Profile";
 include 'includes/header.php'; 
 
 use v2\Models\UserDocument;
@@ -17,7 +17,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
             <div class="content-header-left col-6 mb-2">
                 <?php include 'includes/breadcrumb.php'; ?>
 
-                <h3 class="content-header-title mb-0">Profile</h3>
+                <h3 class="content-header-title mb-0">My Profile</h3>
             </div>
 
             <div class="content-header-right col-6">
@@ -269,6 +269,18 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
 
 
                 </div>
+                <style>
+                    .select_menu{
+                      font-size: 12px;
+                      outline: none;
+                      border: thin #ddd solid;
+                      background-color: #F7F7F7;
+                    }
+                </style>
+
+
+
+
                 <div class="col-md-9">
 
                     <div class="card">
@@ -282,7 +294,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
 
                                         <div class="form-group col-md-2">
                                             <!-- <label for="title" class="pull-left">Title </label> -->
-                                            <select class="form-control" name="personal[title]">
+                                            <select class="form-control select_menu" name="personal[title]">
                                                 <option value="">Select title</option>
                                                 <?php foreach ($auth::$available_titles as $key => $value) : ?>
                                                     <option <?= ($auth->title == $key) ? 'selected' : ''; ?>
@@ -318,7 +330,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
                                         <div class="form-group col-md-5">
                                             <input type="" class="form-control" name="personal[address][place]"
                                                    value="<?= $auth->addressArray['place'] ?? ''; ?>"
-                                                   placeholder="Place">
+                                                   placeholder="City">
                                         </div>
 
                                         <div class="form-group col-md-4">
@@ -380,7 +392,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
                                         <div class="form-group col-md-5">
                                             <input type="" class="form-control" name="company[address][place]"
                                                    value="<?= $company->addressArray['place'] ?? ''; ?>"
-                                                   placeholder="Place">
+                                                   placeholder="City">
                                         </div>
 
                                         <div class="form-group col-md-5">

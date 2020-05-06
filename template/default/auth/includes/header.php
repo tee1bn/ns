@@ -174,12 +174,11 @@
     }
 
     .coin{
-      
-      height: 40px;
-      position: absolute;
-      right: 15px;
-      top: 10px;
-    }
+    height: 57px;
+    position: absolute;
+    right: 15px;
+    top: 0px;
+  }
 
     </style>
 

@@ -29,7 +29,7 @@ class SubscriptionPlan extends Eloquent
 	protected $table = 'subscription_plans';
 
 	public static $popular = 10;
-	public static $display_order = [1,10,9];
+	public static $display_order = [1,9, 10];
 
 
 

@@ -79,7 +79,6 @@ trait Placeholder
 	{
 		return $this->user->fullname;
 	}
-
 	
 
 	public function username()
