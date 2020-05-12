@@ -370,7 +370,7 @@ echo "$comment";
 
 		//get those with active subscription
 		$today = date("Y-m-01");
-		$active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','<' , $today);
+		$active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','>' , $today);
         $active_members = $direct_line
                 ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
                     $join->on('users.id', '=', 'active_subscriptions.user_id');
@@ -450,13 +450,13 @@ echo "$comment";
 
 
 
-		//indirect_lines
-		$no_indirect_line = $this->user->all_downlines_by_path('placement', false);
+		//indirect_lines (all downlines)
+		$no_indirect_line = $this->user->all_downlines_by_path('placement', false)->where('referred_by', '!=' , $this->user->mlm_id);;
 
 
 		//get those with active subscription
 		$today = date("Y-m-01");
-		$active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','<' , $today);
+		$active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','>' , $today);
         $active_members = $no_indirect_line
                 ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
                     $join->on('users.id', '=', 'active_subscriptions.user_id');

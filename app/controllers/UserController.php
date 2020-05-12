@@ -413,7 +413,6 @@ class UserController extends controller
                  $order->cancelAgreement();
             }
     */
-
         
         $response = SubscriptionPlan::create_subscription_request($subscription_id, $this->auth()->id);
 

@@ -103,18 +103,18 @@ include 'includes/header.php';; ?>
 
 
                                             <label>
-                                                <input type="radio" name="prepaid_month" value="1"> Monthly
+                                                <input type="radio" required="" name="prepaid_month" value="1"> Monthly
                                                 payment (Monthly automatic direct debit)
                                             </label>
                                             <br>
 
                                             <label>
-                                                <input type="radio" name="prepaid_month" value="6"> Service for 6 Months
+                                                <input type="radio" required="" name="prepaid_month" value="6"> Service for 6 Months
                                             </label>
                                             <br>
 
                                             <label>
-                                                <input type="radio" name="prepaid_month" value="12"> Service for 12
+                                                <input type="radio" required="" name="prepaid_month" value="12"> Service for 12
                                                 Months
                                             </label>
 
