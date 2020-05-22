@@ -648,12 +648,12 @@ ELL;
 
         // $identifier = "[0-9]/[0-9]/1";
 
-        echo "$identifier";
+        // echo "$identifier";
         $generation = self::where($user_column, 'like', $identifier);
         // echo $generation->toSql();
-
+/*
         echo "<pre>";
-        print_r($generation->get(['id', 'mlm_id'])->toArray());
+        print_r($generation->get(['id', 'mlm_id'])->toArray());*/
     }
 
     //0=left, 1=right

@@ -83,14 +83,16 @@ class Validator
 							break;
 
 
-						case 'one_word':
-
-							if (str_word_count($value) > 1)
+							case 'one_word':
+							str_word_count($value, $number_of_word);
+							$number_of_word = substr_count(trim($value), ' ');
+							if ($number_of_word > 0)
 							{
 								$this->addError($item, "$item must be one word.");
 							}
 
 							break;
+
 
 
 						case 'email':

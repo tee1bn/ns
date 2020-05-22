@@ -1,9 +1,13 @@
 <?php
-  require("../includes/config.php");
-  require_once(ROOT_PATH . "core/frontEnd-wrapper.php");
-
+  // require("../includes/config.php");
+  // require_once("core/frontEnd-wrapper.php");
+  $domain = "http://localhost/ns";
   //
   if(isset($_POST['phone'])){
+
+    echo "<pre>";
+    print_r($_POST);
+
     echo $_POST['phone'].'<br>';
     echo $_POST['dialCode'].'<br>';
 
@@ -34,12 +38,12 @@
   <h1>International Telephone Input</h1>
   <form action="" method="post">
     <input name="phone" id="phone" type="tel">
-    <input type="hidden" name="phonefull" id="phonefull" />
-    <input type="hidden" name="dialCode" id="dialCode" />
+    <input type="" name="phonefull" id="phonefull" />
+    <input type="" name="dialCode" id="dialCode" />
     <button type="submit">Submit</button>
   </form>
 
-<?php include(ROOT_PATH."intl-telNumbers/custom.php");?>
+<?php include("custom.php");?>
 </body>
 
 </html>

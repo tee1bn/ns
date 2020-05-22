@@ -1,12 +1,12 @@
-<link rel="stylesheet" href="<?=$this->domain;?>/app/others/intl-telNumbers/build/css/intlTelInput.css">
-  <link rel="stylesheet" href="<?=$this->domain;?>/app/others/intl-telNumbers/build/css/demo.css">
+<link rel="stylesheet" href="<?=$domain;?>/app/others/intl-telNumbers/build/css/intlTelInput.css">
+  <link rel="stylesheet" href="<?=$domain;?>/app/others/intl-telNumbers/build/css/demo.css">
 
 <!-- Load jQuery from CDN so can run demo immediately -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
-<script src="<?=$this->domain;?>/app/others/intl-telNumbers/build/js/intlTelInput.js"></script>
+<script src="<?=$domain;?>/app/others/intl-telNumbers/build/js/intlTelInput.js"></script>
 <script>
-    $("#phone").intlTelInput({
+/*    $("#phone").intlTelInput({
       allowDropdown: true,
       autoHideDialCode: false,
       autoPlaceholder: "on",
@@ -24,16 +24,20 @@
        //onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
        preferredCountries: ['us', 'gb', 'au', 'cn', 'br', 'ng'],
        separateDialCode: true,
-      utilsScript: "<?=$this->domain;?>/app/others/intl-telNumbers/build/js/utils.js"
+      utilsScript: "<?=$domain;?>/app/others/intl-telNumbers/build/js/utils.js"
     });
+
+    */
   
   $("#phone").intlTelInput({
-    utilsScript: "<?=$this->domain;?>/app/others/intl-telNumbers/build/js/utils.js" // just for formatting/placeholders etc
+    utilsScript: "<?=$domain;?>/app/others/intl-telNumbers/build/js/utils.js" // just for formatting/placeholders etc
   });
   
   // update the hidden input on submit
-  $("form").submit(function() {
+  $("form").submit(function(e) {
     $("#hidden").val($("#phone").intlTelInput("getNumber"));
+
+    e.preventDefault();
   });
   
   // get the country data from the plugin
@@ -43,7 +47,7 @@
   
   // init plugin
   telInput.intlTelInput({
-    utilsScript: "<?=$this->domain;?>/app/others/intl-telNumbers/build/js/utils.js" // just for formatting/placeholders etc
+    utilsScript: "<?=$domain;?>/app/others/intl-telNumbers/build/js/utils.js" // just for formatting/placeholders etc
   });
   
   // populate the country dropdown
@@ -70,7 +74,7 @@
   
   // initialise plugin
   telInput.intlTelInput({
-    utilsScript: "<?=$this->domain;?>/app/others/intl-telNumbers/build/js/utils.js"
+    utilsScript: "<?=$domain;?>/app/others/intl-telNumbers/build/js/utils.js"
   });
   
   var reset = function() {
@@ -106,6 +110,6 @@
   telInput.on("keyup change", reset);
 </script>
 
-  <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+<!--   <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 
-  <script src="<?=$this->domain;?>/app/others/intl-telNumbers/build/js/intlTelInput.js"></script>
+  <script src="<?=$domain;?>/app/others/intl-telNumbers/build/js/intlTelInput.js"></script> -->

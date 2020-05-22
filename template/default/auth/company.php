@@ -285,16 +285,14 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
 
                     <div class="card">
 
-                        <form action="<?= domain; ?>/user-profile/update_user" method="post">
+                        <form action="<?= domain; ?>/user-profile/update_user" method="post" class="ajax_form">
                             <div class="card-content">
                                 <div class="card-body">
                                     <h6 class="card-tile">Contact Person</h6>
                                     <div class="row">
-
-
                                         <div class="form-group col-md-2">
                                             <!-- <label for="title" class="pull-left">Title </label> -->
-                                            <select class="form-control select_menu" name="personal[title]">
+                                            <select class="form-control custom-select block select_menu" name="personal[title]">
                                                 <option value="">Select title</option>
                                                 <?php foreach ($auth::$available_titles as $key => $value) : ?>
                                                     <option <?= ($auth->title == $key) ? 'selected' : ''; ?>
@@ -318,7 +316,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
                                         </div>
 
                                         <div class="form-group col-md-3">
-                                            <select class="form-control" name="personal[country]" required="">
+                                            <select class="form-control custom-select block" name="personal[country]" required="">
                                                 <option value="">Select Country</option>
                                                 <?php foreach (World\Country::all() as $key => $country) : ?>
                                                     <option <?= ($auth->country == $country->id) ? 'selected' : ''; ?>
@@ -364,7 +362,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
                                         </div>
 
                                         <div class="form-group col-md-5">
-                                            <select class="form-control" name="company[legal_form]">
+                                            <select  class="form-control custom-select block" name="company[legal_form]">
                                                 <option value="">Select Legal Form</option>
                                                 <?php foreach (Company::$legal_forms as $key => $form) : ?>
                                                     <option <?= ($company->legal_form == $key) ? 'selected' : ''; ?>
@@ -380,7 +378,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
 
 
                                         <div class="form-group col-md-2">
-                                            <select class="form-control" name="company[country]" required="">
+                                            <select class="form-control custom-select block" name="company[country]" required="">
                                                 <option value="">Select Country</option>
                                                 <?php foreach (World\Country::all() as $key => $country) : ?>
                                                     <option <?= ($company->country == $country->id) ? 'selected' : ''; ?>
@@ -423,8 +421,11 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
 
 
                                         <div class="form-group col-md-6">
-                                            <input type="" class="form-control" name="company[office_phone]"
+                                            <input type="" class="form-control" name="company[office_phone]" id="phone"
                                                    value="<?= $company->office_phone; ?>" placeholder="Phone number">
+                                                   <input type="hidden" name="phonefull" id="phonefull" />
+                                                   <input type="hidden" name="dialCode" id="dialCode" />
+
                                         </div>
 
                                         <div class="form-group col-md-12">
@@ -530,5 +531,120 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
     </div>
 </div>
 <!-- END: Content-->
+
+
+<link rel="stylesheet" href="<?=$domain;?>/app/others/intl-telNumbers/build/css/intlTelInput.css">
+  <!-- <link rel="stylesheet" href="<?=$domain;?>/app/others/intl-telNumbers/build/css/demo.css"> -->
+
+<!-- Load jQuery from CDN so can run demo immediately -->
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script> -->
+
+<script src="<?=$domain;?>/app/others/intl-telNumbers/build/js/intlTelInput.js"></script>
+<script>
+    /*$("#phone").intlTelInput({
+      allowDropdown: true,
+      autoHideDialCode: false,
+      autoPlaceholder: "on",
+      dropdownContainer: "body",
+      //excludeCountries: ["us"],
+      geoIpLookup: function(callback) {
+         $.get("http://ipinfo.io", function() {}, "jsonp").always(function(resp) {
+           var countryCode = (resp && resp.country) ? resp.country : "";
+           callback(countryCode);
+         });
+      },
+      initialCountry: "auto",
+       nationalMode: true,
+       numberType: "MOBILE",
+       //onlyCountries: ['us', 'gb', 'ch', 'ca', 'do'],
+       preferredCountries: ['us', 'gb', 'au', 'cn', 'br', 'ng'],
+       separateDialCode: true,
+      utilsScript: "<?=$domain;?>/app/others/intl-telNumbers/build/js/utils.js"
+    });*/
+  /*
+  $("#phone").intlTelInput({
+    utilsScript: "<?=$domain;?>/app/others/intl-telNumbers/build/js/utils.js" // just for formatting/placeholders etc
+  });
+  */
+ /* // update the hidden input on submit
+  $("form").submit(function(e) {
+    $("#hidden").val($("#phone").intlTelInput("getNumber"));
+
+    e.preventDefault();
+  });*/
+  
+  // get the country data from the plugin
+  var countryData = $.fn.intlTelInput.getCountryData(),
+    telInput = $("#phone"),
+    addressDropdown = $("#address-country");
+  
+  // init plugin
+  telInput.intlTelInput({
+    utilsScript: "<?=$domain;?>/app/others/intl-telNumbers/build/js/utils.js" // just for formatting/placeholders etc
+  });
+  
+  // populate the country dropdown
+  $.each(countryData, function(i, country) {
+    addressDropdown.append($("<option></option>").attr("value", country.iso2).text(country.name));
+  });
+  // set it's initial value
+  var initialCountry = telInput.intlTelInput("getSelectedCountryData").iso2;
+  addressDropdown.val(initialCountry);
+  
+  // listen to the telephone input for changes
+  telInput.on("countrychange", function(e, countryData) {
+    addressDropdown.val(countryData.iso2);
+
+    $("#phonefull").val('+' + telInput.intlTelInput("getSelectedCountryData").dialCode + $("#phone").val());
+
+    $("#dialCode").val('+' + telInput.intlTelInput("getSelectedCountryData").dialCode);      
+
+  });
+  
+  // listen to the address dropdown for changes
+  addressDropdown.change(function() {
+    telInput.intlTelInput("setCountry", $(this).val());
+  });
+  
+  var telInput = $("#phone"),
+    errorMsg = $("#error-msg"),
+    validMsg = $("#valid-msg");
+  
+  // initialise plugin
+  telInput.intlTelInput({
+    utilsScript: "<?=$domain;?>/app/others/intl-telNumbers/build/js/utils.js"
+  });
+  
+  var reset = function() {
+    telInput.removeClass("error");
+    errorMsg.addClass("hide");
+    validMsg.addClass("hide");
+  };
+
+  
+  // on blur: validate
+  telInput.blur(function() {
+    reset();
+    if ($.trim(telInput.val())) {
+    if (telInput.intlTelInput("isValidNumber")) {
+      validMsg.removeClass("hide");
+    } else {
+      telInput.addClass("error");
+      errorMsg.removeClass("hide");
+    }
+    }
+  });
+  
+  // on keyup / change flag: reset
+  telInput.on("keyup change", reset);
+</script>
+
+  <!-- <script src="http://code.jquery.com/jquery-latest.min.js"></script> -->
+
+  <!-- <script src="<?=$domain;?>/app/others/intl-telNumbers/build/js/intlTelInput.js"></script> -->
+
+
+
+
 
 <?php include 'includes/footer.php'; ?>
