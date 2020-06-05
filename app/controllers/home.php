@@ -33,11 +33,11 @@ class home extends controller
         $today = $date ?? date("Y-m-d");
         $date_range = MIS::date_range($today);
         $url = "https://api.coinwaypay.com/api/supervisor/accounts?supervisor_number=1";
-        $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
+     /*   $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
             ->setUrl($url)
             ->connect()
             ->get_response()
-            ->keyBy('supervisorNumber');
+            ->keyBy('supervisorNumber');*/
 
 
 

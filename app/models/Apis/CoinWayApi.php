@@ -88,7 +88,8 @@ class CoinWayApi
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
-		// print_r($response);
+		
+		print_r($response);
 
 
 		$this->total_no  = $response['totalCount'];

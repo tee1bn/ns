@@ -144,10 +144,15 @@ $auth_user = $auth;
              </div>
 
          <!-- <center  style="overflow-x: scroll; overflow-y: none; height: auto;"> -->
-         <center  style="">
-           <ul class="tree" id="tree">
+    
+         <center style="overflow-x: scroll;">
+           <ul class="tree" id="tree" style="width:100%;">
            </ul>
          </center>
+
+
+
+
          <style>
            
            .dropdown-toggle-no-after::after {
