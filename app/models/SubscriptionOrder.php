@@ -325,11 +325,13 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		foreach ($tree as $level => $upline) {
 					if ($settings[$level]['packages']==0) {continue;}
 
-		 		    $amount_earned = $settings[$level]['packages'] * 0.01 * $detail['commission_price'];
-					$comment = $detail['package_type']." Level {$level} Bonus";
+		 		    $percent = $settings[$level]['packages'];
+		 		    $amount_earned = $percent * 0.01 * $detail['commission_price'];
+
+					$comment = "$percent% of {$detail['commission_price']} as {$detail['package_type']} Level {$level} Bonus";
 
 					if ($level == 0) {
-						 $comment = $detail['package_type']." self Bonus";
+						 $comment = "$percent% of {$detail['commission_price']} as {$detail['package_type']} self Bonus";
 					}
 
 					// ensure  upliner is qualified for commission

@@ -29,7 +29,7 @@ class Isp
 		$this->month = date("Y-m");
 		// $this->month = date('2019-07');
 		$this->api_response  = CoinWayApi::api($this->month);
-		// print_r($this->isp_setting);
+		print_r($this->isp_setting);
 
 		// krsort($this->rank_qualifications);
 	}

@@ -158,23 +158,23 @@ $page_title = "Settings";
                             <div class="card-header"  data-toggle="collapse" data-target="#commission_settings">
                                 <a href="javascript:void;" class="card-title">Commission Settings</a>
                                  <div class="heading-elements">
-                    <ul class="list-inline mb-0">
-                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                    </ul>
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                        </ul>
                        </div>
 
                             </div>
                             <div class="card-body row collapse" id="commission_settings">
-
-
+                              <div class="table-responsive">
+                                
                               <table class="table">
                                 <thead>
                                   <tr>
                                     <th>SN</th>
                                     <th>Level</th>
-                                    <th>License (%) <small>Via Api</small></th>
-                                    <th>Packages (%)</th>
+                                    <th>License <br>from merchant (%) <small>Via Api</small></th>
+                                    <th>Sales Packages (%)</th>
                                     <th>Disagio (%) <small>Via Api</small></th>
                                     <th>Setup Fee (%) <small>Via Api</small></th>
                                   </tr>
@@ -191,6 +191,7 @@ $page_title = "Settings";
                                 
                                 </tbody>
                               </table>
+                              </div>
 
                                 
                               <form action="<?=domain;?>/settings/update_commission_settings" method="post" class="ajax_form" >
@@ -210,7 +211,7 @@ $page_title = "Settings";
 
 
 
-                 <div class="row" >
+                 <div class="row" style="display: none;">
                     <div class="col-12">
                         <div class="card">
 

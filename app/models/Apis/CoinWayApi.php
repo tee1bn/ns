@@ -31,6 +31,7 @@ class CoinWayApi
 		];
 
 		// print_r($this->header);
+		echo "<pre>";
 	}
 
 	//RETURNS sales partners and their quantitative details
@@ -40,6 +41,9 @@ class CoinWayApi
 
 	    $today = $date ?? date("Y-m-d");
 	    $date_range = MIS::date_range($today);
+
+	    print_r($date_range);
+
 	    $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
 	        ->connect()->get_response()->keyBy('supervisorNumber');
 
@@ -89,7 +93,9 @@ class CoinWayApi
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
 		
+		echo "$url";
 		print_r($response);
+		print_r($this->header);
 
 
 		$this->total_no  = $response['totalCount'];
