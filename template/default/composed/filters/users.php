@@ -4,15 +4,23 @@
     </button>
     <div class="dropdown-menu" style="padding: 20px;">
         <form action="<?=$action ?? '';?>" method="get" id="filter_form">
+
             <div class="row">
 
-                <div class="form-group col-sm-12">
+                <div class="form-group col-sm-6">
+                    <label>Ref(ID)</label><br>
+                    <input type="" name="ref" placeholder="ID (Ref)" class="form-control" value="<?=$sieve['ref']??'';?>">
+                </div>
+
+
+                <div class="form-group col-sm-6">
                     <label>Name</label><br>
                     <input type="" name="name" placeholder="First or Last Name" class="form-control" value="<?=$sieve['name']??'';?>">
                 </div>
             </div>
-
             <div class="row">
+
+
                 <div class="form-group col-sm-6">
                     <label>Client Email</label><br>
                     <input type="email" name="email" class="form-control" value="<?=$sieve['email']??'';?>">

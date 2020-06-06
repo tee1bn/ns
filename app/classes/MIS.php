@@ -356,6 +356,8 @@ EOL;
     public static function make_get($url, $header = [])
     {
 
+        echo "string";
+
         $ch = curl_init($url);
 
         if (count($header) > 0) {
@@ -368,6 +370,9 @@ EOL;
 
         $result = curl_exec($ch);
         // $response = curl_getinfo($ch);
+
+
+        print_r($result);
 
         curl_close($ch);
 

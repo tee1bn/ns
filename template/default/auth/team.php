@@ -151,7 +151,7 @@ include 'includes/header.php'; ?>
 
                                         <tr>
                                             <td></td>
-                                            <td colspan="6"><b>Total</b></td>
+                                            <td colspan="7"><b>Total</b></td>
                                             <td><?= $no->sum('no_of_direct_lines'); ?></td>
                                             <td>3</td>
                                             <td><?= (collect($status_count)->countBy()->toArray()[1] ?? 0); ?>

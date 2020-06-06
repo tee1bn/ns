@@ -16,6 +16,23 @@ class UserFilter extends QueryFilter
 	use RangeFilterable;
 
 
+	
+
+	public function ref($ref=null)
+	{
+
+				if ($ref == null) {
+					return ;
+				}
+
+				$ref = explode(',', $ref);
+
+		        $this->builder->whereIn('id', $ref);
+
+	}
+
+
+	
 
 	public function month($month = null)
 	{
@@ -28,12 +45,16 @@ class UserFilter extends QueryFilter
 		$this->date($date, 'created_at');
 	}
 
+
+
+
 	public function id($id = null)
 	{
 		if ($id == null) {
 			return ;
 		}
 		$this->builder->where('id', "like",  "%$id%");
+
 	}
 
 	public function firstname($firstname = null)

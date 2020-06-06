@@ -49,6 +49,7 @@ $page_title = "$page_title";
                   <thead>
                     <tr>
                       <th>#sn</th>
+                      <th>#Id</th>
                       <th>Name (Username)</th>
                       <th>Email</th>
                       <th>Phone</th>
@@ -60,6 +61,7 @@ $page_title = "$page_title";
                    <?php  $i=1; foreach ($users as $user) :?>
                     <tr>
                       <td><?=$i;?> </td>
+                      <td><?=$user->id;?> </td>
                       <td>
                         <?=$user->DropSelfLink;?> (<?=$user->username;?>)<br>
                        </td>

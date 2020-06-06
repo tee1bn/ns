@@ -31,7 +31,7 @@ class CoinWayApi
 		];
 
 		// print_r($this->header);
-		echo "<pre>";
+		// echo "<pre>";
 	}
 
 	//RETURNS sales partners and their quantitative details
@@ -90,12 +90,13 @@ class CoinWayApi
 
 		$url = "{$this->url}?$query_string";
 
-		$response = json_decode( MIS::make_get($url, $this->header) , true);
+		$response =  MIS::make_get($url, $this->header);
 
 		
-		echo "$url";
 		print_r($response);
-		print_r($this->header);
+		echo "<br>";
+		echo "$url";
+		// print_r($this->header);
 
 
 		$this->total_no  = $response['totalCount'];

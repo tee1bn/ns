@@ -146,7 +146,7 @@ $auth_user = $auth;
          <!-- <center  style="overflow-x: scroll; overflow-y: none; height: auto;"> -->
     
          <center style="overflow-x: scroll;">
-           <ul class="tree" id="tree" style="width:100%;">
+           <ul class="tree" id="tree" style="width:100%;min-height:300px; ">
            </ul>
          </center>
 
