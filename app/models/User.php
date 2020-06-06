@@ -149,7 +149,7 @@ class User extends Eloquent
         $link = <<<ELL
         <a target='_blank'
            href='$domain/user/download_invoice/<?= '>.Pdf</a>
-ELL;        
+ELL;
         }else{
             $link = "-";
 

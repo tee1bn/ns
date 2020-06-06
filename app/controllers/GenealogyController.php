@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Capsule\Manager as DB;
 use Filters\Filters\UserFilter;
+use Apis\CoinWayApi;
 
 
 /**
@@ -767,14 +768,24 @@ ELM;
         ;
 
 
-        
-        
-
         $note = MIS::filter_note(count($list['list']) , $list['data'], $list['total'],  $list['sieve'], 1);
+        
+        
+        
+                   $coin_way = new CoinWayApi;
+                   $today = date("Y-m-d");
+                   $month = MIS::date_range($today, 'month');
+        $date_range = $_GET['registration'] ?? $monthy;
+        $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
+            // ->setUrl($url)
+            ->connect()
+            ->get_response()->keyBy('supervisorNumber');
+            
+            print_r($response);
+        
 
 
-
-        $this->view('auth/team', compact('list', 'user', 'per_page', 'note','level_of_referral','no'));
+        $this->view('auth/team', compact('list', 'user', 'per_page', 'note','level_of_referral','no','response'));
 
     }
 

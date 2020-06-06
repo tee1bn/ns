@@ -303,6 +303,7 @@ class AutoMatchingController extends controller
 		$scheduled_commissions = SettlementTracker::where('period', $payment_month);
 
 		$total_disagio = $scheduled_commissions->sum('settled_disagio');
+		
 		$total_setup_fee = $scheduled_commissions->sum('settled_license_fee'); //get from api
 
 

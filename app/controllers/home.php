@@ -26,7 +26,7 @@ class home extends controller
     {
 
 
-        echo "<pre>";
+        // echo "<pre>";
 
         // $coin_way = new CoinWayApi;
         $date = '2019-08-01';

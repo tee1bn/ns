@@ -83,7 +83,7 @@
                   <li><a class="menu-item" href="<?=domain;?>/user/merchant-packages">Merchant Packages</a>
             
                   <li><a class="menu-item" href="<?=domain;?>/user/partner-packages">Partner Packages</a>
-                  <li><a class="menu-item" href="<?=domain;?>/user/vp-packages">VP Packages</a>
+                  <!-- <li><a class="menu-item" href="<?=domain;?>/user/vp-packages">VP Packages</a> -->
                   <li><a class="menu-item" href="<?=domain;?>/user/package-orders">Orders</a>
                   </li>
                 </ul>
