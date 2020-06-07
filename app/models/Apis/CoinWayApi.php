@@ -42,7 +42,6 @@ class CoinWayApi
 	    $today = $date ?? date("Y-m-d");
 	    $date_range = MIS::date_range($today);
 
-	    print_r($date_range);
 
 	    $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
 	        ->connect()->get_response()->keyBy('supervisorNumber');
@@ -76,7 +75,7 @@ class CoinWayApi
 
 
 	//connect with the API using the sent param
-	public function connect($param = null)
+	public function connect($param = null, $get_meta_data=false)
 	{
 
 		// connect with API
@@ -90,14 +89,7 @@ class CoinWayApi
 
 		$url = "{$this->url}?$query_string";
 
-		$response =  MIS::make_get($url, $this->header);
-
-		
-		print_r($response);
-		echo "<br>";
-		echo "$url";
-		// print_r($this->header);
-
+		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
 		$this->total_no  = $response['totalCount'];
 
@@ -118,7 +110,19 @@ class CoinWayApi
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
-		$this->response = array_merge($this->response, $response['value']);
+		$response = array_merge($this->response, $response['value']);
+
+			if ($get_meta_data == true) {
+
+				$full_response['meta']['total'] = $this->total_no;
+				$full_response['values'] = $response;
+
+				$this->response = $full_response;
+
+			}else{
+
+				$this->response = $response;
+			}
 
 		}
 

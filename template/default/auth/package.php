@@ -96,7 +96,7 @@ include 'includes/header.php';; ?>
                                         <form
                                                 id="upgrade_form<?= $subscription->id; ?>"
                                                 method="post"
-                                                class="ajax_form"
+                                                class="ajax_for"
                                                 data-overlay="in"
                                                 data-function="initiate_payment"
                                                 action="<?= domain; ?>/user/create_upgrade_request">

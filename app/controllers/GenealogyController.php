@@ -774,17 +774,17 @@ ELM;
         
                    $coin_way = new CoinWayApi;
                    $today = date("Y-m-d");
-                   $month = MIS::date_range($today, 'month');
-        $date_range = $_GET['registration'] ?? $monthy;
-        $response = $coin_way->setPeriod($date_range['start_date'], $date_range['end_date'])
+                   $month = MIS::date_range($today, 'month', true);
+
+        $date_range = $_GET['registration'] ?? $month;
+        $start_date = isset($_GET['registration']) ? $date_range['start_date'] :"2019-01-01" ;
+
+        $response = $coin_way->setPeriod($start_date, $date_range['end_date'])
             // ->setUrl($url)
             ->connect()
-            ->get_response()->keyBy('supervisorNumber');
+            ->get_response()->keyBy('supervisorNumber')->toArray();
             
-            print_r($response);
-        
-
-
+            
         $this->view('auth/team', compact('list', 'user', 'per_page', 'note','level_of_referral','no','response'));
 
     }

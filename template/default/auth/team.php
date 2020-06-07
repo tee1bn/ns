@@ -128,7 +128,6 @@ include 'includes/header.php'; ?>
                                             $contact = $downline->getContact($user->mlm_id);
                                             $status = $downline->MembershipStatusDisplay;
                                             $status_count[] = $status['value'];
-                                            $own_merchant_count[] = $status['value'];
                                             $direct_sales_partner_count[] = $status['value'];
                                             ?>
 
@@ -144,7 +143,7 @@ include 'includes/header.php'; ?>
                                                 <td><?= date("d/m/Y", strtotime($downline->created_at)); ?></td>
                                                 <td><?= $downline->subscription->payment_plan['package_type']; ?></td>
                                                 <td><?= $no[$downline->mlm_id]['no_of_direct_lines'] ?? 0; ?></td>
-                                                <td>32</td>
+                                                <td><?=$own_merchant_count[] = $response[$downline['id']]['tenantCount'] ?? 0;?></td>
                                                 <td><?= $status['display']; ?></td>
                                             </tr>
                                             <?php $i++; endforeach; ?>
@@ -153,7 +152,7 @@ include 'includes/header.php'; ?>
                                             <td></td>
                                             <td colspan="7"><b>Total</b></td>
                                             <td><?= $no->sum('no_of_direct_lines'); ?></td>
-                                            <td>3</td>
+                                            <td><?=array_sum($own_merchant_count);?></td>
                                             <td><?= (collect($status_count)->countBy()->toArray()[1] ?? 0); ?>
                                                 /<?= count($status_count); ?></td>
                                         </tr>

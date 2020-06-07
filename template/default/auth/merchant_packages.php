@@ -130,16 +130,18 @@ $page_title = "Merchant Packages";
                                                 <td>Status</td>
                                             </tr>
                                             <tbody>
+                                              <?php $i=1; foreach ($response['values'] as $key => $merhant) :?>
                                                 <tr>
-                                                    <td>1</td>
-                                                    <td>1324</td>
-                                                    <td>Company Ltd</td>
+                                                    <td><?=$i++;?></td>
+                                                    <td><?=$merhant['id'];?></td>
+                                                    <td><?=$merhant['name'];?></td>
                                                     <td>2</td>
                                                     <td>Professional</td>
                                                     <td>***</td>
                                                     <td>02/2/2020</td>
                                                     <td>paid</td>
                                                 </tr>
+                                              <?php endforeach  ;?>
                                             </tbody>
                                         </table>
                                      

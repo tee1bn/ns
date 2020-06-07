@@ -15,6 +15,7 @@ $page_title = "Dashboard";
      $sieve = $_REQUEST;
      $filter = new  UserFilter($sieve);
 
+      //direct sales partner
       $direct_sales = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id)->Filter($filter);
       $direct_sales_count = $direct_sales->count();
 
@@ -47,7 +48,6 @@ $page_title = "Dashboard";
 
       $silber2  = $auth->isp_silver2();
 
-      // die();
     ;?>
 
 

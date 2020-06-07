@@ -8,6 +8,7 @@ use v2\Models\Document;
 use v2\Models\Wallet;
 use v2\Models\Withdrawal;
 use v2\Shop\Shop;
+use Apis\CoinWayApi;
 
 
 /**
@@ -70,7 +71,7 @@ class UserController extends controller
     {
         $auth = $this->auth();
 
-        $query = $auth->all_downlines_by_path('placement');
+/*        $query = $auth->all_downlines_by_path('placement');
 
 
         $sieve = $_REQUEST;
@@ -121,13 +122,34 @@ class UserController extends controller
             ->offset($skip)
             ->take($per_page)
             ->get();  //filtered
+*/
 
-        
+
+        // $note = MIS::filter_note($all_downlines->count() , $data, $total_sales_partner,  $sieve, 1);
+
+            $sieve = $_REQUEST;
+           $coin_way = new CoinWayApi;
+           $today = date("Y-m-d");
+           $month = MIS::date_range($today, 'month', true);
+
+            $date_range = $_GET['registration'] ?? $month;
+            $start_date = isset($_GET['registration']) ? $date_range['start_date'] :"2019-01-01" ;
+
+            $url = "https://api.coinwaypay.com/api/supervisor/accounts";
+
+            $page = $_GET['page'] ?? 1;
+            $per_page = 100;
 
 
-        $note = MIS::filter_note($all_downlines->count() , $data, $total_sales_partner,  $sieve, 1);
+            $response = $coin_way
+                ->setUrl($url)
+                ->connect(['supervisor_number'=> $auth->id, 'page'=>$page], true)
+                ->get_response()->toArray();
+                
 
-        $this->view('auth/merchant_packages', compact('total','total_sales_partner','all_downlines', 'sieve', 'data','note','per_page'));
+        $note = MIS::filter_note(count($response['values']), count($response['values']), ($response['meta']['total']),  $sieve, 1);
+
+        $this->view('auth/merchant_packages', compact('page', 'response', 'sieve','note','per_page'));
     }
 
     public function vp_packages()
