@@ -15,6 +15,7 @@ class SettlementTracker extends Eloquent
 		'dump',
 		'settled_disagio',
 		'settled_license_fee',
+		'setup_fee',
 		'no_of_merchants',
 		'paid_at'
 	];

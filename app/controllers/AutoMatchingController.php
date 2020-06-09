@@ -5,6 +5,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 use v2\Models\ISPWallet;
 use v2\Models\Wallet;
 use v2\Models\Isp;
+use Apis\CoinWayApi;
 
 
 /**
@@ -41,6 +42,7 @@ class AutoMatchingController extends controller
 		$this->get_period();
 
 
+			// $this->schedule_due_commissions();
 
 		if ($this->settings['distribute_commissions']== 1) {
 			$this->schedule_due_commissions();
@@ -102,7 +104,7 @@ class AutoMatchingController extends controller
 
 
 
-		$pools_settlement =  PoolsCommissionSchedule::where('paid_at','!=', null)->where('period',$last_settlement_date)->first();
+		$pools_settlement =  IspPoolsSchedule::where('paid_at','!=', null)->where('period',$last_settlement_date)->first();
 
 		if ($pools_settlement != null) {
 
@@ -147,6 +149,7 @@ class AutoMatchingController extends controller
 		$payment_date_range = MIS::date_range($payment_month, 'month', true);
 
 		$this->period =  compact('payment_month', 'payment_date_range');
+
 	}
 
 
@@ -160,6 +163,7 @@ class AutoMatchingController extends controller
 		$period =  $this->period;
 		extract($period);
 
+		// print_r($period);
 
 		//user_ids of already scheduled commisssions
 		$scheduled_commissions = SettlementTracker::where('period', $payment_month);
@@ -234,12 +238,12 @@ class AutoMatchingController extends controller
 				//ensure there is more commissions to schedule
 
 				$this->treat_supervisors_commissions($record , $supervisor_numbers, $payment_month);
-
+/*
 		
 				print_r($supervisors_to_be_treated);
 				print_r($supervisor_numbers);
 				print_r($record);
-				print_r($response->toArray());
+				print_r($response->toArray());*/
 		}
 	}
 
@@ -288,6 +292,59 @@ class AutoMatchingController extends controller
 	}
 
 
+	//needs cron
+	//this adds the set up fee total in the settlement tracker for each user
+	public function include_setup_fee_on_scheduled()
+	{
+		$period =  $this->period;
+
+		extract($period);
+		extract($payment_date_range);
+
+
+		$scheduled_commissions_without_setup_fee = SettlementTracker::where('period', $payment_month)
+		->where('setup_fee', null)
+		->take(100)->get();
+
+		$coin_way = new CoinWayApi;
+
+
+		foreach ($scheduled_commissions_without_setup_fee as $key => $schedule) {
+
+			$url = "https://api.coinwaypay.com/api/supervisor/accounts";
+        
+   
+
+            $response = $coin_way
+                ->setUrl($url)
+                ->connect(['supervisor_number'=> $schedule['user_id'], 
+                        ], true)
+                ->get_response()->toArray();
+
+            
+            $records = collect($response['values']); 
+
+
+            $column = 'createdAt';
+            $records_in_daterange = $records->filter(function($item) use ($start_date, $end_date, $column){
+                            return  (strtotime($item[$column]) >= strtotime($start_date)) && (strtotime($item[$column]) <= strtotime($end_date));
+                         });
+
+
+			$setup_fee_for_this_supervisor = $records_in_daterange->sum('setupFee');             
+
+			SettlementTracker::where('period', $payment_month)->where('user_id', $schedule['user_id'])
+				 ->update([
+				 	'setup_fee' => $setup_fee_for_this_supervisor
+				 ]);
+
+
+		}
+
+
+
+	}
+
 
 	public function initiate_pools_commissions()
 	{
@@ -299,12 +356,23 @@ class AutoMatchingController extends controller
 		extract($payment_date_range);
 
 
-
 		$scheduled_commissions = SettlementTracker::where('period', $payment_month);
+
+		// print_r($scheduled_commissions->get()->toArray());
+
+
+		//ensure setup fee is available before proceeding
+		$scheduled = SettlementTracker::where('period', $payment_month);
+		$setup_fee_not_complete = $scheduled->where('setup_fee', null)->count() > 0;
+		if ($setup_fee_not_complete) {
+			$this->include_setup_fee_on_scheduled();
+			return;
+		}
+
 
 		$total_disagio = $scheduled_commissions->sum('settled_disagio');
 		
-		$total_setup_fee = $scheduled_commissions->sum('settled_license_fee'); //get from api
+		$total_setup_fee = $scheduled_commissions->sum('setup_fee'); //get from api
 
 
 		$isp_settings = $this->all_settings['isp']->settingsArray;
@@ -367,13 +435,14 @@ class AutoMatchingController extends controller
 
 		$isp =  IspPoolsSchedule::where('period', $payment_month)->first();
 
+
 		if ($isp == null) {
 			return;
 		}
 
 		$details = $isp->DumpArray;
 		$sharable_total = $details['sharable_total'];
-		$sharable_total = 90;
+		// $sharable_total = 90;
 
 		$isp_coin = collect($details['isp_settings']['isp'])->keyBy('key')->toArray();
 
@@ -403,16 +472,18 @@ class AutoMatchingController extends controller
 		$date_range = $this->period['payment_date_range'];
 		extract($date_range);
 
-		$users_coins = ISPWallet::whereRaw("earning_category = 'gold' OR earning_category = 'silber' OR earning_category = 'silber2'")
+		$users_coins = ISPWallet::whereRaw("(earning_category = 'gold' OR earning_category = 'silber' OR earning_category = 'silber2')")
 		// ->whereDate('paid_at','>=',  $start_date)->whereDate('paid_at', '<=',$end_date)
 		->Completed()->Cleared();
-
 
 
 		$total_coin = $users_coins->sum('amount');
 
 		$users_having_share = $users_coins->selectRaw("sum(amount) as amount, user_id")->groupBy('user_id');
 
+
+
+		if ($total_coin == 0) {return; } //nothing share in this pool
 
 
  		$worth_of_coin =  round(($sharable_total / $total_coin), 2);
@@ -436,7 +507,7 @@ class AutoMatchingController extends controller
 		 		$identifier = "ispsilber/$user_id/".$period['payment_month'];
 		 		$extra = json_encode([
 		 			'period' => $period,
-		 			'gold_coins' => $coin
+		 			'all_coins' => $coin
 		 		]);
 
 		 		try {
@@ -482,6 +553,13 @@ class AutoMatchingController extends controller
 
 
 		$total_gold_coin = $users_having_gold->sum('amount');
+
+
+
+		if ($total_gold_coin == 0) {return; } //no gold to share in gold pool
+
+
+
  		$worth_of_a_gold =  round(($sharable_total / $total_gold_coin), 2);
 
 
@@ -534,135 +612,6 @@ class AutoMatchingController extends controller
 
 		 }
 	}
-
-
-
-
-
-	/**
-	 * this  begins the pools commission scheduling old
-	 */
-	public function initiate_pools_commissions_old()
-	{
-
-
-		$period =  $this->period;
-		extract($period);
-
-
-
-
-		print_r($payment_date_range);
-
-		$scheduled_commissions = SettlementTracker::where('period', $payment_month)->get();
-
-		echo $total_disagio = $scheduled_commissions->sum('settled_disagio');
-
-		$pools_settings = $this->all_settings['pools_settings']->settingsArray ;
-
-
-		$pools_settings = array_map(function($step) use ($total_disagio){
-
-			$sharable_total = 0.01 * $step['percent_disagio'] * $total_disagio;
-			$step['sharable_total'] =  $sharable_total;
-
-			return $step;
-
-		}, $pools_settings);
-
-
-		$company_gain = $total_disagio - collect($pools_settings)->sum('sharable_total');
-
-		$dump = [
-			'total_disagio' =>  $total_disagio,
-			'company_gain' => $company_gain,
-			'settings' => $pools_settings,
-		];
-
-		print_r($dump);
-
-
-
-
-		$pools_commissions = PoolsCommissionSchedule::updateOrCreate([
-															'period' => $payment_month
-														],
-
-														[
-															'disagio_dump' => json_encode($dump)
-														]);
-		$this->pay_pools_commission();
-
-
-	}
-
-
-
-
-	public function pay_pools_commission_old()
-	{
-		$period =  $this->period;
-		extract($period);
-
-		$pools_commissions =  PoolsCommissionSchedule::where('period', $payment_month)->first();
-
-		if ($pools_commissions == null) {
-			return;
-		}
-
-		$details = json_decode($pools_commissions->disagio_dump, true);
-
-		$month 	 = date('F Y', strtotime($payment_month));
-
-
-		foreach ($details['settings'] as $key => $pools) {
-			print_r($pools);
-
-			 $users = SettlementTracker::where('period', $payment_month)
-												 ->where('no_of_merchants', '>=', $pools['min_merchant_recruitment'])
-												 ->get();
-
-
-				if ($users->isEmpty()) {
-					continue;
-				}
-
-				$no_of_users = $users->count();
-				$total_pool = $pools['sharable_total'];
-
-				$per_head =  ($total_pool / $no_of_users);
-
-				$pool_amount  = round($per_head, 2);
-
-					DB::beginTransaction();
-
-					try {
-						
-						foreach ($users as $key => $user) {
-
-							$comment = "$month {$pools['level']} Bonus";
-							LevelIncomeReport::credit_user($user['id'], $pool_amount, $comment , $user['id']);
-
-						}
-
-						DB::commit();
-
-					} catch (Exception $e) {
-
-						print_r($e->getMessage());
-						DB::rollback();
-						
-					}
-
-
-
-			echo "<br>";
-
-		}
-
-
-	}
-
 
 
 

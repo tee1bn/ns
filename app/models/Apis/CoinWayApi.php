@@ -111,6 +111,8 @@ class CoinWayApi
 		if ($paginate) {
 
 			return $this;
+		}else{
+			$this->response = [];
 		}
 
 
