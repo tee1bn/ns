@@ -74,11 +74,9 @@ class UserController extends controller
             $sieve = $_REQUEST;
            $coin_way = new CoinWayApi;
            $today = date("Y-m-d");
-           $month = MIS::date_range($today, 'month', true);
 
-            $date_range = $_GET['registration'] ?? $month;
 
-            $url = "https://api.coinwaypay.com/api/supervisor/accounts";
+           $url = "https://api.coinwaypay.com/api/supervisor/accounts";
 
             $page = $_GET['page'] ?? 1;
             $per_page = 100;
@@ -95,25 +93,13 @@ class UserController extends controller
                 ->get_response()->toArray();
 
 
-   
 
-            $url = "https://api.coinwaypay.com/api/supervisor/turnover";
-            $turnover = $coin_way
-                ->setPeriod($date_range['start_date'], $date_range['end_date'])
-                ->setUrl($url)
-                ->connect(null)
-                ->get_response()->keyBy('supervisorNumber')->toArray();
-
-
-
-            $supervisor_turnover = $turnover[$auth->id];
-
+            $records = collect($response['values'])->countBy('licenseName')->toArray();
         
-
         $note = MIS::filter_note(count($response['values']), count($response['values']), ($response['meta']['total']),  $sieve, 1);
 
 
-        $this->view('auth/merchant_packages', compact('supervisor_turnover' ,'page', 'response', 'sieve','note','per_page'));
+        $this->view('auth/merchant_packages', compact('records' ,'page', 'response', 'sieve','note','per_page'));
     }
 
     public function vp_packages()

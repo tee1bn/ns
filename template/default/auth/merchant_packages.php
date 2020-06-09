@@ -38,18 +38,20 @@ $page_title = "Merchant Packages";
                   <div class="card-body">
                     <div class="row">
 
-                      <?php foreach ($supervisor_turnover['licenses']??[] as $key => $license) :?>
+                      <?php foreach ($records ??[] as $licenseName => $licenseCount) :?>
 
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon primary d-flex justify-content-center mr-3">
                             <div class="b-box">
                                 <span class="d-box">
-                                    <?=$license['licenseCount'];?>
+                                    <?=$licenseCount;?>
                                 </span>
-                            </div>                          </span>
+                            </div>
+                          </span>
+
                           <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600"><?=$license['licenseName'];?></h3>
+                            <h3 class="heading-text text-bold-600"><?=$licenseName;?></h3>
                             <p class="sub-heading">Package</p>
                           </div>
                         </div>
@@ -149,7 +151,7 @@ $page_title = "Merchant Packages";
                                                     <td><?=$merchant['id'];?></td>
                                                     <td><?=$merchant['name'];?></td>
                                                     <td>2</td>
-                                                    <td>Professional</td>
+                                                    <td><?=$merchant['licenseName'];?></td>
                                                     <td><?=$merchant['phone'];?></td>
                                                     <td><?=date("d/m/Y", strtotime($merchant['createdAt']));?></td>
                                                     <td><?=$merchant['setupFeeState'];?></td>
