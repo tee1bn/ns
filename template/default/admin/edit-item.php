@@ -189,10 +189,23 @@ include 'includes/header.php';?>
                                       </div> -->
 
 
-                                  <div class="form-group">
-                                   <button type="submit" class="form-control btn-primary">
+                                  <div class="form-group row">
+                                   <button type="submit" class="form-control btn-primary col-md-6">
                                      Update Item
                                    </button> 
+
+
+
+                                   <a onclick="$confirm_dialog = new ConfirmationDialog('<?= domain; ?>/shop/submit_for_review/<?= $item->id; ?>')"
+                                      href="javascript:void(0);" class='col-md-6 '>
+                                       <button class="form-control btn btn-secondary text-white" type="button">
+                                           Submit For Review
+                                           <i class="fa fa-check-circle"></i>
+                                       </button>
+                                   </a>
+
+
+
                                   </div>
 
 

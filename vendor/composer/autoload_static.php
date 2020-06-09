@@ -314,6 +314,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'v2\\Models\\Document' => __DIR__ . '/../..' . '/app/models/v2/Models/Document.php',
         'v2\\Models\\ISPWallet' => __DIR__ . '/../..' . '/app/models/v2/Models/ISPWallet.php',
         'v2\\Models\\Isp' => __DIR__ . '/../..' . '/app/models/v2/Models/Isp.php',
+        'v2\\Models\\Market' => __DIR__ . '/../..' . '/app/models/v2/Market.php',
         'v2\\Models\\UserDocument' => __DIR__ . '/../..' . '/app/models/v2/Models/UserDocument.php',
         'v2\\Models\\UserWithdrawalMethod' => __DIR__ . '/../..' . '/app/models/v2/Models/UserWithdrawalMethod.php',
         'v2\\Models\\Wallet' => __DIR__ . '/../..' . '/app/models/v2/Models/Wallet.php',

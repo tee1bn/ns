@@ -126,6 +126,15 @@ class AdminProductsController extends controller
 											$_FILES['front_image'] ,
 											$_FILES['downloadable_files'] );
 
+
+
+		//put on market
+		
+		
+
+
+
+
 		// Redirect::back();
 	}
 

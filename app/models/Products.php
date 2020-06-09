@@ -25,6 +25,111 @@ class Products extends Eloquent
 
     protected $hidden = ['downloadable_files'];
 
+    public static $category_in_market = 'product';
+
+
+
+    public static function star_rating($rate,  $scale)
+    {
+        $stars = '';
+        for ($i=1; $i <= $scale ; $i++) { 
+                if ($i <= $rate) {
+                    $stars .= "<i class='fa fa-star'></i>";
+                }else{
+                    $stars .= "<i class='fa fa-star-o'></i>";
+                }
+        }
+
+        $point = number_format(($rate), 1);
+        $stars .= " (<b>$point</b>)";
+        $star_rating = compact('rate', 'scale', 'stars', 'point');
+
+        return $star_rating;
+    }
+
+
+
+    public function quickview()
+    {
+
+        $currency = Config::currency();
+        $price = MIS::money_format($this->price);
+        $by = ($this->instructor == null)? '' : "By {$this->instructor->fullname} ";
+
+        $aim = '';
+
+            foreach ($this->GoalJson['aims'] as $key => $value) {
+                $aim .= "<li>$value</li>";
+            }
+
+        $last_updated = date("M j, Y h:iA" , strtotime($this->updated_at));
+        $quickview = "
+            <small>Last updated -{$last_updated}</small>
+            <h5><b>{$this->title}</b></h5>
+            <p> $this->primarily_taught | $this->category | $this->level</p>
+            <p>$by <span style='margin-left: 30px;    font-weight: bold;    font-size: 25px;'> $currency$price</span>
+            </p> 
+            <hr>
+
+            <p>$this->description</p>
+            <ul>
+                $aim
+            </ul>
+         
+          ";
+
+          return $quickview;
+    }
+
+    public function scopeFree($query)
+    {
+        return $query->where('price', 0);
+    }
+
+    
+
+
+    public function getViewLinkAttribute()
+    {
+        $domain = Config::domain();
+
+        $url_friendly = MIS::encode_for_url($this->title);
+        $singlelink = "$domain/shop/full-view/$this->id/course/$url_friendly";
+
+        return $singlelink;  
+    }
+
+
+    public function market_details()
+    {
+
+        $domain = Config::domain();
+        $thumbnail = "$domain/$this->imageJson";
+
+        $market_details = [
+            'id' => $this->id,
+            'model' => self::class,
+            'name' => $this->name,
+            'short_name' => substr($this->name, 0, 34),
+            'description' => $this->description,
+            'short_description' => substr($this->description, 0, 50).'...',
+            'quick_description' => substr($this->description, 0, 250).'...',
+            'price' => $this->price,
+            'old_price' => $this->old_price,
+            'by' => ($this->instructor == null)? '' : "By {$this->instructor->fullname}",
+            'star_rating' => self::star_rating(4, 5),
+            'quickview' =>  $this->quickview(),
+            'single_link' =>  $this->ViewLink,
+            'thumbnail' =>  $thumbnail,
+            'unique_name' =>  'product',  // this name is used to identify this item in cart and at delivery
+        ];
+
+        return $market_details;
+    }   
+
+
+
+
 
 
 	public function download()
@@ -102,6 +207,11 @@ class Products extends Eloquent
 		return  (int) (($this->old_price - $this->price) * (100 / $this->old_price));
 	}
 
+
+	public function is_ready_for_review()
+	{
+		return true;
+	}
 
 	public function update_product($inputs, $files, $downloadable_files)
 	{
