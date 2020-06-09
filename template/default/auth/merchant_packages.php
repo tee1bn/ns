@@ -37,20 +37,27 @@ $page_title = "Merchant Packages";
                 <div class="card">
                   <div class="card-body">
                     <div class="row">
+
+                      <?php foreach ($supervisor_turnover['licenses']??[] as $key => $license) :?>
+
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon primary d-flex justify-content-center mr-3">
                             <div class="b-box">
                                 <span class="d-box">
-                                    453
+                                    <?=$license['licenseCount'];?>
                                 </span>
                             </div>                          </span>
                           <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">Basic</h3>
+                            <h3 class="heading-text text-bold-600"><?=$license['licenseName'];?></h3>
                             <p class="sub-heading">Package</p>
                           </div>
                         </div>
                       </div>
+
+                      <?php endforeach ;?>
+<!-- 
+
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon danger d-flex justify-content-center mr-3">
@@ -67,6 +74,8 @@ $page_title = "Merchant Packages";
                           </div>
                         </div>
                       </div>
+
+
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start border-right-blue-grey border-right-lighten-5">
                           <span class="card-icon success d-flex justify-content-center mr-3">
@@ -83,13 +92,15 @@ $page_title = "Merchant Packages";
                           </div>
                         </div>
                       </div>
+ -->
+
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start">
                           <span class="card-icon warning d-flex justify-content-center mr-3">
 
                             <div class="b-box">
                                 <span class="d-box">
-                                    453
+                                    <?=$response['meta']['total'];?>
                                 </span>
                             </div>
                                 </span>
@@ -99,6 +110,8 @@ $page_title = "Merchant Packages";
                           </div>
                         </div>
                       </div>
+
+
                     </div>
                   </div>
                 </div>
@@ -114,7 +127,7 @@ $page_title = "Merchant Packages";
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
-                                    <h4 class="card-tile border-0">ew</h4>
+                                  <?php //include_once 'template/default/composed/filters/merchant_packages.php';?>
                                     <hr>
                                     <div class="row table-responsive">
 
@@ -130,16 +143,16 @@ $page_title = "Merchant Packages";
                                                 <td>Status</td>
                                             </tr>
                                             <tbody>
-                                              <?php $i=1; foreach ($response['values'] as $key => $merhant) :?>
+                                              <?php $i=1; foreach ($response['values'] as $key => $merchant) :?>
                                                 <tr>
                                                     <td><?=$i++;?></td>
-                                                    <td><?=$merhant['id'];?></td>
-                                                    <td><?=$merhant['name'];?></td>
+                                                    <td><?=$merchant['id'];?></td>
+                                                    <td><?=$merchant['name'];?></td>
                                                     <td>2</td>
                                                     <td>Professional</td>
-                                                    <td>***</td>
-                                                    <td>02/2/2020</td>
-                                                    <td>paid</td>
+                                                    <td><?=$merchant['phone'];?></td>
+                                                    <td><?=date("d/m/Y", strtotime($merchant['createdAt']));?></td>
+                                                    <td><?=$merchant['setupFeeState'];?></td>
                                                 </tr>
                                               <?php endforeach  ;?>
                                             </tbody>

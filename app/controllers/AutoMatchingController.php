@@ -169,8 +169,8 @@ class AutoMatchingController extends controller
 		$query_string = http_build_query([
 			'from' 	=> $payment_date_range['start_date'],
 			'to' 	=> $payment_date_range['end_date'],
-			'top' => 2,
-			'skip' => 0
+			'$top' => 2,
+			'$skip' => 0
 		]);
 
 		$url = "{$this->url}?$query_string";
@@ -216,8 +216,8 @@ class AutoMatchingController extends controller
 			$query_string = http_build_query([
 				'from' 	=> $payment_date_range['start_date'],
 				'to' 	=> $payment_date_range['end_date'],
-				'top' 	=> $per_page,
-				'skip' => $skip
+				'$top' 	=> $per_page,
+				'$skip' => $skip
 			]);
 
 			

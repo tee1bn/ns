@@ -71,85 +71,49 @@ class UserController extends controller
     {
         $auth = $this->auth();
 
-/*        $query = $auth->all_downlines_by_path('placement');
-
-
-        $sieve = $_REQUEST;
-        $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
-        $per_page = 50;
-        $skip = (($page - 1) * $per_page);
-
-        $filter = new  UserFilter($sieve);
-
-        $total_sales_partner = $query->count();
-        $data = $query->Filter($filter)->count();
-
-
-
-        $today = date("Y-m-d");
-        $subscriptions = SubscriptionOrder::where('paid_at', '!=', null)
-            ->whereDate('expires_at', '<', $today)
-        ;
-        $query_2 = $auth->all_downlines_by_path('placement');
-        $packages_count = $query_2
-            ->joinSub($subscriptions, '$subscriptions', function ($join) {
-                $join->on('users.id', '=', '$subscriptions.user_id');
-            })
-            ->select(DB::raw('count(*) as total'), 'plan_id')->groupBy('plan_id');
-
-        $packages_count = $packages_count->get()->keyBy('plan_id');
-
-        $ids = [
-            'basic' => [1],
-            'advanced' => [9],
-            'professional' => [10]
-        ];
-        $packages_count_array = $packages_count->toArray();
-        $total = [];
-        foreach ($ids as $key =>  $id) {
-            foreach ($id as $item) {
-                $total[$key][] = $packages_count_array[$item]['total'] ?? 0;
-            }
-        }
-
-        foreach ($ids as $key => $id) {
-            $total[$key] = array_sum($total[$key]);
-        }
-
-        $total['basic'] = $total_sales_partner - ($total['advanced']) - ($total['professional']);
-
-        $all_downlines = $query->Filter($filter)
-            ->offset($skip)
-            ->take($per_page)
-            ->get();  //filtered
-*/
-
-
-        // $note = MIS::filter_note($all_downlines->count() , $data, $total_sales_partner,  $sieve, 1);
-
             $sieve = $_REQUEST;
            $coin_way = new CoinWayApi;
            $today = date("Y-m-d");
            $month = MIS::date_range($today, 'month', true);
 
             $date_range = $_GET['registration'] ?? $month;
-            $start_date = isset($_GET['registration']) ? $date_range['start_date'] :"2019-01-01" ;
 
             $url = "https://api.coinwaypay.com/api/supervisor/accounts";
 
             $page = $_GET['page'] ?? 1;
             $per_page = 100;
+            $coin_way->per_page = $per_page;
+            $skip = ($per_page * ($page-1));
 
 
             $response = $coin_way
                 ->setUrl($url)
-                ->connect(['supervisor_number'=> $auth->id, 'page'=>$page], true)
+                ->connect(['supervisor_number'=> $auth->id, 
+                            '$top'=>$per_page,
+                            '$skip'=>$skip
+                        ], true, true)
                 ->get_response()->toArray();
-                
+
+
+   
+
+            $url = "https://api.coinwaypay.com/api/supervisor/turnover";
+            $turnover = $coin_way
+                ->setPeriod($date_range['start_date'], $date_range['end_date'])
+                ->setUrl($url)
+                ->connect(null)
+                ->get_response()->keyBy('supervisorNumber')->toArray();
+
+
+
+            $supervisor_turnover = $turnover[$auth->id];
+
+        
 
         $note = MIS::filter_note(count($response['values']), count($response['values']), ($response['meta']['total']),  $sieve, 1);
 
-        $this->view('auth/merchant_packages', compact('page', 'response', 'sieve','note','per_page'));
+
+        $this->view('auth/merchant_packages', compact('supervisor_turnover' ,'page', 'response', 'sieve','note','per_page'));
     }
 
     public function vp_packages()

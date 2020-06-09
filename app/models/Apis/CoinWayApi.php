@@ -12,7 +12,7 @@ use MIS , SiteSettings;
 class CoinWayApi 
 {
 
-	private $per_page = 100;
+	public $per_page = 100;
 	public $response = [];
 	public $total_no ;
 
@@ -75,7 +75,7 @@ class CoinWayApi
 
 
 	//connect with the API using the sent param
-	public function connect($param = null, $get_meta_data=false)
+	public function connect($param = null, $get_meta_data=false, $paginate=false)
 	{
 
 		// connect with API
@@ -91,7 +91,31 @@ class CoinWayApi
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
+
+
 		$this->total_no  = $response['totalCount'];
+
+		if ($get_meta_data == true) {
+
+			$full_response['meta']['total'] = $this->total_no;
+			$full_response['values'] = $response['value'];
+
+			$this->response = $full_response;
+
+		}else{
+
+			$this->response = $response['value'];
+		}
+
+
+		if ($paginate) {
+
+			return $this;
+		}
+
+
+
+
 
 
 		$pages = ceil($this->total_no  /$this->per_page);
@@ -103,8 +127,8 @@ class CoinWayApi
 			$query_string = http_build_query([
 				'from' 	=> $this->period['start_date'],
 				'to' 	=> $this->period['end_date'],
-				'top' 	=> $this->per_page,
-				'skip' => $skip
+				'$top' 	=> $this->per_page,
+				'$skip' => $skip
 			]);
 
 
