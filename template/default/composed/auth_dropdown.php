@@ -14,8 +14,8 @@
     $model = '<?=(isset($model))?  $model: '';?>';
   </script>
 
-  <script src="<?=general_asset;?>/js/angulars/shop.js"></script>
-  <?php if (in_array($current_url, $allowed)) :?>
+  <script src="<?=asset;?>/angulars/shop.js"></script>
+  <?php if (in_array($current_url, $allowed) || true) :?>
     <li ng-cloak ng-controller="CartNotificationController" id="cart-notification" class="dropdown dropdown-notification nav-item">
       <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-shopping-cart"></i>
         <span class="badge badge-pill badge-default badge-danger badge-default badge-up">{{$cart.$items.length}} </span>
@@ -59,7 +59,7 @@
   <?php endif ;?>
 
   <?php if ($auth):?>
-      <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span class="avatar avatar-online">
+      <!-- <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown"><span class="avatar avatar-online">
         <img src="<?=domain;?>/<?=$auth->resized_profile_pix;?>" alt="avatar"
         style="height: 30px;object-fit: cover;"><i></i></span><span class="user-name">
     <?=$auth->fullname;?>
@@ -67,13 +67,6 @@
     </span></a>
         <div class="dropdown-menu dropdown-menu-right">
           <a class="dropdown-item" href="<?=domain;?>/user/profile"><i class="ft-user"></i> Profile </a>
-          <!-- <a class="dropdown-item" href="<?=domain;?>/user/messages"><i class="ft-mail"></i> Messages</a> -->
-          <!-- <a class="dropdown-item" href="<?=domain;?>/user/courses"><i class="ft-clipboard"></i>My Courses</a> -->
-
-
-          <?php if ($auth->is_instructor()) :?>
-          <!-- <a class="dropdown-item" href="<?=domain;?>/instructor"><i class="ft-user-plus"></i> Instructor</a> -->
-          <?php endif;?>
           <a class="dropdown-item" href="<?=domain;?>/user/password"><i class="ft-lock"></i> Password</a>
           <div class="dropdown-divider"></div>
           <a class="dropdown-item" href="<?=domain;?>/login/logout"><i class="ft-power"></i> Logout</a>
@@ -81,10 +74,10 @@
 
         </div>
 
-      </li>
+      </li> -->
     <?php else:?>
 
-    <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
+   <!--  <li class="dropdown dropdown-user nav-item"><a class="dropdown-toggle nav-link dropdown-user-link" href="#" data-toggle="dropdown">
     <span class=" ft ft-lock" style="position: relative;top: 5px;font-size: 20px;"></span></a>
 
       <div class="dropdown-menu dropdown-menu-right">
@@ -92,5 +85,5 @@
         <div class="dropdown-divider"></div>
         <a class="dropdown-item" href="<?=domain;?>/login"><i class=""></i> Sign In</a>
       </div>
-    </li>
+    </li> -->
  <?php endif;?>

@@ -9,8 +9,6 @@
 class AdminProductsController extends controller
 {
 
-
-
 	public function __construct(){
 		$this->middleware('administrator')->mustbe_loggedin();
 
@@ -136,7 +134,7 @@ class AdminProductsController extends controller
 
 		if (Input::exists('add_products') || true) {
 
-// print_r($_FILES['front_image']);
+	// print_r($_FILES['front_image']);
 
 
 	$this->validator()->check(Input::all() , array(

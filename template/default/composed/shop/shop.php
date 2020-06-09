@@ -14,10 +14,10 @@
               </div>
 
               <div class="card-content row" ng-cloak>
-                <div class="card-body col-md-2" ng-repeat ="($index, $item) in $shop.$items  | filter:searchText">
+                <div class="card-body col-md-4" ng-repeat ="($index, $item) in $shop.$items  | filter:searchText">
                   
                   <div class="card course-card" >
-                    <img class="card-img-top" src="{{$item.market_details.thumbnail}}" alt="Card image cap">
+                    <img class="card-img-top" src="{{$item.market_details.thumbnail}}" alt="Card image cap" style="height: 210px;width: 100%;object-fit: cover;">
                     <div class="card-body">
                       <a href="{{$item.market_details.single_link}}"><b>{{$item.market_details.short_name}}...</b></a>
                       <p class="card-text course-subtext">
@@ -31,8 +31,9 @@
                       <br>
                       <span class="pull-left course-btn">
                         <!-- <span class="ft-heart"></span> -->
-                        <a><span ng-click="$shop.$cart.add_item($item)" class="ft-shopping-cart"></span></a>
-                        <a><span ng-click="$shop.quickview($item)" class="ft-eye"></span></a>
+                        <a><span ng-click="$shop.$cart.add_item($item)" class="ft-shopping-cart fa-2x"></span></a>
+                        <a>&nbsp;</a>
+                        <a><span ng-click="$shop.quickview($item)" class="ft-eye fa-2x"></span></a>
                       </span>
                       <span class="pull-right">      
                         <del class="cent" ng-show="$item.market_details.old_price != undefined">
@@ -46,12 +47,12 @@
               </div>
             </section>
 
-            <center ng-cloak>
-              <button ng-click="fetch_more_items()" ng-hide="$hide_more_btn" class="btn btn-secondary">Load More</button>
+<!--             <center ng-cloak>
+              <button ng-click="$shop.fetch_products()" ng-hide="$shop.$no_more_product" class="btn btn-secondary">Load More</button>
               <button  ng-show="$hide_more_btn" class="btn btn-secondary">No More Records</button>
             </center>
 
-
+ -->
             <!-- Modal -->
             <div id="quick_view_modal" class="modal fade" role="dialog">
               <div class="modal-dialog modal-lg">

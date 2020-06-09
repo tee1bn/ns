@@ -334,6 +334,29 @@ class UserController extends controller
     }
 
 
+
+
+
+
+    public function cart()
+    {
+        $shop = new Shop;
+
+        $cart = json_decode($_SESSION['cart'], true)['$items'];
+
+        if (count($cart) == 0) {
+            Session::putFlash("info","Your cart is empty.");
+            Redirect::to('user/shop');
+        }
+        
+        $this->view('auth/cart', compact('shop'));
+    }
+
+
+
+
+
+
     public function view_cart()
     {
 

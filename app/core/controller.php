@@ -322,6 +322,7 @@ if ($response == true) {
 			$fav_icon 			=	$logo;
 			$this_folder	= $domain."/template/".Config::views_template()."/$view_folder";
 			$websocket_url	= "$host:3000";
+			$template	=   'template/'.Config::views_template();
 
 
 			$auth =  $this->auth();

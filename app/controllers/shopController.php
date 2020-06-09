@@ -550,6 +550,113 @@ class shopController extends controller
 	}
 
 
+	
+	
+	public function market($page=1 , $type = 'course')
+	{	
+		
+
+		$domain = Config::domain();
+		$shop_link = "$domain/shop";
+
+		$register = [
+			'course' => [
+				'per_page' => 5,
+				'currency' => '&#8358;',
+				'shop_link' => $shop_link,
+				'order_storage' => 'Orders',
+			],
+
+		];
+
+		$market_category = $register[$type];
+		$per_page = $market_category['per_page'];
+		$skip = (($page -1 ) * $per_page) ;
+
+
+
+
+		$items_on_sale = Market::latest()
+		->GoodsBelongingTo($type)
+		->OnSale()
+		->skip($skip)
+		->take($per_page)
+		->get()
+		;
+
+
+		$shaded=[];
+		foreach ($items_on_sale as $key => $item_on_sale) {
+			$market_content = $item_on_sale->item;
+
+			if ($market_content == null) {
+				continue;
+			}
+			$shaded_market[]['market_details'] = $item_on_sale->good()->market_details();
+		}
+
+		header("Content-type: application/json");
+		
+		$config = $market_category;
+		$items = $shaded_market;
+
+
+		$shop = compact('items', 'config');
+		echo json_encode($shop);	
+	}
+	
+
+
+	public function fetch_items($page=1, $model=null)
+	{
+
+		if (($model== null) || ($model== '') ) {
+			$model='course';
+		}
+
+		$domain = Config::domain();
+		$shop_link = "$domain/shop";
+
+		$register = [
+			'course' => [
+				'per_page' => 30,
+				'model' => 'Course',
+				'currency' => '&#8358;',
+				'shop_link' => $shop_link,
+			],
+
+		];
+
+
+		$per_page = 30;
+		$products = $register[$model]['model']::approved()->orderBy('updated_at', 'DESC');
+
+		if (Category::find($category_id) != null) {
+
+			$products->where('category_id', $category_id);
+		}
+
+			//pagination
+		$products = $products->get()->forPage($page, $per_page);
+		foreach ($products as $course) {
+			$course->market_details = $course->market_details(); 
+		}
+
+		header("Content-type: application/json");
+
+		$config = $register[$model];
+
+		$items = $products;
+
+
+		$shop = compact('items', 'config');
+		echo json_encode($shop);	
+	}
+
+
+
+
+
 	public function fetch_products($page=1, $category_id=null)
 	{
 
