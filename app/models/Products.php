@@ -3,6 +3,9 @@
 use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
+use  v2\Models\Market;
+
+
 class Products extends Eloquent 
 {
 	
@@ -127,8 +130,7 @@ class Products extends Eloquent
     {
 
         $domain = Config::domain();
-        $thumbnail = "$domain/$this->imageJson";
-
+        $thumbnail = "$this->mainimage";
         $market_details = [
             'id' => $this->id,
             'model' => self::class,
@@ -457,6 +459,73 @@ class Products extends Eloquent
 	{
 		return 'https://wrappixel.com/demos/admin-templates/monster-admin/assets/images/big/img1.jpg';
 	}
+
+
+
+
+	//market approval status
+	public function getApprovalStatusAttribute()
+	{
+
+	      $last_submission =  Market::where('category', $this::$category_in_market)
+	                        ->where('item_id', $this->id)
+	                        ->latest()
+	                        ->first();
+
+	        if ($last_submission == null) {
+	            return "<span class='badge badge-sm badge-dark'>Drafting</span>";
+	        }
+
+	        switch ($last_submission->approval_status) {
+	        case 2:
+	            $status = "<span class='badge badge-sm badge-success'>Approved</span>";
+	            break;
+	        
+	        case 1:
+	            $status = "<span class='badge badge-sm badge-warning'>In review</span>";
+	            break;
+	    
+	        case 0:
+	            $status = "<span class='badge badge-sm badge-danger'>Declined</span>";
+	            break;
+
+	        case null:
+	        $status = "<span class='badge badge-sm badge-info'>unknown</span>";
+	        break;
+	    
+	        
+	        default:
+	            # code...
+	            break;
+	    }
+
+	    return $status;
+
+	}
+
+
+	public static function approved()
+	{
+	    return self::where('status', 'Approved');
+	}
+
+	public static function in_review()
+	{
+	    return self::where('status', 'In review');
+	}
+
+
+	public  static function draft()
+	{
+	    return self::where('status', 'Draft');
+	}
+
+
+	public  static function denied()
+	{
+	    return self::where('status', 'Denied');
+	}
+
 
 
 	public function getmainimageAttribute()

@@ -55,12 +55,12 @@ include 'includes/header.php';?>
                                     </div>
 
 
-                                    <hr />
+                                <!--     <hr />
                                     <div class="dropdown">
                                         <a class="btn btn-primary btn-sm" href="<?=domain;?>/admin/download_request/<?=$item->id;?>"> File Download link </a>
                                     
                                     </div>
-
+ -->
 
                                   </div>
                       
@@ -190,23 +190,21 @@ include 'includes/header.php';?>
 
 
                                   <div class="form-group row">
-                                   <button type="submit" class="form-control btn-primary col-md-6">
+                                   <button type="submit" class="form-control btn-primary col-md-4">
                                      Update Item
                                    </button> 
 
 
 
                                    <a onclick="$confirm_dialog = new ConfirmationDialog('<?= domain; ?>/shop/submit_for_review/<?= $item->id; ?>')"
-                                      href="javascript:void(0);" class='col-md-6 '>
+                                      href="javascript:void(0);" class='col-md-4 '>
                                        <button class="form-control btn btn-secondary text-white" type="button">
                                            Put on sale
                                            <i class="fa fa-check-circle"></i>
                                        </button>
                                    </a>
 
-
-
-                                  </div>
+                               
 
 
                                  </form>

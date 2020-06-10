@@ -6,6 +6,8 @@ use  Filters\Filters\SupportTicketFilter;
 use  Filters\Filters\SubscriptionOrderFilter;
 use  Filters\Filters\CompanyFilter;
 use  Filters\Filters\UserFilter;
+use  Filters\Filters\OrderFilter;
+use  Filters\Filters\MarketFilter;
 use  Filters\Filters\UserDocumentFilter;
 
 use v2\Shop\Payments\Paypal\Subscription;
@@ -13,8 +15,10 @@ use v2\Shop\Payments\Paypal\PaypalAgreement;
 use v2\Models\Wallet;
 use v2\Models\Document;
 use v2\Models\UserDocument;
+use v2\Models\Market;
 
 use  v2\Shop\Shop;
+require_once "app/controllers/AdminProductsController.php";
 
 /**
  * this class is the default controller of our application,
@@ -38,7 +42,121 @@ class AdminController extends controller
 
 	}
 
+
+	public function toggle_course($course_id)
+	{
+
+
+		 $last_submission =  Market::where('category', 'product')
+		                  ->where('item_id', $course_id)
+		                  ->latest()
+		                  ->first();
+
+			if ($last_submission == null) {
+				Session::putFlash("danger", "Invalid Request");
+				Redirect::back();
+			}
+
+
+			if($last_submission->approval_status_is('approved')){
+
+				$last_submission->decline();
+
+				Session::putFlash("success", "Declined");
+
+			}else{
+
+
+				$last_submission->approve();
+				Session::putFlash("success", "Approved");
+			}
+
+
+
+			Redirect::back();
+	}
+
+
+
+
 	
+	private function course_orders_matters($extra_sieve=[])
+	{
+		$sieve = $_REQUEST;
+		$sieve = array_merge($sieve, $extra_sieve);
+
+		$query = Orders::latest();
+		// ->where('status', 1);  //in review
+		$sieve = array_merge($sieve);
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$filter =  new  OrderFilter($sieve);
+
+		$data =  $query->Filter($filter)->count();
+
+
+		$orders =  $query->Filter($filter)
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+
+		$shop = new Shop;
+
+		return compact('orders', 'sieve', 'data','per_page','shop');
+	}
+
+
+	public function products_on_sale()
+	{
+
+			$response = DB::select("SELECT m1.*
+			FROM market m1 LEFT JOIN market m2
+			 ON (m1.item_id = m2.item_id AND m1.id < m2.id)
+			WHERE m2.id IS NULL 
+			AND m1.category = 'product'
+			;
+			");
+
+			$market_ids = collect($response)->pluck('id')->toArray();
+
+
+					$sieve = $_REQUEST;
+					$query = Market::whereIn('id', $market_ids);
+					$sieve = array_merge($sieve, ['category' => 'product']);
+					// print_r($sieve);
+								
+					$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+					$per_page = 50;
+					$skip = (($page -1 ) * $per_page) ;
+
+					$filter =  new  MarketFilter($sieve);
+
+					$data =  $query->Filter($filter)->count();
+
+					$posts =  $query->Filter($filter)
+									->offset($skip)
+									->take($per_page)
+									->get();  //filtered
+
+			$this->view('admin/products_on_sale', compact('posts', 'sieve', 'data','per_page'));
+	
+	}
+
+
+	public function products_orders()
+	{
+
+		$sieve = [];
+		$compact =  $this->course_orders_matters($sieve);
+		extract($compact);
+		$page_title = 'Product Orders';
+
+		$this->view('admin/products_orders', compact('orders', 'sieve', 'data','per_page','shop', 'page_title'));
+
+	}
 
 	
 
@@ -147,14 +265,6 @@ class AdminController extends controller
 
 		
 	}
-
-
-	public function products_orders()
-	{
-			$orders =  Orders::all();
-			$this->view("admin/products_orders", compact('orders'));
-	}
-
 
 	public function update_subscription_confirmation_message()
 	{
@@ -351,6 +461,21 @@ class AdminController extends controller
 		$this->view('admin/edit_book', compact('ebook'));
 
 	}
+
+
+
+
+	public function product()
+	{
+
+
+
+		$AdminProductsController = new AdminProductsController;
+		$AdminProductsController->edit_item(41);
+
+
+	}
+
 
 
 	public function products()

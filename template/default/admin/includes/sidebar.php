@@ -46,6 +46,23 @@
 
 
 
+          <li class=" nav-item"><a href="#"><i class="icon-wallet"></i><span class="menu-title" data-i18n=""> Shop</span></a>
+            <ul class="menu-content">
+              <li><a class="menu-item" href="<?=domain;?>/admin/product"> Product</a>
+        
+              <li><a class="menu-item" href="<?=domain;?>/admin/products-on-sale">Products on sale</a>
+              </li>
+
+              <li><a class="menu-item" href="<?=domain;?>/admin/products-orders">Orders</a>
+              </li>
+            </ul>
+              <li>
+                <a class="menu-item" href="<?=domain;?>/admin/documents"><i class="fa fa-folder"></i>Documents</a>
+              </li>
+          </li> 
+
+
+
 
           <li class=" navigation-header"><span>COMMUNICATION</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
           </li>

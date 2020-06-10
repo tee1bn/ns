@@ -402,6 +402,12 @@ class shopController extends controller
 		->first();
 
 
+		if ($item_on_sale == null) {
+
+			Session::putFlash("danger","Item not found");
+			Redirect::back();
+		}
+
 
 		$good = $item_on_sale->preview();
 

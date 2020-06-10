@@ -64,6 +64,8 @@ $page_title = "Cart";
                                                <img class="media-object"
                                                 src="{{$item.market_details.thumbnail}}" alt="{{$item.market_details.name}} image" style="width: 64px;height: 64px; object-fit: cover;">
                                                 </a>
+
+                                                
                                                 <div class="media-body">
                                                     <h4 class="media-heading"><b>{{$item.market_details.name}}</b></h4>
                                                      <span ng-bind-html = $item.market_details.short_description></span>

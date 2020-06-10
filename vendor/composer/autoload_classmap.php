@@ -18,6 +18,7 @@ return array(
     'Filters\\Filters\\CompanyFilter' => $baseDir . '/app/models/v2/Filters/Filters/CompanyFilter.php',
     'Filters\\Filters\\DepositOrderFilter' => $baseDir . '/app/models/v2/Filters/Filters/DepositOrderFilter.php',
     'Filters\\Filters\\EarningFilter' => $baseDir . '/app/models/v2/Filters/Filters/EarningFilter.php',
+    'Filters\\Filters\\MarketFilter' => $baseDir . '/app/models/v2/Filters/Filters/MarketFilter.php',
     'Filters\\Filters\\Mt4TradesFilter' => $baseDir . '/app/models/v2/Filters/Filters/testFilter.php',
     'Filters\\Filters\\OrderFilter' => $baseDir . '/app/models/v2/Filters/Filters/OrderFilter.php',
     'Filters\\Filters\\SubscriptionOrderFilter' => $baseDir . '/app/models/v2/Filters/Filters/SubscriptionOrderFilter.php',

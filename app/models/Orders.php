@@ -7,7 +7,7 @@ use v2\Shop\Contracts\OrderInterface;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use  Filters\Traits\Filterable;
 
-require_once "../app/controllers/home.php";
+require_once "app/controllers/home.php";
 
 
 class Orders extends Eloquent  implements OrderInterface
