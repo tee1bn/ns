@@ -29,6 +29,27 @@ class Products extends Eloquent
 
 
 
+
+
+
+    
+
+
+    public function getimageJsonAttribute()
+    {   
+        $value = $this->image;
+
+
+        if ((!is_dir($value))  && (file_exists($value))) {
+
+            return ($value);
+        }
+
+        return 'uploads/images/courses/course_image.jpeg';
+    }
+
+
+
     public static function star_rating($rate,  $scale)
     {
         $stars = '';
@@ -56,11 +77,6 @@ class Products extends Eloquent
         $price = MIS::money_format($this->price);
         $by = ($this->instructor == null)? '' : "By {$this->instructor->fullname} ";
 
-        $aim = '';
-
-            foreach ($this->GoalJson['aims'] as $key => $value) {
-                $aim .= "<li>$value</li>";
-            }
 
         $last_updated = date("M j, Y h:iA" , strtotime($this->updated_at));
         $quickview = "
@@ -73,7 +89,7 @@ class Products extends Eloquent
 
             <p>$this->description</p>
             <ul>
-                $aim
+
             </ul>
          
           ";
@@ -87,6 +103,12 @@ class Products extends Eloquent
     }
 
     
+    
+    public function is_free()
+    {
+        return $this->price == 0;
+    }
+
 
 
     public function getViewLinkAttribute()
@@ -94,7 +116,8 @@ class Products extends Eloquent
         $domain = Config::domain();
 
         $url_friendly = MIS::encode_for_url($this->title);
-        $singlelink = "$domain/shop/full-view/$this->id/course/$url_friendly";
+        $category_in_market = self::$category_in_market;
+        $singlelink = "$domain/shop/full-view/$this->id/$category_in_market/$url_friendly";
 
         return $singlelink;  
     }

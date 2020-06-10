@@ -294,21 +294,7 @@ class shopController extends controller
 	{
 		$this->middleware('current_user')->mustbe_loggedin();
 
-
-		$register = [
-			'product' => [
-				'model' => 'Products',
-			],
-
-			'course' => [
-				'model' => 'Course',
-			],
-
-			'post' => [
-				'model' => 'Post',
-			],
-
-		];
+		$register = Market::$register;
 
 		$model = $register[$model_key]['model'];
 
@@ -353,7 +339,7 @@ class shopController extends controller
 
 
 			DB::commit();
-			Session::putFlash('success' ,'Submitted for review successfully! This will be Live after approval');
+			Session::putFlash('success' ,'Put on sale successfully.');
 		} catch (Exception $e) {
 			Session::putFlash('danger' ,'Something went wrong');
 
@@ -361,7 +347,8 @@ class shopController extends controller
 			DB::rollback();
 			
 		}
-				$submission->approve();
+		
+		$submission->approve();
 
 		Redirect::back();
 	}
@@ -370,11 +357,7 @@ class shopController extends controller
 
 	public function get_single_item_on_market($model_key, $item_id)
 	{
-		$register = [
-			'course' => [
-				'model' => 'Course',
-			],
-		];
+		$register = Market::$register;
 
 		$model = $register[$model_key]['model'];
 
@@ -404,13 +387,8 @@ class shopController extends controller
 
 	public function full_view($item_id, $model_key)
 	{
+		$register = Market::$register;
 
-		$register = [
-			'course' => [
-				'model' => 'Course',
-			],
-
-		];
 
 		$model = $register[$model_key]['model'];
 		$item =  new $model;
@@ -425,7 +403,6 @@ class shopController extends controller
 
 
 
-
 		$good = $item_on_sale->preview();
 
 
@@ -437,6 +414,15 @@ class shopController extends controller
 			$access = '';
 			// return;
 			$this->view('guest/single-course',compact('course','model','access'));
+			break;
+
+			case 'product':
+			$product = $good;
+
+			$model = 'product';
+			$access = '';
+			// return;
+			$this->view('auth/online_shop',compact('product','model','access'));
 			break;
 			
 			default:
@@ -467,7 +453,7 @@ class shopController extends controller
 
 			'product' => [
 				'per_page' => 5,
-				'currency' => '&#8358;',
+				'currency' => Config::currency(),
 				'shop_link' => $shop_link,
 				'order_storage' => 'Orders',
 			],

@@ -50,6 +50,13 @@ class MIS
         return $bytes;
     }
 
+
+    
+        
+    public static function encode_for_url($string){
+            return str_replace(' ', '-', $string);
+    }
+
     public static function compile_email($core_msg)
     {
         $controller = new home;

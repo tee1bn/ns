@@ -75,11 +75,11 @@ $page_title = "Cart";
                                                             
                                                             <b> <?=$currency;?> {{$item.market_details.price }}<i class="fa fa-tags"></i> </b></h2></li>
                                                     </ul><br>
-                                                  <!--   <div class="quantity">
+                                                    <div class="quantity">
                                                         <input style="width:  35px;"
                                                          ng-change="$shop.$cart.update_server();" type="number" class="quantity-input" ng-model="$item.qty" id="qty-4"  min="1"
                                                           >
-                                                    </div> -->
+                                                    </div>
 
                                             </div>
 

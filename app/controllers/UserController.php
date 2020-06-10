@@ -10,6 +10,8 @@ use v2\Models\Withdrawal;
 use v2\Shop\Shop;
 use Apis\CoinWayApi;
 
+require_once "app/controllers/shopController.php";
+
 
 /**
  * this class is the default controller of our application,
@@ -227,7 +229,13 @@ class UserController extends controller
 
     public function online_shop()
     {
-        $this->view('auth/online_shop');
+
+        /*shop/full-view/41/product/*/
+
+        $shopController = new shopController;
+
+        $shopController->full_view(41, 'product');
+        // $this->view('auth/online_shop');
     }
 
 

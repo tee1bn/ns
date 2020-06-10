@@ -1,9 +1,9 @@
 <?php
+
+
 $page_title = "Online Shop";
  include 'includes/header.php';?>
   <?php
-    use v2\Models\Withdrawal;
-
 
     ;?>
 
@@ -11,23 +11,28 @@ $page_title = "Online Shop";
 
 
     <!-- BEGIN: Content-->
-    <div class="app-content content">
+    <div class="app-content content"  id="content" ng-controller="ShopController">
       <div class="content-wrapper">
         <div class="content-header row">
-          <div class="content-header-left col-md-6 col-12 mb-2">
+          <div class="content-header-left col-6  mb-2">
             <?php include 'includes/breadcrumb.php';?>
 
             <h3 class="content-header-title mb-0">Online Shop</h3>
           </div>
           
-         <!--  <div class="content-header-right col-md-6 col-12">
-            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-              <div class="btn-group" role="group">
-                <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> Settings</button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
-              </div><a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="ft-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="ft-pie-chart"></i></a>
-            </div>
-          </div> -->
+
+
+
+
+          <div class="content-header-right col-6">
+           
+               <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
+                   <?php if (! $product->is_free()) :?>
+                       <a onclick="add_item_singly();" title="add to cart" class="btn btn-outline-primary ft ft-shopping-cart" href="Javascript:void(0);">
+                       Add to Cart </a>
+                   <?php endif;?>
+           </div>
+          </div>
         </div>
         <div class="content-body">
 
@@ -48,21 +53,25 @@ $page_title = "Online Shop";
                                    
                                     <div class="row">
                                         <div class="col-md-12">
-                                           <img class="product-img" src="<?=domain;?>/<?=$auth->profilepic;?>">
+                                           <img class="product-img" src="<?=$product->mainimage;?>" >
                                         </div>
                                         <div class="col-md-10">
                                             <p></p>
-                                            <h3>Dimontis HUP</h3>
-                                            <span> Basic workshop for partners</span>
+                                            <hr>
+                                           <!--  <h3>Dimontis HUP</h3>
+                                            <span> Basic workshop for partners</span> -->
                                             <div class="row">
                                                 
                                                 <div class="col-md-6">
-                                                    <label>Piece</label>
-                                                    <input type="number" class="form-control" name="">
+
+                                                    <h3><?=$product->name;?></h3>
+                                                    <span> Basic workshop for partners</span>
+                                                   <!--  <label>Piece</label>
+                                                    <input type="number" class="form-control" name=""> -->
                                                 </div>
 
                                                 <div class="col-md-6 text-right">
-                                                    <h3>4253<?=$currency;?></h3>
+                                                    <h3><?=$this->money_format($product->price);?><?=$currency;?></h3>
                                                     <small>Incl. VAT 20%</small>
                                             </div>
                                             </div>
@@ -77,16 +86,17 @@ $page_title = "Online Shop";
 
                         <div class="row">
                             <div class="form-group col-md-6">
-                            <select class="form-control" >
+                            <!-- <select class="form-control" >
                                 <option>Select a payment method</option>
-                            </select>
+                            </select> -->
                             </div>
                             <div class="form-group col-md-6">
-                                    <button class="btn btn-outline-dark btn-block">Buy Now</button>
+                                    <button onclick="buy_now();" class="btn btn-outline-dark btn-block">Buy Now</button>
                             </div>
                         </div>
 
                     </div>
+
 
   <div class=" col-md-5">
                         <div class="card" style="">
@@ -96,9 +106,7 @@ $page_title = "Online Shop";
                                     <hr>
                                     <div class="row">
                                         <div class="col-md-12">
-                                            
-                                            <?=CMS::fetch('media_content_of_lesson');?>
-                                                
+                                            <?=$product->description;?>                                                
                                         </div>
                                         
                                     </div>
@@ -122,6 +130,57 @@ $page_title = "Online Shop";
       </div>
     </div>
     <!-- END: Content-->
+
+    <script>
+      try{
+          $this_item = <?=$product->id;?>;
+      }catch(e){}
+      
+      add_item_singly = function () {
+
+          $.ajax({
+              type: "POST",
+              url: $base_url+'/shop/get_single_item_on_market/product/'+$this_item,
+              data: null,
+              contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+              processData: false, // NEEDED, DON'T OMIT THIS
+              cache: false,
+              success: function(data) {
+                  $item = data.single_good;
+                  $scope = angular.element($('#content')).scope();
+                  $scope.$shop.$cart.add_item($item);
+                  $scope.$apply();
+              },
+              error: function (data) {
+              },
+              complete: function(){}
+          });
+      }
+
+      
+      buy_now = function () {
+
+          $.ajax({
+              type: "POST",
+              url: $base_url+'/shop/get_single_item_on_market/product/'+$this_item,
+              data: null,
+              contentType: false, // NEEDED, DON'T OMIT THIS (requires jQuery 1.6+)
+              processData: false, // NEEDED, DON'T OMIT THIS
+              cache: false,
+              success: function(data) {
+                  $item = data.single_good;
+                  $scope = angular.element($('#content')).scope();
+                  $scope.$shop.$cart.buy_now($item);
+                  $scope.$apply();
+              },
+              error: function (data) {
+              },
+              complete: function(){}
+          });
+      }
+
+        
+    </script>
 
 <?php include 'includes/footer.php';?>
 

@@ -53,7 +53,7 @@
         </li>
         <br>
         <li class="dropdown-menu-footer text-center" ng-hide="$cart.$items.length==0">
-          <a class="btn btn-lg btn-primary text-muted text-center" href="<?=domain;?>/user/cart">Proceed to Checkout</a></li>
+          <a class="btn btn-outline-dark  text-center" href="<?=domain;?>/user/cart">Proceed to Checkout</a></li>
       </ul>
     </li>   
   <?php endif ;?>

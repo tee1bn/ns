@@ -199,7 +199,7 @@ include 'includes/header.php';?>
                                    <a onclick="$confirm_dialog = new ConfirmationDialog('<?= domain; ?>/shop/submit_for_review/<?= $item->id; ?>')"
                                       href="javascript:void(0);" class='col-md-6 '>
                                        <button class="form-control btn btn-secondary text-white" type="button">
-                                           Submit For Review
+                                           Put on sale
                                            <i class="fa fa-check-circle"></i>
                                        </button>
                                    </a>
