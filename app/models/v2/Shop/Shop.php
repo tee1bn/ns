@@ -485,6 +485,11 @@ class Shop
 	public function attemptPayment()
 	{
 
+		
+		$payment_breakdown =  $this->paymentBreakdown();
+		$this->order->setPaymentBreakdown($payment_breakdown); // important
+
+
 		$this->payment_attempt_details = $this->payment_method->attemptPayment($this->order);
 
 		// $this->payment_attempt_details['api_keys'] = [];

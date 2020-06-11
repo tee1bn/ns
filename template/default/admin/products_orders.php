@@ -49,6 +49,7 @@ $page_title = "$page_title";
                     <tr>
                       <th>#Ref</th>
                       <th>User</th>
+                      <th>Items x Qty</th>
                       <th>Product</th>
                       <th>Amount/Payable</th>
                       <th>Date/Status</th>
@@ -60,6 +61,7 @@ $page_title = "$page_title";
                     <tr>
                       <td><?=$i;?> - <?=$order->TransactionID;?></td>
                       <td><?=$order->user->DropSelfLink;?></td>
+                      <td><?=$order->total_item();?> x <?=$order->total_qty();?></td>
                       <td>
                        <?=$order->order_detail()[0]['market_details']['name'];?>
                       </td>
@@ -84,10 +86,13 @@ $page_title = "$page_title";
                           <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">
                           </button>
                           <div class="dropdown-menu">
-                              <a class="dropdown-item" target="_blank" 
-                              onclick="$confirm_dialog = new ConfirmationDialog('<?=domain;?>/admin/mark_course_order/paid/<?=$order->id?>')">
-                                <span type='span' class='label label-sm label-primary'>Mark Paid</span>
-                              </a>
+
+                            <a  href="javascript:void(0);" onclick="$confirm_dialog = new ConfirmationDialog('<?=domain;?>/admin-products/mark_as_complete/<?=$order->id;?>')" 
+                               class="dropdown-item"> 
+                                 Mark as Paid 
+                              <i class="fa fa-check"></i>
+                            </a>
+                            
                           </div>
                         </div>
 
@@ -104,6 +109,7 @@ $page_title = "$page_title";
               </div>
             </div>
           </section>
+
 
           <ul class="pagination">
               <?= $this->pagination_links($data, $per_page);?>

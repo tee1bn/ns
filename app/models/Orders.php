@@ -66,14 +66,14 @@ class Orders extends Eloquent  implements OrderInterface
 
 		foreach ($this->order_detail() as $key => $line) {
 
-
+			$amount = $line['qty'] *  $line['market_details']['price'];
 			$summary[] = [
 
 				'item' => $line['market_details']['name'],
 				'description' => "Course Order",
 				'rate' => $line['market_details']['price'],
-				'qty' => 1,
-				'amount' => $line['market_details']['price'],
+				'qty' => $line['qty'],
+				'amount' => $amount,
 			];
 		}
 
@@ -117,6 +117,7 @@ class Orders extends Eloquent  implements OrderInterface
 			'margin_header' => 10,
 			'margin_footer' => 10
 		]);
+		
 		$src = Config::domain()."/template/default/app-assets/images/logo/9gforex-icon.png";
 
 		$company_name = \Config::project_name();

@@ -44,12 +44,30 @@ class shopController extends controller
 				$order_id = $_REQUEST['order_unique_id'];
 				$order = $full_class_name::where('id' ,$order_id)->where('user_id', $auth->id)->where('paid_at', null)->first();
 
+
+				switch ($_REQUEST['item_purchased']) {
+					case 'packages':
+						$redirect = 'user/package';
+						break;
+					case 'product':
+						$redirect = 'user/online_shop';
+						break;
+					
+					default:
+						# code...
+						break;
+				}
+					
+
 				if ($order==null) {
-					Redirect::back();
+					Redirect::to($redirect);
 				}
 
-				$shop->setOrder($order)->verifyPayment();
 
+				$shop->setOrder($order)->verifyPayment();
+				
+				Redirect::to($redirect);
+				
 
 				$url = $order->after_payment_url();
 
