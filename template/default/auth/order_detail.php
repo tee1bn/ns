@@ -1,200 +1,80 @@
-                       
-
-<!-- Latest compiled and minified CSS -->
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
-
-
-<style>
-        table tbody tr:nth-child(even){ 
-        background: lightgray !important;
-    }
-
-    table tbody tr td , table thead tr td { 
-        padding: 5px;
-
-    }
-
-    table tbody tr , table thead tr { 
-        line-height: 15px;
-    }
-
-    
-    table thead td {
-     background-color: #88b988a6;
-    text-align: center;
-}
-    </style>                          
+<?php
+$page_title = "Order Detail";
+ include 'includes/header.php';?>
 
 
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12">
-                <div class="invoice-title">
-                    <h2>
-                                <img style="width: 30px;" src="<?=$logo;?>"> 
-                                <span style="position: relative; top: -20px;"> <?=project_name;?></span>
-                    </h2>
-                    <p>
-                      NewSalesWay Stefan Schild<br>
-                      Einödstrasse 29<br>
-                      8501 Lieboch</br>
-                      UID-Nr. ATU74780169
-                    </p>
+    <!-- BEGIN: Content-->
+    <div class="app-content content">
+      <div class="content-wrapper">
+        <div class="content-header row">
+          <div class="content-header-left col-md-6 col-12 mb-2">
+            <?php include 'includes/breadcrumb.php';?>
 
-                </div>
-                <hr>
-                <div class="row">
+            <h3 class="content-header-title mb-0">Order Detail</h3>
+          </div>
+          
+          <div class="content-header-right col-md-6 col-12">
+            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+<!-- 
+                      <div class="dropdown float-right ">
+                        <button type="button" class="btn btn-outline-dark dropdown-toggle" data-toggle="dropdown">
+                          Actions
+                        </button>
 
-
-                  <table class="table" style="width: 100%;">
-                      <tbody>
-                        <tr>
-                          <td style="text-align: left;">
-                            <address>
-                            <strong></strong><br>
-                              Invoice #<?=$order['id'];?>
-                                <!-- <img style="width: 40px;" src="<?=$logo;?>"> <?=project_name;?><br> -->
-                                Status: <?=$order['paymentstatus'];?><br>
-                                Order: <?=$order->TransactionID;?><br>
-
-                                <strong>Order Date:</strong><br>
-                                <?=$order->created_at->toFormattedDateString();?>
-                                <br><br>
-                            </address>
-
-                          </td>
-                          <td style="text-align: right;">
-                          </td>
-                          <td style="text-align: right;">
-                            
-                            <address>
-                              <?php 
-                                      $user = $order->user;
-                              ;?>
-
-                                <strong>
-                                  <?=$user->DropSelfLink;?>
-                                 </strong>
-                                <br>Phone: 
-                                <a href="tel:<?=$user->phone;?>">
-                                 <?=$user->phone;?>
-                                </a>
-                                <br>Email: 
-                                <a href="mailto:<?=$user->email;?>">
-                                    <?=$user->email;?>
-                                </a>
-                                <br>Company: 
-                                    <?=$user->company->name;?>
-                                <br>Address: 
-                                    <?=$user->company->DisplayAddress;?>
-                                
-                            </address>
-
-
-
-                            <strong>Generated Date:</strong><br>
-                            <?=date("M d, Y");?><br><br>
-
-                          </td>
-                        </tr>
-                      </tbody>
-                  </table>
-
-                </div>
-
-                <hr>
-
-
-                <div class="row">
-                    <div class="col-xs-6">
-                     <!--    <address>
-                            <strong>Generated Date:</strong><br>
-                            <?=date("M d, Y");?><br><br>
-                        </address> -->
-                    </div>
-                    <div class="col-xs-6 text-right">
-    <!--                     <address>
-                            <strong>Generated Date:</strong><br>
-                            March 7, 2014<br><br>
-                        </address>
-     -->                </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-            <div class="col-md-12">
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h3 class="panel-title"><strong>Summary</strong></h3>
-                    </div>
-                    <div class="panel-body">
-                        <div class="table-responsie">
-
-                          <table class="table table-striped table-bordered" style="width: 100%; border:;">
-                            <thead>
-                              <tr>
-                                <th>#</th>
-                                <th style="text-align: left;">Item &amp; Description</th>
-                                <th style="text-align: left;">Rate</th>
-                                <th style="text-align: right;">Qty</th>
-                                <th style="text-align: right;">Amount</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-
-                              <tr>
-                                <th scope="row">1</th>
-                                <td>
-                                  <p><?=$order->plandetails['package_type'];?> Package</p>
-                                </td>
-                                <td class="text-right">
-                                  <?=MIS::money_format($order->plandetails['price']);?>
-                                </td>
-                                <td style="text-align: right;">1</td>
-                                <td style="text-align: right;"><?=$currency;?> 
-                                  <?=MIS::money_format($order->plandetails['price'] );?>
-                              </td>
-                              </tr>
-                            </tbody>
-                          </table>
-
-
-                          <div style="width: 40%; float: right;">
-                            
-                          <table class="table" style="width: 100%; border:;">
-                            <tbody>
-                              <tr>
-                                <td style="text-align: right;">Sub Total</td>
-                                <td class="" style="text-align: right;">
-                                  <?=$currency;?>
-                                <?=MIS::money_format($order->plandetails['price'] );?>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td style="text-align: right;">TAX (<?=round($order->plandetails['percent_vat'],2);?>%)</td>
-                                <td class="" style="text-align: right;">
-                                  <?=$currency;?>
-                                    <?=(MIS::money_format(0.01 * $order->plandetails['percent_vat'] * $order->plandetails['price']));?>
-
-                                </td>
-                              </tr>
-                              <tr>
-                                <td class="text-bold-800" style="text-align: right;">Total</td>
-                                <td class="text-bold-800 " style="text-align: right;"> 
-                                  <?=$currency;?>
-                                  <?=MIS::money_format($order->plandetails['price'] + (0.01 * $order->plandetails['percent_vat'] * $order->plandetails['price']));?>
-                                </td>
-                              </tr>
-                            </tbody>
-                          </table>
-                          </div>
-                         
+                        <div class="dropdown-menu">
+                        <a href="<?=domain;?>/admin/order_download_request/<?=$order->id;?>" class="dropdown-item"> 
+                             Download <i class="fa fa-download"></i>
+                        </a>
+                      
                         </div>
-                    </div>
-                </div>
+                      </div>
+ -->
+            </div>
+          </div>
+        </div>
+        <div class="content-body">
+
+      <section id="video-gallery" class="card">
+        <div class="card-header">
+          <h4 class="card-title">Order Detail</h4>
+          <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+              <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                </ul>
             </div>
         </div>
+         <div class="card-content">
+      <div class="card-body">
+         <?php 
+           $remove_mle_detail = true;
+           echo $this->buildView('composed/invoice', compact('order','remove_mle_detail'));?>
+
+
+
+      </div>
     </div>
+      </section>
 
 
+    <!--   <section id="video-gallery" class="card">
+        <div class="card-header">
+          <h4 class="card-title">blank</h4>
+          <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
+              <div class="heading-elements">
+                <ul class="list-inline mb-0">
+                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                </ul>
+            </div>
+        </div>
+      </section> -->
+
+
+        </div>
+      </div>
+    </div>
+    <!-- END: Content-->
+
+<?php include 'includes/footer.php';?>

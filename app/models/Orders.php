@@ -34,19 +34,14 @@ class Orders extends Eloquent  implements OrderInterface
 
 	//during purchase
 	public static $available_payment_methods =  [
-													'paytm'=>[
-																'method'=>'PayTm',
-																'word'=>'Pay Now (Paytm)',
+													'coinpay'=>[
+																'method'=>'CoinPay',
+																'word'=>'Pay Now (CoinPay)',
 															],
 													'paypal'=>[
 																'method'=>'PayPal',
 																'word'=>'Pay Now (PayPal)',
-															],
-
-													'website'=>[
-																'method'=>'Website',
-																'word'=>'Pay Now (Website)',
-															],
+															]
 												];
 
 
@@ -118,7 +113,7 @@ class Orders extends Eloquent  implements OrderInterface
 			'margin_footer' => 10
 		]);
 		
-		$src = Config::domain()."/template/default/app-assets/images/logo/9gforex-icon.png";
+		$src = Config::logo();
 
 		$company_name = \Config::project_name();
 		$logo = \Config::domain()."/".\Config::logo();
@@ -157,12 +152,18 @@ class Orders extends Eloquent  implements OrderInterface
 
 
 
+	public function getpaymentstatusAttribute(){
+
+		return $this->PaidStatus;
+	}
+
+
 
 	public function payment_links()
 	{
 
 		$domain = Config::domain();
-
+		$link = '';
 		foreach (self::$available_payment_methods as $key => $method) {
 
 			$checkout_param = http_build_query([
@@ -512,7 +513,7 @@ class Orders extends Eloquent  implements OrderInterface
 	{
 
 		$substr = substr(strval(time()), 7 );
-		$order_id = "9G{$this->id}FA{$substr}";
+		$order_id = "NSW{$this->id}O{$substr}";
 
 		return $order_id;
 	}

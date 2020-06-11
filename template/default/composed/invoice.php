@@ -167,7 +167,7 @@ $invoice = $order->invoice();
                             <hr>
                             <div style="width: 60%; float: left;">
                                 <small>
-                                  <?=CMS::fetch('bank_transfer');?>
+                                  
                                 </small>
                                 <!-- <button onclick="try_print();" class="btn btn-primary">Print</button> -->
                             </div>

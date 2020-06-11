@@ -3,6 +3,7 @@
 use Filters\Filters\SupportTicketFilter;
 use Filters\Filters\UserFilter;
 use Filters\Filters\WalletFilter;
+use Filters\Filters\OrderFilter;
 use Illuminate\Database\Capsule\Manager as DB;
 use v2\Models\Document;
 use v2\Models\Wallet;
@@ -303,6 +304,21 @@ class UserController extends controller
     }
 
 
+
+    public function product_order($order_id=null)
+    {
+
+        $order  =  Orders::where('id', $order_id)->where('user_id', $this->auth()->id)->first();
+        if ($order == null) {
+            Redirect::back();
+        }
+
+
+        $this->view('auth/order_detail', compact('order'));
+    }
+
+
+
     public function order($order_id = null)
     {
 
@@ -337,10 +353,40 @@ class UserController extends controller
 
     public function products_orders()
     {
-        $this->view('auth/products_orders');
+
+
+            $sieve = $_REQUEST;
+            $query = Orders::where('id', '!=', null)->where('user_id', $this->auth()->id);
+            $sieve = array_merge($sieve);
+            
+            $page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+            $per_page = 50;
+            $skip = (($page -1 ) * $per_page) ;
+
+            $filter =  new  OrderFilter($sieve);
+
+            $data =  $query->Filter($filter)->count();
+
+            $result_query = Orders::query()->Filter($filter);
+
+            $orders =  $query->Filter($filter)
+                            ->offset($skip)
+                            ->take($per_page)
+                            ->latest()
+                            ->get();  //filtered
+
+        
+
+            $shop = new Shop;
+
+
+            $this->view('auth/products_orders', compact('orders',
+                                                            'data',
+                                                            'per_page',
+                                                            'shop',
+                                                            'sieve'));
+        
     }
-
-
 
 
 
@@ -379,6 +425,7 @@ class UserController extends controller
 
     public function shop()
     {
+        Redirect::to('user/online_shop');
 
         $products = $this->auth()->accessible_products();
 
