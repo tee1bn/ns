@@ -92,6 +92,13 @@ $page_title = "$page_title";
                                  Mark as Paid 
                               <i class="fa fa-check"></i>
                             </a>
+
+
+                            <a class="dropdown-item" href="<?=domain;?>/admin/order/<?=$order->id;?>">  
+                                 Open 
+                            </a>
+
+                            
                             
                           </div>
                         </div>

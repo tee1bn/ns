@@ -22,9 +22,9 @@ $page_title = "Order Detail";
                         </button>
 
                         <div class="dropdown-menu">
-                        <a href="<?=domain;?>/admin/order_download_request/<?=$order->id;?>" class="dropdown-item"> 
+                      <!--   <a href="<?=domain;?>/admin/order_download_request/<?=$order->id;?>" class="dropdown-item"> 
                              Download <i class="fa fa-download"></i>
-                        </a>
+                        </a> -->
      
                         <a  href="javascript:void(0);" onclick="$confirm_dialog = new ConfirmationDialog('<?=domain;?>/admin-products/mark_as_complete/<?=$order->id;?>')" 
                            class="dropdown-item"> 
