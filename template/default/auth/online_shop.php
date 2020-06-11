@@ -25,13 +25,13 @@ $page_title = "Online Shop";
 
 
           <div class="content-header-right col-6">
-           
+           <!-- 
                <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
                    <?php if (! $product->is_free()) :?>
                        <a onclick="add_item_singly();" title="add to cart" class="btn btn-outline-primary ft ft-shopping-cart" href="Javascript:void(0);">
                        Add to Cart </a>
                    <?php endif;?>
-           </div>
+           </div> -->
           </div>
         </div>
         <div class="content-body">

@@ -15,7 +15,7 @@
   </script>
 
   <script src="<?=asset;?>/angulars/shop.js"></script>
-  <?php if (in_array($current_url, $allowed) || true) :?>
+  <?php if (in_array($current_url, $allowed) ) :?>
     <li ng-cloak ng-controller="CartNotificationController" id="cart-notification" class="dropdown dropdown-notification nav-item">
       <a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-shopping-cart"></i>
         <span class="badge badge-pill badge-default badge-danger badge-default badge-up">{{$cart.$items.length}} </span>

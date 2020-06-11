@@ -109,6 +109,10 @@ include 'includes/header.php';?>
           </section>
 
 
+          <ul class="pagination">
+              <?= $this->pagination_links($data, $per_page);?>
+          </ul>
+
         </div>
       </div>
     </div>

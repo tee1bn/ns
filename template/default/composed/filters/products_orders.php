@@ -16,6 +16,9 @@
                                         value="<?=$sieve['user']??'';?>">
                                     </div>
 
+                                </div>
+
+                                <div class="row">
 
                                     <div class="form-group col-sm-6">
                                         <label>Item</label><br>
@@ -30,9 +33,6 @@
                                         </select>
 
                                     </div>
-                                </div>
-
-                                <div class="row">
                                 
                                     <div class="form-group col-md-6">
                                         <label>Paid Status</label>
