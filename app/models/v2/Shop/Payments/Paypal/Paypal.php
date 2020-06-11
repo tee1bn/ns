@@ -32,7 +32,7 @@ use Exception, SiteSettings, Config, MIS, Redirect;
  */
 class PayPal  implements PaymentMethodInterface
 {
-	private $name = 'paypal';
+	public $name = 'paypal';
 	private $payment_type = 'one_time';
 	private $mode;
 	protected static $currency = 'EUR';
@@ -184,13 +184,19 @@ class PayPal  implements PaymentMethodInterface
 		$domain = Config::domain();
 
 
+
 		$callback_param = http_build_query([
 			'item_purchased'=> $this->order->name_in_shop,
 			'order_unique_id'=> $this->order->id,
+			'payment_method'=> 'paypal',
 		]);
 
 
 		$callback_url = "{$domain}/shop/callback?$callback_param";
+		
+		$checkout_url = "{$domain}/shop/checkout?$callback_param";
+
+		
 
 		// Create new payer and method
 		$payer = new Payer();
@@ -251,6 +257,7 @@ class PayPal  implements PaymentMethodInterface
 						'payment_type' => $this->payment_type,
 		  				'ref' => $order_ref,
 		  				'order_unique_id' => $this->order->id,
+						"checkout_url" =>  $checkout_url,
 		  				"approval_url" 	 =>  $approvalUrl,
 		  				"amount" 	 =>  $this->amountPayable(),
 		  			];
@@ -423,7 +430,9 @@ class PayPal  implements PaymentMethodInterface
 		}
 
 		$payment_details = json_decode($this->order->payment_details, true);
-	
+		
+		$this->api_keys = [] ; //hide api keys
+
 		return $this;
 	}
 

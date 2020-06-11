@@ -30,7 +30,7 @@ class Orders extends Eloquent  implements OrderInterface
 							];
 	
 	protected $table = 'orders';
-	public $name_in_shop = 'courses';
+	public $name_in_shop = 'product';
 
 	//during purchase
 	public static $available_payment_methods =  [
@@ -599,9 +599,22 @@ class Orders extends Eloquent  implements OrderInterface
 
 	public function total_tax_inclusive()
 	{
-		$tax = new Tax;
+
+		$total_sum_tax = 20 * 0.01 * $this->total_price();
+
+		$total_tax_inclusive = $total_sum_tax + $this->total_price();
+		$tax = [
+
+					'price_inclusive_of_tax' => $total_tax_inclusive,
+					'price_exclusive_of_tax' => $this->total_price(),
+					'total_sum_tax' => $total_sum_tax,
+				];
+
+		return $tax;
+
+		/*$tax = new Tax;
 		$tax_payable  =	$tax->setTaxSystem('indian_tax');
-		return $tax->setOrder($this)->calculateApplicableTax()->amount_taxable;
+		return $tax->setOrder($this)->calculateApplicableTax()->amount_taxable;*/
 	}
 
 

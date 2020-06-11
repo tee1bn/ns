@@ -9,8 +9,8 @@ use Exception, SiteSettings, Config, MIS, Redirect, Session;
  */
 class CoinPay implements PaymentMethodInterface
 {
-	private $name = 'coinpay';
-	private $payment_type;
+	public $name = 'coinpay';
+	public $payment_type = 'one_time';
 	private $mode;
 	
 	function __construct()
@@ -233,6 +233,8 @@ fclose($myfile);
 		}
 
 		$payment_details = json_decode($this->order->payment_details, true);
+
+		$this->api_keys = [] ; //hide api keys
 	
 		return $this;
 

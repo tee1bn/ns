@@ -1,7 +1,7 @@
 <?php
 
 namespace v2\Shop;
-use Exception, SiteSettings;
+use Exception, SiteSettings, Config, Session, MIS;
 /**
  * 
  */
@@ -68,8 +68,8 @@ class Shop
 
 		$this->available_type_of_orders = [
 
-				'advert_papers' => [
-								'name' => 'Advert Papers',
+				'product' => [
+								'name' => 'Products',
 								'class' => 'Orders',
 								'namespace' => "",
 								'available' => true
@@ -130,6 +130,236 @@ class Shop
 
 		return $this;
 	}
+
+
+
+
+
+		public function vatBreakdown($amount, $amount_is='before_vat')
+		{
+
+
+			$setting = \SiteSettings::find_criteria('site_settings')->settingsArray;
+			$vat_percent = $setting['vat_percent'];
+
+		
+
+			switch ($amount_is) {
+
+				case 'before_vat':
+
+					$vat = $vat_percent * 0.01 * $amount;
+					$after_vat = $amount + $vat;
+
+					$breakdown =[
+						'value' => $vat,
+						'percent' => $vat_percent,
+						'before_vat' => $amount,
+						'after_vat' => $after_vat,
+					];
+
+					break;
+
+				case 'after_vat':
+
+					$before_vat = ($amount * 100) / ($vat_percent+100);
+					$vat = $vat_percent * 0.01 * $before_vat;
+
+
+					$breakdown =[
+						'value' => $vat,
+						'percent' => $vat_percent,
+						'before_vat' => $before_vat,
+						'after_vat' => $amount,
+					];
+
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+
+
+			return $breakdown;
+
+		}
+
+
+
+		public function stampDutyBreakdown($amount, $amount_is='before_stampduty')
+		{
+
+			$setting = \SiteSettings::find_criteria('site_settings')->settingsArray;
+
+			$charge_stamp_duty_from = $setting['charge_stamp_duty_from'];
+			$stamp_duty = $setting['stamp_duty'];
+
+			switch ($amount_is) {
+				case 'before_stampduty':
+
+					if ($amount >= $charge_stamp_duty_from) {
+
+						$charge = $stamp_duty;
+					}else{
+
+						$charge = 0;
+					}
+
+					$after_stamp_duty = $stamp_duty + $amount;
+
+					 $breakdown= [
+						'before_stampduty'=> $amount,
+						'stamp_duty'=> $charge,
+						'after_stamp_duty'=> $after_stamp_duty
+					];
+
+					break;
+
+				case 'after_stampduty':
+
+					$before_stampduty = $amount - $stamp_duty;
+
+
+					if ($before_stampduty >= $charge_stamp_duty_from) {
+
+						$charge = $stamp_duty;
+
+					}else{
+
+						$charge = 0;
+					}
+
+					$before_stampduty =  $amount  - $charge ;
+
+					 $breakdown= [
+						'before_stampduty'=> $before_stampduty,
+						'stamp_duty'=> $charge,
+						'after_stamp_duty'=> $amount
+					];
+
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+
+
+			return $breakdown;
+		}
+
+
+
+
+		public function paymentBreakdown()
+		{
+			//subtotal
+			//service_fee
+			//stamp_duty
+			//vat
+			//gateway fee
+
+			$subtotal = $this->order->total_price();
+
+			// $stamp_duty = $this->stampDutyBreakdown($subtotal)['stamp_duty'];
+			$stamp_duty = 0;
+
+
+
+			$service_fee = $this->order->service_fee();
+			$vat = $this->order->calculate_vat();
+
+			$subtotal_payable = $subtotal + $service_fee['value'] + $stamp_duty + $vat['value'];
+
+			// $gateway_fee = $this->payment_method->gatewayChargeOn($subtotal_payable);
+			$gateway_fee = 0;
+			$total_payable = $subtotal_payable + $gateway_fee;
+			$gateway_name = $this->payment_method->name;
+
+
+			$breakdown = [
+				/*'actual_order' => [
+								'value'=> $this->order->amount,
+								'name' => 'Order',
+								],*/
+
+				'subtotal' => [
+								'value'=> $subtotal,
+								'name' => 'Sub Total',
+								],
+
+
+				'service_fee' => [
+								'value'=> $service_fee['value'],
+								'name' => "Service Charge({$service_fee['percent']}%)",
+								],
+
+				'vat' => [
+								'value'=> $vat['value'],
+								'name' => "VAT({$vat['percent']}%)",
+								],
+
+				'stamp_duty' => [
+								'value'=> 0,
+								'name' => 'Stamp Duty',
+								],
+				'subtotal_payable' => [
+								'value'=> $subtotal_payable,
+								'name' => 'Grand Total',
+								],
+
+				'gateway_fee' => [
+								'value'=> $gateway_fee,
+								'name' => ucfirst($gateway_name)." Fee",
+								],
+
+				'total_payable' => [
+								'value'=> $total_payable,
+								'name' => 'Total Payable',
+								],
+								
+			];
+			return $breakdown;
+		}
+
+
+
+		public function fetchPaymentBreakdown()
+		{
+			$breakdown = $this->paymentBreakdown();
+			$currency = Config::currency();
+			$line= '';
+			foreach ($breakdown as $key => $value) {
+				if ($value['value'] == 0) {
+					continue;
+				}
+				$amt =  MIS::money_format($value['value']);
+				$size='';
+				if ($value == end($breakdown)) {
+					$size= 'font-size:20px;font-weight:700;';
+				}
+
+				$line .= "                                   
+	                                    <tr>
+	                                        <th style='padding: 5px;'>{$value['name']}</th>
+	                                        <td class='text-right' style='padding: 5px;$size'>$currency$amt
+	                                         
+	                                        </td>  
+	                                    </tr>
+						";
+
+			}
+
+
+			$breakdown['line'] =$line;
+
+			return $breakdown;
+		}
+
+
+
+
 
 
 	public function setPaymentType($payment_type='one_time')
@@ -256,6 +486,8 @@ class Shop
 	{
 
 		$this->payment_attempt_details = $this->payment_method->attemptPayment($this->order);
+
+		// $this->payment_attempt_details['api_keys'] = [];
 
 		return $this->payment_attempt_details;
 	}

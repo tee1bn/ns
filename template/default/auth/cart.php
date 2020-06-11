@@ -1,13 +1,13 @@
 <?php
 $page_title = "Cart";
  include 'includes/header.php';?>
-
+<!-- 
  <script src="https://js.paystack.co/v1/inline.js"></script>
   <script src="<?=general_asset;?>/js/payments/paystack-checkout.js"></script>
 
 
   <script src="https://api.ravepay.co/flwv3-pug/getpaidx/api/flwpbf-inline.js"></script>
-  <script src="<?=general_asset;?>/js/payments/rave-checkout.js"></script>
+  <script src="<?=general_asset;?>/js/payments/rave-checkout.js"></script> -->
 
     <!-- BEGIN: Content-->
     <div class="app-content content">
@@ -181,39 +181,34 @@ $page_title = "Cart";
 
                               }
 
-                              on_complete_order = function(data){
-                                        // console.log(data);
+                              on_complete_order = function($data){
 
                                           try{
                                             
-                                              switch(data.gateway) {
-                                                case 'paystack':
-                                                    payWithPaystack(data);
-                                                  break;
-
-                                                case 'rave':
-
-                                                    payWithRave(data);
-                                                  break;
+                                              switch($data.payment_method) {
 
 
+                                                case 'coinpay':
+                                                    // code block
+                                                    window.location.href = $base_url +
+                                                        "/shop/checkout?item_purchased=product&order_unique_id=" + $data.id + "&payment_method=coinpay";
 
-                                                case 'bank_transfer':
+                                                    break;
 
-                                                  location.href = $base_url+"/user/bank-transfer/"+data.order_unique_id+"/course";
+                                                case 'paypal':
+                                                    // code block
+                                                    window.location.href = $base_url +
+                                                        "/shop/checkout?item_purchased=product&order_unique_id=" + $data.id + "&payment_method=paypal";
 
-                                                  break;
-
-
-                                                case 'website':
-
-                                                  location.href = $base_url+"/user/my-games";
-                                                  break;
-
-                                               
+                                                    break;
+                                                case 'razor_pay':
+                                                    // code block
+                                                    window.SchemeInitPayment($data.id);
+                                                    break;
                                                 default:
-                                                  // code block
-                                                  break;
+                                                // code block
+                                                
+
                                               }
 
 

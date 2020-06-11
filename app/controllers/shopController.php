@@ -106,8 +106,8 @@ class shopController extends controller
 
 					$auth = $this->auth();
 
-					$new_order = $model::create(
-						// ['id' => $_SESSION['shop_checkout_id']],
+					$new_order = $model::updateOrcreate(
+						['id' => $_SESSION['shop_checkout_id']],
 						[
 							'user_id'		 => $auth->id,
 							'buyer_order'	 => json_encode($cart['$items']),
@@ -115,13 +115,12 @@ class shopController extends controller
 						]);
 
 					$shop = new Shop();
-					$payment_details =	$shop
+					$shop
 										// ->setOrderType('order') //what is being bought
 					->setOrder($new_order)
 					->setPaymentMethod($_POST['payment_method'])
-					->initializePayment()
-					->attemptPayment()
-					;
+					->setPaymentType();
+
 
 					DB::commit();
 					$_SESSION['shop_checkout_id'] = $new_order->id;
@@ -137,8 +136,12 @@ class shopController extends controller
 
 						case 'make_payment':
 
+						$payment_details = $shop->initializePayment()
+						->attemptPayment();
+
+
 						Session::putFlash('success', "Order Created Successfully. ");
-						echo json_encode($payment_details);
+						echo json_encode($payment_details->order);
 						break;
 
 						default:
