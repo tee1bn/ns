@@ -6,16 +6,24 @@
           <li class=" navigation-header"><span>GENERAL</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
           </li>          
       
-              <li>
-                <a class="menu-item" href="<?=domain;?>/admin/users"><i class="ft-users"></i> Users</a>
-              </li>
-
-              <li>
-                <a class="menu-item" href="<?=domain;?>/admin/user_verification"><i class="ft-folder"></i> User Verification</a>
-              </li>
 
 
 
+                <li class=" nav-item"><a href="#"><i class="ft-users"></i><span class="menu-title" data-i18n=""> Users</span></a>
+                <ul class="menu-content">
+
+
+                  <li>
+                    <a class="menu-item" href="<?=domain;?>/admin/users"></i> Users</a>
+                  </li>
+
+                  <li>
+                    <a class="menu-item" href="<?=domain;?>/admin/user_verification"></i> User Verification</a>
+                  </li>
+                 
+                </ul>
+                 
+              </li> 
 
               <li>
                 <a class="menu-item" href="<?=domain;?>/admin/companies"><i class="fa fa-building-o"></i> Companies</a>
@@ -39,14 +47,14 @@
               <li><a class="menu-item" href="<?=domain;?>/admin/payouts">Payouts</a>
               </li>
             </ul>
-              <li>
-                <a class="menu-item" href="<?=domain;?>/admin/documents"><i class="fa fa-folder"></i>Documents</a>
-              </li>
           </li> 
+            <li>
+              <a class="menu-item" href="<?=domain;?>/admin/documents"><i class="fa fa-folder"></i>Documents</a>
+            </li>
 
 
 
-          <li class=" nav-item"><a href="#"><i class="icon-wallet"></i><span class="menu-title" data-i18n=""> Shop</span></a>
+          <li class=" nav-item"><a href="#"><i class="ft-shopping-cart"></i><span class="menu-title" data-i18n=""> Shop</span></a>
             <ul class="menu-content">
               <li><a class="menu-item" href="<?=domain;?>/admin/product"> Product</a>
         
@@ -56,18 +64,8 @@
               <li><a class="menu-item" href="<?=domain;?>/admin/products-orders">Orders</a>
               </li>
             </ul>
-              <li>
-                <a class="menu-item" href="<?=domain;?>/admin/documents"><i class="fa fa-folder"></i>Documents</a>
-              </li>
           </li> 
-
-
-
-
-          <li class=" navigation-header"><span>COMMUNICATION</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
-          </li>
-
-
+          
           
           <li class=" nav-item"><a href="#"><i class="ft-phone"></i><span class="menu-title" data-i18n=""> Customer Care</span></a>
             <ul class="menu-content">
@@ -79,12 +77,6 @@
 
               
             <!-- <li><a class="menu-item" href="<?=domain;?>/admin/testimony"><i class="fa fa-certificate"></i>Testimonials</a></li> -->
-
-            <!-- <li><a class="menu-item" href="<?=domain;?>/admin/broadcast"><i class="fa fa-bullhorn"></i>News</a></li> -->
-            <!-- <li><a class="menu-item" href="<?=domain;?>/admin/cms"><i class="fa fa-edit"></i>CMS</a></li> -->
-
-            <!-- <li><a class="menu-item" href="content-grid.html"><i class="fa fa-certificate"></i>Support</a></li> -->
-
 
 
           <li class=" navigation-header"><span>ADMINISTRATION</span><i class="ft-droplet ft-minus" data-toggle="tooltip" data-placement="right" data-original-title="UI"></i>
