@@ -236,7 +236,7 @@ $auth_user = $auth;
                  </tr>
                  <tbody>
                      <tr>
-                         <td>Direct sales agent new</td>
+                         <td>Direct sales partner new</td>
                        <?php foreach ($dates as $key => $date):?>
                            <td><?=$direct_sales_agent[$date]['total'] ?? 0;?> </td>
                        <?php endforeach ;?>

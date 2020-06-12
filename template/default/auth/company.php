@@ -421,7 +421,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
 
 
                                         <div class="form-group col-md-6">
-                                            <input type="" class="form-control" name="company[office_phone]" id="phone"
+                                            <input type="" class="form-control" name="company[office_phone]" id="phon"
                                                    value="<?= $company->office_phone; ?>" placeholder="Phone number">
                                                    <input type="hidden" name="phonefull" id="phonefull" />
                                                    <input type="hidden" name="dialCode" id="dialCode" />

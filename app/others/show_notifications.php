@@ -1,4 +1,8 @@
 <style>
+
+
+    .filter-field{width: 500px;max-height: 400px; overflow-y: scroll;}
+
     #gitstar-notification {
         position: fixed;
         top: 10px;

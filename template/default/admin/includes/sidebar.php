@@ -39,7 +39,7 @@
 
               <li class=" nav-item"><a href="#"><i class="icon-wallet"></i><span class="menu-title" data-i18n=""> Wallet</span></a>
             <ul class="menu-content">
-              <li><a class="menu-item" href="<?=domain;?>/admin/credits"> Credits</a>
+              <li><a class="menu-item" href="<?=domain;?>/admin/commissions"> Commissions</a>
         
               <li><a class="menu-item" href="<?=domain;?>/admin/debits">Withdrawals</a>
               </li>

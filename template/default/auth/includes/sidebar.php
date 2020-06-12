@@ -107,10 +107,11 @@
               <li>
                 <a class="menu-item" href="<?=domain;?>/user/vp-remuneration"><i class="ft-align-justify"></i>VP Remuneration</a>
               </li>
-<!-- 
+
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/earnings"><i class="ft-star"></i> InvitePro</a>
-              </li> -->
+                <a class="menu-item" href="<?=domain;?>/user/invite-pro"><i class="ft-star"></i> InvitePro</a>
+              </li>
+              
 
               <li>
                 <a class="menu-item" href="<?=domain;?>/user/events-and-webinar"><i class="ft-airplay"></i> Events & Webinar</a>

@@ -1307,20 +1307,18 @@ EOL;
 
 
 
-	public function credits($from=null , $to=null)
+
+	public function commissions()
 	{
-
-
 		$compact =  $this->wallet_matters([
 		], 'v2\Models\Wallet');
 
-		extract($compact);
-		$page_title = 'Credit';
+	    extract($compact);
+	    $page_title = 'Commissions';
+	    $wallet= 'commission';
 
-		$this->view('admin/credits', compact('records', 'sieve', 'data','per_page', 'page_title'));
+	    $this->view('admin/commissions', compact('records', 'sieve', 'data', 'per_page', 'page_title','wallet'));
 	}
-
-
 
 
 

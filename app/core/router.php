@@ -15,6 +15,7 @@ $router =[
 	'verify' 			=> 'VerificationController',
 	'shop' 				=> 'shopController',
 	'error' 			=> 'ErrorController',
+	'deposits'=>'DepositController',		
 
 	'test' => 'test/home',
 

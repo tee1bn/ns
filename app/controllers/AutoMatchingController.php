@@ -39,8 +39,8 @@ class AutoMatchingController extends controller
 			$this->api_key
 		];
 
-		$this->get_period();
 
+		$this->get_period();
 
 			// $this->schedule_due_commissions();
 
@@ -97,7 +97,8 @@ class AutoMatchingController extends controller
 
 	public function get_date_to_start_schedule()
 	{
-
+		
+		
 		$last_settlement = SettlementTracker::where('paid_at','!=', null)->latest()->first();
 		$last_settlement_date = $last_settlement->period ??  '2019-08-01';
 
@@ -356,9 +357,7 @@ class AutoMatchingController extends controller
 		extract($payment_date_range);
 
 
-		$scheduled_commissions = SettlementTracker::where('period', $payment_month);
 
-		// print_r($scheduled_commissions->get()->toArray());
 
 
 		//ensure setup fee is available before proceeding
@@ -368,6 +367,10 @@ class AutoMatchingController extends controller
 			$this->include_setup_fee_on_scheduled();
 			return;
 		}
+
+
+		$scheduled_commissions = SettlementTracker::where('period', $payment_month);
+		// print_r($scheduled_commissions->get()->toArray());
 
 
 		$total_disagio = $scheduled_commissions->sum('settled_disagio');

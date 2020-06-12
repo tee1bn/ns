@@ -41,6 +41,41 @@ class Wallet extends Eloquent
 							];
 
 
+
+	public static $types = [
+		'credit'=> 'credit',
+		'debit'=> 'debit',
+	];
+
+
+
+
+	public static $wallet_classes =[
+
+		'commission' => [
+			'name' => "Deposit Wallet",
+			'class' => "v2\Models\Wallet",
+		],
+
+
+		'hotwallet' => [
+			'name' => "Hot Wallet",
+			'class' => "v2\Models\HotWallet",
+		],
+
+		'payout' => [
+			'name' => "Hot Wallet",
+			'class' => "v2\Models\PayoutWallet",
+		],
+
+		'heldcoin' => [
+			'name' => "Hot Wallet",
+			'class' => "v2\Models\HeldCoin",
+		],		
+	];
+
+
+
 	public function available_wallets($user = null)
 	{
 		$wallets = self::$wallets;

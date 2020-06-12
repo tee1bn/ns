@@ -63,11 +63,11 @@ class UserController extends controller
     {
         $this->view('auth/support-messages');
     }
-/*
-    public function merchant_packages()
+
+    public function invite_pro()
     {
-        $this->view('auth/merchant_packages');
-    }*/
+        $this->view('auth/invite_pro');
+    }
 
 
     public function merchant_packages()

@@ -166,8 +166,11 @@ $page_title = "Merchant Packages";
                                 </div>
                             </div>
                         </div>
-                    </div>
 
+                    <ul class="pagination">
+                        <?= $this->pagination_links($response['meta']['total'], $per_page);?>
+                    </ul>
+                    </div>
 
 
 
