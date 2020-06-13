@@ -56,7 +56,24 @@ class AutoMatchingController extends controller
 	}
 
 
-	//settle isp coins earned for all users
+	public function auth_cron()
+	{
+	    $auth = $this->auth();
+	    if (!$auth) {
+	        return;
+	    }
+
+	    $user_id = $auth->id;
+	    $this->cron($user_id);
+	}
+
+
+	public function cron($user_id)
+	{
+	    $this->coinage_on($user_id);
+	}
+
+	//settle isp coins earned for all users -needs cron
 	public function coinage_on_all(){
 
 		$users = User::query();
@@ -97,8 +114,8 @@ class AutoMatchingController extends controller
 
 	public function get_date_to_start_schedule()
 	{
-		
-		
+
+
 		$last_settlement = SettlementTracker::where('paid_at','!=', null)->latest()->first();
 		$last_settlement_date = $last_settlement->period ??  '2019-08-01';
 

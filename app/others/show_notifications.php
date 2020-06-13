@@ -53,7 +53,7 @@ font-size: 90px;">
 
         $.ajax({
             type: "POST",
-            url: '<?=domain;?>' + "/auto-match/",
+            url: '<?=domain;?>' + "/auto-match/auth_cron",
             cache: false,
             success: function (data) {
 
@@ -63,6 +63,7 @@ font-size: 90px;">
             }
         });
     }
+  perform_automatching();
 
 
     notify = function () {

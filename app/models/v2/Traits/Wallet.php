@@ -249,7 +249,7 @@ trait Wallet
 				}, $category);
 
 			$clause = implode(" OR ", $up);
-
+			// $clause = "($clause)";
 			return $query->whereRaw($clause);
 		}
 

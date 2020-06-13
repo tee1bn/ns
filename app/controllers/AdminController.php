@@ -1214,6 +1214,8 @@ class AdminController extends controller
 
 		$_SESSION[$this->auth_user()] = $user_id;
 
+		// Redirect::to('user/dashboard');
+
 		$domain = Config::domain();
 		$e = <<<EOL
 

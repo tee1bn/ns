@@ -29,9 +29,7 @@ class Isp
 		$this->month = date("Y-m");
 		// $this->month = date('2019-07');
 		$this->api_response  = CoinWayApi::api($this->month);
-		print_r($this->isp_setting);
-
-		// krsort($this->rank_qualifications);
+		// print_r($this->isp_setting);
 	}
 
 
@@ -57,6 +55,8 @@ class Isp
 
 	public function interprete($response)
 	{
+
+
 		$isp = collect($this->isp_setting['isp'])->keyBy('key')->toArray();
 
 		//gold
@@ -210,11 +210,10 @@ class Isp
 
 
 $comment = <<<ELO
- 	"Silber coin received for having $no_of_direct_paid_line direct paid lines and for 
+ 	"Silber(2nd) coin received for having $no_of_direct_paid_line direct paid lines and for 
  	 $no_of_direct_paid_line active direct merchant connection";
 ELO;
 
-echo "$comment";
 
 
 		$daterange = MIS::date_range($this->month, 'month', true);
@@ -294,13 +293,13 @@ echo "$comment";
 
 		}
 
-
 		$this->interprete($response);
 	}
 
-	//ensure this user direct_line and in_direct_active_member is met
+	//ensure this user direct_line sales partner 
+	//and in_direct_active_merchants is met
 	public function step_1($conditions)
-	{
+	{	
 
 		foreach ($conditions as $requirement => $condition) {
 
@@ -308,6 +307,7 @@ echo "$comment";
 				$response[$requirement] =  (int) $this->$requirement($condition);
 			}
 		}
+
 
 		if (array_sum($response) == count($response)) {
 			return 1;
@@ -404,13 +404,12 @@ echo "$comment";
 
         $result = compact('no_of_direct_paid_line','multiple_of_coins_earned');
 
-		print_r($result);
 		
 		return $result;
 	}
 
 
-
+	//ensure the direct_line sales partner requirement is met
 	public function direct_line($direct_line)
 	{
 		$response = false;
@@ -436,6 +435,7 @@ echo "$comment";
 
 
 	//this is actually indirect_active_merchants
+	//
 	public function in_direct_active_merchants($expected_no)
 	{
 		$response = false;
@@ -463,9 +463,9 @@ echo "$comment";
                 }); 
 
          //get ids
-        $in_direct_sales_partners_ids = $active_members->get()->pluck('id')->toArray();
+        $in_direct_active_sales_partners_ids = $active_members->get()->pluck('id')->toArray();
 
-		$total_merchants = $this->api_response->whereIn('supervisorNumber', $in_direct_sales_partners_ids)->sum('tenantCount');
+		$total_merchants = $this->api_response->whereIn('supervisorNumber', $in_direct_active_sales_partners_ids)->sum('tenantCount');
 
 
          $no_indirect_active_merchants =   $total_merchants;
