@@ -65,7 +65,7 @@ class Orders extends Eloquent  implements OrderInterface
 			$summary[] = [
 
 				'item' => $line['market_details']['name'],
-				'description' => "Course Order",
+				'description' => "",
 				'rate' => $line['market_details']['price'],
 				'qty' => $line['qty'],
 				'amount' => $amount,
@@ -206,6 +206,11 @@ class Orders extends Eloquent  implements OrderInterface
 		$result =[
 			'value' => $vat,
 			'percent' => $vat_percent,
+		];
+
+		$result =[
+			'value' => 0,
+			'percent' => 0,
 		];
 
 
@@ -599,18 +604,56 @@ class Orders extends Eloquent  implements OrderInterface
 	}
 
 
-	public function total_tax_inclusive()
+	public function total_tax_inclusive($style = 'tax_exclusive')
 	{
 
-		$total_sum_tax = 20 * 0.01 * $this->total_price();
+		$setting = \SiteSettings::find_criteria('site_settings')->settingsArray;
+		$vat_percent = $setting['vat_percent'];
 
+		$vat_percent = 0;
+		
+		$total_sum_tax = $vat_percent * 0.01 * $this->total_price();
 		$total_tax_inclusive = $total_sum_tax + $this->total_price();
-		$tax = [
 
-					'price_inclusive_of_tax' => $total_tax_inclusive,
-					'price_exclusive_of_tax' => $this->total_price(),
-					'total_sum_tax' => $total_sum_tax,
-				];
+		switch ($style) {
+			case 'tax_exclusive':
+
+
+
+
+				$tax = [
+
+							'price_inclusive_of_tax' => $total_tax_inclusive,
+							'price_exclusive_of_tax' => $this->total_price(),
+							'total_sum_tax' => $total_sum_tax,
+						];
+
+				break;
+
+			case 'tax_inclusive':
+
+
+				$before_tax = $this->total_price() * (100/$vat_percent);
+
+				$total_sum_tax = $vat_percent * $before_tax * 0.01;
+
+				$tax = [
+
+							'price_inclusive_of_tax' => $this->total_price(),
+							'price_exclusive_of_tax' => $before_tax,
+							'total_sum_tax' => $total_sum_tax,
+						];
+
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+
+
+
+
 
 		return $tax;
 
