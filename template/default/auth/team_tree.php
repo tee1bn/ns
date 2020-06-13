@@ -229,7 +229,49 @@ $auth_user = $auth;
             <div class="table-responsive">
                 <table class="table table-sm">
                    <tr>
-                     <td>Sales Partner<!--  <?=$user->id;?> --></td>
+                     <td>Sales Partner ID:<?=$user->id;?></td>
+                     <?php foreach ($dates as $key => $date):?>
+                         <td><?=date("F Y", strtotime($date));?> </td>
+                     <?php endforeach ;?>
+                 </tr>
+                 <tbody>
+                     <tr>
+                         <td>Own Merchants new</td>
+                       <?php foreach ($dates as $key => $date):?>
+                           <td><?=isset($own_merchants[$date]) ? $own_merchants[$date]->count() : 0;?> </td>
+                       <?php endforeach ;?>
+
+                       
+
+                     </tr>
+                     <tr>
+                         <td>Merchants total</td>
+                           <?php foreach ($dates as $key => $date):?>
+                               <td><?=isset($total_merchants[$date]) ? $total_merchants[$date]->count() : 0;?> </td>
+                           <?php endforeach ;?>
+                     </tr>
+                 </tbody>
+
+             </table>
+         </div>
+     </div>
+ </div>
+
+</div>
+
+</div>
+
+
+
+<!-- //TOD dupliacte this table for merchants
+ --><div class="col-md-12">
+   <div class="card" >
+       <div class="card-content">
+           <div class="card-body ">
+            <div class="table-responsive">
+                <table class="table table-sm">
+                   <tr>
+                     <td>Sales Partner ID:<?=$user->id;?></td>
                      <?php foreach ($dates as $key => $date):?>
                          <td><?=date("F Y", strtotime($date));?> </td>
                      <?php endforeach ;?>

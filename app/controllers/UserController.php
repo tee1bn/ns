@@ -74,7 +74,7 @@ class UserController extends controller
     {
         $auth = $this->auth();
 
-            $sieve = $_REQUEST;
+           $sieve = $_REQUEST;
            $coin_way = new CoinWayApi;
            $today = date("Y-m-d");
 

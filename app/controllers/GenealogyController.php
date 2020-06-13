@@ -694,11 +694,69 @@ ELM;
         }
 
 
-        //perpare the dates range
-        $dates = [];
-        for ($i = 1; $i <= 9; $i++) {
-          $dates[] = date('Y-n', strtotime("-$i month"));
-        }
+
+            $url = "https://api.coinwaypay.com/api/supervisor/accounts";
+
+            $page = $_GET['page'] ?? 1;
+            $per_page = 100;
+            $skip = ($per_page * ($page-1));
+
+
+            //perpare the dates range
+            $dates = [];
+            for ($i = 1; $i <= 9; $i++) {
+              $dates[] = date('Y-n', strtotime("-$i month"));
+            }
+
+
+
+
+
+        $direct_sales = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id);
+        $direct_sales_ids =  $direct_sales->get(['id'])->pluck('id')->toArray();
+        $direct_sales_ids[] = $auth->id;
+        echo $supervisor_numbers = implode(",", $direct_sales_ids);
+
+        return;
+
+
+           $coin_way = new CoinWayApi;
+
+
+
+           //total_merchants
+            $total_merchants_response = $coin_way
+                ->setUrl($url)
+                ->connect(['supervisor_number'=> $supervisor_numbers, 
+                            '$top'=>$per_page,
+                            '$skip'=>$skip
+                        ], true, true)
+                ->get_response()->toArray();
+            $records = collect($total_merchants_response['values']);
+                // print_r($records);
+            $total_merchants = $records->map(function($merchant){
+                $merchant['month'] = date('Y-n', strtotime($merchant['createdAt']));
+                return $merchant;
+            })->groupBy('month');
+
+
+
+           //own_merchants
+            $response = $coin_way
+                ->setUrl($url)
+                ->connect(['supervisor_number'=> $auth->id, 
+                            '$top'=>$per_page,
+                            '$skip'=>$skip
+                        ], true, true)
+                ->get_response()->toArray();
+            $records = collect($response['values']);
+                // print_r($records);
+            $own_merchants = $records->map(function($merchant){
+                $merchant['month'] = date('Y-n', strtotime($merchant['createdAt']));
+                return $merchant;
+            })->groupBy('month');
+
+
 
 
         $direct_sales_agent = $auth->all_downlines_by_path()
@@ -713,10 +771,13 @@ ELM;
         ;
 
         krsort($dates);
+
+
+
    
         $tree_key = 'placement';
 
-        $this->view('auth/team_tree', compact('user_id', 'direct_sales_agent', 'sales_agent','dates','tree_key'));
+        $this->view('auth/team_tree', compact('user_id','own_merchants', 'total_merchants' ,'direct_sales_agent', 'sales_agent','dates','tree_key'));
 
     }
 
