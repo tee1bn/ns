@@ -715,11 +715,9 @@ ELM;
         $direct_sales = $auth->all_downlines_by_path()->where('referred_by', $auth->mlm_id);
         $direct_sales_ids =  $direct_sales->get(['id'])->pluck('id')->toArray();
         $direct_sales_ids[] = $auth->id;
-        echo $supervisor_numbers = implode(",", $direct_sales_ids);
+        $supervisor_numbers = implode(",", $direct_sales_ids);
 
-        return;
-
-
+        
            $coin_way = new CoinWayApi;
 
 
@@ -829,6 +827,7 @@ ELM;
         ;
 
 
+        
         $note = MIS::filter_note(count($list['list']) , $list['data'], $list['total'],  $list['sieve'], 1);
         
         
