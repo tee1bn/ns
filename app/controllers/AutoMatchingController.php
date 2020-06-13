@@ -50,9 +50,6 @@ class AutoMatchingController extends controller
 			echo "not yet set b admin";
 		}
 
-
-		echo "<pre>";
-
 	}
 
 

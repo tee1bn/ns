@@ -70,7 +70,7 @@ class Isp
 		$paid_at = date("Y-m-d H:i:s");
 
 		//delete all pending or entitled coins
-		// ISPWallet::for($this->user->id)->Category('gold')->Pending()->delete();
+		ISPWallet::for($this->user->id)->Category('gold')->Pending()->delete();
 
 		$gold_identifier = $this->user->id."gold/$this->month";
 
@@ -139,8 +139,8 @@ class Isp
 				}
 			}
 
-			//delete all pending or entitled coins
-			// ISPWallet::for($this->user->id)->Category('silber')->Pending()->delete();
+			//delete all pending or entitled coins because they will be recreated
+			ISPWallet::for($this->user->id)->Category('silber')->Pending()->delete();
 
 			//silber
 			$silber = $response['silber'];
@@ -223,9 +223,11 @@ ELO;
 							->Completed()->sum('amount');
 
 
-		$coin_earned_this_month = $amount - $already_paid_coin;							
+		$coin_earned_this_month = $amount - $already_paid_coin;	
 
 
+			//delete all pending or entitled coins because they will be recreated
+			ISPWallet::for($this->user->id)->Category('silber2')->Pending()->delete();
 
 			if ($silber['step_4']['no_of_direct_paid_line'] == 1) {
 
