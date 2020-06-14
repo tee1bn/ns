@@ -56,6 +56,8 @@ class Isp
 	public function interprete($response)
 	{
 
+		echo "<pre>";
+		print_r($response);
 
 		$isp = collect($this->isp_setting['isp'])->keyBy('key')->toArray();
 
@@ -202,16 +204,20 @@ class Isp
 			]);
 
 			$amount = $silber['step_4']['multiple_of_coins_earned'] * $isp['silber']['coin_received'];
+
+
+			if ($amount > 0) {}else{return;} //return if amount is 0
+
 			$silber_identifier = $this->user->id."silber_step_4$this->month";
 
-			$no_of_direct_paid_line = $silber['step_4']['no_of_direct_paid_line'];
-			$no_of_direct_paid_line = $silber['step_4']['no_of_direct_paid_line'];
+			$no_of_paid_direct_sales_partner = $silber['step_4']['no_of_paid_direct_sales_partner'];
+			$no_of_active_direct_merchants = $silber['step_4']['no_of_active_direct_merchants'];
 
 
 
 $comment = <<<ELO
- 	"Silber(2nd) coin received for having $no_of_direct_paid_line direct paid lines and for 
- 	 $no_of_direct_paid_line active direct merchant connection";
+ 	"Silber(2nd) coin received for having $no_of_paid_direct_sales_partner direct paid lines and for 
+ 	 $no_of_active_direct_merchants active direct merchant connection";
 ELO;
 
 
@@ -228,8 +234,6 @@ ELO;
 
 			//delete all pending or entitled coins because they will be recreated
 			ISPWallet::for($this->user->id)->Category('silber2')->Pending()->delete();
-
-			if ($silber['step_4']['no_of_direct_paid_line'] == 1) {
 
 				try {
 					
@@ -251,33 +255,6 @@ ELO;
 				} catch (Exception $e) {
 					
 				}
-
-			}else{
-
-				try {
-									
-				// give new coin update
-				ISPWallet::createTransaction(	
-					'credit',
-					$this->user->id,
-					null,
-					$coin_earned_this_month,
-					'pending',
-					'silber2',
-					$comment ,
-					$silber_identifier, 
-					null , 
-					null,
-					$extra_detail,
-					$paid_at
-				);
-			} catch (Exception $e) {
-				
-			}				
-	
-
-			}
-
 
 	}
 
@@ -366,7 +343,7 @@ ELO;
 		$paid_packages = explode(",", $content['direct_paid_packages']);
 
 
-		//indirect_lines
+		//direct_lines
 		$direct_line = $this->user->all_downlines_by_path('placement', false)->where('referred_by', $this->user->mlm_id);
 
 
@@ -389,22 +366,79 @@ ELO;
         }
 
 
-        //no of direct merchants
 
-         //get ids
-        $direct_sales_partners_ids = $active_members->get()->pluck('id')->toArray();
-		$total_direct_merchants = $this->api_response->whereIn('supervisorNumber', $direct_sales_partners_ids)->sum('tenantCount');
+        	//get no of direct active merchant
+           	$coin_way = new CoinWayApi;
+            $url = "https://api.coinwaypay.com/api/supervisor/accounts";
 
-		$self_ids = [];
-		$self_ids[] = $this->user->id;
-		$total_direct_merchants = $this->api_response->whereIn('supervisorNumber', $self_ids)->sum('tenantCount');
-
-
-		$multiple_of_coins_earned = floor($total_direct_merchants / $content['each_x_active_direct_merchant']) ;
+            $page = $_GET['page'] ?? 1;
+            $per_page = 100;
+            $coin_way->per_page = $per_page;
+            $skip = ($per_page * ($page-1));
 
 
+            $response = $coin_way
+                ->setUrl($url)
+                ->connect(['supervisor_number'=> $this->user->id, 
+                        ], true)
+                ->get_response()->toArray();
 
-        $result = compact('no_of_direct_paid_line','multiple_of_coins_earned');
+
+            $records = collect($response['values']);
+
+            $active_merchants = $records->filter(function($record){
+
+            	if ($record['settlements']==[]) {
+            		return false;
+            	}
+
+
+            	$settlements = collect($record['settlements']);
+
+	            $settlements = 	$settlements->map(function($settlement){
+				            		$settlement['formatted_month'] = date("Y-m", strtotime($settlement['date']));
+				            		return $settlement;
+				            	});
+
+	            foreach ($settlements as $key => $settlement) {
+	            	if (  ($settlement['formatted_month'] == $this->month) && ( (strtolower($settlement['paymentState']) == 'paid') 
+	            		|| (strtolower($settlement['paymentState']) == 'active') ) ) {
+
+
+	            		return true;
+	            	}
+	            }
+
+
+            });
+
+
+            $no_of_active_direct_merchants = $active_merchants->count() ?? 0;
+
+            $no_of_paid_direct_sales_partner = $active_members->count() ?? 0;
+            
+
+
+            //DIRECT MULTIPLE REQUIREMENT sales partner
+			$direct_multiple_sales_partner = intval($no_of_paid_direct_sales_partner / $content['no_of_direct_paid_line']) ;
+
+
+
+            //DIRECT MULTIPLE REQUIREMENT mwrchants
+			$direct_multiple_merchants = intval($no_of_active_direct_merchants / $content['each_x_active_direct_merchant']) ;
+
+
+
+
+            $multiple_factor = 5;
+
+            $min = min($direct_multiple_sales_partner, $direct_multiple_merchants);
+
+
+            $multiple_of_coins_earned = $min;
+
+
+        $result = compact('multiple_of_coins_earned', 'no_of_active_direct_merchants', 'no_of_paid_direct_sales_partner');
 
 		
 		return $result;
@@ -431,7 +465,7 @@ ELO;
 			$response = true;
 		}
 
-
+		
 		return $response;
 	}
 
@@ -505,8 +539,6 @@ ELO;
 
 
 		$multiple_of_coins_earned = floor($no_in_whole_network / $chunk) ;
-
-		die();
 
 		return $multiple_of_coins_earned;
 	}

@@ -18,7 +18,7 @@ include 'includes/header.php';?>
           <div class="btn-group" role="group">
           </div>
           <a class="btn btn-outline-primary" href="#"><small>Last Month:</small> <?=$currency;?><?=MIS::money_format($balances['last_month']);?></a>
-          <a class="btn btn-outline-primary" href="#"><small>The Month:</small> <?=$currency;?><?=MIS::money_format($balances['this_month']);?></a>
+          <a class="btn btn-outline-primary" href="#"><small>This Month:</small> <?=$currency;?><?=MIS::money_format($balances['this_month']);?></a>
           <!-- <a class="btn btn-outline-primary" href="timeline-center.html"><i class="ft-pie-chart"></i></a> -->
         </div>
       </div>
