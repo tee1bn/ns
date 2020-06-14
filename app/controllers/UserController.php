@@ -639,7 +639,7 @@ class UserController extends controller
 
 
 
-    public function vp_remuneration()
+    public function commissions()
     {
         $this->earnings();
     }

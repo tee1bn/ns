@@ -105,7 +105,7 @@
 
 
               <li>
-                <a class="menu-item" href="<?=domain;?>/user/vp-remuneration"><i class="ft-align-justify"></i>VP Remuneration</a>
+                <a class="menu-item" href="<?=domain;?>/user/commissions"><i class="ft-align-justify"></i>Commissions</a>
               </li>
 
               <li>

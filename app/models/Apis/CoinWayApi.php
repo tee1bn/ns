@@ -87,7 +87,7 @@ class CoinWayApi
 
 		$query_string = http_build_query($param_array);
 
-		$url = "{$this->url}?$query_string";
+echo		$url = "{$this->url}?$query_string";
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
@@ -112,7 +112,16 @@ class CoinWayApi
 
 			return $this;
 		}else{
-			$this->response = [];
+
+			if ($get_meta_data == true) {
+				$this->response = [
+					'values' => []
+				];
+			}else{
+
+				$this->repsonse= [];
+			}
+
 		}
 
 
@@ -136,9 +145,10 @@ class CoinWayApi
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
-		$response = array_merge($this->response, $response['value']);
 
 			if ($get_meta_data == true) {
+
+				$response = array_merge($this->response['values'], $response['value']);
 
 				$full_response['meta']['total'] = $this->total_no;
 				$full_response['values'] = $response;

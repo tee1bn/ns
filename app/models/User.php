@@ -678,22 +678,22 @@ ELL;
     public function all_downlines_by_path($tree_key = 'placement', $add_self = false, $sieve=[])
     {
 
-        $tree = self::$tree[$tree_key];
-        $user_column = $tree['position'];
+          $tree = self::$tree[$tree_key];
+          $user_column = $tree['position'];
 
 
-        if ($add_self == true) {
+          if ($add_self == true) {
             // $query = self::query();
-            $identifier = "$this->mlm_id";
-        } else {
-            $identifier = "/$this->mlm_id";
+               $identifier = "/$this->mlm_id";
+               $mlm_id = $this->mlm_id;
+                $query = self::where($user_column, 'like', "%$identifier%")
+                ->orWhereRaw("(mlm_id = '$mlm_id' OR mlm_id = '$mlm_id')");
 
-        }
+          }else{
+               $identifier = "/$this->mlm_id";
+                $query = self::where($user_column, 'like', "%$identifier%");
 
-        $filter = new  UserFilter($sieve);
-
-        $query = self::where($user_column, 'like', "%$identifier%")->Filter($filter);
-
+          }
 
         return $query;
     }
@@ -1483,6 +1483,7 @@ ELL;
 
         $qualifiers_text = "";
         foreach ($qualifiers as $qualifier) {
+            if ($qualifier['rank'] == -1) {continue;}
             $count = $qualifier['total'];
             $name = $TheRank['all_ranks'][$qualifier['rank']]['name'];
             $qualifiers_text .= "$count $name <br>";

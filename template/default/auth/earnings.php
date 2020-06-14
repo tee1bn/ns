@@ -1,5 +1,5 @@
 <?php
-$page_title = "VP Remuneration";
+$page_title = "Commissions";
 include 'includes/header.php';?>
 
 
@@ -10,7 +10,7 @@ include 'includes/header.php';?>
       <div class="content-header-left col-6 mb-2">
         <?php include 'includes/breadcrumb.php';?>
 
-        <h3 class="content-header-title mb-0">VP Remuneration</h3>
+        <h3 class="content-header-title mb-0">Commissions</h3>
       </div>
       
       <div class="content-header-right col-6">

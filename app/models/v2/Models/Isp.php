@@ -481,15 +481,32 @@ ELO;
 	}
 
 
+	//must be active sale partner in whole network
 	public function each_x_in_whole_network($chunk)
 	{
 		//for gold isp
 
 		$sieve = ['month'=> $this->month];
 
-		$no_in_whole_network = $this->user->all_downlines_by_path('placement', false)->count();
+		//indirect_lines (all downlines)
+		$in_whole_network = $this->user->all_downlines_by_path('placement', false);
+
+		//get those with active subscription
+		$today = date("Y-m-01");
+		$active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','>' , $today);
+        $active_in_whole_network = $in_whole_network
+                ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
+                    $join->on('users.id', '=', 'active_subscriptions.user_id');
+                }); 
+
+
+
+       $no_in_whole_network = $active_in_whole_network->count();
+
+
 		$multiple_of_coins_earned = floor($no_in_whole_network / $chunk) ;
 
+		die();
 
 		return $multiple_of_coins_earned;
 	}
