@@ -58,43 +58,8 @@ $page_title = "Merchant Packages";
                       </div>
 
                       <?php endforeach ;?>
-<!-- 
-
-                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
-                        <div class="d-flex align-items-start mb-sm-1 mb-xl-0 border-right-blue-grey border-right-lighten-5">
-                          <span class="card-icon danger d-flex justify-content-center mr-3">
-
-                            <div class="b-box">
-                                <span class="d-box">
-                                    453
-                                </span>
-                            </div>
-                          </span>
-                          <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">Advanced</h3>
-                            <small>Package</small>
-                          </div>
-                        </div>
-                      </div>
 
 
-                      <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
-                        <div class="d-flex align-items-start border-right-blue-grey border-right-lighten-5">
-                          <span class="card-icon success d-flex justify-content-center mr-3">
-
-                            <div class="b-box">
-                                <span class="d-box">
-                                    453
-                                </span>
-                            </div>
-                          </span>
-                          <div class="stats-amount mr-3">
-                            <h3 class="heading-text text-bold-600">Professional</h3>
-                            <small>Package</small>
-                          </div>
-                        </div>
-                      </div>
- -->
 
                       <div class="col-lg-6 col-xl-3 col-sm-6 col-12">
                         <div class="d-flex align-items-start">
@@ -129,7 +94,15 @@ $page_title = "Merchant Packages";
                         <div class="card" style="">
                             <div class="card-content">
                                 <div class="card-body">
-                                  <?php //include_once 'template/default/composed/filters/merchant_packages.php';?>
+                                  <?php include_once 'template/default/composed/filters/merchant_packages.php';?>
+                                      
+                                    <h4 class="card-tile border-0" style="position: absolute;right: 35px;top: 20px;">
+                                        <small class="float-right">
+                                            <?=$note;?>
+
+                                        </small>
+
+                                    </h4>
                                     <hr>
                                     <div class="row table-responsive">
 
@@ -145,7 +118,7 @@ $page_title = "Merchant Packages";
                                                 <td>Status</td>
                                             </tr>
                                             <tbody>
-                                              <?php $i=1; foreach ($response['values'] as $key => $merchant) :?>
+                                              <?php $i=1; foreach ($result as $key => $merchant) :?>
                                                 <tr>
                                                     <td><?=$i++;?></td>
                                                     <td><?=$merchant['id'];?></td>

@@ -53,6 +53,7 @@ trait RangeFilterable
                     break;
             }
 
+
             extract($date);
 
             switch ($data_set) {
@@ -74,6 +75,7 @@ trait RangeFilterable
 
         public function CollectionDateRange($start_date=null, $end_date= null, $column=null)
         {       
+
             if (($start_date == null) && ($end_date==null)) {
                 return $this->builder;
             }

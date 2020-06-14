@@ -56,10 +56,12 @@ abstract class QueryFilter
     {
         $this->builder = $collection;
 
+        // print_r($this->builder);
+
         foreach ($this->fields() as $field => $value) {
             $method = ($field);
             if (method_exists($this, $method)) {
-                call_user_func_array([$this, $method], (array)$value);
+              $this->builder =   call_user_func_array([$this, $method], (array)$value);
             }
         }
 

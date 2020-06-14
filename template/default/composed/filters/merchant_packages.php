@@ -6,15 +6,10 @@
         <form action="<?=$action ?? '';?>" method="get" id="filter_form">
             <div class="row">
 
-                <div class="form-group col-sm-12">
+                <div class="form-group col-sm-6">
                     <label>Merchant ID</label><br>
-                    <input type="" name="name" placeholder="Name or Partner ID" class="form-control" value="<?=$sieve['name']??'';?>">
+                    <input type="text" placeholder="Sales Merchant Id" name="id" class="form-control" value="<?=$sieve['id']??'';?>">
                 </div>
-
-             <!--    <div class="form-group col-sm-6">
-                    <label>Partner ID</label><br>
-                    <input type="text" placeholder="Sales Partner Id" name="id" class="form-control" value="<?=$sieve['id']??'';?>">
-                </div> -->
 
 
             </div>

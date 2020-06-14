@@ -4,6 +4,7 @@ use Filters\Filters\SupportTicketFilter;
 use Filters\Filters\UserFilter;
 use Filters\Filters\WalletFilter;
 use Filters\Filters\OrderFilter;
+use Filters\Filters\MerchantFilter;
 use Illuminate\Database\Capsule\Manager as DB;
 use v2\Models\Document;
 use v2\Models\Wallet;
@@ -74,6 +75,8 @@ class UserController extends controller
     {
         $auth = $this->auth();
 
+
+
            $sieve = $_REQUEST;
            $coin_way = new CoinWayApi;
            $today = date("Y-m-d");
@@ -97,12 +100,20 @@ class UserController extends controller
 
 
 
-            $records = collect($response['values'])->countBy('licenseName')->toArray();
+        $records = collect($response['values'])->countBy('licenseName')->toArray();
         
-        $note = MIS::filter_note(count($response['values']), count($response['values']), ($response['meta']['total']),  $sieve, 1);
 
+        $collection = collect($response['values']);
+        // print_r($collection);
 
-        $this->view('auth/merchant_packages', compact('records' ,'page', 'response', 'sieve','note','per_page'));
+        $sieve = $_REQUEST;
+        $filter = new MerchantFilter($sieve);
+        $result = $filter->sieve($collection);
+
+        $note = MIS::filter_note($result->count(), count($response['values']), ($response['meta']['total']),  $sieve, 1);
+       
+
+        $this->view('auth/merchant_packages', compact('records','result', 'page', 'response', 'sieve','note','per_page'));
     }
 
     public function vp_packages()
