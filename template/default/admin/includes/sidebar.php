@@ -41,11 +41,11 @@
             <ul class="menu-content">
               <li><a class="menu-item" href="<?=domain;?>/admin/commissions"> Commissions</a>
         
-              <li><a class="menu-item" href="<?=domain;?>/admin/debits">Withdrawals</a>
+              <li><a class="menu-item" href="<?=domain;?>/admin/withdrawals">Withdrawals</a>
               </li>
 
-              <li><a class="menu-item" href="<?=domain;?>/admin/payouts">Payouts</a>
-              </li>
+             <!--  <li><a class="menu-item" href="<?=domain;?>/admin/payouts">Payouts</a>
+              </li> -->
             </ul>
           </li> 
             <li>

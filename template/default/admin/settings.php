@@ -346,6 +346,142 @@ $page_title = "Settings";
                     </div>
                 </div>
 
+
+
+                
+                       <div class="row" >
+                         <div class="col-12">
+                           <div class="card">
+
+                             <div class="card-header"  data-toggle="collapse" data-target="#Rules">
+                               <a href="javascript:void;" class="card-title">Rules Settings</a>
+                               <div class="heading-elements">
+                                 <ul class="list-inline mb-0">
+                                   <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                   <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                 </ul>
+                               </div>
+
+                             </div>
+
+                             <div class="card-body row collapse" id="Rules">
+                               <div class="col-12">
+                                 <div class="row">
+                                     
+                                   <div class="form-group col-md-6">
+                                     <label>Withdrawal Fee (%)</label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.withdrawal_fee_percent">
+                                   </div>
+
+
+                                   <div class="form-group col-md-6">
+                                     <label>Minimum Withdrawal </label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.min_withdrawal_usd">
+                                   </div>
+
+                                <!--
+                                   <div class="form-group col-md-6">
+                                   <label>User Transfer Fee (%)</label>
+                                   <input type="" class="form-control" name="" ng-model="$rules_settings.user_transfer_fee_percent">
+                                 </div>
+
+                                   <div class="form-group col-md-6">
+                                   <label>Min Transfer Amount </label>
+                                   <input type="" class="form-control" name="" ng-model="$rules_settings.min_transfer_usd">
+                                 </div>
+                                 </div>
+
+
+                                  <div class="form-group col-12">
+                                   <label>Minimum Deposit </label>
+                                   <input type="" class="form-control" name="" ng-model="$rules_settings.min_deposit_usd">
+                                 </div>
+
+
+                                 <div class="form-group col-12">
+                                   <label>The Yields of liability and bonuses by career plan are paid </label>
+                                   <input type="" class="form-control" name="" ng-model="$rules_settings.yield_of_liability_and_bonuses_is_paid">
+                                 </div>
+
+
+                                 <div class="form-group col-12">
+                                   <label>The Service Package begins to compute from <b>nth</b> day of acquiring it  </label>
+                                   <input type="" class="form-control" name="" ng-model="$rules_settings.service_package_computes_returns_from_xth_day">
+                                 </div>
+
+                                 <hr/>
+                                 <div class=" row">
+                                   <div class="form-group col-md-12">
+                                     The income and commissions generated are paid in: 
+                                   </div>
+                                   <div class="form-group col-md-4">
+                                     <label>Cash (%)  </label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.income_split_percent.cash_percent">
+                                   </div>
+                                   <div class="form-group col-md-4">
+                                     <label>TruCash (%)  </label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.income_split_percent.trucash_percent">
+                                   </div>
+
+
+                                   <div class="form-group col-md-4">
+                                     <label>Grace Period to sell Hot Wallet Coins (Days)  </label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.income_split_percent.grace_period_to_sell_hot_wallet">
+                                   </div>
+
+
+                                 </div>
+                                 
+                                 <hr/>
+                                 <div class=" row">
+                                   <div class="form-group col-md-12">
+                                     This month Membership Expiry  : 
+                                   </div>
+                                   <div class="form-group col-md-4">
+                                     <label>From  </label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.this_month_membership_expiry_rule.from">
+                                   </div>
+
+                                   <div class="form-group col-md-4">
+                                     <label>To   </label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.this_month_membership_expiry_rule.to">
+                                   </div>
+                
+                                   <div class="form-group col-md-4">
+                                     <label>Membersihp Renewal x/month  </label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.this_month_membership_expiry_rule.renewal_date">
+                                   </div>
+
+                -->
+                                 </div>
+
+
+                                 <form action="<?=domain;?>/settings/update/rules_settings" method="post" class="ajax_form" id="rules_settings_form">
+
+                                   <textarea style="display: none;" name="content">{{$rules_settings}}</textarea>
+
+                                   <div class="text-center col-12">
+                                     <button ng-show="$rules_settings.length != 0" class="btn btn-success" type="submit">Update </button>
+                                   </div>
+                                 </form>
+
+
+
+
+
+                               </div>
+                             </div>
+
+                           </div>
+                         </div>
+                       </div>
+
+
+
+
+
+
+
         </div>
       </div>
     </div>

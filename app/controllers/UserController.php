@@ -4,6 +4,7 @@ use Filters\Filters\SupportTicketFilter;
 use Filters\Filters\UserFilter;
 use Filters\Filters\WalletFilter;
 use Filters\Filters\OrderFilter;
+use Filters\Filters\WithdrawalFilter;
 use Filters\Filters\MerchantFilter;
 use Illuminate\Database\Capsule\Manager as DB;
 use v2\Models\Document;
@@ -547,11 +548,47 @@ class UserController extends controller
     }
 
 
+
+
+    public function make_withdrawal()
+    {
+        $this->view('auth/make_withdrawal');
+    }
+
+
     public function withdrawals()
     {
-        $this->view('auth/withdrawal-history');
 
+        $query = Withdrawal::where('user_id', $this->auth()->id)->latest();
+
+
+        $sieve = $_REQUEST;
+        // ->where('status', 1);  //in review
+        $sieve = array_merge($sieve);
+        $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+        $per_page = 50;
+        $skip = (($page - 1) * $per_page);
+
+        $filter = new  WithdrawalFilter($sieve);
+
+        $data = $query->Filter($filter)->count();
+
+        $withdrawals = $query->Filter($filter)
+            ->offset($skip)
+            ->take($per_page)
+            ->get();  //filtered
+
+
+
+
+        $this->view('auth/withdrawal-history', compact('withdrawals', 'sieve', 'data', 'per_page'));
+
+
+
+        // $this->view('auth/withdrawal-history', compact('withdrawals'));
     }
+
+
 
 
     public function update_testimonial()
@@ -679,6 +716,10 @@ class UserController extends controller
 
         $filter = new  WalletFilter($sieve);
 
+        $balance = $query->Credit()->sum('amount');
+
+        $total = $query->count();
+
         $data = $query->Filter($filter)->count();
 
         $sql = $query->Filter($filter);
@@ -689,10 +730,11 @@ class UserController extends controller
             ->get();  //filtered
 
 
-        $balances = Withdrawal::payoutBalanceFor($auth->id);
+        $balance = Wallet::availableBalanceOnUser($auth->id);
 
-        $this->view('auth/earnings', compact('records', 'balances', 'sieve', 'data', 'per_page'));
+        $note = MIS::filter_note($records->count() , $data, $total,  $sieve, 1);
 
+        $this->view('auth/earnings', compact('records', 'balance', 'sieve', 'data', 'per_page', 'note'));
     }
 
 

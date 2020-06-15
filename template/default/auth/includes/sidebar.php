@@ -77,6 +77,23 @@
 
               </li>
 
+
+
+              <li class=" nav-item">
+
+                <a href="#"><i class="fa fa-list"></i><span class="menu-title" data-i18n="">Transactions</span></a>
+                  <ul class="menu-content">
+                      <!-- <li><a class="menu-item" href="<?=domain;?>/user/user-transfers">User Transfer</a> -->
+                       <li><a class="menu-item" href="<?=domain;?>/user/make-withdrawal">Make Withdrawal</a>
+                       </li>
+
+                       
+                       <li><a class="menu-item" href="<?=domain;?>/user/withdrawals">Withdrawals</a>
+                       </li>
+                     </ul>
+                   </li> 
+
+
               <li class=" nav-item"><a href="#"><i class="fa fa-briefcase"></i><span class="menu-title" data-i18n="">Packages</span></a>
               <ul class="menu-content">
                   <li><a class="menu-item" href="<?=domain;?>/user/package">All Packages</a>

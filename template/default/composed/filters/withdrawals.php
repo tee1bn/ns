@@ -1,22 +1,23 @@
 <div class="row">
 
-    <div class="dropdown col-md-6">
+    <div class="dropdown col-md-12">
         <button class="btn btn-dark btn-sm dropdown-toggle" type="button" data-toggle="dropdown">
             <span class="fa fa-filter"></span>
         </button>
         <ul class="dropdown-menu" style="padding: 20px;">
-            <form action="<?=$action;?>" method="get" id="filter_form">
+            <form action="<?=$action ?? '' ;?>" method="get" id="filter_form">
                 <div class="row">
 
                     <div class="form-group col-sm-6">
                         <label>ID</label><br>
-                        <input type="" name="ref" class="form-control" value="<?=$sieve['ref'];?>">
+                        <input type="" name="ref" placeholder="ID or Ref" class="form-control" value="<?=$sieve['ref']??'';?>">
                     </div>
                     
 
                     <div class="form-group col-sm-6">
                         <label>User </label><br>
-                        <input type="" name="name" placeholder="First, Last, Name, email, phone, or username" class="form-control" value="<?=$sieve['name'];?>">
+                        <input type="" name="name" placeholder="First, Last, Name, email, phone, or username" 
+                        class="form-control" value="<?=$sieve['name']??'';?>">
                     </div>
 
                 </div>
@@ -30,7 +31,7 @@
                         <select class="form-control" name="status">
                             <option value="">Select</option>
                             <?php foreach(v2\Models\Withdrawal::$statuses as $key => $value) :?>
-                                <option value="<?=$key;?>" <?=(($sieve['status'])===$key)?'selected':'';?>> <?=$value;?></option>
+                                <option value="<?=$key;?>" <?=(  (isset($sieve['status'])) &&  ( $sieve['status']===$key))?'selected':'';?>> <?=$value;?></option>
                             <?php endforeach ; ?>
                         </select>
 
@@ -42,7 +43,7 @@
                         <select class="form-control" name="withdrawal_method">
                             <option value="">Select</option>
                             <?php foreach(v2\Models\UserWithdrawalMethod::$method_options as $key => $method) :?>
-                                <option value="<?=$key;?>" <?=($sieve['withdrawal_method']==$key) ?'selected':'';?>> <?=$method['name'];?></option>
+                                <option value="<?=$key;?>" <?=( (isset($sieve['withdrawal_method'])) &&($sieve['withdrawal_method']==$key)) ?'selected':'';?>> <?=$method['name'];?></option>
                             <?php endforeach ; ?>
                         </select>
 

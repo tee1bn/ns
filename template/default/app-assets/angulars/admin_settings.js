@@ -61,6 +61,17 @@ app.controller('Settings', function($scope, $http) {
 
 
 
+	$scope.rules_settings = function () {
+		$http.get($base_url+"/settings/fetch/rules_settings")
+		.then(function(response) {
+			$scope.$rules_settings= response.data;
+		});
+
+	};
+	$scope.rules_settings();
+
+	
+
 });
 
 

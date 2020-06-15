@@ -17,6 +17,12 @@ use v2\Models\Document;
 use v2\Models\UserDocument;
 use v2\Models\Market;
 
+use Filters\Filters\WithdrawalFilter;
+
+use v2\Models\Withdrawal;
+
+
+
 use  v2\Shop\Shop;
 require_once "app/controllers/AdminProductsController.php";
 
@@ -1329,6 +1335,38 @@ EOL;
 		$this->view('admin/library');
 
 	}
+
+
+	public function withdrawals()
+	{
+
+	    $sieve = $_REQUEST;
+	    // $sieve = array_merge($sieve, $extra_sieve);
+
+	    $query = Withdrawal::latest();
+	    // ->where('status', 1);  //in review
+	    $sieve = array_merge($sieve);
+	    $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+	    $per_page = 50;
+	    $skip = (($page - 1) * $per_page);
+
+	    $filter = new  WithdrawalFilter($sieve);
+
+	    $data = $query->Filter($filter)->count();
+
+	    $withdrawals = $query->Filter($filter)
+	        ->offset($skip)
+	        ->take($per_page)
+	        ->get();  //filtered
+
+
+	    $note = MIS::filter_note($withdrawals->count(), ($data), (Withdrawal::count()),  $sieve, 1);
+
+	    $this->view('admin/withdrawal-history', compact('withdrawals', 'sieve', 'data', 'per_page', 'note'));
+	}
+
+
+
 
 	public function debits($from=null , $to=null)
 	{	

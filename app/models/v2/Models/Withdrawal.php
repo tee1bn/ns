@@ -1,21 +1,27 @@
 <?php
-
 namespace v2\Models;
+
+include_once 'app/controllers/home.php';
 use v2\Models\Wallet;
 use v2\Models\Commission;
 use v2\Models\HotWallet;
 use v2\Models\HeldCoin;
 use v2\Models\PayoutWallet;
 use  Filters\Traits\Filterable;
-use Illuminate\Database\Capsule\Manager as DB;
+use  Filters\Traits\CSVExportable;
 
-use SiteSettings, MIS;
+use SiteSettings, Session;
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use Illuminate\Database\Capsule\Manager as DB;
+
+
+
 
 class Withdrawal extends Eloquent 
 {
 	use Filterable;
+	use CSVExportable;
 	
 	protected $fillable = [
 		'user_id',
@@ -23,7 +29,7 @@ class Withdrawal extends Eloquent
 		'fee',
 		'withdrawal_method_id',
 		'method_details',
-		'details',
+		'detail',
 		'admin_id',
 		'completed_at',
 		'status'
@@ -35,9 +41,121 @@ class Withdrawal extends Eloquent
 	public static $statuses = [
 							'pending'=> 'pending',
 							'completed'=> 'completed',
-							 'cancelled'=> 'cancelled'
+							 'declined'=> 'declined'
 							];
 
+
+
+	public static function csv_structure(array $ids =[])
+	{
+
+		$header = [
+			'sn',
+			'id',
+			'firstname',
+			'lastname',
+			'username',
+			'amount',
+			'fee',
+			'payable',
+			'iban',
+			'status',
+			'date',
+		];
+		
+
+			
+		$all = self::whereIn('id', $ids)->get();
+
+
+		$csv_records = [];
+		$i = 1;
+		foreach ($all as $key => $record) {
+			$method = $record->MethodDetailsArray;
+			$csv_records[] = [
+				$i,
+				$record->id,
+				$record->user->firstname,
+				$record->user->lastname,
+				$record->user->username,
+				$record->amount,
+				$record->fee,
+				$record->AmountToPay,
+				$method['iban'],
+				$record->status,
+				$record->created_at,
+			];
+
+		}
+
+		$filename = 'withdrawals';
+
+		return compact('csv_records','header', 'filename');
+
+	}
+
+
+	public static function push_status(array $ids =[], $action)
+	{
+		echo "<pre>";
+		print_r($_POST);
+
+		DB::beginTransaction();
+		$new_status = [
+			'pend' => [
+				'status' => 'pending',
+			],
+			'complete' => [
+				'status' => 'completed',
+			],
+			'decline' => [
+				'status' => 'declined',
+			],
+		];
+
+		try {
+			
+		$all = self::whereIn('id', $ids);
+
+		$all->update(['status'=> $new_status[$action]['status']]);
+
+		DB::commit();
+		Session::putFlash("success","{$all->count()} rows marked as {$new_status[$action]['status']}");
+
+		return true;
+		} catch (Exception $e) {
+		DB::rollback();
+		print_r($e->getMessage());
+		Session::putFlash("danger","Something went wrong");
+			
+		}
+
+		return false;
+	}
+
+	
+	//bulk actions registers
+	public static function bulk_action($action , array $ids =[])
+	{
+		$register=[
+			'export_csv' => [
+				'function' => 'export_to_csv',
+			],
+			'pend' => [
+				'function' => 'push_status',
+			],
+			'complete' => [
+				'function' => 'push_status',
+			],
+			'decline' => [
+				'function' => 'push_status',
+			],
+		];
+
+
+		$method = $register[$action]['function'];
+		return self::$method($ids, $action);
+	}
 
 
 
@@ -46,61 +164,65 @@ class Withdrawal extends Eloquent
 	{
 
 
-		$rules_settings =  SiteSettings::find_criteria('site_settings');
+		$rules_settings =  SiteSettings::find_criteria('rules_settings');
 		$setting = $rules_settings->settingsArray;
-		$withdrawal_fee = 0;
-		$min_withdrawal = $setting['minimum_withdrawal'];
-
-		$total_earnings    =  Wallet::bookBalanceOnUser($user_id);
+		$withdrawal_fee = $setting['withdrawal_fee_percent'];
+		$min_withdrawal = $setting['min_withdrawal_usd'];
 
 
-		 $today = date("Y-m-d");
-		$last_month_date = date("Y-m-d", strtotime("first day of last month"));
-		$daterange = MIS::date_range($today, 'month', true);
-		$last_month_daterange = MIS::date_range($last_month_date, 'month', true);
+		$commission_balance =  Wallet::bookBalanceOnUser($user_id);
 
-		$this_month     =      Wallet::for($user_id)->ClearedWithin($daterange)->Credit()->Completed()->sum('amount');
-		$last_month     =      Wallet::for($user_id)->ClearedWithin($last_month_daterange)->Credit()->Completed()->sum('amount');
+		$commission_credits = Wallet::onUser($user_id)->Credit()->Cleared()->sum('amount') ;
 
+		$total_earnings =  $commission_credits;
 
-		// $this_month     =      Wallet::select(DB::raw("sum(amount) as total"),'user_id')->ClearedWithin($daterange)->Credit()->Completed()->groupBy('user_id');
-
-	
 		$completed_withdrawal = self::where('user_id' , $user_id)->Completed()->sum('amount');
 		$pending_withdrawal = self::where('user_id' , $user_id)->Pending()->sum('amount');
 
-/*
 
 		$total_amount_withdrawn = $completed_withdrawal + $pending_withdrawal ;
 
-		$payout_wallet    =  PayoutWallet::bookBalanceOnUser($user_id);
+		$payout_wallet    =  Wallet::availableBalanceOnUser($user_id);
 
 		$payout_balance = $payout_wallet  - $total_amount_withdrawn;
 
 		$payout_book_balance = $payout_wallet  - $completed_withdrawal;
 
 		$available_payout_balance = ($payout_balance >= $min_withdrawal)? $payout_balance: 0 ;
-*/
+
+
 
 		$state = compact(
-			'last_month',
-			'this_month',
 			'withdrawal_fee',
 			'min_withdrawal',
-			'total_earnings'
-/*			'payout_balance',
+			'commission_balance',
+			'total_earnings',
+			'payout_balance',
 			'payout_book_balance',
 			'available_payout_balance',
 			'completed_withdrawal'
-*/		);
-
+		);
 
 		return $state;
 
 
 	}
-
 	
+
+
+
+
+	public function getDetailArrayAttribute()
+	{
+		if ($this->detail == null) {
+			return [];
+		}
+
+		return json_decode($this->detail, true);
+	}
+
+
+
 	
 
 	public function admin()
@@ -109,6 +231,8 @@ class Withdrawal extends Eloquent
 
 	}
 	
+
+
 
 
 	public function getAmountToPayAttribute()
@@ -126,6 +250,21 @@ class Withdrawal extends Eloquent
 		return $query->where('status','completed');
 	}
 
+
+
+	public function mark_completed($verification=null)
+	{
+		$controller = new home;
+
+		$withdrawal->update([
+			'status'=> 'completed',
+			'admin_id'=> $controller->admin()->id,
+			'detail' =>  $verification
+		]);
+
+
+		return true;
+	}
 
 
 	public function scopePending($query)
@@ -174,6 +313,8 @@ class Withdrawal extends Eloquent
 		$detail = $method['display'];
 		$line = '';
 		$method_details = json_decode($this->MethodDetailsArray['details'], true);
+
+		
 
 		foreach ($detail as $key => $label) {
 			$value = $method_details[$key];
