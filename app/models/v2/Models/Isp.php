@@ -27,7 +27,6 @@ class Isp
 	    //call api
 
 		$this->month = date("Y-m");
-		$this->month = date('2010-02');
 		$this->api_response  = CoinWayApi::api($this->month);
 		// print_r($this->isp_setting);
 

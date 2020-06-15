@@ -99,11 +99,11 @@ class AutoMatchingController extends controller
 	}
 
 	//settle isp coins earned for set user_id
-	public function coinage_on($user_id){
+	public function coinage_on($user_id, $month=null){
 		$user = User::find($user_id);
 
 		$coinage_on = new Isp;
-		$coinage_on->setUser($user)->doCheck();
+		$coinage_on->setUser($user)->setMonth($month)->doCheck();
 		
 	}
 

@@ -87,7 +87,7 @@ class CoinWayApi
 
 		$query_string = http_build_query($param_array);
 
-		echo $url = "{$this->url}?$query_string";
+		$url = "{$this->url}?$query_string";
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
 
