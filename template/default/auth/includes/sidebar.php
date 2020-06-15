@@ -140,7 +140,11 @@
 
 
 
-               <li class=" nav-item"><a href="#"><i class="ft-shopping-cart"></i><span class="menu-title" data-i18n="">Shop</span></a>
+              <li>
+                <a class="menu-item" href="<?=domain;?>/user/online-shop"><i class="ft-shopping-cart"></i> Online Shop</a>
+              </li>
+
+            <!--    <li class=" nav-item"><a href="#"><i class="ft-shopping-cart"></i><span class="menu-title" data-i18n="">Shop</span></a>
                <ul class="menu-content">
 
 
@@ -153,21 +157,8 @@
               </li>
               
                  </ul>
-              </li> 
+              </li>  -->
 
-
-<!-- 
-              <li>
-                <a class="menu-item" href="<?=domain;?>/user/resources"><i class="fa fa-folder"></i> Documents</a>
-              </li> -->
-
-             <!--  <li>
-                <a class="menu-item" href="<?=domain;?>/user/withdrawals"><i class="fa fa-credit-card"></i> Withdrawals</a>
-              </li>
- -->
-
-
-            <hr>
 
             <li class=" nav-item"><a href="#">                
               <i class="fa fa-question-circle-o"></i>
@@ -181,7 +172,6 @@
 
 
             <li><a class="menu-item" href="<?=domain;?>/user/broadcast"> <i class="fa fa-file-text-o"></i> News</a></li>
-            <hr>
 
             <li><a class="menu-item" href="<?=domain;?>/login/logout"> <i class="ft-power"></i> Log Out</a></li>
 

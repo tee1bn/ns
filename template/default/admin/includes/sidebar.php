@@ -56,7 +56,7 @@
             </li>
 
 
-
+<!-- 
           <li class=" nav-item"><a href="#"><i class="ft-shopping-cart"></i><span class="menu-title" data-i18n=""> Shop</span></a>
             <ul class="menu-content">
               <li><a class="menu-item" href="<?=domain;?>/admin/product"> Product</a>
@@ -67,7 +67,7 @@
               <li><a class="menu-item" href="<?=domain;?>/admin/products-orders">Orders</a>
               </li>
             </ul>
-          </li> 
+          </li>  -->
           
           
           <li class=" nav-item"><a href="#"><i class="ft-phone"></i><span class="menu-title" data-i18n=""> Customer Care</span></a>
