@@ -41,6 +41,9 @@
             <ul class="menu-content">
               <li><a class="menu-item" href="<?=domain;?>/admin/commissions"> Commissions</a>
         
+              <li><a class="menu-item" href="<?=domain;?>/admin/isp-coins">ISP Coins</a>
+              </li>
+
               <li><a class="menu-item" href="<?=domain;?>/admin/withdrawals">Withdrawals</a>
               </li>
 

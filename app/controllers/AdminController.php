@@ -1335,7 +1335,7 @@ EOL;
 	    $this->view('admin/commissions', compact('records', 'sieve', 'data', 'per_page', 'page_title','wallet','note'));
 	}
 
-	public function coins()
+	public function isp_coins()
 	{
 		$compact =  $this->wallet_matters([
 		], 'v2\Models\ISPWallet');
