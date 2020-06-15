@@ -211,8 +211,8 @@ class Isp
 
 
 $comment = <<<ELO
- 	"Silber(2nd) coin received for having $no_of_paid_direct_sales_partner direct paid lines and for 
- 	 $no_of_active_direct_merchants active direct merchant connection";
+ 	Silber(2nd) coin received for having $no_of_paid_direct_sales_partner direct paid lines and for 
+ 	 $no_of_active_direct_merchants active direct merchant connection;
 ELO;
 
 

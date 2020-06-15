@@ -8,7 +8,7 @@
 
                 <div class="form-group col-sm-6">
                     <label>Merchant ID</label><br>
-                    <input type="text" placeholder="Sales Merchant Id" name="id" class="form-control" value="<?=$sieve['id']??'';?>">
+                    <input type="text" placeholder="Merchant Id" name="id" class="form-control" value="<?=$sieve['id']??'';?>">
                 </div>
 
 

@@ -13,14 +13,13 @@ include 'includes/header.php';
 
         <h3 class="content-header-title mb-0"><?=$page_title;?></h3>
       </div>
-      <div class="content-header-right col-6">
-            <small class="float-right">Showing <?=$records->count();?> of <?=$data;?> </small>
-<!--               <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
-                <a class="btn btn-outline-primary" href="Javascript:void(0);">
-                      Current Bal: <?=$currency;?>
-              </a>
+              <div class="content-header-right col-6 ">
+            <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
+              <div class="btn-group" role="group">
+              </div>
+              <!-- <a class="btn btn-outline-primary" href="timeline-center.html"><i class="ft-pie-chart"></i></a> -->
+            </div>
           </div>
- -->      </div>
 
         </div>
         <div class="content-body">
@@ -31,10 +30,7 @@ include 'includes/header.php';
               <!-- <h4 class="card-title">Deposits</h4> -->
               <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
               <div class="heading-elements">
-                <ul class="list-inline mb-0">
-                  <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                  <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                </ul>
+                <?=$note;?>
               </div>
             </div>
             <div class="card-content">

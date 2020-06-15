@@ -69,7 +69,7 @@ class CoinWayApi
 		return $this;
 	}
 
-
+	
 
 
 

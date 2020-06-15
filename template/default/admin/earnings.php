@@ -16,14 +16,14 @@ $page_title = "Wallet";
     <div class="app-content content">
       <div class="content-wrapper">
         <div class="content-header row">
-          <div class="content-header-left col-md-6 col-12 mb-2">
+          <div class="content-header-left col-6 mb-2">
             <?php include 'includes/breadcrumb.php';?>
 
             <h3 class="content-header-title mb-0">Wallet</h3>
           </div>
           
-          <div class="content-header-right col-md-6 col-12">
-            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+          <div class="content-header-right col-6 ">
+            <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
               <div class="btn-group" role="group">
               </div>
               <a class="btn btn-outline-primary" href="#">Balance: <?=$currency;?><?=MIS::money_format($balance);?></a>

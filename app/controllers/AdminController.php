@@ -13,6 +13,7 @@ use  Filters\Filters\UserDocumentFilter;
 use v2\Shop\Payments\Paypal\Subscription;
 use v2\Shop\Payments\Paypal\PaypalAgreement;
 use v2\Models\Wallet;
+use v2\Models\ISPWallet;
 use v2\Models\Document;
 use v2\Models\UserDocument;
 use v2\Models\Market;
@@ -1294,6 +1295,9 @@ EOL;
 		$sieve = array_merge($sieve, $extra_sieve);
 
 		$query = $class::latest();
+
+		$total_set = $query->count();
+
 		// ->where('status', 1);  //in review
 		$sieve = array_merge($sieve);
 		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
@@ -1309,7 +1313,10 @@ EOL;
 						->take($per_page)
 						->get();  //filtered
 
-		return compact('records', 'sieve', 'data','per_page');
+
+		$note = MIS::filter_note($records->count(), ($data), ($total_set),  $sieve, 1);
+
+		return compact('records', 'sieve', 'data','per_page', 'note');
 		
 	}
 
@@ -1325,7 +1332,19 @@ EOL;
 	    $page_title = 'Commissions';
 	    $wallet= 'commission';
 
-	    $this->view('admin/commissions', compact('records', 'sieve', 'data', 'per_page', 'page_title','wallet'));
+	    $this->view('admin/commissions', compact('records', 'sieve', 'data', 'per_page', 'page_title','wallet','note'));
+	}
+
+	public function coins()
+	{
+		$compact =  $this->wallet_matters([
+		], 'v2\Models\ISPWallet');
+
+	    extract($compact);
+	    $page_title = 'ISP Coins';
+	    $wallet= 'ISP Coins';
+
+	    $this->view('admin/commissions', compact('records', 'sieve', 'data', 'per_page', 'page_title','wallet','note'));
 	}
 
 
