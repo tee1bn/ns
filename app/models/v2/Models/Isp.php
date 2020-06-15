@@ -27,9 +27,10 @@ class Isp
 	    //call api
 
 		$this->month = date("Y-m");
-		// $this->month = date('2019-07');
+		$this->month = date('2010-02');
 		$this->api_response  = CoinWayApi::api($this->month);
 		// print_r($this->isp_setting);
+
 	}
 
 
@@ -55,10 +56,6 @@ class Isp
 
 	public function interprete($response)
 	{
-
-		echo "<pre>";
-		print_r($response);
-
 		$isp = collect($this->isp_setting['isp'])->keyBy('key')->toArray();
 
 		//gold
@@ -92,7 +89,6 @@ class Isp
 
 
 			if ($gold['step_1'] == 1) { //user qualify to receive gold
-
 				//delete all existing gold coins
 
 				try {
@@ -396,7 +392,7 @@ ELO;
             	$settlements = collect($record['settlements']);
 
 	            $settlements = 	$settlements->map(function($settlement){
-				            		$settlement['formatted_month'] = date("Y-m", strtotime($settlement['date']));
+				            		$settlement['formatted_month'] = date($this->month, strtotime($settlement['date']));
 				            		return $settlement;
 				            	});
 
@@ -486,26 +482,76 @@ ELO;
 
 
 
+
+
 		//indirect_lines (all downlines)
 		$no_indirect_line = $this->user->all_downlines_by_path('placement', false)->where('referred_by', '!=' , $this->user->mlm_id);;
 
 
-		//get those with active subscription
-		$today = date("Y-m-01");
-		$active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','>' , $today);
-        $active_members = $no_indirect_line
-                ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
-                    $join->on('users.id', '=', 'active_subscriptions.user_id');
-                }); 
 
-         //get ids
-        $in_direct_active_sales_partners_ids = $active_members->get()->pluck('id')->toArray();
-
-		$total_merchants = $this->api_response->whereIn('supervisorNumber', $in_direct_active_sales_partners_ids)->sum('tenantCount');
+		$chunks = $no_indirect_line->get()->chunk(20);
 
 
-         $no_indirect_active_merchants =   $total_merchants;
+		echo "<pre>";
 
+
+    	//get no of direct active merchant
+       	$coin_way = new CoinWayApi;
+        $url = "https://api.coinwaypay.com/api/supervisor/accounts";
+
+        $no_indirect_active_merchants_array= [];
+		foreach ($chunks as $key => $chunk) {
+
+						$supervisors_numbers = implode($chunk->pluck('id')->toArray(), ',');
+
+			            $response = $coin_way
+			                ->setUrl($url)
+			                ->connect(['supervisor_number'=> $this->user->id, 
+			                        ], true)
+			                ->get_response()->toArray();
+
+
+			            $records = collect($response['values']);
+
+
+
+			            $active_merchants = $records->filter(function($record){
+
+			            	if ($record['settlements']==[]) {
+			            		return false;
+			            	}
+
+
+			            	$settlements = collect($record['settlements']);
+
+				            $settlements = 	$settlements->map(function($settlement){
+							            		$settlement['formatted_month'] = date($this->month, strtotime($settlement['date']));
+							            		return $settlement;
+							            	});
+
+				            foreach ($settlements as $key => $settlement) {
+				            	if (  ($settlement['formatted_month'] == $this->month) && ( (strtolower($settlement['paymentState']) == 'paid') 
+				            		|| (strtolower($settlement['paymentState']) == 'active') ) ) {
+
+
+				            		return true;
+				            	}
+				            }
+
+
+			            });
+
+
+			            $no_of_merchants = $active_merchants->count() ?? 0;
+						
+						$no_indirect_active_merchants_array[] = $no_of_merchants;
+
+		}
+
+
+
+
+		$no_indirect_active_merchants = array_sum($no_indirect_active_merchants_array);
 
 		if ($no_indirect_active_merchants >= $expected_no) {
 			$response = true;
