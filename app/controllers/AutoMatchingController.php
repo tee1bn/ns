@@ -131,8 +131,13 @@ class AutoMatchingController extends controller
 		}
 
 
-		echo "$date";
+			$last_settlement_month = date("Y-m", strtotime($last_settlement_date));
+			$this_month  = date("Y-m");
 
+			if ($last_settlement_month >= $this_month ) {
+
+				$date = date("Y-m-01", strtotime("-1 month"));
+			}
 
 		return $date;
 
