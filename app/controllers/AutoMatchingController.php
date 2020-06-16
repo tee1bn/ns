@@ -39,18 +39,35 @@ class AutoMatchingController extends controller
 			$this->api_key
 		];
 
+	}
 
-		$this->get_period();
 
-			// $this->schedule_due_commissions();
+
+	public function begin_commission($month=null)
+	{
+
+		if ($month==null) {
+			$this->get_period();
+		}else{
+
+			$payment_month = $month;
+
+			$payment_date_range = MIS::date_range($payment_month, 'month', true);
+			$this->period =  compact('payment_month', 'payment_date_range');
+
+		}
+
+
+		$this->schedule_due_commissions();
 
 		if ($this->settings['distribute_commissions']== 1) {
-			$this->schedule_due_commissions();
 		}else{
 			echo "not yet set b admin";
 		}
 
 	}
+
+
 
 
 	public function auth_cron()
@@ -324,6 +341,7 @@ class AutoMatchingController extends controller
 
 		$scheduled_commissions_without_setup_fee = SettlementTracker::where('period', $payment_month)
 		->where('setup_fee', null)
+		->where('user_id', '!=', null)
 		->take(100)->get();
 
 		$coin_way = new CoinWayApi;
@@ -381,14 +399,14 @@ class AutoMatchingController extends controller
 
 		//ensure setup fee is available before proceeding
 		$scheduled = SettlementTracker::where('period', $payment_month);
-		$setup_fee_not_complete = $scheduled->where('setup_fee', null)->count() > 0;
+		$setup_fee_not_complete = $scheduled->where('setup_fee', null)->where('user_id','!=', null)->count() > 0;
 		if ($setup_fee_not_complete) {
 			$this->include_setup_fee_on_scheduled();
 			return;
 		}
 
 
-		$scheduled_commissions = SettlementTracker::where('period', $payment_month);
+		$scheduled_commissions = SettlementTracker::where('period', $payment_month)->where('user_id','!=', null);
 		// print_r($scheduled_commissions->get()->toArray());
 
 
