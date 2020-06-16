@@ -35,6 +35,54 @@ class shopController extends controller
 			}
 
 
+			//for subscription payment
+			public function execute_agreement()
+			{		
+
+				$auth = $this->auth();
+				$shop = new Shop();
+				$item_purchased = $shop->available_type_of_orders[$_REQUEST['item_purchased']];
+			 	$full_class_name = $item_purchased['namespace'].'\\'.$item_purchased['class'];		 	
+			 	$order_id = $_REQUEST['order_unique_id'];
+			 	$order = $full_class_name::where('id' ,$order_id)->where('user_id', $auth->id)->where('paid_at', null)->first();
+
+
+
+				switch ($_REQUEST['item_purchased']) {
+					case 'packages':
+						$redirect = 'user/package';
+						break;
+					case 'product':
+						$redirect = 'user/online_shop';
+						break;
+					
+					default:
+						# code...
+						break;
+				}
+
+
+				if ($order==null) {
+					Redirect::to($redirect);
+				}
+
+
+
+			 	DB::beginTransaction();
+			 	try {
+			 		
+					$shop->setOrder($order)->executeAgreement();
+
+				DB::commit();
+			 	} catch (Exception $e) {
+			 		
+			 	}
+
+
+					Redirect::to($redirect);
+			}
+
+
 			public function callback()
 			{
 				$auth = $this->auth();
