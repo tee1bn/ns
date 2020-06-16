@@ -97,6 +97,7 @@ class shopController extends controller
 				$attempt =	$shop
 				->setOrder($order)
 				->setPaymentMethod($_REQUEST['payment_method'])
+				->setPaymentType($order->PaymentDetailsArray['payment_type'])
 				->initializePayment()
 				->attemptPayment();
 				if ($attempt ==false) {

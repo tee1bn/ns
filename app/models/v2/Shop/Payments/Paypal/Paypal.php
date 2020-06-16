@@ -398,6 +398,7 @@ class PayPal  implements PaymentMethodInterface
 						"amount" 	 =>  $this->amountPayable(),
 					];
 
+
 		$this->order->setPayment($payment_method , $payment_details);
 
 		return $this;

@@ -197,12 +197,20 @@ class SubscriptionPlan extends Eloquent
 
 			 	//cancel current subscription if automatic
 
-			 	$payment_type = SubscriptionOrder::$payment_types[$_POST['payment_method']];
+			 	 // $payment_type = SubscriptionOrder::$payment_types[$_POST['payment_method']];
 
 
 			 	$plan_id = $subscription_id;
 			 	$no_of_month = $_POST['prepaid_month'] ?? 1;
 			 	$price = $new_sub->PriceBreakdowns($no_of_month)['total_payable'];
+
+			 	if ($no_of_month == 1) {
+			 		$payment_type='subscription';
+			 	}else{
+
+			 		$payment_type='one_time';
+			 	}
+
 
 			 	$cart = compact('plan_id','user_id','price','no_of_month');
 
