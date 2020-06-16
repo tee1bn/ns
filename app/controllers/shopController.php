@@ -141,11 +141,13 @@ class shopController extends controller
 					return;
 				}
 
+				$payment_type = $order->PaymentDetailsArray['payment_type'] ?? 'one_time';
+
 				$shop = new Shop();
 				$attempt =	$shop
 				->setOrder($order)
 				->setPaymentMethod($_REQUEST['payment_method'])
-				->setPaymentType($order->PaymentDetailsArray['payment_type'])
+				->setPaymentType($payment_type)
 				->initializePayment()
 				->attemptPayment();
 				if ($attempt ==false) {

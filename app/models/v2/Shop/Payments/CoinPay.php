@@ -157,6 +157,7 @@ fclose($myfile);
 								'gateway' => $this->name,
 								'ref' => $order_ref,
 								'order_unique_id' => $this->order->id,
+								'payment_type' => $this->payment_type,
 
 								"walletId" 	 =>  $this->api_keys['wallet_id'],
 								"referenceId"=>  $order_ref,
