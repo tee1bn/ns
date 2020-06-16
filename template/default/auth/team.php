@@ -152,7 +152,7 @@ include 'includes/header.php'; ?>
                                             <td></td>
                                             <td colspan="7"><b>Total</b></td>
                                             <td><?= $no->sum('no_of_direct_lines'); ?></td>
-                                            <td><?=array_sum($own_merchant_count);?></td>
+                                            <td><?=array_sum($own_merchant_count ?? []) ;?></td>
                                             <td><?= (collect($status_count)->countBy()->toArray()[1] ?? 0); ?>
                                                 /<?= count($status_count); ?></td>
                                         </tr>

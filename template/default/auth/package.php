@@ -103,25 +103,25 @@ include 'includes/header.php';; ?>
 
 
                                             <label>
-                                                <input type="radio" required="" name="prepaid_month" value="1"> Monthly
+                                                <input type="radio" required="" name="prepaid_month" value="1" onchange="set_payments(this);"> Monthly
                                                 payment (Monthly automatic direct debit)
                                             </label>
                                             <br>
 
                                             <label>
-                                                <input type="radio" required="" name="prepaid_month" value="6"> Service for 6 Months
+                                                <input type="radio" required="" name="prepaid_month" value="6" onchange="set_payments(this);"> Service for 6 Months
                                             </label>
                                             <br>
 
                                             <label>
-                                                <input type="radio" required="" name="prepaid_month" value="12"> Service for 12
+                                                <input type="radio" required="" name="prepaid_month" value="12" onchange="set_payments(this);"> Service for 12
                                                 Months
                                             </label>
 
                                             <br>
                                             <br>
                                             <div class="form-group">
-                                                <select class="form-control" required="" name="payment_method">
+                                                <select class="form-control payment_method_selection" required="" name="payment_method">
                                                     <option value="">Select Payment method</option>
                                                     <?php foreach ($shop->get_available_payment_methods() as $key => $option): ?>
                                                         <option value="<?= $key; ?>"><?= $option['name']; ?></option>
@@ -162,14 +162,51 @@ include 'includes/header.php';; ?>
                 <?php endforeach; ?>
             </div>
 
-<!--
-            <div>
-                <button class="btn btn-outline-warning float-right">ZX Packahge</button>
-            </div>-->
+
+
+
 
             <br>
 
             <script>
+
+
+                set_payments = function($radio){
+                    if($radio.value==1){
+
+                        $allowed = ['paypal', ''];
+
+                    }else{
+                        $allowed = ['coinpay', 'bank_transfer','paypal', ''];
+                    }
+
+                    $selects = $('.payment_method_selection');
+
+                    for (var i = 0; i < $selects.length; i++) {
+                        $select = $selects[i];
+
+                        for (var x = 0; x < $select.children.length; x++) {
+                            $option = $select.children[x]
+                            $value = $option.value;
+
+                            if ($allowed.includes($value)) {
+                                $option.style.display = 'block';
+
+                            }else{
+
+                                $option.style.display = 'none';
+                            }
+                        }
+
+                    }
+                }
+
+
+
+
+
+
+
                 initiate_payment = function ($data) {
                     try {
 
