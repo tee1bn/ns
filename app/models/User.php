@@ -946,7 +946,7 @@ ELL;
     //must have package able to receive level commission
     public function is_qualified_for_commission($level)
     {
-        $eligible_level = $this->subscription->downline_commission_level;
+        $eligible_level = $this->subscription->payment_plan->downline_commission_level;
 
         if ($eligible_level >= $level) {
             return true;

@@ -589,7 +589,7 @@ trait Wallet
 		$paid_at = null
 	)
 	{
-
+		echo "crea";
 		if (($amount == 0) && ($earning_category != 'investment')) {
 			return;
 		}

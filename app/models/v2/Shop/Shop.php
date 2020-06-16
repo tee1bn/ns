@@ -267,7 +267,7 @@ class Shop
 
 
 
-			$service_fee = $this->order->service_fee();
+			$service_fee = 0;
 			$vat = $this->order->calculate_vat();
 
 			$subtotal_payable = $subtotal + $service_fee['value'] + $stamp_duty + $vat['value'];

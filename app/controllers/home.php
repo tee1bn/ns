@@ -26,7 +26,14 @@ class home extends controller
     {
 
 
-        // echo "<pre>";
+        echo "<pre>";
+
+        $package_order = SubscriptionOrder::find(68);
+
+
+        $package_order->give_subscriber_upline_commission();
+
+        return;
 
         // $coin_way = new CoinWayApi;
         $date = '2019-08-01';

@@ -417,6 +417,47 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		return 1;
 	}
 
+	
+	public function setPaymentBreakdown(array $payment_breakdown, $order_id = null)
+	{
+		return $this;
+		$this->update([
+			'order_id' => $order_id,
+			'payment_breakdown' => json_encode($payment_breakdown),
+			'amount_payable' => $payment_breakdown['total_payable']['value'],
+		]);
+
+		return $this;
+	}
+
+	public function calculate_vat()
+	{
+
+		$setting = \SiteSettings::find_criteria('site_settings')->settingsArray;
+		$vat_percent =  $setting['vat_percent'];
+		
+		$subtotal = $this->total_price();		
+		$vat = $vat_percent * 0.01 * $subtotal;
+
+
+		$result =[
+			'value' => $vat,
+			'percent' => $vat_percent,
+		];
+
+		$result =[
+			'value' => 0,
+			'percent' => 0,
+		];
+
+
+		return $result;
+	}
+
+	
+
+	
+
 	public function total_tax_inclusive()
 	{
 
