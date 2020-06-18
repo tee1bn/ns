@@ -18,15 +18,21 @@ class WalletFilter extends QueryFilter
 
 
 
+	
 
 	public function ref($ref=null)
-	{	
+	{
 
 		if ($ref == null) {
 			return ;
 		}
-        $this->builder->where('id', 'like', "%$ref%");
+
+		$ref = explode(',', $ref);
+
+        $this->builder->whereIn('id', $ref);
+
 	}
+
 
 	
 
