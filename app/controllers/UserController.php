@@ -583,6 +583,7 @@ class UserController extends controller
             $subscription_orders = $query->Filter($filter)
                 ->offset($skip)
                 ->take($per_page)
+                ->latest()
                 ->get();  //filtered
 
             $this->view('auth/package_orders', compact('subscription_orders', 'sieve', 'data', 'per_page'));

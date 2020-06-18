@@ -32,9 +32,8 @@ $invoice = $order->invoice();
     <div class="col-md-12">
         <?php if((!isset($remove_mle_detail)) || ($remove_mle_detail == false)):?>
       <div class="invoice-title">
-        <h2>
-          <img style="width: 100px;" src="<?=$logo;?>" > 
-          <!-- <span style="position: relative; top: -20px;"> <?=project_name;?></span> -->
+        <h2 style="display: inline;">
+          <!-- <img style="width: 100px;" src="<?=$logo;?>" >  -->
         </h2>
 
         <?=CMS::fetch('full_contact');?>
@@ -57,8 +56,6 @@ $invoice = $order->invoice();
                   <?=$order->created_at->toFormattedDateString();?>
                   <br><br>
                 </address>
-
-                                <!-- <span style="color: tomato;">* This Expires in 48 hours</span> -->
 
               </td>
               <td style="text-align: right;">
@@ -104,17 +101,9 @@ $invoice = $order->invoice();
 
       <div class="row">
         <div class="col-xs-6">
-                     <!--    <address>
-                            <strong>Generated Date:</strong><br>
-                            <?=date("M d, Y");?><br><br>
-                        </address> -->
                     </div>
                     <div class="col-xs-6 text-right">
-    <!--                     <address>
-                            <strong>Generated Date:</strong><br>
-                            March 7, 2014<br><br>
-                        </address>
-                    -->                </div>
+             </div>
                 </div>
             </div>
         </div>
@@ -122,9 +111,9 @@ $invoice = $order->invoice();
         <div class="row">
           <div class="col-md-12">
             <div class="panel panel-default">
-              <!-- <div class="panel-heading">
+              <div class="panel-heading">
                 <h3 class="panel-title"><strong>Summary</strong></h3>
-              </div> -->
+              </div>
               <div class="panel-body">
                 <div class="table-responsie">
 
@@ -147,7 +136,7 @@ $invoice = $order->invoice();
                             <p><?=$summary['item'];?> </p>
                             <p><small class="text-mute"> <?=$summary['description'];?></small></p>
                           </td>
-                          <td class="text-right">
+                          <td style="text-align: right;">
                             <p><?=$summary['rate'];?></p>
                           </td>
                           <td style="text-align: right;">
@@ -169,7 +158,6 @@ $invoice = $order->invoice();
                                 <small>
                                   <?=CMS::fetch('bank_transfer');?>
                                 </small>
-                                <!-- <button onclick="try_print();" class="btn btn-primary">Print</button> -->
                             </div>
 
                             <div style="width: 40%; float: right;">
@@ -220,6 +208,4 @@ $invoice = $order->invoice();
 
 
 
-
-    <div style="display: none" >
 

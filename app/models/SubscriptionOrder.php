@@ -54,7 +54,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	{
 		$controller = new \home;
 		$order = $this;
-		$remove_mle_detail = true;
+		$remove_mle_detail = false;
 		$view  =	$controller->buildView('composed/invoice', compact('order', 'remove_mle_detail'));
 
 		// echo "$view";
@@ -72,16 +72,17 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		]);
 
 
+		$src = Config::logo();
 		$company_name = \Config::project_name();
 		$mpdf->AddPage('P');
 		$mpdf->SetProtection(array('print'));
 		$mpdf->SetTitle("{$company_name}");
 		$mpdf->SetAuthor($company_name);
-		$mpdf->SetWatermarkText("{$company_name}");
-		// $mpdf->watermarkImg($src);
+		// $mpdf->SetWatermarkText("{$company_name}");
+		$mpdf->watermarkImg($src, 0.1);
 		$mpdf->showWatermarkText = true;
 		$mpdf->watermark_font = 'DejaVuSansCondensed';
-		$mpdf->watermarkTextAlpha = 0.1;
+		$mpdf->watermarkTextAlpha = 0.2;
 		$mpdf->SetDisplayMode('fullpage');
 
 		$date_now = (date('Y-m-d H:i:s'));
@@ -93,7 +94,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		// return  "$view";
 		// return;		
 		$mpdf->WriteHTML($view);
-		$mpdf->Output("invoice#$order->id.pdf", \Mpdf\Output\Destination::DOWNLOAD);			
+		$mpdf->Output("invoice#$order->id.pdf", \Mpdf\Output\Destination::INLINE);			
 
 
 	}
@@ -204,7 +205,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		$summary = [
 			[
 				'item' => "$this->TransactionID",
-				'description' => "{$detail['package_type']} for $this->no_of_month month(s)",
+				'description' => "{$detail['package_type']} Package for $this->no_of_month month(s)",
 				'rate' => $this->paymentBreakdownArray['subtotal']['value'],
 				'qty' => 1,
 				'amount' => $this->paymentBreakdownArray['subtotal']['value'],
@@ -215,7 +216,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 			'subtotal'=> null,
 			'lines' => $this->PaymentBreakdownArray,
 
-			'total'=>$this->paymentBreakdownArray['subtotal']['value'],
+			// 'total'=>$this->paymentBreakdownArray['subtotal']['value'],
 		];
 
 		$invoice = [

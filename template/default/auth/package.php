@@ -185,6 +185,8 @@ include 'includes/header.php';; ?>
                     for (var i = 0; i < $selects.length; i++) {
                         $select = $selects[i];
 
+                        $select.value = "";
+
                         for (var x = 0; x < $select.children.length; x++) {
                             $option = $select.children[x]
                             $value = $option.value;
