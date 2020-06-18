@@ -20,6 +20,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	protected $fillable = [
 							'plan_id',
 							'payment_method',
+							'payment_breakdown',
 							'payment_details',
 
 							 'subscription_details',
@@ -45,6 +46,57 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 			 		'coinpay'=> 'one_time',
 			 	];
 
+
+
+
+
+	public  function getInvoice()
+	{
+		$controller = new \home;
+		$order = $this;
+		$remove_mle_detail = true;
+		$view  =	$controller->buildView('composed/invoice', compact('order', 'remove_mle_detail'));
+
+		// echo "$view";
+
+		// return;
+		// $view = "I am here"	;
+
+		$mpdf = new \Mpdf\Mpdf([
+			'margin_left' => 5,
+			'margin_right' => 5,
+			'margin_top' => 10,
+			'margin_bottom' => 20,
+			'margin_header' => 10,
+			'margin_footer' => 10
+		]);
+
+
+		$company_name = \Config::project_name();
+		$mpdf->AddPage('P');
+		$mpdf->SetProtection(array('print'));
+		$mpdf->SetTitle("{$company_name}");
+		$mpdf->SetAuthor($company_name);
+		$mpdf->SetWatermarkText("{$company_name}");
+		// $mpdf->watermarkImg($src);
+		$mpdf->showWatermarkText = true;
+		$mpdf->watermark_font = 'DejaVuSansCondensed';
+		$mpdf->watermarkTextAlpha = 0.1;
+		$mpdf->SetDisplayMode('fullpage');
+
+		$date_now = (date('Y-m-d H:i:s'));
+
+		$mpdf->SetFooter("Date Generated: " . $date_now . " - {PAGENO} of {nbpg}");
+
+
+
+		// return  "$view";
+		// return;		
+		$mpdf->WriteHTML($view);
+		$mpdf->Output("invoice#$order->id.pdf", \Mpdf\Output\Destination::DOWNLOAD);			
+
+
+	}
 
 	public function send_expiry_reminder_email()
 	{
@@ -148,42 +200,43 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	public  function invoice()
 	{
 
-		$controller = new home;
-		$order = $this;
-		$view  =	$controller->buildView('auth/order_detail', compact('order'));
-		
-		$mpdf = new \Mpdf\Mpdf([
-		    'margin_left' => 5,
-		    'margin_right' => 5,
-		    'margin_top' => 10,
-		    'margin_bottom' => 20,
-		    'margin_header' => 10,
-		    'margin_footer' => 10
-		]);
+		$detail = $this->plandetails;
+		$summary = [
+			[
+				'item' => "$this->TransactionID",
+				'description' => "{$detail['package_type']} for $this->no_of_month month(s)",
+				'rate' => $this->paymentBreakdownArray['subtotal']['value'],
+				'qty' => 1,
+				'amount' => $this->paymentBreakdownArray['subtotal']['value'],
+			]
+		];
 
-		$company_name = Config::project_name();
+		$subtotal = [
+			'subtotal'=> null,
+			'lines' => $this->PaymentBreakdownArray,
 
-		$mpdf->AddPage('P');
-		$mpdf->SetProtection(array('print'));
-		$mpdf->SetTitle("{$company_name}");
-		$mpdf->SetAuthor($company_name);
-		$mpdf->SetWatermarkText("{$company_name}");
-		$mpdf->showWatermarkText = true;
-		$mpdf->watermark_font = 'DejaVuSansCondensed';
-		$mpdf->watermarkTextAlpha = 0.1;
-		$mpdf->SetDisplayMode('fullpage');
+			'total'=>$this->paymentBreakdownArray['subtotal']['value'],
+		];
 
-		$date_now = (date('Y-m-d H:i:s'));
+		$invoice = [
+			'order_id' => $this->TransactionID,
+			'invoice_id' => $this->TransactionID,
+			'order_date' => $this->created_at,
+			'payment_status' => $this->paymentstatus,
+			'summary' => $summary,
+			'subtotal' => $subtotal,
+		];
 
-		$mpdf->SetFooter("Date Generated: " . $date_now . " - {PAGENO} of {nbpg}");
+		return $invoice;
 
-
-		$mpdf->WriteHTML($view);
-		$mpdf->Output("invoice#$order->id.pdf", \Mpdf\Output\Destination::DOWNLOAD);			
-	
 	}
 
 
+
+	public function getPaymentBreakdownArrayAttribute()
+	{
+		return json_decode($this->payment_breakdown, true);
+	}
 
 	public function getTransactionIDAttribute()
 	{
@@ -420,7 +473,6 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	
 	public function setPaymentBreakdown(array $payment_breakdown, $order_id = null)
 	{
-		return $this;
 		$this->update([
 			'order_id' => $order_id,
 			'payment_breakdown' => json_encode($payment_breakdown),
@@ -433,7 +485,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	public function calculate_vat()
 	{
 
-		$setting = \SiteSettings::find_criteria('site_settings')->settingsArray;
+	/*	$setting = \SiteSettings::find_criteria('site_settings')->settingsArray;
 		$vat_percent =  $setting['vat_percent'];
 		
 		$subtotal = $this->total_price();		
@@ -443,7 +495,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 		$result =[
 			'value' => $vat,
 			'percent' => $vat_percent,
-		];
+		];*/
 
 		$result =[
 			'value' => 0,

@@ -42,6 +42,14 @@ class CoinPay implements PaymentMethodInterface
 	}
 
 
+	public function setShop($shop)
+	{
+		$this->shop = $shop;
+		return $this;
+
+	}
+
+
 
 
 

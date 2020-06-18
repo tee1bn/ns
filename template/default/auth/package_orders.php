@@ -26,13 +26,12 @@ include 'includes/header.php';; ?>
 
             <section id="video-gallery" class="card">
                 <div class="card-header">
-                    <h4 class="card-title">Package Orders</h4>
+                    
+                    <?php include_once 'template/default/composed/filters/subscription_orders.php';?>
                     <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                     <div class="heading-elements">
-                        <ul class="list-inline mb-0">
-                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                        </ul>
+                                                 <small class="float-right">Showing <?=$subscription_orders->count();?> of <?=$data;?> </small>
+
                     </div>
                 </div>
                 <div class="card-content">
@@ -40,10 +39,11 @@ include 'includes/header.php';; ?>
 
                     <div class="card-body table-responsive">
 
-                        <table id="myTable" class="table table-striped">
+                        <table id="myTble" class="table table-striped">
                             <thead>
                             <tr>
                                 <th>#Ref</th>
+                                <th>OrderID</th>
                                 <th>Plan</th>
                                 <th>Cost(<?= $currency; ?>)</th>
                                 <th>Date</th>
@@ -57,6 +57,7 @@ include 'includes/header.php';; ?>
                                 ?>
                                 <tr>
                                     <td><?= $order->id; ?></td>
+                                    <td><?= $order->TransactionID; ?></td>
                                     <td><?= $order->plandetails['package_type']; ?></td>
                                     <td><?= $this->money_format($order['price']); ?></td>
                                     <td>
@@ -117,18 +118,9 @@ include 'includes/header.php';; ?>
             </section>
 
 
-            <!--   <section id="video-gallery" class="card">
-                <div class="card-header">
-                  <h4 class="card-title">Package Orders</h4>
-                  <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
-                      <div class="heading-elements">
-                        <ul class="list-inline mb-0">
-                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                            <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-              </section> -->
+          <ul class="pagination">
+              <?= $this->pagination_links($data, $per_page);?>
+          </ul>
 
 
         </div>
@@ -137,3 +129,5 @@ include 'includes/header.php';; ?>
 <!-- END: Content-->
 
 <?php include 'includes/footer.php'; ?>
+
+

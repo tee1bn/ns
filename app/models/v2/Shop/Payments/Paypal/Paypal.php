@@ -80,6 +80,14 @@ class PayPal  implements PaymentMethodInterface
 	}
 
 
+	public function setShop($shop)
+	{
+		$this->shop = $shop;
+		return $this;
+
+	}
+
+
 	public function setPaymentType($payment_type)
 	{
 		$this->payment_type = $payment_type;

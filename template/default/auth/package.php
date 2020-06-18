@@ -224,6 +224,15 @@ include 'includes/header.php';; ?>
                                     "/shop/checkout?item_purchased=packages&order_unique_id=" + $data.id + "&payment_method=paypal";
 
                                 break;
+
+
+                                case 'bank_transfer':
+
+                                  window.location.href = $base_url+"/user/bank-transfer/"+$data.id+"/packages";
+
+                                break;
+
+
                             case 'razor_pay':
                                 // code block
                                 window.SchemeInitPayment($data.id);

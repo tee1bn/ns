@@ -85,6 +85,7 @@ return array(
     'v2\\Security\\TwoFactor' => $baseDir . '/app/models/v2/Security/TwoFactor.php',
     'v2\\Shop\\Contracts\\OrderInterface' => $baseDir . '/app/models/v2/Shop/Contracts/OrderInterface.php',
     'v2\\Shop\\Contracts\\PaymentMethodInterface' => $baseDir . '/app/models/v2/Shop/Contracts/PaymentMethodInterface.php',
+    'v2\\Shop\\Payments\\BankTransfer' => $baseDir . '/app/models/v2/Shop/Payments/BankTransfer.php',
     'v2\\Shop\\Payments\\CoinPay' => $baseDir . '/app/models/v2/Shop/Payments/CoinPay.php',
     'v2\\Shop\\Payments\\Paypal\\PayPal' => $baseDir . '/app/models/v2/Shop/Payments/Paypal/Paypal.php',
     'v2\\Shop\\Payments\\Paypal\\PaypalAgreement' => $baseDir . '/app/models/v2/Shop/Payments/Paypal/PaypalAgreement.php',

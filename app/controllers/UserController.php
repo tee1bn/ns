@@ -5,6 +5,7 @@ use Filters\Filters\UserFilter;
 use Filters\Filters\WalletFilter;
 use Filters\Filters\OrderFilter;
 use Filters\Filters\WithdrawalFilter;
+use Filters\Filters\SubscriptionOrderFilter;
 use Filters\Filters\MerchantFilter;
 use Illuminate\Database\Capsule\Manager as DB;
 use v2\Models\Document;
@@ -43,6 +44,68 @@ class UserController extends controller
 
 
     }
+
+
+
+    public function bank_transfer($order_id, $type)
+    {
+        $auth = $this->auth();
+
+
+        $shop = new Shop;
+        $class = $shop->available_type_of_orders[$type]['class'];
+
+
+       $order = $class::where('id', $order_id)->where('payment_method', 'bank_transfer')
+                                    ->where('user_id', $auth->id)
+                                    ->where('paid_at', null)->first();
+
+
+
+
+        if ($order==null) {
+            // Session::putFlash('danger','Invalid Request');
+            // Redirect::back();
+        }
+
+        Shop::empty_cart_in_session();
+
+        $this->view('auth/deposit_bank_transfer', compact('order','type'));
+
+    }
+
+
+    public function show_invoice($order_id, $type)
+    {
+        $auth = $this->auth();
+              
+
+        $shop = new Shop;
+        $class = $shop->available_type_of_orders[$type]['class'];
+
+
+
+        $order = $class::where('id', $order_id)->where('payment_method', 'bank_transfer')
+                                     ->where('user_id', $auth->id)
+                                     ->where('paid_at', null)->first();
+
+
+        if ($order==null) {
+            // Session::putFlash('danger','Invalid Request');
+            Redirect::back();
+        }
+
+        Shop::empty_cart_in_session();
+
+        // $invoice = 
+        // $invoice = 
+        $order->getInvoice();
+
+
+    }
+
+    
+
 
     public function resources($category_key = null)
     {
@@ -349,7 +412,7 @@ class UserController extends controller
             Redirect::back();
         }
 
-        $order->invoice();
+        $order->getInvoice();
     }
 
     public function download_invoice($order_id = null)
@@ -502,8 +565,30 @@ class UserController extends controller
 
     public function package_orders()
     {
-        $this->view('auth/package_orders');
-    }
+            $auth = $this->auth();
+            $sieve = $_REQUEST;
+            // $sieve = array_merge($sieve, $extra_sieve);
+
+            $query = SubscriptionOrder::latest()->where('user_id', $auth->id);
+            // ->where('status', 1);  //in review
+            $sieve = array_merge($sieve);
+            $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
+            $per_page = 50;
+            $skip = (($page - 1) * $per_page);
+
+            $filter = new  SubscriptionOrderFilter($sieve);
+
+            $data = $query->Filter($filter)->count();
+
+            $subscription_orders = $query->Filter($filter)
+                ->offset($skip)
+                ->take($per_page)
+                ->get();  //filtered
+
+            $this->view('auth/package_orders', compact('subscription_orders', 'sieve', 'data', 'per_page'));
+
+
+        }
 
 
     public function package()

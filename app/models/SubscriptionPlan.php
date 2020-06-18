@@ -223,7 +223,7 @@ class SubscriptionPlan extends Eloquent
 		 							->setPaymentMethod($_POST['payment_method'])
 		 							->setPaymentType($payment_type)
 		 							->initializePayment()
-		 							// ->attemptPayment()
+		 							->attemptPayment()
 		 							;
 			}
 

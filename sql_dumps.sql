@@ -4,6 +4,7 @@
 
 -- for isp compensation and new design --starts
 -- update subscitpionplans table
+ALTER TABLE `subscription_payment_orders` ADD `payment_breakdown` LONGTEXT NULL AFTER `payment_method`;
 
 
 ALTER TABLE `settlement_tracker` ADD `setup_fee` DECIMAL(20,2) NULL AFTER `settled_license_fee`;

@@ -30,7 +30,7 @@ $invoice = $order->invoice();
 <div class="container">
   <div class="row">
     <div class="col-md-12">
-        <?php if($remove_mle_detail == false):?>
+        <?php if((!isset($remove_mle_detail)) || ($remove_mle_detail == false)):?>
       <div class="invoice-title">
         <h2>
           <img style="width: 100px;" src="<?=$logo;?>" > 
@@ -167,7 +167,7 @@ $invoice = $order->invoice();
                             <hr>
                             <div style="width: 60%; float: left;">
                                 <small>
-                                  
+                                  <?=CMS::fetch('bank_transfer');?>
                                 </small>
                                 <!-- <button onclick="try_print();" class="btn btn-primary">Print</button> -->
                             </div>
