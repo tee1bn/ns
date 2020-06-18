@@ -311,8 +311,9 @@ class UserController extends controller
         $this->view('auth/online_shop_dummy');
 
         return;
-        $shopController = new shopController;
-        $shopController->full_view(41, 'product');
+        
+        /*$shopController = new shopController;
+        $shopController->full_view(41, 'product');*/
     }
 
 

@@ -102,8 +102,9 @@ class Orders extends Eloquent  implements OrderInterface
 
 		$controller = new \home;
 		$order = $this;
-		$view  =	$controller->buildView('auth/order_detail', compact('order'));
+		$view  =	$controller->buildView('composed/invoice', compact('order'));
 		
+
 		$mpdf = new \Mpdf\Mpdf([
 			'margin_left' => 5,
 			'margin_right' => 5,
@@ -518,7 +519,7 @@ class Orders extends Eloquent  implements OrderInterface
 	{
 
 		$substr = substr(strval(time()), 7 );
-		$order_id = "NSW{$this->id}O{$substr}";
+		$order_id = "NSW{$this->id}SH{$this->user->id}";
 
 		return $order_id;
 	}

@@ -535,7 +535,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	{
 
 		$substr = substr(strval(time()), 7 );
-		$order_id = "NSW{$this->id}P{$substr}";
+		$order_id = "NSW{$this->id}P{$this->user->id}";
 
 		return $order_id;
 	}
