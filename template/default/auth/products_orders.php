@@ -63,7 +63,7 @@ include 'includes/header.php';?>
                                 Actions
                               </button>
                               <div class="dropdown-menu">
-                                <form id="payment_proof_form<?=$order->id;?>" action="<?=domain;?>/user/upload_payment_proof/<?=$order->id;?>" method="post" enctype="multipart/form-data">
+                                <form id="payment_proof_form<?=$order->id;?>" action="<?=domain;?>/user/upload_payment_proof/<?=$order->id;?>/product" method="post" enctype="multipart/form-data">
                                     <input 
                                     style="display: none" 
                                     type="file" 
@@ -79,6 +79,13 @@ include 'includes/header.php';?>
 
                                 <?php if(! $order->is_paid()) :?>
                                 
+
+
+                                   <a href="javascript:void;" class="dropdown-item"  onclick="document.getElementById('payment_proof_input<?= $order->id;?>').click()" >
+                                      Upload Proof
+                                  </a>
+
+
                                 <?=$order->payment_links();?> 
                                 
                                 <?php else:?>
@@ -89,6 +96,11 @@ include 'includes/header.php';?>
 
 
                                 <?php endif;?>                                             
+                                <?php if ($order->payment_proof != null) : ?>
+                                    <a class="dropdown-item" target="_blank"
+                                    href="<?= domain; ?>/<?= $order->payment_proof; ?>">See Proof</a>
+                                <?php endif; ?>
+
 
                                 
                               </div>

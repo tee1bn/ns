@@ -24,6 +24,7 @@ class Orders extends Eloquent  implements OrderInterface
 								'payment_method',
 								'payment_details',
 								'additional_note',
+								'payment_proof',
 								'buyer_order',
 								'status',
 								'paid_at',
@@ -46,6 +47,24 @@ class Orders extends Eloquent  implements OrderInterface
 
 
 
+
+	public function upload_payment_proof($file)
+	{
+
+		$directory 	= 'uploads/images/payment_proof';
+		$handle  	= new Upload($file);
+
+		if (explode('/', $handle->file_src_mime)[0] == 'image') {
+
+			$handle->Process($directory);
+	 		$original_file  = $directory.'/'.$handle->file_dst_name;
+
+			(new Upload($this->payment_proof))->clean();
+			$this->update(['payment_proof' => $original_file]);
+		}
+
+	}
+												
 
 	public function after_payment_url()
 	{

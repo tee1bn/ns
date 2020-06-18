@@ -98,7 +98,12 @@ $page_title = "$page_title";
                                  Open 
                             </a>
 
-                            
+                            <?php if ($order->payment_proof != null) : ?>
+                                <a class="dropdown-item" target="_blank"
+                                href="<?= domain; ?>/<?= $order->payment_proof; ?>">See Proof</a>
+                            <?php endif; ?>
+
+
                             
                           </div>
                         </div>

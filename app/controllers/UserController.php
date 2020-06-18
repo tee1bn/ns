@@ -827,14 +827,26 @@ class UserController extends controller
     }
 
 
-    public function upload_payment_proof()
+    public function upload_payment_proof($id=null, $type='packages')
     {
         $order_id = $_POST['order_id'];
-        $order = SubscriptionOrder::find($order_id);
+
+
+        $shop = new Shop;
+        $class = $shop->available_type_of_orders[$type]['class'];
+
+
+        $order = $class::find($order_id);
+
+        if ($order->is_paid()) {
+
+            Session::putFlash('danger', "#$order_id is already marked paid");
+            Redirect::back();
+        }
+
         $order->upload_payment_proof($_FILES['payment_proof']);
         Session::putFlash('success', "#$order_id Proof Uploaded Successfully!");
         Redirect::back();
-
     }
 
 
