@@ -16,7 +16,7 @@ include 'includes/header.php';
       <div class="content-header-right col-6">
               <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
                 <a class="btn btn-outline-dark" href="Javascript:void(0);">
-                      Bal: <?=$currency;?><?=MIS::money_format($balance);?>
+                      Balance: <?=$currency;?><?=MIS::money_format($balance);?>
               </a>
                 <a class="btn btn-outline-dark" href="Javascript:void(0);">
                       Sub Total: <?=$currency;?><?=MIS::money_format($records->sum('amount'));?>

@@ -250,6 +250,26 @@ $auth_user = $auth;
                                <td><?=isset($total_merchants[$date]) ? $total_merchants[$date]->count() : 0;?> </td>
                            <?php endforeach ;?>
                      </tr>
+
+
+                     <tr>
+                         <td>Direct sales partner new</td>
+                       <?php foreach ($dates as $key => $date):?>
+                           <td><?=$direct_sales_agent[$date]['total'] ?? 0;?> </td>
+                       <?php endforeach ;?>
+
+                       
+
+                     </tr>
+                     <tr>
+                         <td>Sales Partner total</td>
+                           <?php foreach ($dates as $key => $date):?>
+                               <td><?=$sales_agent[$date]['total'] ?? 0;?> </td>
+                           <?php endforeach ;?>
+                     </tr>
+
+
+
                  </tbody>
 
              </table>
@@ -264,7 +284,8 @@ $auth_user = $auth;
 
 
 <!-- //TOD dupliacte this table for merchants
- --><div class="col-md-12">
+ --><!-- 
+ <div class="col-md-12">
    <div class="card" >
        <div class="card-content">
            <div class="card-body ">
@@ -301,7 +322,7 @@ $auth_user = $auth;
 
 </div>
 
-</div>
+</div> -->
 
 
 </div>
