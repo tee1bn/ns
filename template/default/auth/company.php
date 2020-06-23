@@ -480,7 +480,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
                     <div class="card" style="overflow-y: scroll;max-height: 196px!important;">
                         <div class="card-content">
                             <div class="card-body">
-                                <h6 class="card-tile">Please download the following documents here:</h6>
+                                <h6 class="card-tile">Checklist for uploaded Documents</h6>
                                 <hr>
                                 <div class="row">
                                     <div class="col-md-12 ">
@@ -521,7 +521,7 @@ $approved_documents_keys = ($auth->approved_documents()->get()->pluck('document_
                     <p></p>
                     <p>or</p>
                     <button class="btn btn-block btn-outline-teal btn-lg"
-                            ng-click="$list.attempt_request_for_review();">Verify Lets Save
+                            ng-click="$list.attempt_request_for_review();">Release data verification
                     </button>
 
                 </div>

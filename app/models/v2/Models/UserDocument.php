@@ -36,10 +36,10 @@ class UserDocument extends Eloquent
                 'instruction'=> '',
             ],
 
-        3 => [
+      /*  3 => [
                 'name'=> 'Extract of the criminal record ',
                 'instruction'=> '',
-            ],
+            ],*/
 
      
     ];	 

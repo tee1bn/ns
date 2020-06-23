@@ -130,9 +130,10 @@
                     <?php endif ;?>
 
                   <?php include_once 'template/default/composed/auth_dropdown.php'; ;?>
+                  <!-- 
+                                      <li id="translator" class="nav-item" style="position: relative;top: 20px;"><div><?php //require 'template/default/app-assets/translator.php';?> </div></li>
 
-                    <li id="translator" class="nav-item" style="position: relative;top: 20px;"><div><?php require 'template/default/app-assets/translator.php';?> </div></li>
-
+                   -->
 
 
                 

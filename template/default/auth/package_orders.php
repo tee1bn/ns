@@ -1,5 +1,5 @@
 <?php
-$page_title = "Package Orders";
+$page_title = "My Invoices";
 include 'includes/header.php';; ?>
 
 
@@ -10,7 +10,7 @@ include 'includes/header.php';; ?>
             <div class="content-header-left col-md-6 col-12 mb-2">
                 <?php include 'includes/breadcrumb.php'; ?>
 
-                <h3 class="content-header-title mb-0">Package Orders</h3>
+                <h3 class="content-header-title mb-0">My Invoices</h3>
             </div>
 
             <!--  <div class="content-header-right col-md-6 col-12">
@@ -27,7 +27,7 @@ include 'includes/header.php';; ?>
         <section id="video-gallery" class="card">
             <div class="card-header">
 
-                <?php include_once 'template/default/composed/filters/subscription_orders.php';?>
+                <?php include_once 'template/default/composed/filters/auth_subscription_orders.php';?>
                 <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
                 <div class="heading-elements">
                    <small class="float-right">Showing <?=$subscription_orders->count();?> of <?=$data;?> </small>
@@ -44,8 +44,8 @@ include 'includes/header.php';; ?>
                         <tr>
                             <th>#Ref</th>
                             <th>OrderID</th>
-                            <th>Plan</th>
-                            <th>Cost(<?= $currency; ?>)</th>
+                            <th>Package</th>
+                            <th>Amount(<?= $currency; ?>)</th>
                             <th>Date</th>
                             <th>Status</th>
                             <th>Action</th>
@@ -66,10 +66,7 @@ include 'includes/header.php';; ?>
                                 <td><?= $order->paymentstatus; ?></td>
                                 <td>
                                     <div class="dropdown">
-                                        <a href="javascript:void;" class="dropdown-toggle" data-toggle="dropdown">
-                                            <i class="fa fa-circle"></i>
-                                            <i class="fa fa-circle"></i>
-                                            <i class="fa fa-circle"></i>
+                                        <a href="javascript:void;" class="btn btn-sm btn-outline-dark dropdown-toggle" data-toggle="dropdown">
                                         </a>
                                         <div class="dropdown-menu">
 

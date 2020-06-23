@@ -111,7 +111,7 @@ include 'includes/header.php'; ?>
                                         <tr>
                                             <td style="width: 5%;">Sn</td>
                                             <td>Partner ID</td>
-                                            <td>Surname</td>
+                                            <td>Name</td>
                                             <td>Level</td>
                                             <td>E-mail</td>
                                             <td>Phone</td>
@@ -151,10 +151,9 @@ include 'includes/header.php'; ?>
                                         <tr>
                                             <td></td>
                                             <td colspan="7"><b>Total</b></td>
-                                            <td><?= $no->sum('no_of_direct_lines'); ?></td>
-                                            <td><?=array_sum($own_merchant_count ?? []) ;?></td>
-                                            <td><?= (collect($status_count)->countBy()->toArray()[1] ?? 0); ?>
-                                                /<?= count($status_count); ?></td>
+                                            <td><?= $no->sum('no_of_direct_lines'); ?>/active</td>
+                                            <td><?=array_sum($own_merchant_count ?? []) ;?>/active</td>
+                                            <td><?= count($status_count); ?>/<?= (collect($status_count)->countBy()->toArray()[1] ?? 0); ?></td>
                                         </tr>
                                         </tbody>
 

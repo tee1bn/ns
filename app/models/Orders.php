@@ -243,7 +243,8 @@ class Orders extends Eloquent  implements OrderInterface
 	public function getTransactionIDAttribute()
 	{
 		$payment_details = json_decode($this->payment_details,true);
-		$method = "{$payment_details['ref']}<br><span class='badge badge-sm badge-primary'>{$payment_details['gateway']}</span>";
+		$gateway = str_replace("coinpay", "coinwaypay", $payment_details['gateway']);
+		$method = "{$payment_details['ref']}<br><span class='badge badge-sm badge-primary'>{$gateway}</span>";
 					
 		return $method;
 	}

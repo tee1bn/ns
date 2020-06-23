@@ -563,6 +563,10 @@ class UserController extends controller
         // Redirect::back();
     }
 
+    public function my_invoices()
+    {
+        $this->package_orders();
+    }
 
     public function package_orders()
     {

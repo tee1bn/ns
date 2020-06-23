@@ -44,8 +44,8 @@ class Company extends Eloquent
 
 
 	public static $legal_forms = [ 
-								'ltd' =>	'Limited Liability',
-								'sole_proprietorship'	=>	'Personal Business'
+								'ltd' =>	'Legal person (GmbH, KG, AG)',
+								'sole_proprietorship'	=>	'Natural person (One man business)'
 							];
 
 

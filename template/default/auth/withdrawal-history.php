@@ -27,7 +27,7 @@ include 'includes/header.php';
 
           <section id="video-gallery" class="card">
             <div class="card-header">
-              <?php include_once 'template/default/composed/filters/withdrawals.php';?>
+              <?php include_once 'template/default/composed/filters/auth_withdrawals.php';?>
               <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
               <div class="heading-elements">
                 <ul class="list-inline mb-0">

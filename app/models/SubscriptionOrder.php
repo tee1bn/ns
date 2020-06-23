@@ -243,7 +243,9 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	{
 
 		$payment_details = json_decode($this->payment_details,true);
-		$method = "{$payment_details['ref']}<br><span class='badge badge-primary'>{$payment_details['gateway']}</span>";
+		$gateway = str_replace("coinpay", "coinwaypay", $payment_details['gateway']);
+
+		$method = "{$payment_details['ref']}<br><span class='badge badge-primary'>{$gateway}</span>";
 					
 		return $method;
 	}

@@ -53,7 +53,7 @@ class Shop
 				'available' => $payments_settings['paypal_keys']->settingsArray['mode']['available']
 			],
 			'coinpay' => [
-				'name' => 'CoinPay',
+				'name' => 'CoinwayPay',
 				'class' => 'CoinPay',
 				'namespace' => "v2\Shop\Payments",
 				'available' => $payments_settings['coinpay_keys']->settingsArray['mode']['available']

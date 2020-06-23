@@ -110,7 +110,7 @@ $page_title = "Merchant Packages";
                                             <tr>
                                                 <td></td>
                                                 <td>Merchant ID</td>
-                                                <td>Companies</td>
+                                                <td>Company name</td>
                                                 <td>Level</td>
                                                 <td>Package</td>
                                                 <td>Phone</td>

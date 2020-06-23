@@ -46,8 +46,8 @@ $page_title = "Package Orders";
                             <tr>
                               <th>#Ref</th>
                               <th>User</th>
-                              <th>Plan</th>
-                              <th>Price(<?=$currency;?>)</th>
+                              <th>Package</th>
+                              <th>Amount(<?=$currency;?>)</th>
                               <th>Date</th>
                               <th>Status</th>
                               <th>Action</th>

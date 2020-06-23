@@ -686,14 +686,15 @@ ELL;
             // $query = self::query();
                $identifier = "/$this->mlm_id";
                $mlm_id = $this->mlm_id;
-                $query = self::where($user_column, 'like', "%$identifier%")
-                ->orWhereRaw("(mlm_id = '$mlm_id' OR mlm_id = '$mlm_id')");
+                $query = self::WhereRaw("(mlm_id = '$mlm_id' OR $user_column like '%$identifier%')")
+                ;
 
           }else{
                $identifier = "/$this->mlm_id";
                 $query = self::where($user_column, 'like', "%$identifier%");
 
           }
+
 
         return $query;
     }

@@ -128,6 +128,13 @@ include 'includes/header.php';; ?>
                                                     <?php endforeach; ?>
                                                 </select>
                                             </div>
+                                            <div class="form-group">
+                                                <label>
+                                                    <input type="checkbox" name="" required="">
+                                                    Accept the terms of Invite Solution Ltd.
+                                                </label>
+                                            </div>
+
                                             <input type="hidden" name="subscription_id"
                                                    value="<?= $subscription->id; ?>">
 
@@ -149,7 +156,7 @@ include 'includes/header.php';; ?>
                                     <?php if ($subscription['id'] == 1): ?>
                                     <div class="text-center">
                                         <label>
-                                            <input type="checkbox" name="">Tip encoder for merchant connection
+                                            Tipster for merchant connection
                                         </label>
                                     </div>
                                     <?php endif; ?>

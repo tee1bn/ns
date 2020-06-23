@@ -101,7 +101,7 @@
             
                   <li><a class="menu-item" href="<?=domain;?>/user/partner-packages">Partner Packages</a>
                   <!-- <li><a class="menu-item" href="<?=domain;?>/user/vp-packages">VP Packages</a> -->
-                  <li><a class="menu-item" href="<?=domain;?>/user/package-orders">Orders</a>
+                  <li><a class="menu-item" href="<?=domain;?>/user/my-invoices">My Invoices</a>
                   </li>
                 </ul>
              </li> 
@@ -110,7 +110,7 @@
 
               <li class=" nav-item"><a href="#"><i class="ft-users"></i><span class="menu-title" data-i18n="">My Team</span></a>
               <ul class="menu-content">
-                  <li><a class="menu-item" href="<?=domain;?>/genealogy/team">Team</a>
+                  <li><a class="menu-item" href="<?=domain;?>/genealogy/team">Team Overview</a>
                   <!-- <li><a class="menu-item" href="<?=domain;?>/genealogy/placement_list"> List</a> -->
             
                   <li><a class="menu-item" href="<?=domain;?>/genealogy/team_tree">Team Tree</a>

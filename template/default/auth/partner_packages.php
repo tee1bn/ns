@@ -108,12 +108,12 @@ include 'includes/header.php'; ?>
                                         <tr>
                                             <td></td>
                                             <td>Sales partner ID</td>
-                                            <td>Surname</td>
+                                            <td>Name</td>
                                             <td>Level</td>
                                             <td>Package</td>
                                             <td>First order</td>
                                             <td>Status</td>
-                                            <td>Bill</td>
+                                            <!-- <td>Bill</td> -->
                                         </tr>
                                         <tbody>
                                         <?php $i = 1;
@@ -131,12 +131,10 @@ include 'includes/header.php'; ?>
                                                 <td><?= $package->payment_plan->package_type; ?></td>
                                                 <td><?= (isset($package->paid_at)) ? date('d/m/Y', strtotime($package->paid_at)) : 'Nil'; ?></td>
                                                 <td><?=$downline->MembershipStatusDisplay['fa2'] ?? "<i class='ft-x text-danger'></i>";?></td>
-                                                <td>
+<!--                                                 <td>
                                                     <?=$contact['invoice'];?>
-                                                  
-
                                                 </td>
-                                            </tr>
+ -->                                            </tr>
                                             <?php $i++; endforeach; ?>
 
                                         </tbody>
