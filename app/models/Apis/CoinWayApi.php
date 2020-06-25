@@ -15,6 +15,7 @@ class CoinWayApi
 	public $per_page = 100;
 	public $response = [];
 	public $total_no ;
+	public $param ;
 
 
 	public function __construct()
@@ -85,6 +86,8 @@ class CoinWayApi
 			'to' 	=> $this->period['end_date'],
 		];
 
+		$this->param = $param_array;
+
 		$query_string = http_build_query($param_array);
 
 		$url = "{$this->url}?$query_string";
@@ -107,10 +110,10 @@ class CoinWayApi
 			$this->response = $response['value'];
 		}
 
-
-		if ($paginate) {
+		if ($paginate == false) {
 
 			return $this;
+
 		}else{
 
 			if ($get_meta_data == true) {
@@ -128,19 +131,28 @@ class CoinWayApi
 
 
 
-
 		$pages = ceil($this->total_no  /$this->per_page);
 
 		for ($i=1; $i <= $pages ; $i++) { 
 			$skip = ($this->per_page * ($i-1));
 
 
-			$query_string = http_build_query([
-				'from' 	=> $this->period['start_date'],
-				'to' 	=> $this->period['end_date'],
-				'$top' 	=> $this->per_page,
-				'$skip' => $skip
-			]);
+			$loop_query_param = [
+					'from' 	=> $this->period['start_date'] ?? null,
+					'to' 	=> $this->period['end_date'] ?? null,
+					'$top' 	=> $this->per_page,
+					'$skip' => $skip
+				];
+
+
+
+			$filtered_query_param = array_filter(array_merge($this->param, $loop_query_param));
+
+			$query_string = http_build_query($filtered_query_param);
+
+		
+
+		$url = "{$this->url}?$query_string";
 
 
 		$response = json_decode( MIS::make_get($url, $this->header) , true);
@@ -157,6 +169,7 @@ class CoinWayApi
 
 			}else{
 
+				$response = array_merge($this->response, $response['value']);
 				$this->response = $response;
 			}
 

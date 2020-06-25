@@ -165,10 +165,25 @@ class UserController extends controller
 
 
         $records = collect($response['values'])->countBy('licenseName')->toArray();
+
+        $all_licenses = [
+            'basic',
+            'premium',
+            'pro',
+            'alt',
+        ];
         
+
+        foreach ($all_licenses as $licenseName => $value) {
+             $license_key = strtoupper($value);
+            if (! array_key_exists($license_key, $records)) {
+                $records[$license_key] = 0;
+            }
+        }
 
         $collection = collect($response['values']);
         // print_r($collection);
+
 
         $sieve = $_REQUEST;
         $filter = new MerchantFilter($sieve);
@@ -176,7 +191,6 @@ class UserController extends controller
 
         $note = MIS::filter_note($result->count(), count($response['values']), ($response['meta']['total']),  $sieve, 1);
        
-
         $this->view('auth/merchant_packages', compact('records','result', 'page', 'response', 'sieve','note','per_page'));
     }
 

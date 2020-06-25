@@ -249,9 +249,9 @@ trait Wallet
 				}, $category);
 
 			$clause = implode(" OR ", $up);
-			// $clause = "($clause)";
-			return $query->whereRaw($clause);
+			return $query->whereRaw("($clause)");
 		}
+
 
 		return $query->where('earning_category', $category);
 	}

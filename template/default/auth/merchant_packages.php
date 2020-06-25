@@ -118,7 +118,13 @@ $page_title = "Merchant Packages";
                                                 <td>Status</td>
                                             </tr>
                                             <tbody>
-                                              <?php $i=1; foreach ($result as $key => $merchant) :?>
+                                              <?php $i=1; foreach ($result as $key => $merchant) :
+
+                                                $status = in_array(strtolower($merchant['setupFeeState']), ['paid', 'active'])? 
+                                                  '<span class="ft-check text-success fa-2x"></span>' :
+                                                  '<span class="ft-x text-danger fa-2x"></span>' ;
+
+                                              ?>
                                                 <tr>
                                                     <td><?=$i++;?></td>
                                                     <td><?=$merchant['id'];?></td>
@@ -127,7 +133,7 @@ $page_title = "Merchant Packages";
                                                     <td><?=$merchant['licenseName'];?></td>
                                                     <td><?=$merchant['phone'];?></td>
                                                     <td><?=date("d/m/Y", strtotime($merchant['createdAt']));?></td>
-                                                    <td><?=$merchant['setupFeeState'];?></td>
+                                                    <td><?=$status;?></td>
                                                 </tr>
                                               <?php endforeach  ;?>
                                             </tbody>
