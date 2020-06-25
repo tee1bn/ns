@@ -111,7 +111,6 @@ $page_title = "Merchant Packages";
                                                 <td></td>
                                                 <td>Merchant ID</td>
                                                 <td>Company name</td>
-                                                <td>Level</td>
                                                 <td>Package</td>
                                                 <td>Phone</td>
                                                 <td>Order date</td>
@@ -129,7 +128,6 @@ $page_title = "Merchant Packages";
                                                     <td><?=$i++;?></td>
                                                     <td><?=$merchant['id'];?></td>
                                                     <td><?=$merchant['name'];?></td>
-                                                    <td>2</td>
                                                     <td><?=$merchant['licenseName'];?></td>
                                                     <td><?=$merchant['phone'];?></td>
                                                     <td><?=date("d/m/Y", strtotime($merchant['createdAt']));?></td>
