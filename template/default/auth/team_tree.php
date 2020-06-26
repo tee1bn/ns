@@ -255,7 +255,7 @@ $auth_user = $auth;
                      <tr>
                          <td>Direct sales partner new</td>
                        <?php foreach ($dates as $key => $date):?>
-                           <td><?=$direct_sales_agent[$date]['total'] ?? 0;?> </td>
+                           <td><?=$direct_sales_agent[$date]['total'] ?? 0;?>/<?=$direct_sales_agent_and_active[$date]['total']??0;?> </td>
                        <?php endforeach ;?>
 
                        
@@ -330,6 +330,18 @@ $auth_user = $auth;
 
 <div class="row match-height"> 
 
+  <?php
+
+     $isp_silver = $auth->isp_silver(10);
+     $silber2 = $auth->isp_silver2();
+     $gold_tab = $auth->isp_gold();
+
+
+
+
+
+  ;?>
+
 <div class=" col-md-6">
    <div class="card" style="">
        <div class="card-content">
@@ -350,7 +362,7 @@ $auth_user = $auth;
                                       Number NSW Silver-Coins Incenvite: 
                                   </span>
                                   <span class="col-6">
-                                   02/4  with payout entitlement
+                                   <?=$isp_silver['fa'];?>  <!-- with payout entitlement -->
                                </span>
                            </div>
 
@@ -365,7 +377,7 @@ $auth_user = $auth;
                                   Number NSW Silver -Coins: 
                               </span>
                               <span class="col-6">
-                               02/4  with payout entitlement
+                                <?=$silber2['direct_sales_partner_required'];?>/<?=$silber2['direct_sales_partner_count'];?>  with payout entitlement
                            </span>
                        </div>
 
@@ -379,7 +391,7 @@ $auth_user = $auth;
                               Number NSW Gold-Coins: 
                           </span>
                           <span class="col-6">
-                           02/4  with payout entitlement
+                              <?=$gold_tab['direct_sales_partner_required'];?>/<?=$gold_tab['direct_sales_partner_count'];?>  with payout entitlement
                        </span>
                    </div>
 
@@ -405,7 +417,7 @@ $auth_user = $auth;
    <div class="card" style="">
        <div class="card-content">
            <div class="card-body">
-               <h4 class="card-tile border-0"><?=$auth_user->fullname;?>,ID:<?=$auth_user->id;?></h4>
+               <h4 class="card-tile border-0"><?=$auth_user->fullname;?>, ID:<?=$auth_user->id;?></h4>
                <hr>
                <div class="row">
 

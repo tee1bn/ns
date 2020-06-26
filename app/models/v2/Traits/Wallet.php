@@ -600,6 +600,12 @@ trait Wallet
 
 			if ($earning_category!=null) {
 				$book_balance = self::bookBalanceOnUser($user_id, $earning_category);
+
+				$amount = round($amount, 2);
+				$book_balance = round($book_balance, 2);
+
+
+				
 				if ($amount > $book_balance) {
 					Session::putFlash("danger", "Insufficient Balance: $book_balance <code>$earning_category</code>");
 					return false;

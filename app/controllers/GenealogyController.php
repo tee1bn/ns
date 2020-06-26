@@ -760,8 +760,11 @@ ELM;
         $direct_sales_agent = $auth->all_downlines_by_path()
         ->where('referred_by', $auth->mlm_id)
         ->select(DB::raw('concat(year(created_at),"-", month(created_at) )AS year_month_date_field'), DB::raw('count(*) as total'))
-        ->groupBy('year_month_date_field')->get()->keyBy('year_month_date_field');
+        ->groupBy('year_month_date_field')
+        ->get()->keyBy('year_month_date_field')
         ;
+
+
 
         $sales_agent = $auth->all_downlines_by_path()
         ->select(DB::raw('concat(year(created_at),"-", month(created_at) )AS year_month_date_field'), DB::raw('count(*) as total'))
@@ -770,12 +773,35 @@ ELM;
 
         krsort($dates);
 
+        //to get active users
+        $today = date("Y-m-d");
+        $active_subscriptions = SubscriptionOrder::Paid()->whereDate('expires_at','>' , $today);
+
+        $direct_sales_agent_for_active_users = $auth->all_downlines_by_path()
+                                        ->where('referred_by', $auth->mlm_id)
+                                        ->select(DB::raw('concat(year(created_at),"-", month(created_at) )AS year_month_date_field'), DB::raw('count(*) as total'))
+                                        ->groupBy('year_month_date_field');
+
+        $direct_sales_agent_and_active = $direct_sales_agent_for_active_users
+                ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
+                    $join->on('users.id', '=', 'active_subscriptions.user_id');
+                })
+                ->select(DB::raw('concat(year(users.created_at),"-", month(users.created_at) )AS year_month_date_field'), DB::raw('count(*) as total'))
+                      ->groupBy('year_month_date_field')->get()->keyBy('year_month_date_field')
+
+                ; 
 
 
    
         $tree_key = 'placement';
 
-        $this->view('auth/team_tree', compact('user_id','own_merchants', 'total_merchants' ,'direct_sales_agent', 'sales_agent','dates','tree_key'));
+        $this->view('auth/team_tree', compact('user_id',
+                                            'own_merchants',
+                                            'total_merchants',
+                                            'direct_sales_agent_and_active',
+                                            'direct_sales_agent',
+                                            'sales_agent',
+                                            'dates','tree_key'));
 
     }
 

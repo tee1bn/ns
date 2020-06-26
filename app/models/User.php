@@ -323,7 +323,7 @@ ELL;
 
 
 
-    //for dashboard
+    //for dashboard each 6 months subscription for silver coins
     public function isp_silver($plan_id)
     {
 
