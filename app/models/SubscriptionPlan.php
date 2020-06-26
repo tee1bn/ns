@@ -79,17 +79,13 @@ class SubscriptionPlan extends Eloquent
 
   public static $not_accessible_menu = [
 
-      1=> [ 2,3,6,8],
-      9=> [6],
+      1=> [8,9,10,13,15],
+      9=> [13],
       10=> []
 
   ];
 
-	/*	2 => 'user/merchant-packages',
-		3 => 'user/partner-packages',
-		6 => 'genealogy/team_tree',
-		8 => 'user/invite-pro',
-*/
+
   public static $user_side_menus = [
 	    1 => 'user/package',
 		2 => 'user/merchant-packages',

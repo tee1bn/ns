@@ -310,8 +310,10 @@
         </li>          
 
 
-        <?php foreach ($main_menu as  $menu):
-          if ($menu['show'] == false) {
+        <?php
+          $package_id = $auth->subscription->payment_plan->id;
+         foreach ($main_menu as  $menu):
+          if (($menu['show'] == false) || (in_array($menu['index'], SubscriptionPlan::$not_accessible_menu[$package_id]))) {
             continue;
           }
           ?>
@@ -322,6 +324,9 @@
               <ul class="sub-menu">
 
                 <?php foreach ($menu['submenu'] as  $submenu):
+                  if (($submenu['show'] == false) || (in_array($submenu['index'], SubscriptionPlan::$not_accessible_menu[$package_id]))) {
+                    continue;
+                  }
 
                   ?>
 
@@ -352,7 +357,14 @@
                     </ul>
                   </li>
 
-                  <?php else:?>
+                  <?php else:
+                    if (($submenu['show'] == false) || (in_array($submenu['index'], SubscriptionPlan::$not_accessible_menu[$package_id]))) {
+                      continue ;
+                    }
+
+
+
+                    ?>
 
 
 

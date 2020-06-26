@@ -111,7 +111,7 @@ echo "<pre>";
 		if(/*Input::exists("user_login")  */ true){
 // 			print_r(Input::all());
 
-		 	// MIS::verify_google_captcha();
+		 	MIS::verify_google_captcha();
 
 
 		 	parse_str($_SERVER['HTTP_REFERER'], $referral_url );
