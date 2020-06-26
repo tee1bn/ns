@@ -68,11 +68,59 @@ class SubscriptionPlan extends Eloquent
 
 		];
 
+		
+
 		public static $colors = [
 						1 => '#404E67',
 						9 => '#d4d4d4',
 						10 => '#f0d355'
 					];
+		
+
+  public static $not_accessible_menu = [
+
+      1=> [ 2,3,6,8],
+      9=> [6],
+      10=> []
+
+  ];
+
+	/*	2 => 'user/merchant-packages',
+		3 => 'user/partner-packages',
+		6 => 'genealogy/team_tree',
+		8 => 'user/invite-pro',
+*/
+  public static $user_side_menus = [
+	    1 => 'user/package',
+		2 => 'user/merchant-packages',
+		3 => 'user/partner-packages',
+		4 => 'user/my-invoices',
+		5 => 'genealogy/team',
+		6 => 'genealogy/team_tree',
+		7 => 'user/commissions',
+		8 => 'user/invite-pro',
+		9 => 'user/events-and-webinar',
+		10 => 'user/media',
+		11 => 'user/online-shop',
+		
+
+	  ];
+
+
+	 public static function get_accessible_menus($sub_id)
+	 {
+	 	$user_side_menus = self::$user_side_menus;
+	 	$all_menu_keys = array_keys($user_side_menus);
+
+	 	$not_accessible_menu = self::$not_accessible_menu[$sub_id];
+
+	 	$accessible_menu = array_diff($all_menu_keys, $not_accessible_menu);
+
+	 	return compact('accessible_menu', 'not_accessible_menu', 'all_menu_keys','user_side_menus');
+
+	 }
+
+
 
 	public function getImageAttribute()
 	{

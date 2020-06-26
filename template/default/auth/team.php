@@ -151,8 +151,8 @@ include 'includes/header.php'; ?>
                                         <tr>
                                             <td></td>
                                             <td colspan="7"><b>Total</b></td>
-                                            <td><?= $no->sum('no_of_direct_lines'); ?>/active</td>
-                                            <td><?=array_sum($own_merchant_count ?? []) ;?>/active</td>
+                                            <td><?= $no->sum('no_of_direct_lines'); ?></td>
+                                            <td><?=array_sum($own_merchant_count ?? []) ;?></td>
                                             <td><?= count($status_count); ?>/<?= (collect($status_count)->countBy()->toArray()[1] ?? 0); ?></td>
                                         </tr>
                                         </tbody>
