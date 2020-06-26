@@ -374,6 +374,7 @@ class UserController extends controller
     }
 
 
+
     public function download_request($item_id = null, $order_id = null)
     {
 
@@ -626,11 +627,19 @@ class UserController extends controller
 
     public function media()
     {
-        $documents = Document::get()->groupBy('category')->toArray();
-
-
+        $documents = Document::NotByCategory('downloads')->get()->groupBy('category')->toArray();
         $this->view('auth/media', compact('documents'));
     }
+
+
+    public function downloads()
+    {
+        $documents = Document::ByCategory('downloads')->get()->groupBy('category')->toArray();
+
+
+        $this->view('auth/downloads', compact('documents'));
+    }
+
 
 
     public function make_withdrawal_request()

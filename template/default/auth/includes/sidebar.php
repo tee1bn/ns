@@ -172,6 +172,7 @@
 
 
             <li><a class="menu-item" href="<?=domain;?>/user/broadcast"> <i class="fa fa-file-text-o"></i> News</a></li>
+            <li><a class="menu-item" href="<?=domain;?>/user/downloads"> <i class="fa fa-folder-o"></i> Downloads</a></li>
 
             <li><a class="menu-item" href="<?=domain;?>/login/logout"> <i class="ft-power"></i> Log Out</a></li>
 

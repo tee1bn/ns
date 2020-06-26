@@ -29,7 +29,16 @@ class Document extends Eloquent
 
 
 	
+	public function scopeByCategory($query, $category)
+	{
+		return $query->where('category', $category);
+	}
 
+	
+	public function scopeNotByCategory($query, $category)
+	{
+		return $query->where('category','!=', $category);
+	}
 
 
 
