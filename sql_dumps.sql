@@ -1,6 +1,7 @@
 
+ALTER TABLE `wallet_for_commissions` CHANGE `earning_category` `earning_category` ENUM('bonus','package','disagio','gold','silber','license','setup_fee') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
 
-
+ALTER TABLE `settlement_tracker` ADD `setup_fee_commission_distributed_at` DATETIME NULL AFTER `setup_fee`;
 
 -- for isp compensation and new design --starts
 -- update subscitpionplans table

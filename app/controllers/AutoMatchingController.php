@@ -69,6 +69,45 @@ class AutoMatchingController extends controller
 
 
 
+	public function distribute_setup_fee_commissions($month=null)
+	{
+
+		if ($month==null) {
+			$this->get_period();
+		}else{
+
+			$payment_month = $month;
+
+			$payment_date_range = MIS::date_range($payment_month, 'month', true);
+			$this->period =  compact('payment_month', 'payment_date_range');
+
+		}
+
+		echo "<pre>";
+		print_r($this->period);
+
+		//check
+		
+		$unpaid = SettlementTracker::where('setup_fee_commission_distributed_at', null)->where('setup_fee','!=', null);
+		$users = User::query();
+
+		$unpaid_users = $unpaid->joinSub($users, 'users', function($join){
+			$join->on('users.id', '=', 'settlement_tracker.user_id');
+		})->take(100)->get();
+
+
+
+		foreach ($unpaid_users as $key => $settlement) {
+
+				$settlement->give_setup_fee_commission();
+		}
+
+		
+
+
+
+	}
+
 
 	public function auth_cron()
 	{
@@ -159,6 +198,7 @@ class AutoMatchingController extends controller
 		return $date;
 
 	}
+
 
 
 	public function get_period()
