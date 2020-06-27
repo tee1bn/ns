@@ -120,8 +120,8 @@ include 'includes/auth_header.php';?>
 											<input type="checkbox" name="terms" value="1" class="" required>
 											 <span style="text-decoration: none !important; color: #00008b !important;"><a
 	                                                href="https://newsalesway.com/agbs" target="_blank" >
-											 Eine Registrierung ist lediglich für juristische Personen oder natürliche Personen, welche das 18. Lebensjahr vollendet haben und Unternehmer sind, zulässig.
-
+										
+													Eine Registrierung ist lediglich für juristische Personen oder natürliche Personen, (Unternehmer) welche das 18. Lebensjahr vollendet haben und Unternehmer sind, zulässig.
 	                                                </a></span>
 										</label>
 										  <br>

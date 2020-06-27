@@ -57,11 +57,13 @@ class Document extends Eloquent
 		$i = 0;
 
 
-		
+	
+
 		DB::beginTransaction();
 
 		try {
 
+			$allowed = ['application/pdf' ,'application/pptx'];
 			foreach ($files as $label => $file) {
 
 				$handle = new Upload ($file);
@@ -69,8 +71,10 @@ class Document extends Eloquent
 
 
 					$file_type = explode('/', $handle->file_src_mime)[0];
+					$handle->file_src_mime;
 
-		                if (($handle->file_src_mime == 'application/pdf' ) ||($file_type == 'image' ) ) {
+
+		                if (in_array($handle->file_src_mime, $allowed) ||($file_type == 'image' ) ) {
 
 							$handle->file_new_name_body = "$label";
 
@@ -83,9 +87,10 @@ class Document extends Eloquent
 
 								
 		                }else{
+		                	$allowed_ext = implode($allowed, ', ');
 
-							Session::putFlash("danger","only .pdf format allowed");
-		                	throw new \Exception("Only Pdf is allowed ", 1);
+							Session::putFlash("danger","only $allowed_ext format allowed");
+		                	throw new \Exception("Only $allowed_ext is allowed ", 1);
 		                	
 		                }
 		                $i++;
@@ -107,7 +112,7 @@ class Document extends Eloquent
 
 			DB::commit();
 			Session::putFlash("success","Documents Uploaded Successfully");
-		} catch (Exception $e) {
+		} catch (\Exception $e) {
 			DB::rollback();
 			Session::putFlash("danger","Documents Uploaded Failed.");
 			

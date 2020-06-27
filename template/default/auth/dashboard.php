@@ -154,7 +154,8 @@ $next_month_start = date("M 01, Y H:i:s", strtotime("+1 month"));
 
           <div class="row">
             <div class="col-md-12">
-              <a href="javascript:void(0);" class="btn btn-block  btn-outline-dark"> <span class="badge badge-dark ft-clock"> </span>
+              <span>Time to end of the current production month</span>
+                <a href="javascript:void(0);" class="btn btn-block  btn-outline-dark"> <span class="badge badge-dark ft-clock"> </span>
                <span id="demo_">8:9:0</span>  </a>
             </div>
           </div>
@@ -459,7 +460,7 @@ $next_month_start = date("M 01, Y H:i:s", strtotime("+1 month"));
                                       <div class="card" style="">
                                         <div class="card-content">
                                           <div class="card-body">
-                                            <h4 class="card-tile border-0">Note: Clain for ISP</h4>
+                                            <h4 class="card-tile border-0">Note: Claim for ISP</h4>
                                             <hr>
                                             <p class="card-text">
                                              <?=CMS::fetch('isp_dashboard_note');?>
