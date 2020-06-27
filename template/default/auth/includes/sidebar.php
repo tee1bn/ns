@@ -69,7 +69,7 @@
       [
         'menu' => '<i class="fa fa-list"></i> Transactions',
         'link' =>  '#',
-        'show'=> true,
+        'show'=> false,
         'index'=> 3,
         'submenu' => [
 
