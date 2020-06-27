@@ -153,7 +153,7 @@ $next_month_start = date("M 01, Y H:i:s", strtotime("+1 month"));
 
 
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 text-center">
               <span>Time to end of the current production month</span>
                 <a href="javascript:void(0);" class="btn btn-block  btn-outline-dark"> <span class="badge badge-dark ft-clock"> </span>
                <span id="demo_">8:9:0</span>  </a>
@@ -396,7 +396,7 @@ $next_month_start = date("M 01, Y H:i:s", strtotime("+1 month"));
                               Own merchant connections:
                             </span>
                             <span class="col-4">
-                              <?=$gold_tab['own_merchants'];?>/0
+                              5/<?=$gold_tab['own_merchants'];?>
                             </span>
                                                     <!-- <span class=" col-2">
                                                         <span class=" float-right">
