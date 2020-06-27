@@ -114,16 +114,20 @@ include 'includes/auth_header.php';?>
 
 							<div class="row">
 									
-								<fieldset class="form-group col-md-6 position-relative has-icon-left">
+								<fieldset class="form-group col-md-12 position-relative has-icon-left">
 										<label>
 											
-											<input type="checkbox" name="terms" value="1" class="" required> I accept the <span
-	                                            style="text-decoration: underline !important; color: #00008b !important;"><a
-	                                                href="#">Terms</a></span>
+											<input type="checkbox" name="terms" value="1" class="" required>
+											 <span style="text-decoration: none !important; color: #00008b !important;"><a
+	                                                href="https://newsalesway.com/agbs" target="_blank" >
+											 Eine Registrierung ist lediglich für juristische Personen oder natürliche Personen, welche das 18. Lebensjahr vollendet haben und Unternehmer sind, zulässig.
+
+	                                                </a></span>
 										</label>
-										 and <br>
+										  <br>
 										<label>
-											<input type="checkbox" name="other" value="1" class="" required> I confirm that I am an entrepreneur <span style="text-decoration: underline !important; color: #00008b !important;">
+											<input type="checkbox" name="other" value="1" class="" required> 
+											<a href="https://newsalesway.com/datenschutz" target="_blank">Ich akzeptiere die AGB und Datenschutzverordnung </a><span style="text-decoration: none !important; color: #00008b !important;">
 										</label>
 								</fieldset>
 
