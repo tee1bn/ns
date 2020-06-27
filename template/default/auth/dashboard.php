@@ -471,7 +471,11 @@ $next_month_start = date("M 01, Y H:i:s", strtotime("+1 month"));
                                    </div>
 
                                    <div class="col-md-12">
-                                    <a href="javascript:void(0);" class="btn btn-block  btn-success ">MY COMMISSIONS</a>
+                                    <?php if ($auth->commission_eligibility()) :?>
+                                      <a href="javascript:void(0);" class="btn btn-block  btn-success ">Yes</a>
+                                    <?php else :?>
+                                      <a href="javascript:void(0);" class="btn btn-block  btn-danger ">No</a>
+                                    <?php endif ;?>
                                   </div>
 
 

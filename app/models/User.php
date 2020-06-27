@@ -950,7 +950,7 @@ ELL;
         $production_month = $month ?? date("Y-m-01");
 
         $date_range = MIS::date_range($production_month, 'month', true);
-        
+
 
 
         $setting = SiteSettings::find_criteria('rules_settings')->settingsArray;
@@ -979,9 +979,12 @@ ELL;
 
 
         //get total orders from own merchants
-            
-
         
+        
+
+        return false;
+
+
     }
 
 
