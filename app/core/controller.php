@@ -274,11 +274,11 @@ if ($response == true) {
 
 
 				//for maintenance
-			if (! $this->admin()) {
+		/*	if (! $this->admin()) {
 				Session::putFlash("info","System is undergoing maintenance. kindly check back");
 				return false;
 			}
-			
+			*/
 
 
 
