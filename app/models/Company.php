@@ -36,10 +36,10 @@ class Company extends Eloquent
 
 
 	public  $compulsory = [ 
-						'name',
-						'office_email',
-						'documents'
-							];
+							'name',
+							'office_email',
+							'documents'
+						];
 
 
 

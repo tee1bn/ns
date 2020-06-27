@@ -92,9 +92,6 @@ class User extends Eloquent
         'office_email',
         'office_phone',
         'iban_number',
-        'rc_number',
-        'documents',
-        // 'logo'
     ];
 
     public static $max_level = 4;
