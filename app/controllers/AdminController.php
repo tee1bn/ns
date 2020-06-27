@@ -268,7 +268,7 @@ class AdminController extends controller
 			Redirect::back();
 		}
 
-		$order->invoice();
+		$order->getInvoice();
 
 		
 	}
@@ -1406,7 +1406,7 @@ EOL;
 	{	
 
 				$sieve = $_REQUEST;
-				$query = SubscriptionOrder::where('id', '!=', null);
+				$query = SubscriptionOrder::where('id', '!=', null)->latest();
 				$sieve = array_merge($sieve);
 				
 				$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
