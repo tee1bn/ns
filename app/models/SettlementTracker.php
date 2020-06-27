@@ -65,10 +65,19 @@ class SettlementTracker extends Eloquent
 					$comment = "{$month} Set up fee Self Bonus $percent% of set up fee";
 				}
 
-							// ensure  upliner is qualified for commission
+				// ensure  upliner is qualified for commission
 				if (! $upline->is_qualified_for_commission($level)) {
 					continue;
 				}
+
+
+				//ensure comission eligibility
+				
+				if (! $upline->commission_eligibility($this->period)) {
+					continue;
+				}
+
+
 
 				//continue if amount is 0
 				if ($amount_earned == 0) {continue;}
@@ -164,6 +173,10 @@ class SettlementTracker extends Eloquent
 
 							// ensure  upliner is qualified for commission
 				if (! $upline->is_qualified_for_commission($level)) {
+					continue;
+				}
+				
+				if (! $upline->commission_eligibility($this->period)) {
 					continue;
 				}
 
