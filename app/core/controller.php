@@ -271,6 +271,17 @@ if ($response == true) {
 
 		public function auth()
 		{
+
+
+				//for maintenance
+			if (! $this->admin()) {
+				Session::putFlash("info","System is undergoing maintenance. kindly check back");
+				return false;
+			}
+			
+
+
+
 			if(Session::exist($this->auth_user())){
 				$user = User::where('id', Session::get($this->auth_user()))->first();
 					if ($this->admin() != false) {
