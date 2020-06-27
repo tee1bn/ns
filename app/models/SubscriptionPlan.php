@@ -246,7 +246,9 @@ class SubscriptionPlan extends Eloquent
 
 			 	$plan_id = $subscription_id;
 			 	$no_of_month = $_POST['prepaid_month'] ?? 1;
-			 	$price = $new_sub->PriceBreakdowns($no_of_month)['total_payable'];
+			 	$price_breakdown = $new_sub->PriceBreakdowns($no_of_month);
+
+			 	$price = $price_breakdown['total_payable'];
 
 			 	if ($no_of_month == 1) {
 			 		$payment_type='subscription';
@@ -255,8 +257,9 @@ class SubscriptionPlan extends Eloquent
 			 		$payment_type='one_time';
 			 	}
 
+			 	$commission_price = $price_breakdown['before_tax'];
 
-			 	$cart = compact('plan_id','user_id','price','no_of_month');
+			 	$cart = compact('plan_id','user_id','price','no_of_month','commission_price');
 
 
 

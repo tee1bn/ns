@@ -27,7 +27,13 @@ class home extends controller
 
 
         echo "<pre>";
+        $user = User::find(1);
 
+        $user->commission_eligibility();
+
+
+
+        return;
         $package_order = SubscriptionOrder::find(68);
 
 

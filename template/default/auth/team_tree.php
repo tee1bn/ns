@@ -61,7 +61,7 @@ $auth_user = $auth;
    <section id="video-gallery" class="card">
      <div class="card-header">
 
-         <form action="<?=domain;?>/genealogy/showout" method="post" style="display: inline; ">
+         <form action="<?=domain;?>/genealogy/showout" method="post" style="display: none; ">
        <div class="input-group col-md-4 col-8">
            <input type="text"  class="form-control" name="username" onkeyup="populate_option(this.value)" list="my_downlines"  
            placeholder="Search your downline & select from the predictions " aria-describedby="button-addon2">

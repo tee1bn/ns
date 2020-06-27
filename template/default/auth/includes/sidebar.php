@@ -187,13 +187,6 @@
       ],
 
 
-      [
-        'menu' => "<i class='ft-airplay'></i>Events & Webinar",
-        'link' =>  "$domain/user/events-and-webinar",
-        'show'=> true,
-        'index'=> 17,
-      ],
-
 
       [
         'menu' => "<i class='fa fa-film'></i>Media Center",

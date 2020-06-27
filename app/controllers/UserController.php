@@ -170,7 +170,7 @@ class UserController extends controller
             'basic',
             'premium',
             'pro',
-            'alt',
+            // 'alt',
         ];
         
 

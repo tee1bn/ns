@@ -36,9 +36,9 @@ $page_title = "Invite Pro";
             </div>
         </div>
          <div class="card-content">
-      <div class="card-body">
+      <div class="card-body text-center">
 
-
+        Available in a few days
         
 
       </div>

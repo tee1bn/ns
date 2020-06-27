@@ -379,6 +379,11 @@ $page_title = "Settings";
                                      <input type="" class="form-control" name="" ng-model="$rules_settings.min_withdrawal_usd">
                                    </div>
 
+                                   <div class="form-group col-md-6">
+                                     <label>Minimum net turnover for Commission ELigibility </label>
+                                     <input type="" class="form-control" name="" ng-model="$rules_settings.min_net_turnover_for_commission_eligibility">
+                                   </div>
+
                                 <!--
                                    <div class="form-group col-md-6">
                                    <label>User Transfer Fee (%)</label>

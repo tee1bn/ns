@@ -701,6 +701,9 @@ class AutoMatchingController extends controller
 	 */
 	public function pay_commissions()
 	{
+
+		////ensure we have total orders by user direct(own)merchants so we can check commission eligibility
+
 		$unpaid = SettlementTracker::where('paid_at', null);
 		$users = User::query();
 

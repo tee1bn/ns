@@ -31,6 +31,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 							 'no_of_month',
 							 'payment_proof',
 							 'price',
+							 'commission_price',
 							 'sent_email',
 							 'paid_at',
 							 'details',
@@ -619,6 +620,7 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 								 'no_of_month'  	=> $no_of_month,
 								 'user_id' 		=> $user_id,
 								 'price'   		=> $price,
+								 'commission_price'   		=> $commission_price,
 								 'details'		=> json_encode($payment_plan),
 							]);
 

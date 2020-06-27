@@ -944,6 +944,48 @@ ELL;
     }
 
 
+    public function commission_eligibility($month=null)
+    {
+
+        $production_month = $month ?? date("Y-m-01");
+
+        $date_range = MIS::date_range($production_month, 'month', true);
+        
+
+
+        $setting = SiteSettings::find_criteria('rules_settings')->settingsArray;
+        $min_net_turnover = $setting['min_net_turnover_for_commission_eligibility'];
+
+
+        $direct_lines = $this->all_downlines_by_path('placement', false)->where('referred_by', $this->mlm_id)->orWhere('mlm_id', $this->mlm_id);
+
+       
+
+        $active_subscriptions = SubscriptionOrder::Paid()
+                                ->whereDate('paid_at','>=',  $date_range['start_date'])
+                                ->whereDate('paid_at', '<=',$date_range['end_date']);
+
+        $from_direct_lines_and_self_sales_of_packages = $direct_lines
+                ->joinSub($active_subscriptions, 'active_subscriptions', function ($join) {
+                    $join->on('users.id', '=', 'active_subscriptions.user_id');
+                })->sum('commission_price'); 
+
+
+        $total = $from_direct_lines_and_self_sales_of_packages ;
+
+        if ($total >= $min_net_turnover) {
+            return true;
+        }
+
+
+        //get total orders from own merchants
+            
+
+        
+    }
+
+
+
     //must have package able to receive level commission
     public function is_qualified_for_commission($level)
     {

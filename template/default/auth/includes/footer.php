@@ -7,7 +7,8 @@
 
     <!-- BEGIN: Footer-->
     <footer class="footer footer-static footer-light navbar-border">
-      <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright  &copy; <?=date("Y");?> <a class="text-bold-800 grey darken-2" href="<?=domain;?>"><?=project_name;?>      </a></span><span class="float-md-right d-none d-lg-block">
+      <p class="clearfix blue-grey lighten-2 text-sm-center mb-0 px-2"><span class="float-md-left d-block d-md-inline-block">Copyright  &copy; <?=date("Y");?> 
+      Typing and printing errors reserved. <a class="text-bold-800 grey darken-2" href="<?=domain;?>"><?=project_name;?>      </a></span><span class="float-md-right d-none d-lg-block">
         
         <!-- Built By <a href="http://gitstardigital.com" target="_blank">Gitstar Digital</a> -->
       </span></p>
