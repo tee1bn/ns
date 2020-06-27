@@ -43,12 +43,12 @@
         
               <li><a class="menu-item" href="<?=domain;?>/admin/isp-coins">ISP Coins</a>
               </li>
-
+<!-- 
               <li><a class="menu-item" href="<?=domain;?>/admin/withdrawals">Withdrawals</a>
-              </li>
-
-             <!--  <li><a class="menu-item" href="<?=domain;?>/admin/payouts">Payouts</a>
               </li> -->
+
+              <li><a class="menu-item" href="<?=domain;?>/admin/payouts">Payouts</a>
+              </li>
             </ul>
           </li> 
             <li>
