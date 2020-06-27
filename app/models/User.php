@@ -971,20 +971,30 @@ ELL;
                 })->sum('commission_price'); 
 
 
-        $total = $from_direct_lines_and_self_sales_of_packages ;
 
+
+        if ($from_direct_lines_and_self_sales_of_packages >= $min_net_turnover) {
+            return true;
+        }
+
+
+
+        $api_response  = CoinWayApi::api('2019-07-01');
+        $license_sum = $api_response[$this->id]['licenseSum'] ?? 0;
+
+
+        $total = $license_sum + $from_direct_lines_and_self_sales_of_packages;
+
+
+
+
+        //get total orders from own merchants
         if ($total >= $min_net_turnover) {
             return true;
         }
 
 
-        //get total orders from own merchants
-        
-        
-
         return false;
-
-
     }
 
 
