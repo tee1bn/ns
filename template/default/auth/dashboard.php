@@ -396,7 +396,7 @@ $next_month_start = date("M 01, Y H:i:s", strtotime("+1 month"));
                               Own merchant connections:
                             </span>
                             <span class="col-4">
-                              <?=$gold_tab['own_merchants'];?>
+                              <?=$gold_tab['own_merchants'];?>/0
                             </span>
                                                     <!-- <span class=" col-2">
                                                         <span class=" float-right">
@@ -435,7 +435,7 @@ $next_month_start = date("M 01, Y H:i:s", strtotime("+1 month"));
                                                         Total sales partner:
                                                       </span>
                                                       <span class="col-4">
-                                                        <?=$gold_tab['active_members_count'];?>/<?=$gold_tab['all_sales_partner'];?>
+                                                        <?=$gold_tab['all_sales_partner'];?>/<?=$gold_tab['active_members_count'];?>
                                                       </span>
 
                                                     </div>
