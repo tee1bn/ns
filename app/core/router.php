@@ -17,6 +17,7 @@ $router =[
 	'shop' 				=> 'shopController',
 	'error' 			=> 'ErrorController',
 	'deposits'=>'DepositController',		
+	'media' => 'crud/MediaController',
 
 	'test' => 'test/home',
 

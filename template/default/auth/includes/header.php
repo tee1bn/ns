@@ -95,6 +95,49 @@
               </li> -->
             </ul>
            <ul class="nav navbar-nav float-right">
+            <li class="dropdown dropdown-notification nav-item"><a class="nav-link nav-link-label" href="#" data-toggle="dropdown"><i class="ficon ft-bell"></i><span class="badge badge-pill badge-dark badge-up">
+              <?php 
+              $unseen_notifications = Notifications::unseen_notifications($auth->id);
+              echo $unseen_notifications->count();
+            ;?></span></a>
+
+              <ul class="dropdown-menu dropdown-menu-media dropdown-menu-right">
+                <li class="dropdown-menu-header">
+                  <h6 class="dropdown-header m-0"><span class="grey darken-2">Notifications</span><span class="notification-tag badge badge-dark float-right m-0">
+                    <?=$unseen_notifications->count();?>
+                   New</span></h6>
+                </li>
+                <li class="scrollable-container media-list">
+
+
+                  <?php 
+
+                   foreach ($unseen_notifications as $notification):?>
+
+                  <a href="<?=$notification->DefaultUrl;?>">
+                    <div class="media">
+                      <div class="media-left align-self-center"><i class="ft-plus-square icon-bg-circle bg-dark"></i></div>
+                      <div class="media-body">
+                        <h6 class="media-heading"><?=$notification->heading;?></h6>
+                        <div class="notification-text font-small-3 text-muted" style="color: black !important;">
+                          <?=$notification->Intro;?>
+                        </div>
+                          <small><time class="media-meta text-muted" ><?=date("M j Y, h:ia", strtotime($notification->created_at));?></time></small>
+                      </div>
+                    </div>
+                  </a>
+
+                  <?php endforeach ;?>
+                  <?php if ($unseen_notifications->count() == 0) :?>
+                      <center style="padding: 30px;">Your no notifcations.</center>
+                  <?php endif ;?>
+                </li>
+
+                <li class="dropdown-menu-footer"><a class="dropdown-item text-muted text-center" href="<?=domain;?>/user/notifications">See all notifications</a></li>
+            
+              </ul>
+            </li>
+
 
                     <?php if (MIS::current_url() == "user/dashboard"):?>
 

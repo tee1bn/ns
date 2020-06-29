@@ -333,38 +333,47 @@ class UserController extends controller
 
     public function notifications($notification_id = 'all')
     {
+
+        $auth = $this->auth();
+        $per_page= 50;
+        $page = $_GET['page']??1;
+
         switch ($notification_id) {
             case 'all':
-                $notifications = Notifications::all_notifications($this->auth()->id);
-
+            $notifications = Notifications::all_notifications($auth->id, $per_page, $page);
+            $total = Notifications::all_notifications($auth->id)->count();
                 break;
-
+            
             default:
+            
+            $total = null;
+
+            $notifications = Notifications::where('user_id', $auth->id)->where('id', $notification_id)->first();
+
+            Notifications::mark_as_seen([$notifications->id]);
 
 
-                $notifications = Notifications::where('user_id', $this->auth()->id)->where('id', $notification_id)->first();
-
-                Notifications::mark_as_seen([$notifications->id]);
-
-
-                if ($notifications == null) {
-                    Session::putFlash("danger", "Invalid Request");
-                    Redirect::back();
-                }
+            if ($notifications == null) {
+                Session::putFlash("danger", "Invalid Request");
+                Redirect::back();
+            }
 
 
-                if ($notifications->DefaultUrl != $notifications->UsefulUrl) {
 
-                    Redirect::to($notifications->UsefulUrl);
-                }
+            if ($notifications->DefaultUrl != $notifications->UsefulUrl) {
 
+                Redirect::to($notifications->UsefulUrl);
+            }
 
-                break;
+            break;
         }
 
 
-        $this->view('auth/notifications', compact('notifications'));
+
+        $this->view('auth/notifications', compact('notifications','per_page','total'));
     }
+
+
 
 
     public function company()

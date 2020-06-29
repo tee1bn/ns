@@ -43,6 +43,43 @@ class AutoMatchingController extends controller
 
 
 
+        public function fetch_news()
+        {
+            $auth = $this->auth();
+
+            $today = date("Y-m-d");
+            $pulled_broadcast_ids = Notifications::where('user_id', @$auth->id)->get()->pluck('broadcast_id')->toArray();
+            $recent_news =  BroadCast::where('status', 1)->latest()
+                                    //  ->whereNotIn('id', $pulled_broadcast_ids)
+                                    //  ->whereDate("updated_at", '>=' , $today)
+                                     ->get();
+
+                                     
+            foreach ($recent_news as $key => $news) {
+                        
+                        if(in_array($news->id, $pulled_broadcast_ids)){
+                            continue;   
+                        }
+
+                $url = "user/notifications";
+                $short_message = substr($news->broadcast_message, 0, 30);
+                    Notifications::create_notification(
+                                            $auth->id,
+                                            $url, 
+                                            "Notification", 
+                                            $news->broadcast_message, 
+                                            $short_message,
+                                            null,
+                                            $news->id,
+                                            $news->created_at
+                                            );
+
+
+            }
+        }
+
+
+
 	public function begin_commission($month=null)
 	{
 
@@ -115,6 +152,8 @@ class AutoMatchingController extends controller
 	    if (!$auth) {
 	        return;
 	    }
+
+	    $this->fetch_news();
 
 	    $user_id = $auth->id;
 	    $this->cron($user_id);
