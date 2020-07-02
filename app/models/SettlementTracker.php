@@ -82,6 +82,8 @@ class SettlementTracker extends Eloquent
 				//continue if amount is 0
 				if ($amount_earned == 0) {continue;}
 
+    			$payment_date_range = MIS::date_range($this->period, 'month', true);
+		 		$paid_at = $payment_date_range['end_date'];
 
 				$paid_at = date("Y-m-d H:i:s");
 				$identifier = "setup_fee{$upline->id}$this->user_id/$this->period";
@@ -182,7 +184,9 @@ class SettlementTracker extends Eloquent
 
 
 
-				$paid_at = date("Y-m-d H:i:s");
+    			$payment_date_range = MIS::date_range($this->period, 'month', true);
+		 		$paid_at = $payment_date_range['end_date'];
+		 		
 				$identifier = "disagio{$upline->id}$this->user_id/$this->period";
 				$extra = json_encode([
 					'period' => $this->period

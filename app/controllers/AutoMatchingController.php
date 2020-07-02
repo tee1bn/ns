@@ -78,21 +78,46 @@ class AutoMatchingController extends controller
             }
         }
 
+    public function prepare_production_month($month=null)
+    {
 
+    	if ($month==null) {
+    		$this->get_period();
+    	}else{
+
+    		$payment_month = $month;
+
+    		$payment_date_range = MIS::date_range($payment_month, 'month', true);
+    		$this->period =  compact('payment_month', 'payment_date_range');
+
+    	}
+
+    }
+
+    public function automatic_withdrawals($month=null)
+    {
+    	echo "<Pre>";
+    	$this->prepare_production_month($month);
+
+
+    	// all_users with commissions in prod month with sum greater than 0
+    	
+    	print_r($this->period);
+		$date_range = $this->period['payment_date_range'];
+    	$earnings = Wallet::whereDate('paid_at', '>=' , $date_range['start_date'])
+    					 ->whereDate('paid_at', '<=' , $date_range['end_date']);
+
+
+
+    	print_r($earnings->get()->toArray());
+
+    }
 
 	public function begin_commission($month=null)
 	{
 
-		if ($month==null) {
-			$this->get_period();
-		}else{
+	   	$this->prepare_production_month($month);
 
-			$payment_month = $month;
-
-			$payment_date_range = MIS::date_range($payment_month, 'month', true);
-			$this->period =  compact('payment_month', 'payment_date_range');
-
-		}
 
 
 		$this->schedule_due_commissions();
@@ -108,17 +133,8 @@ class AutoMatchingController extends controller
 
 	public function distribute_setup_fee_commissions($month=null)
 	{
+    	$this->prepare_production_month($month);
 
-		if ($month==null) {
-			$this->get_period();
-		}else{
-
-			$payment_month = $month;
-
-			$payment_date_range = MIS::date_range($payment_month, 'month', true);
-			$this->period =  compact('payment_month', 'payment_date_range');
-
-		}
 
 		echo "<pre>";
 		print_r($this->period);
@@ -135,13 +151,8 @@ class AutoMatchingController extends controller
 
 
 		foreach ($unpaid_users as $key => $settlement) {
-
-				$settlement->give_setup_fee_commission();
+			$settlement->give_setup_fee_commission();
 		}
-
-		
-
-
 
 	}
 
@@ -622,7 +633,7 @@ class AutoMatchingController extends controller
 
 		 		$user_id = $coin_holder['user_id'];
 
-		 		$paid_at = date("Y-m-d H:i:s");
+		 		$paid_at = $this->period['payment_date_range']['end_date'];
 		 		$identifier = "ispsilber/$user_id/".$period['payment_month'];
 		 		$extra = json_encode([
 		 			'period' => $period,
@@ -698,7 +709,7 @@ class AutoMatchingController extends controller
 
 		 		$user_id = $gold_holder['user']['id'];
 
-		 		$paid_at = date("Y-m-d H:i:s");
+		 		$paid_at = $this->period['payment_date_range']['end_date'];
 		 		$identifier = "ispgold/$user_id/".$period['payment_month'];
 		 		$extra = json_encode([
 		 			'period' => $period,

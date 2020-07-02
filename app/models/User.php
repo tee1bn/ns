@@ -976,7 +976,7 @@ ELL;
 
 
 
-        $api_response  = CoinWayApi::api('2019-07-01');
+        $api_response  = CoinWayApi::api($month);
         $license_sum = $api_response[$this->id]['licenseSum'] ?? 0;
 
 
