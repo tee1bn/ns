@@ -15,7 +15,7 @@ include 'includes/header.php';?>
 
           <div class="content-header-right col-6">
             <div class="btn-group float-right" role="group" aria-label="Button group with nested dropdown">
-              <a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="ft-plus"></i> Create News</a>
+              <a class="btn btn-outline-primary" href="<?=domain;?>/admin/create_broadcast"><i class="ft-plus"></i> Create News</a>
             </div>
           </div>
 

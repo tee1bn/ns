@@ -1042,7 +1042,16 @@ class AdminController extends controller
 
 	}
 
+	public function create_broadcast()
+	{
+		$broadcast = BroadCast::create([
+				'broadcast_message'=>'',
+						'admin_id' => $this->admin()->id
+			]);
 
+		Redirect::to("admin/open_broadcast/$broadcast->id");
+
+	}
 
 	public function broadcast()
 	{
