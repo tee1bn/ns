@@ -396,13 +396,13 @@ $next_month_start = date("M 01, Y H:i:s", strtotime("+1 month"));
                               Own merchant connections:
                             </span>
                             <span class="col-4">
-                              5/<?=$gold_tab['own_merchants'];?>
+                              <?=$gold_tab['own_merchants_required'];?>/<?=$gold_tab['own_merchants'];?>
                             </span>
-                                                    <!-- <span class=" col-2">
+                                                    <span class=" col-2">
                                                         <span class=" float-right">
-                                                            <i class="ft-check fa-2x"></i>
+                                                          <?=$gold_tab['own_merchants_check'];?>
                                                         </span>
-                                                      </span> -->
+                                                      </span>
                                                     </div>
 
 

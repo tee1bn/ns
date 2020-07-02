@@ -712,7 +712,8 @@ class AdminController extends controller
 
 	public function payouts()
 	{
-
+		$this->withdrawals();
+		return;
 
 		$this->view('admin/payouts');
 	}

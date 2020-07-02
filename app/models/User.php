@@ -202,6 +202,7 @@ ELL;
 
         $in_direct_active_merchants_required = $gold['requirement']['step_1']['in_direct_active_merchants'];
         $direct_sales_partner_required = $gold['requirement']['step_1']['direct_line'];
+        $own_merchants_required = $gold['requirement']['step_1']['own_merchant_connection'];
 
 
         $direct_sales = $this->all_downlines_by_path()->where('referred_by', $this->mlm_id);
@@ -243,6 +244,12 @@ ELL;
         $in_direct_merchant_check = ($direct_sales_partner_merchant_connections >= $in_direct_active_merchants_required) ?
          '<i class="ft-check text-success fa-2x"></i>' : '<i class="ft-x text-danger fa-2x"></i>' ;
 
+
+        $own_merchants_check = ($own_merchants >= $own_merchants_required) ?
+         '<i class="ft-check text-success fa-2x"></i>' : '<i class="ft-x text-danger fa-2x"></i>' ;
+
+         
+
         $result = compact('gold_total_credit' ,
                          'gold_total_entitled',
                          'in_direct_active_merchants_required',
@@ -254,7 +261,9 @@ ELL;
                          'direct_sales_check',
                          'in_direct_merchant_check',
                          'active_members_count',
-                         'own_merchants'
+                         'own_merchants',
+                         'own_merchants_check',
+                         'own_merchants_required'
                      );
 
   /*      print_r($result);

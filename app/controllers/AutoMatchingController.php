@@ -139,7 +139,6 @@ class AutoMatchingController extends controller
 		->take(50);
 
 
-    	print_r($people_to_pay->get()->toArray());
 
 		$all_users_ids  =  $people_to_pay->get()->pluck('user_id')->toArray();
 		$users_being_paid = User::whereIn('id', $all_users_ids)->get()->keyBy('id');
@@ -178,12 +177,9 @@ class AutoMatchingController extends controller
     		    ]);
 
     		    DB::commit();
-    		    Session::putFlash('success', "Withdrawal initiated successfully");
-
     		} catch (Exception $e) {
     			print_r($e->getMessage());
     		    DB::rollback();
-    		    Session::putFlash('danger', "Something went wrong. Please try again.");
     		}
 
 
