@@ -85,7 +85,7 @@
 
 
               <li class="nav-item d-none d-md-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li>
-              <li id="translator" class="nav-item" style="position: relative;top: 20px;"><div><?php require 'template/default/app-assets/translator.php';?> </div></li>
+              <li id="translator" class="nav-item" style="position: relative;top: 20px;"><div><?php // require 'template/default/app-assets/translator.php';?> </div></li>
 
             <!--   <li class="nav-item nav-search"><a class="nav-link nav-link-search" href="#"><i class="ficon ft-search"></i></a>
                 <div class="search-input">

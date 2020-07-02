@@ -2,10 +2,13 @@
 
 
 use Illuminate\Database\Eloquent\Model as Eloquent;
+use  Filters\Traits\Filterable;
+
 
 class Notifications extends Eloquent 
 {
 	
+	use Filterable;
 	protected $fillable = [
 
 				'user_id',

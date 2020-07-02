@@ -8,6 +8,8 @@ use  Filters\Filters\CompanyFilter;
 use  Filters\Filters\UserFilter;
 use  Filters\Filters\OrderFilter;
 use  Filters\Filters\MarketFilter;
+use  Filters\Filters\BroadCastFilter;
+use  Filters\Filters\NotificationsFilter;
 use  Filters\Filters\UserDocumentFilter;
 
 use v2\Shop\Payments\Paypal\Subscription;
@@ -48,6 +50,74 @@ class AdminController extends controller
 		$this->view('admin/packages');
 
 	}
+
+
+	public function open_broadcast($broadcast_id=null)
+	{	
+		$broadcast =  BroadCast::find($broadcast_id);
+
+		if ($broadcast==null) {
+			Redirect::back();
+		}
+
+		$this->view('admin/open_broadcast', compact('broadcast'));
+	}
+	
+
+
+	public function notifications($notification_id = 'all')
+	{
+
+	    switch ($notification_id) {
+	        case 'all':
+
+	        $sieve = $_REQUEST;
+	        $query = Notifications::latest();
+	        $total = Notifications::count();
+
+	        $sieve = array_merge($sieve);
+	        $page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+	        $per_page = 50;
+	        $skip = (($page -1 ) * $per_page) ;
+
+	        $filter =  new  NotificationsFilter($sieve);
+
+	        $data =  $query->Filter($filter)->count();
+
+	        $notifications =  $query->Filter($filter)
+	        				->offset($skip)
+	        				->take($per_page)
+	        				->get();  //filtered
+
+	            break;
+	        
+	        default:
+	        
+	        $total = null;
+
+	        $notifications = Notifications::where('id', $notification_id)->first();
+
+
+	        if ($notifications == null) {
+	            Session::putFlash("danger", "Invalid Request");
+	            Redirect::back();
+	        }
+
+
+
+	        if ($notifications->DefaultUrl != $notifications->UsefulUrl) {
+
+	            Redirect::to($notifications->UsefulUrl);
+	        }
+
+	        break;
+	    }
+
+
+	    $this->view('admin/notifications', compact('notifications','per_page','total', 'sieve', 'data'));
+	}
+
+
 
 
 	public function toggle_course($course_id)
@@ -957,11 +1027,15 @@ class AdminController extends controller
 	public function create_news(){
 
 		print_r(Input::all());
-		BroadCast::create([
+		BroadCast::updateOrCreate(
+						[
+							'id' => $_POST['id']
+						],
+						[
 						'broadcast_message' => Input::get('news'),
 						'admin_id' => $this->admin()->id
 						]);
-		Session::putFlash('success', 'News Created succesfully');
+		Session::putFlash('success', 'Saved succesfully');
 
 		Redirect::back();
 
@@ -972,7 +1046,29 @@ class AdminController extends controller
 
 	public function broadcast()
 	{
-		$this->view('admin/broadcast');
+
+		$sieve = $_REQUEST;
+
+		$query = BroadCast::latest();
+		// ->where('status', 1);  //in review
+		$sieve = array_merge($sieve);
+		$page = (isset($_GET['page']))?  $_GET['page'] : 1 ;
+		$per_page = 50;
+		$skip = (($page -1 ) * $per_page) ;
+
+		$filter =  new  BroadCastFilter($sieve);
+
+		$data =  $query->Filter($filter)->count();
+
+		$broadcasts =  $query->Filter($filter)
+						->offset($skip)
+						->take($per_page)
+						->get();  //filtered
+
+		$total_set = BroadCast::count();
+		$note = MIS::filter_note($broadcasts->count(), ($data), ($total_set),  $sieve, 1);
+
+		$this->view('admin/broadcast', compact('broadcasts', 'sieve', 'data','per_page', 'note'));
 	}
 
 
