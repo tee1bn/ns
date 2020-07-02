@@ -467,6 +467,7 @@ ELO;
 
 	public function own_merchant_connection($expected_no)
 	{
+		
 		$response = false;
 
 		$own_merchants = $this->api_response[$this->user->id]['tenantCount'] ?? 0;

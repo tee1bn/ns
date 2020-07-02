@@ -5,6 +5,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 use v2\Models\ISPWallet;
 use v2\Models\Wallet;
 use v2\Models\Isp;
+use v2\Models\Withdrawal;
 use Apis\CoinWayApi;
 
 
@@ -94,23 +95,53 @@ class AutoMatchingController extends controller
 
     }
 
-    public function automatic_withdrawals($month=null)
+
+
+
+    public function automatic_withdrawals_for_production_month($month=null)
     {
     	echo "<Pre>";
     	$this->prepare_production_month($month);
 
 
     	// all_users with commissions in prod month with sum greater than 0
+    	$settings = $this->all_settings['rules_settings']->settingsArray;
+    	$min_withdrawal = $settings['min_withdrawal_usd'];
+    	// print_r($settings);
     	
     	print_r($this->period);
 		$date_range = $this->period['payment_date_range'];
-    	$earnings = Wallet::whereDate('paid_at', '>=' , $date_range['start_date'])
-    					 ->whereDate('paid_at', '<=' , $date_range['end_date']);
+    	$credits = Wallet::whereDate('paid_at', '>=' , $date_range['start_date'])
+    					 ->whereDate('paid_at', '<=' , $date_range['end_date'])
+    					 ->where('type', 'credit')
+    					 ->where('wallet_for_commissions.status', 'completed')
+    					 ->select(DB::raw('sum(wallet_for_commissions.amount) as credits'),DB::raw('wallet_for_commissions.user_id'))
+    					 ->groupBy('wallet_for_commissions.user_id')
+    					 ->having('credits', '>=', $min_withdrawal  )
+    					 ;
+
+    	// $identifier = "{$date_range['start_date']}";
+    	$already_created_withdrawals = Withdrawal::whereDate('created_at', '>=' , $date_range['start_date'])
+    					 ->whereDate('created_at', '<=' , $date_range['end_date'])
+    					 ;
+
+
+		$people_to_pay = $credits->joinSub($already_created_withdrawals, 'already_created_withdrawals', function($join){
+			$join->on('already_created_withdrawals.user_id', '=', 'wallet_for_commissions.user_id');
+		})->take(100);
 
 
 
-    	print_r($earnings->get()->toArray());
+	
+    	print_r($people_to_pay->get()->toArray());
 
+    	foreach ($people_to_pay as $key => $payment) {
+    		//log withdrawals request
+
+
+    	}
+
+    	// print_r($credits->get()->toArray());
     }
 
 	public function begin_commission($month=null)
