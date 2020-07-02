@@ -120,23 +120,74 @@ class AutoMatchingController extends controller
     					 ->having('credits', '>=', $min_withdrawal  )
     					 ;
 
-    	// $identifier = "{$date_range['start_date']}";
+
+    					 print_r($credits->get()->toArray());
+
+    	$identifier = "{$date_range['start_date']}";
     	$already_created_withdrawals = Withdrawal::whereDate('created_at', '>=' , $date_range['start_date'])
     					 ->whereDate('created_at', '<=' , $date_range['end_date'])
+    					 ->where('identifier', 'like', "%$identifier%")
     					 ;
 
+    	print_r($already_created_withdrawals->get()->toArray());
 
-		$people_to_pay = $credits->joinSub($already_created_withdrawals, 'already_created_withdrawals', function($join){
+		$people_to_pay = $credits->leftJoinSub($already_created_withdrawals, 'already_created_withdrawals', function($join){
 			$join->on('already_created_withdrawals.user_id', '=', 'wallet_for_commissions.user_id');
-		})->take(100);
+		})
+		->where('already_created_withdrawals.amount', '=', NULL)
+
+		->take(50);
 
 
-
-	
     	print_r($people_to_pay->get()->toArray());
 
-    	foreach ($people_to_pay as $key => $payment) {
-    		//log withdrawals request
+		$all_users_ids  =  $people_to_pay->get()->pluck('user_id')->toArray();
+		$users_being_paid = User::whereIn('id', $all_users_ids)->get()->keyBy('id');
+
+    	foreach ($people_to_pay->get() as $key => $payment) {
+    		//log withdrawals request 	
+    		print_r($payment['user_id']);
+
+       		$balances = Withdrawal::payoutBalanceFor($payment['user_id']);
+       		$amount_requested = $payment['credits'];
+       		$fee = $amount_requested * 0.01 * $balances['withdrawal_fee'];
+
+    		$user = $users_being_paid[$payment['user_id']];
+    		$method_details = $user->company->iban_number;
+    		$identifier = "{$payment['user_id']}_{$date_range['start_date']}";
+
+
+    		//ensure user can withdraw;
+    		$amount_requested =  round($amount_requested, 2);
+    		$available_payout_balance = round($balances['available_payout_balance'], 2);
+    		if ($amount_requested > $available_payout_balance) {
+    			continue;
+    		}
+
+    		DB::beginTransaction();
+
+    		try {
+
+    		 echo   $withdrawal = Withdrawal::create([
+    		        'user_id' => $payment['user_id'],
+    		        'withdrawal_method_id' => NULL,
+    		        'amount' => $amount_requested,
+    		        'method_details' => json_encode(['iban'=>$method_details]),
+    		        'fee' => $fee,
+    		        'identifier' => $identifier,
+    		    ]);
+
+    		    DB::commit();
+    		    Session::putFlash('success', "Withdrawal initiated successfully");
+
+    		} catch (Exception $e) {
+    			print_r($e->getMessage());
+    		    DB::rollback();
+    		    Session::putFlash('danger', "Something went wrong. Please try again.");
+    		}
+
+
+    		
 
 
     	}

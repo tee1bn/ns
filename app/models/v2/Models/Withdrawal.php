@@ -32,7 +32,8 @@ class Withdrawal extends Eloquent
 		'detail',
 		'admin_id',
 		'completed_at',
-		'status'
+		'status',
+		'identifier',
 	];
 	
 	protected $table = 'users_withdrawals';
