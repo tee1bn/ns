@@ -266,7 +266,7 @@
      [
        'menu' => "<i class='fa fa-file-text-o'></i>News",
        'link' =>  "$domain/user/broadcast",
-       'show'=> true,
+       'show'=> false,
        'index'=> 27,
      ],
 

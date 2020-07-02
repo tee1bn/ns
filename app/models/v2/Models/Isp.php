@@ -465,8 +465,22 @@ ELO;
 	}
 
 
+	public function own_merchant_connection($expected_no)
+	{
+		$response = false;
+
+		$own_merchants = $this->api_response[$this->user->id]['tenantCount'] ?? 0;
+
+
+		if ($own_merchants >= $expected_no) {
+			$response = true;
+		}
+
+		return $response; 
+	}
+
+
 	//this is actually indirect_active_merchants
-	//
 	public function in_direct_active_merchants($expected_no)
 	{
 		$response = false;
