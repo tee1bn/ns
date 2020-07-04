@@ -46,6 +46,58 @@ class UserController extends controller
     }
 
 
+    public function print_commission_report($withdrawal_id)
+    {   
+
+        $auth = $this->auth();
+        $withdrawal = Withdrawal::where('user_id', $auth->id)->where('id', $withdrawal_id)->first();
+
+        if ($withdrawal==null) {
+            Session::putFlash("danger","Invalid request");
+            Redirect::back();
+        }
+
+
+      $view = $this->buildView('composed/payout_report', compact('withdrawal'));
+
+
+        $mpdf = new \Mpdf\Mpdf([
+            'margin_left' => 5,
+            'margin_right' => 5,
+            'margin_top' => 10,
+            'margin_bottom' => 20,
+            'margin_header' => 10,
+            'margin_footer' => 10
+        ]);
+        
+        $src = Config::logo();
+
+        $company_name = \Config::project_name();
+        $logo = \Config::domain()."/".\Config::logo();
+        $mpdf->AddPage('P');
+        $mpdf->SetProtection(array('print'));
+        $mpdf->SetTitle("{$company_name}");
+        $mpdf->SetAuthor($company_name);
+        // $mpdf->SetWatermarkText("{$company_name}");
+        $mpdf->watermarkImg($src);
+        $mpdf->showWatermarkText = true;
+        $mpdf->watermark_font = 'DejaVuSansCondensed';
+        $mpdf->watermarkTextAlpha = 0.1;
+        $mpdf->SetDisplayMode('fullpage');
+
+        $date_now = (date('Y-m-d H:i:s'));
+
+        $mpdf->SetFooter("Date Generated: " . $date_now . " - {PAGENO} of {nbpg}");
+
+        $month = date("Y-m", strtotime($withdrawal->payment_month));
+
+        $mpdf->WriteHTML($view);
+        $mpdf->Output("payout-report-$month#$withdrawal->id.pdf", \Mpdf\Output\Destination::INLINE);          
+
+
+
+    }
+
 
     public function bank_transfer($order_id, $type)
     {

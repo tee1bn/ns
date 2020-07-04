@@ -82,7 +82,7 @@ $balances = Withdrawal::payoutBalanceFor($auth->id);
                           </button>
                           <div class="dropdown-menu">
 
-                              <a  class="dropdown-item"  href="<?=domain;?>/user/print-commission/<?=$withdrawal->id;?>">
+                              <a  class="dropdown-item"  href="<?=domain;?>/user/print-commission-report/<?=$withdrawal->id;?>">
                                 Print Commission
                               </a>
 
