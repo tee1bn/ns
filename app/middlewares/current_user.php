@@ -48,16 +48,23 @@ class current_user extends controller
 		$all_submenus = collect(Menu::get_menu())->pluck('submenu')->flatten(1)->keyBy('link');
 
 
-		$url = "$domain/{$_GET['url']}";
+		$url = explode("/", $_GET['url']);
+		array_pop($url);
+		array_pop($url);
+
+		$url = implode("/", $url);
+
+
+		$url = "$domain/{$url}";
 
 	
 		$index_array = $all_menus[$url] ?? $all_submenus[$url];
 		$index = $index_array['index'];
 
 		if (in_array($index, $not_accessible_menu)) {
-
 			Session::putFlash("danger","You do not have access to the requested page");
-			Redirect::back();
+			$this->view('auth/access_denied');
+			die();
 		}	
 
 	}
