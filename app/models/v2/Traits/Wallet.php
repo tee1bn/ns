@@ -4,8 +4,11 @@ namespace v2\Traits;
 include_once 'app/controllers/home.php';
 use Illuminate\Database\Capsule\Manager as DB;
 
-use SiteSettings, User, Config, Notifications, Session, home, MIS;
+use SiteSettings, User, Config, Notifications, Session, home, MIS, Mailer;
 
+
+use  v2\Models\InvestmentPackage;
+use  v2\Models\Wallet as WalletMap;
 
 
 /**
@@ -13,18 +16,78 @@ use SiteSettings, User, Config, Notifications, Session, home, MIS;
  */
 trait Wallet 
 {
-		
-	public function user()
+
+
+	public function getgetOrderIdAttribute()
 	{
-		return $this->belongsTo('User', 'user_id');
+
+		if ($this->order_id == null) {
+			return false;
+		}	
+
+		return $this->order_id;
+	}
+
+
+
+
+	public function order()
+	{
+
+		if ($this->order_id == null) {
+			return false;
+		}
+
+		$domain = Config::domain();
+
+		$detail = $this->ExtraDetailArray;
+
+		$item_purchased = $detail['item_purchased'] ?? 'default';
+
+		$pages = [
+			'default' => "investment-purchases"
+		];
+
+		// $item = ""
+
+		$page_link = $pages[$item_purchased];
+		$admin_link = "$domain/admin/$page_link?ref={$this->order_id}";
+
+
+
+		$user_link = "";
+
+		return $admin_link;
 
 	}
+
+
 	
 	public function upon()
 	{
 		return $this->belongsTo('User', 'upon_user_id');
 
 	}
+	
+
+	
+	public function user()
+	{
+		return $this->belongsTo('User', 'user_id');
+
+	}
+
+
+	public function is_complete()
+	{
+		return $this->status == 'completed';
+	}
+
+	public function is_pending()
+	{
+		return $this->status == 'pending';
+	}
+	
 
 
 	public function getExtraDetailArrayAttribute()
@@ -36,6 +99,23 @@ trait Wallet
 		return json_decode($this->extra_detail, true);
 	}
 
+	public function getcheckoutUrlAttribute()
+	{
+
+
+		$callback_param = http_build_query([
+			'item_purchased'=> $this->name_in_shop,
+			'order_unique_id'=> $this->id,
+			'payment_method'=> $this->payment_method,
+		]);
+
+		$domain = Config::domain();
+		$checkout_url = "$domain/shop/make_livepay_payment?$callback_param";
+
+		return $checkout_url;
+
+
+	}
 	
 	public function invoice()
 	{
@@ -96,12 +176,14 @@ trait Wallet
 		]);
 
 		$company_name = Config::project_name();
+		$logo = Config::logo();
 
 		$mpdf->AddPage('P');
 		$mpdf->SetProtection(array('print'));
 		$mpdf->SetTitle("{$company_name}");
 		$mpdf->SetAuthor($company_name);
-		$mpdf->SetWatermarkText("{$company_name}");
+		// $mpdf->SetWatermarkText("{$company_name}");
+		// $mpdf->watermarkImg("$logo");
 		$mpdf->showWatermarkText = true;
 		$mpdf->watermark_font = 'DejaVuSansCondensed';
 		$mpdf->watermarkTextAlpha = 0.1;
@@ -134,8 +216,11 @@ trait Wallet
 	}
 
 
+	
 
-	public static function makeTransfer($from, $to, $amount, $earning_category)
+
+
+	public static function makeTransfer($from, $to, $amount, $earning_category, $recipient_wallet)
 	{
 
 		DB::beginTransaction();
@@ -151,6 +236,18 @@ trait Wallet
 		$min_transfer = $rules_settings->settingsArray['min_transfer_usd'];
 
 
+		$users_involved = "$from&$to";
+		$unique_journal_id = uniqid($users_involved);
+		$extra_detail = json_encode([
+			"from" => $from,
+			"to" => $to,
+			"from_wallet" => $earning_category,
+			"to_wallet" => $recipient_wallet,
+			'unique_journal_id'=>$unique_journal_id
+
+		]);
+
+
 		try {
 
 
@@ -164,12 +261,19 @@ trait Wallet
 				$from,
 				null,
 				$amount,
-				'completed',
+				'pending',
 				$earning_category,
 				$comment,
 				null, 
 				null, 
-				null);
+				null,
+				$extra_detail
+			);
+
+
+			if ($debit == false) {
+				return false;
+			}
 
 			$debit->update([
 				'payment_method' => 'transfer',
@@ -177,25 +281,23 @@ trait Wallet
 
 
 
-			if ($debit == false) {
-				return false;
-			}
-
-
 
 				//remove transfer fee
+			$transfer_fee_comment ="$comment TransferFee";
 			$transfer_fee = $transfer_fee_percent * 0.01 * $amount;
 			$fee =	self::createTransaction(
 				'debit',
 				$from,
 				null,
 				$transfer_fee,
-				'completed',
+				'pending',
 				$earning_category,
-				$comment,
+				$transfer_fee_comment,
 				null, 
 				null, 
-				null);
+				null,
+				$extra_detail
+			);
 
 			$fee->update([
 				'payment_method' => 'transfer',
@@ -208,19 +310,24 @@ trait Wallet
 
 
 
+			$wallet_to_use =  WalletMap::$wallets[$recipient_wallet];
+			$wallet_class = $wallet_to_use['class'];
+			$wallet_category = $wallet_to_use['category'];
 
 			//then make credit 
-			$credit = self::createTransaction(
+			$credit = $wallet_class::createTransaction(
 				'credit',
 				$to,
 				null,
 				$amount,
-				'completed',
-				$earning_category,
+				'pending',
+				$wallet_category,
 				$comment,
 				null, 
 				null, 
-				null);
+				null,
+				$extra_detail
+			);
 
 			$credit->update([
 				'paid_at' => date("Y-m-d H:i:s"),
@@ -230,28 +337,62 @@ trait Wallet
 			DB::commit();
 
 
+			$sender_subject = "Transfer of $amount$ [DEBIT]";
+			$receiver_subject = "Transfer of $amount$ [CREDIT]";
+			$mailer = new Mailer;
+			$controller = new home;
+
+			$sender_content =  $controller->buildView('emails/user_transfer_sender', compact('debit','credit','fee'), true);
+			$receiver_content =  $controller->buildView('emails/user_transfer_receiver', compact('debit','credit','fee'), true);
+
+
+        //sender email
+			$mailer->sendMail(
+				"{$debit->user->email}",
+				"$sender_subject",
+				$sender_content,
+				"{$debit->user->firstname}"
+			);
+
+        //receiver email
+			$mailer->sendMail(
+				"{$credit->user->email}",
+				"$receiver_subject",
+				$receiver_content,
+				"{$credit->user->firstname}"
+			);
+
+
+
+
+
 		} catch (Exception $e) {
 			DB::rollback();
+
+			return false;
 		}
 
 		return true;
 	}
 
 
-
 	public function scopeCategory($query, $category)
 	{
+		if ($category==null) {
+			return $query;
+		}
+
 		if (is_array($category)) {
 
 			$up = array_map(function($item){
-					$string = "earning_category='$item'";
-					return $string;
-				}, $category);
+				$string = "earning_category='$item'";
+				return $string;
+			}, $category);
 
 			$clause = implode(" OR ", $up);
+
 			return $query->whereRaw("($clause)");
 		}
-
 
 		return $query->where('earning_category', $category);
 	}
@@ -267,9 +408,7 @@ trait Wallet
 	}
 
 
-	/**
-		$range is 'month' or week eg 2020-07
-	*/
+
 	public function scopeCleared($query , $date = null, $range=null)
 	{	
 		if ($date==null) {
@@ -297,8 +436,6 @@ trait Wallet
 
 
 
-
-
 	public function scopePaid($query)
 	{
 		return $query->where('paid_at','!=',null);
@@ -315,18 +452,28 @@ trait Wallet
 
 
 	//expected money paid(already earned)
-	public static function bookBalanceOnUser($user_id, $category=null)
+	public static function bookBalanceOnUser($user_id, $category=null, $as_at=null, $daterange=null)
 	{
 
 		if ($category==null) {
-			$credits = self::scopeCompletedCreditOnUser($user_id)->Paid()->sum('amount');
-			$debits = self::scopeCompletedDebitOnUser($user_id)->sum('amount');
+			$credits = self::scopeCompletedCreditOnUser($user_id)->Paid();
+			$debits = self::scopeCompletedDebitOnUser($user_id);
+
 		}else{
 
-			$credits = self::scopeCompletedCreditOnUser($user_id)->Category($category)->Paid()->sum('amount');
-			$debits = self::scopeCompletedDebitOnUser($user_id)->Category($category)->sum('amount');
+			$credits = self::scopeCompletedCreditOnUser($user_id)->Category($category)->Paid();
+			$debits = self::scopeCompletedDebitOnUser($user_id)->Category($category);
 
 		}
+
+
+		$credits->Cleared($as_at, $daterange);
+		$debits->Cleared($as_at, $daterange);
+
+
+		$credits = $credits->sum('amount');
+		$debits = $debits->sum('amount');
+
 
 		$book_balance = $credits - $debits;
 		$book_balance = round($book_balance, 2);
@@ -335,51 +482,65 @@ trait Wallet
 
 
 	//expected money, not yet paid(Possible earnings)
-	public static function accruedBookBalanceOnUser($user_id, $category=null)
+	public static function accruedBookBalanceOnUser($user_id, $category=null, $as_at=null , $daterange=null)
 	{
 
 
 		if ($category==null) {
 
-			$credits = self::onUser($user_id)->Credit()->where('status', '!=', 'cancelled')->sum('amount');
-			$initiated_debits = self::scopeInitiatedDebitOnUser($user_id)->sum('amount');
+			$credits = self::onUser($user_id)->Credit()->where('status', '!=', 'cancelled');
+			$initiated_debits = self::scopeInitiatedDebitOnUser($user_id);
 		}else{
 
 
-			$credits = self::onUser($user_id)->Credit()->Category($category)->where('status', '!=', 'cancelled')->sum('amount');
-			$initiated_debits = self::scopeInitiatedDebitOnUser($user_id)->Category($category)->sum('amount');
-
-
+			$credits = self::onUser($user_id)->Credit()->Category($category)->where('status', '!=', 'cancelled');
+			$initiated_debits = self::scopeInitiatedDebitOnUser($user_id)->Category($category);
 		}
+
+
+		$credits->Cleared($as_at, $daterange);
+		$initiated_debits->Cleared($as_at, $daterange);
+
+		$credits = $credits->sum('amount');
+		$initiated_debits = $initiated_debits->sum('amount');
+
 
 		return $credits - $initiated_debits;
 	}	
 
 	
-	//expected money paid and cleared
-	public static function availableBalanceOnUser($user_id, $category=null)
+	//usable money paid and cleared
+	public static function availableBalanceOnUser($user_id, $category=null, $as_at=null, $daterange=null)
 	{
 
 
 		if ($category==null) {
 
-			$credits = self::scopeCompletedCreditOnUser($user_id)->Paid()->Cleared()->sum('amount');
-			$initiated_debits = self::scopeInitiatedDebitOnUser($user_id)->sum('amount');
+			$credits = self::scopeCompletedCreditOnUser($user_id)->Paid();
+			$initiated_debits = self::scopeInitiatedDebitOnUser($user_id);
 
 		}else{
 
-			$credits = self::scopeCompletedCreditOnUser($user_id)->Category($category)->Paid()->Cleared()->sum('amount');
-			$initiated_debits = self::scopeInitiatedDebitOnUser($user_id)->Category($category)->sum('amount');
+			$credits = self::scopeCompletedCreditOnUser($user_id)->Category($category)->Paid();
+			$initiated_debits = self::scopeInitiatedDebitOnUser($user_id)->Category($category);
 
 		}
+
+
+		$credits->Cleared($as_at, $daterange);
+		$initiated_debits->Cleared($as_at, $daterange);
+
+		$credits = $credits->sum('amount');
+		$initiated_debits = $initiated_debits->sum('amount');
+
 
 		$available =  $credits - $initiated_debits;
 
 		$available =  max($available , 0);
 		$withdrawable =  $available;
 
-		//use percent withdrawable if applicable
 
+		//use percent withdrawable if applicable
 		return $withdrawable ;	
 	}	
 
@@ -580,13 +741,16 @@ trait Wallet
 		$upon_user_id,
 		$amount,
 		$status,
-		$earning_category = null,
+		$earning_category = null, 
 		$comment = null,
 		$identifier = null, 
 		$order_id = null, 
 		$admin_id = null,
 		$extra_detail = null,
-		$paid_at = null
+		$paid_at = null,
+		$transferred_from = null,
+		$allow_with_sufficient_balance=true,
+		$use_whole_wallet = false
 	)
 	{
 
@@ -595,20 +759,26 @@ trait Wallet
 		}
 
 
-		if ($type=='debit') {
+		if ($allow_with_sufficient_balance) {
+
+			if ($type=='debit') {
+				//confirm available balance
+				if ($earning_category!=null) {
 			//confirm available balance
 
-			if ($earning_category!=null) {
-				$book_balance = self::bookBalanceOnUser($user_id, $earning_category);
+					if ($earning_category!=null) {
+						$book_balance = self::bookBalanceOnUser($user_id, $earning_category);
 
-				$amount = round($amount, 2);
-				$book_balance = round($book_balance, 2);
+						$amount = round($amount, 2);
+						$book_balance = round($book_balance, 2);
 
 
-				
-				if ($amount > $book_balance) {
-					Session::putFlash("danger", "Insufficient Balance: $book_balance <code>$earning_category</code>");
-					return false;
+						
+						if ($amount > $book_balance) {
+							Session::putFlash("danger", "Insufficient Balance: $book_balance <code>$earning_category</code>");
+							return false;
+						}
+					}
 				}
 			}
 		}
@@ -616,6 +786,7 @@ trait Wallet
 		if ($paid_at==null) {
 			$paid_at = date("Y-m-d H:i:s");
 		}
+
 
 		try{
 
@@ -631,13 +802,14 @@ trait Wallet
 				'order_id' => $order_id ,
 				'admin_id' => $admin_id ,
 				'extra_detail' => $extra_detail ,
-				'paid_at' => $paid_at ,
+				'paid_at' => $paid_at,
+				// 'transferred_from' => $transferred_from,
 			]);
 
 			return $earning;
 
 		}catch(Exception $e){
-			// print_r($e->getMessage());
+			print_r($e->getMessage());
 		}
 
 		return false;
@@ -672,7 +844,7 @@ trait Wallet
 
 
 	public static function for($user_id)
-	{
+	{	
 		return self::where('user_id', $user_id);
 	}
 

@@ -97,6 +97,11 @@ class AutoMatchingController extends controller
 
 
 
+    public function personal_auto_withdrawal($user_id)
+    {
+
+
+    }
 
     public function automatic_withdrawals_for_production_month($month=null)
     {
@@ -111,17 +116,16 @@ class AutoMatchingController extends controller
     	
     	print_r($this->period);
 		$date_range = $this->period['payment_date_range'];
-    	$credits = Wallet::whereDate('paid_at', '>=' , $date_range['start_date'])
-    					 ->whereDate('paid_at', '<=' , $date_range['end_date'])
+    	$credits = Wallet::
+    					// whereDate('paid_at', '>=' , $date_range['start_date'])
+    					  whereDate('paid_at', '<=' , $date_range['end_date'])
     					 ->where('type', 'credit')
     					 ->where('wallet_for_commissions.status', 'completed')
     					 ->select(DB::raw('sum(wallet_for_commissions.amount) as credits'),DB::raw('wallet_for_commissions.user_id'))
     					 ->groupBy('wallet_for_commissions.user_id')
-    					 ->having('credits', '>=', $min_withdrawal  )
+    					 ->having('credits', '>=', $min_withdrawal )
     					 ;
 
-
-    					 print_r($credits->get()->toArray());
 
     	$identifier = "{$date_range['start_date']}";
     	$already_created_withdrawals = Withdrawal::whereDate('created_at', '>=' , $date_range['start_date'])
@@ -129,7 +133,9 @@ class AutoMatchingController extends controller
     					 ->where('identifier', 'like', "%$identifier%")
     					 ;
 
-    	print_r($already_created_withdrawals->get()->toArray());
+
+		print_r($already_created_withdrawals->get()->toArray());
+
 
 		$people_to_pay = $credits->leftJoinSub($already_created_withdrawals, 'already_created_withdrawals', function($join){
 			$join->on('already_created_withdrawals.user_id', '=', 'wallet_for_commissions.user_id');
@@ -139,17 +145,29 @@ class AutoMatchingController extends controller
 		->take(50);
 
 
+		print_r($people_to_pay->get()->toArray());
+
 
 		$all_users_ids  =  $people_to_pay->get()->pluck('user_id')->toArray();
 		$users_being_paid = User::whereIn('id', $all_users_ids)->get()->keyBy('id');
 
+
+		echo $payout =  Wallet::availableBalanceOnUser(1, null, $date_range['end_date']);
+       		$balances = Withdrawal::payoutBalanceFor(1, $date_range['end_date']);
+
+       		print_r($balances);
+
+		$withdrawal_fee_percent = $settings['withdrawal_fee'];
+
+		print_r($date_range);
+
+		echo $created_at = "{$date_range['start_date']} 00:00:00";
     	foreach ($people_to_pay->get() as $key => $payment) {
     		//log withdrawals request 	
     		print_r($payment['user_id']);
 
-       		$balances = Withdrawal::payoutBalanceFor($payment['user_id']);
-       		$amount_requested = $payment['credits'];
-       		$fee = $amount_requested * 0.01 * $balances['withdrawal_fee'];
+       		$balances = Withdrawal::payoutBalanceFor($payment['user_id'], $date_range['end_date']);
+
 
     		$user = $users_being_paid[$payment['user_id']];
     		$method_details = $user->company->iban_number;
@@ -157,11 +175,14 @@ class AutoMatchingController extends controller
 
 
     		//ensure user can withdraw;
-    		$amount_requested =  round($amount_requested, 2);
     		$available_payout_balance = round($balances['available_payout_balance'], 2);
-    		if ($amount_requested > $available_payout_balance) {
+       		$fee = $available_payout_balance * 0.01 * $withdrawal_fee_percent;
+
+    		if ($available_payout_balance < $min_withdrawal) {
     			continue;
     		}
+    		print_r($date_range);
+    		print_r($balances);
 
     		DB::beginTransaction();
 
@@ -170,10 +191,11 @@ class AutoMatchingController extends controller
     		 echo   $withdrawal = Withdrawal::create([
     		        'user_id' => $payment['user_id'],
     		        'withdrawal_method_id' => NULL,
-    		        'amount' => $amount_requested,
+    		        'amount' => $available_payout_balance,
     		        'method_details' => json_encode(['iban'=>$method_details]),
     		        'fee' => $fee,
     		        'identifier' => $identifier,
+    		        'created_at' => $created_at,
     		    ]);
 
     		    DB::commit();
