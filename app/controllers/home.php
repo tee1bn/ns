@@ -27,9 +27,9 @@ class home extends controller
 
 
         echo "<pre>";
-        $user = User::find(1);
+        $order = Orders::first();
 
-        $user->commission_eligibility();
+        $order->give_upline_sale_commission();
 
 
 

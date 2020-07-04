@@ -468,21 +468,14 @@ class Orders extends Eloquent  implements OrderInterface
 
 
 
-	private function give_upline_sale_commission()
+	public function give_upline_sale_commission()
 	{
 
-		$settings= SiteSettings::site_settings();
-
-		$user 	 = $this->user;
-		$upline  = User::where('mlm_id' , $user->referred_by)->first();
-		$amount  = $settings['product_sales_commission'] * 0.01 * $this->amount_payable;
-		$comment = "#{$this->id} Product Commission";
-
-		$month_index = date('m');
+	
 
 
-		$credit  = Earning::credit_user($upline['id'], $amount, $comment , $user->id, $this->id);
-		return $credit;
+
+		// online_shop_sales
 	}
 
 

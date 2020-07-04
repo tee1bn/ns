@@ -177,6 +177,7 @@ $page_title = "Settings";
                                     <th>Sales Packages (%)</th>
                                     <th>Disagio (%) <small>Via Api</small></th>
                                     <th>Setup Fee (%) <small>Via Api</small></th>
+                                    <th>Online shop sales(%) </th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -187,6 +188,7 @@ $page_title = "Settings";
                                     <td contenteditable="true" ng-model="$commission_setting.packages"></td>
                                     <td contenteditable="true" ng-model="$commission_setting.disagio"></td>
                                     <td contenteditable="true" ng-model="$commission_setting.setup"></td>
+                                    <td contenteditable="true" ng-model="$commission_setting.online_shop_sales"></td>
                                   </tr>
                                 
                                 </tbody>
