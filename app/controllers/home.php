@@ -27,7 +27,7 @@ class home extends controller
 
 
         echo "<pre>";
-        $order = Orders::first();
+        $order = Orders::find(58);
 
         $order->give_upline_sale_commission();
 

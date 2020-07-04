@@ -135,7 +135,7 @@ class AdminProductsController extends controller
 
 
 
-		// Redirect::back();
+		Redirect::back();
 	}
 
 

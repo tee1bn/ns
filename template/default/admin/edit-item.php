@@ -80,6 +80,11 @@ include 'includes/header.php';?>
                                    <input type="" name="price" class="form-control" required="required" value="<?=$item->price;?>" placeholder="Item price">
                                  </div>
 
+                                <div class="form-group col-md-6">
+                                  Commission Price:
+                                   <input type="" name="commission_price" class="form-control" required="required" value="<?=$item->commission_price;?>" placeholder="Item commission price">
+                                 </div>
+
 
                 <!-- 
                                 <div class="form-group">

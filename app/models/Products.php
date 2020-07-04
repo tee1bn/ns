@@ -16,6 +16,7 @@ class Products extends Eloquent
 						'category_id',
 						'ribbon',
 						'old_price',
+						'commission_price',
 						'description',
 						'front_image',
 						'downloadable_files',
@@ -139,6 +140,7 @@ class Products extends Eloquent
             'description' => $this->description,
             'short_description' => substr($this->description, 0, 50).'...',
             'quick_description' => substr($this->description, 0, 250).'...',
+            'commission_price' => $this->commission_price,
             'price' => $this->price,
             'old_price' => $this->old_price,
             'by' => ($this->instructor == null)? '' : "By {$this->instructor->fullname}",
@@ -271,6 +273,7 @@ class Products extends Eloquent
 					 	$this->update([
 									'name' 		=> $inputs['name'],
 									'price' 	=> $inputs['price'],
+									'commission_price' 	=> $inputs['commission_price'],
 									'scheme' 	=> $inputs['scheme'],
 									'category' 	=> $inputs['category_id'],
 									'description' => $inputs['description'],
@@ -283,6 +286,7 @@ class Products extends Eloquent
 			 			DB::commit();
 						Session::putFlash('success','Changes Saved Successfully.');
 
+			 			return true;
 			 			return true;
 			 		}catch(Exception $e){
 			 			DB::rollback();

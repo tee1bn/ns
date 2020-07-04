@@ -6,7 +6,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 use v2\Shop\Contracts\OrderInterface;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 use  Filters\Traits\Filterable;
-
+use v2\Models\Wallet;
 require_once "app/controllers/home.php";
 
 
@@ -141,8 +141,8 @@ class Orders extends Eloquent  implements OrderInterface
 		$mpdf->SetProtection(array('print'));
 		$mpdf->SetTitle("{$company_name}");
 		$mpdf->SetAuthor($company_name);
-		$mpdf->SetWatermarkText("{$company_name}");
-		// $mpdf->watermarkImg($src);
+		// $mpdf->SetWatermarkText("{$company_name}");
+		$mpdf->watermarkImg($src);
 		$mpdf->showWatermarkText = true;
 		$mpdf->watermark_font = 'DejaVuSansCondensed';
 		$mpdf->watermarkTextAlpha = 0.1;
@@ -455,7 +455,7 @@ class Orders extends Eloquent  implements OrderInterface
 			
 
 			$this->update(['paid_at'=> date("Y-m-d H:i:s")]);
-			// $this->give_upline_sale_commission();
+			$this->give_upline_sale_commission();
 
 			DB::commit();
 			Session::putFlash("success","Payments Recieved Successfully");
@@ -468,14 +468,67 @@ class Orders extends Eloquent  implements OrderInterface
 
 
 
-	public function give_upline_sale_commission()
+	private function give_upline_sale_commission()
 	{
+		$detail  =	$this->order_detail();
 
-	
+		foreach ($detail as $item) {
+			$commission_price = $item['market_details']['commission_price'] ?? 0;
+			$total_price[] = $commission_price *$item['qty'];
+
+		}
+
+		$commissionable_total =  array_sum($total_price);
 
 
+		$settings= SiteSettings::commission_settings();
 
-		// online_shop_sales
+		$user 	 = $this->user;
+		$tree = $user->referred_members_uplines(3);
+		print_r($settings);
+
+		$credit=[];
+		foreach ($tree as $level => $upline) {
+		 		    $percent = $settings[$level]['online_shop_sales'];
+
+					if ($percent==0) {continue;}
+
+		 		    $amount_earned = $percent * 0.01 * $commissionable_total;
+
+					$comment = "$percent% of {$commissionable_total} as Online Shop Level {$level} Bonus";
+
+					if ($level == 0) {
+						 $comment = "$percent% of {$commissionable_total} as Online Shop self Bonus";
+					}
+
+					// ensure  upliner is qualified for commission
+					if (! $upline->is_qualified_for_commission($level)) {
+							continue;
+					}
+
+			$paid_at = date("Y-m-d H:i:s");
+
+
+			$identifier = "$this->id#shop$level";
+			$credit[]  = Wallet::createTransaction(	
+										'credit',
+										$upline['id'],
+										$user->id,
+										$amount_earned,
+										'completed',
+										'online_shop',
+										$comment ,
+										$identifier, 
+										$this->id , 
+										null,
+										null,
+										$paid_at
+									);
+
+
+		}
+
+		return $credit;
 	}
 
 

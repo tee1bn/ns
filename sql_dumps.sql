@@ -1,3 +1,7 @@
+ALTER TABLE `wallet_for_commissions` CHANGE `earning_category` `earning_category` ENUM('bonus','package','disagio','gold','silber','license','setup_fee','online_shop') CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL;
+
+
+ALTER TABLE `products` ADD `commission_price` DECIMAL(20,2) NULL AFTER `price`;
 
 
 
