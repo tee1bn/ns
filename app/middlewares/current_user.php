@@ -38,6 +38,29 @@ class current_user extends controller
 
 	}
 	
+	public function must_have_access()
+	{
+		$auth = $this->auth();
+		$domain = Config::domain();
+		$package_id = $auth->subscription->payment_plan->id;
+		$not_accessible_menu = SubscriptionPlan::$not_accessible_menu[$package_id];
+		$all_menus = collect(Menu::get_menu())->keyBy('link');
+		$all_submenus = collect(Menu::get_menu())->pluck('submenu')->flatten(1)->keyBy('link');
+
+
+		$url = "$domain/{$_GET['url']}";
+
+	
+		$index_array = $all_menus[$url] ?? $all_submenus[$url];
+		$index = $index_array['index'];
+
+		if (in_array($index, $not_accessible_menu)) {
+
+			Session::putFlash("danger","You do not have access to the requested page");
+			Redirect::back();
+		}	
+
+	}
 	
 
 	public function must_have_verified_company()

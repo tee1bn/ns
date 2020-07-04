@@ -16,10 +16,13 @@ class GenealogyController extends controller
     public function __construct()
     {
 
-                if (! $this->admin()) {
-                    $this->middleware('current_user')
-                        ->mustbe_loggedin();
-                }
+        if (!$this->admin()) {
+            $this->middleware('current_user')
+                ->mustbe_loggedin()
+                ->must_have_access()
+                ;
+            // ->must_have_verified_company()
+        }
 
     }
 

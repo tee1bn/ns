@@ -43,6 +43,7 @@ return array(
     'Location' => $baseDir . '/app/classes/Location.php',
     'MIS' => $baseDir . '/app/classes/MIS.php',
     'Mailer' => $baseDir . '/app/classes/Mailer.php',
+    'Menu' => $baseDir . '/app/models/Menu.php',
     'MlmSales' => $baseDir . '/app/models/MlmSales.php',
     'MlmSetting' => $baseDir . '/app/models/MlmSetting.php',
     'Newsletter' => $baseDir . '/app/models/Newsletter.php',

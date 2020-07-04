@@ -38,7 +38,9 @@ class UserController extends controller
         if (!$this->admin()) {
             $this->middleware('current_user')
                 ->mustbe_loggedin()
-                ->must_have_verified_email();
+                ->must_have_verified_email()
+                ->must_have_access()
+                ;
             // ->must_have_verified_company()
         }
 

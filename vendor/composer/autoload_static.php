@@ -292,6 +292,7 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'Location' => __DIR__ . '/../..' . '/app/classes/Location.php',
         'MIS' => __DIR__ . '/../..' . '/app/classes/MIS.php',
         'Mailer' => __DIR__ . '/../..' . '/app/classes/Mailer.php',
+        'Menu' => __DIR__ . '/../..' . '/app/models/Menu.php',
         'MlmSales' => __DIR__ . '/../..' . '/app/models/MlmSales.php',
         'MlmSetting' => __DIR__ . '/../..' . '/app/models/MlmSetting.php',
         'Newsletter' => __DIR__ . '/../..' . '/app/models/Newsletter.php',
