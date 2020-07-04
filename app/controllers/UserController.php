@@ -680,13 +680,21 @@ class UserController extends controller
         $this->view('auth/make_withdrawal');
     }
 
+    public function payouts()
+    {
+        $this->withdrawals();
+    }
 
     public function withdrawals()
     {
 
-        $query = Withdrawal::where('user_id', $this->auth()->id)->latest();
+        $auth = $this->auth();
 
+        $query = Withdrawal::where('user_id', $auth->id)->latest();
 
+        $total = $query->count();
+
+        $query = Withdrawal::where('user_id', $auth->id)->latest();
         $sieve = $_REQUEST;
         // ->where('status', 1);  //in review
         $sieve = array_merge($sieve);
@@ -704,13 +712,10 @@ class UserController extends controller
             ->get();  //filtered
 
 
+        $note = MIS::filter_note($withdrawals->count() , $data, $total,  $sieve, 1);
 
 
-        $this->view('auth/withdrawal-history', compact('withdrawals', 'sieve', 'data', 'per_page'));
-
-
-
-        // $this->view('auth/withdrawal-history', compact('withdrawals'));
+        $this->view('auth/withdrawal-history', compact('withdrawals', 'sieve', 'data', 'per_page','note'));
     }
 
 

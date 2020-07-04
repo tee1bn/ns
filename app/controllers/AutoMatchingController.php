@@ -128,8 +128,8 @@ class AutoMatchingController extends controller
 
 
     	$identifier = "{$date_range['start_date']}";
-    	$already_created_withdrawals = Withdrawal::whereDate('created_at', '>=' , $date_range['start_date'])
-    					 ->whereDate('created_at', '<=' , $date_range['end_date'])
+    	$already_created_withdrawals = Withdrawal::whereDate('payment_month', '>=' , $date_range['start_date'])
+    					 ->whereDate('payment_month', '<=' , $date_range['end_date'])
     					 ->where('identifier', 'like', "%$identifier%")
     					 ;
 
@@ -161,7 +161,7 @@ class AutoMatchingController extends controller
 
 		print_r($date_range);
 
-		echo $created_at = "{$date_range['start_date']} 00:00:00";
+		echo $payment_month = "{$date_range['start_date']} 00:00:00";
     	foreach ($people_to_pay->get() as $key => $payment) {
     		//log withdrawals request 	
     		print_r($payment['user_id']);
@@ -195,7 +195,7 @@ class AutoMatchingController extends controller
     		        'method_details' => json_encode(['iban'=>$method_details]),
     		        'fee' => $fee,
     		        'identifier' => $identifier,
-    		        'created_at' => $created_at,
+    		        'payment_month' => $payment_month,
     		    ]);
 
     		    DB::commit();

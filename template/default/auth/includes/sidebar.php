@@ -69,21 +69,29 @@
       [
         'menu' => '<i class="fa fa-list"></i> Transactions',
         'link' =>  '#',
-        'show'=> false,
+        'show'=> true,
         'index'=> 3,
         'submenu' => [
 
           [
             'menu'       => 'Make Withdrawals',
             'link'       => "$domain/user/make-withdrawal",
-            'show'=>true,
+            'show'=>false,
             'index'=>4,
           ],
 
 
           [
-            'menu'       => 'Withdrawals',
-            'link'       => "$domain/user/withdrawals",
+            'menu' => "Commissions",
+            'link' =>  "$domain/user/commissions",
+            'show'=> true,
+            'index'=> 14,
+          ],
+
+
+          [
+            'menu'       => 'Payouts',
+            'link'       => "$domain/user/payouts",
             'show'=>true,
             'index'=>5,
           ],
@@ -163,7 +171,7 @@
         ]                                                    
       ],  
 
-
+/*
 
       [
         'menu' => "<i class='ft-align-justify'></i>Commissions",
@@ -171,7 +179,7 @@
         'show'=> true,
         'index'=> 14,
       ],
-
+*/
       [
         'menu' => "<i class='ft-star'></i>InvitePro",
         'link' =>  "$domain/user/invite-pro",

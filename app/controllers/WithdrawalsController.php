@@ -127,13 +127,14 @@ class WithdrawalsController extends controller
 
             $withdrawal->update([
                 'status' => $status,
-                'admin_id' => $this->admin()->id,
+                // 'admin_id' => $this->admin()->id,
             ]);
 
             DB::commit();
             Session::putFlash('success', "Withdrawal marked as $status");
 
         } catch (Exception $e) {
+            print_r($e->getMessage());
             DB::rollback();
             Session::putFlash('danger', "Something went wrong. Please try again.");
         }

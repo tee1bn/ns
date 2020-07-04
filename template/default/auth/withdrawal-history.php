@@ -1,6 +1,13 @@
 <?php
-$page_title = "Withdrawal History";
+$page_title = "Payout History";
 include 'includes/header.php';
+
+
+
+use v2\Models\Withdrawal;
+$balances = Withdrawal::payoutBalanceFor($auth->id);
+
+
 ;?>
 
 
@@ -11,17 +18,20 @@ include 'includes/header.php';
       <div class="content-header-left col-md-6 col-12 mb-2">
         <?php include 'includes/breadcrumb.php';?>
 
-        <h3 class="content-header-title mb-0">Withdrawal History</h3>
+        <h3 class="content-header-title mb-0">Payout History</h3>
       </div>
 
-         <!--  <div class="content-header-right col-md-6 col-12">
-            <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
-              <div class="btn-group" role="group">
-                <button class="btn btn-outline-primary dropdown-toggle dropdown-menu-right" id="btnGroupDrop1" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="ft-settings icon-left"></i> Settings</button>
-                <div class="dropdown-menu" aria-labelledby="btnGroupDrop1"><a class="dropdown-item" href="card-bootstrap.html">Bootstrap Cards</a><a class="dropdown-item" href="component-buttons-extended.html">Buttons Extended</a></div>
-              </div><a class="btn btn-outline-primary" href="full-calender-basic.html"><i class="ft-mail"></i></a><a class="btn btn-outline-primary" href="timeline-center.html"><i class="ft-pie-chart"></i></a>
-            </div>
-          </div> -->
+        <div class="content-header-right col-6">
+          <div class="btn-group float-md-right" role="group" aria-label="Button group with nested dropdown">
+            <a class="btn btn-sm btn-outline-secondary" href="javascript:void(0);">
+              Bal: <?=$currency;?><?=MIS::money_format($balances['payout_book_balance']);?>
+            </a>
+            <a class="btn btn-sm btn-outline-secondary" href="javascript:void(0);">
+             Avail Bal: <?=$currency;?><?=MIS::money_format($balances['available_payout_balance']);?>
+            </a>
+          </div>
+        </div>
+
         </div>
         <div class="content-body">
 
@@ -30,10 +40,7 @@ include 'includes/header.php';
               <?php include_once 'template/default/composed/filters/auth_withdrawals.php';?>
               <a class="heading-elements-toggle"><i class="fa fa-ellipsis-v font-medium-3"></i></a>
               <div class="heading-elements">
-                <ul class="list-inline mb-0">
-                  <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                  <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                </ul>
+                <?=$note;?>
               </div>
             </div>
             <div class="card-content">
@@ -49,7 +56,8 @@ include 'includes/header.php';
                       <th>Payable(<?=$currency;?>)</th>
                       <th>IBAN</th>
                       <th>Status</th>
-                      <th>Date</th>
+                      <th>Month</th>
+                      <th>*</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -63,8 +71,30 @@ include 'includes/header.php';
                       <td><?=MIS::money_format($withdrawal['AmountToPay']);?></td>
                       <td><?=$withdrawal->MethodDetailsArray['iban'];?></td>
                       <td><?=$withdrawal->DisplayStatus;?></td>
-                      <td><span class="badge badge-primary"><?=date("M j, Y h:ia" , strtotime($withdrawal->created_at));?></span></td>
-                      
+
+                      <td>
+                        <span class="badge badge-primary"><?=date("F Y" , strtotime($withdrawal->payment_month));?></span>
+                      </td>
+
+                      <td>
+                        <div class="dropdown">
+                          <button type="button" class="btn btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown">Action
+                          </button>
+                          <div class="dropdown-menu">
+
+                              <a  class="dropdown-item"  href="<?=domain;?>/user/print-commission/<?=$withdrawal->id;?>">
+                                Print Commission
+                              </a>
+
+
+
+                          </div>
+                        </div>
+
+
+
+                        
+                      </td>
                     </tr>
                   <?php endforeach ;?>
 

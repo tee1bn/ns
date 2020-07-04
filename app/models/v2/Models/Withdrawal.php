@@ -32,6 +32,7 @@ class Withdrawal extends Eloquent
 		'detail',
 		'admin_id',
 		'completed_at',
+		'payment_month',
 		'status',
 		'identifier',
 		'created_at',
