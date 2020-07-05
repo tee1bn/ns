@@ -310,7 +310,7 @@ if ($response == true) {
 
 
 
-		public function view($view , $data = [], $multiple=false){
+		public function view($view , $data = [], $multiple=false, $light=false){
 
 			foreach ($data as $key => $value) { $$key = $value ;}
 			$view_path = explode('/', $view);
@@ -382,8 +382,10 @@ if ($response == true) {
 				require "template/".Config::views_template()."/{$view}.php" ;
 			}
 
-			require_once "app/others/confirmation_dialog.php" ; 
-			require_once "app/others/show_notifications.php" ; 
+			if ($light==false) {
+				require_once "app/others/confirmation_dialog.php" ; 
+				require_once "app/others/show_notifications.php" ; 
+			}
 			
 			Session::delete('inputs-errors');
 		}

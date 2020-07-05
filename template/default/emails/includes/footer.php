@@ -49,17 +49,10 @@
     <h4>Ihr NEW SALES WAY Team</h4>
   </div>
 </div>
-
-
 </div>
 </main>
-
-
   <!-- ======= Footer ======= -->
   <footer id="footer" style="background: #315176; padding: 0px;">
-
-
-
     <div class="container" style="padding: 0px;">
     <div class="row text-center" style="padding: 0px;">
       <div class="col-md-12" style="font-size: 20px;font-weight: 700; padding: 18px; color: black;">
