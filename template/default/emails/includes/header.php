@@ -1,35 +1,62 @@
-<style>
-	table tbody tr:nth-child(even){ 
-		background: #e9e9e9 !important;
-	}
 
-	table tbody tr td , table thead tr td { 
-		padding: 5px;
+<!DOCTYPE html>
+<html lang="en">
 
-	}
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-	table tbody tr , table thead tr { 
-		line-height: 15px;
-	}
+  <title>newsalesway.com</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <style type="text/css">
+  		
+  </style>
+  <!-- Favicons -->
+  <link href="https://newsalesway.com/wp-content/uploads/2019/<?=$logo;?>" rel="icon">
+  <link href="https://newsalesway.com/wp-content/uploads/2019/<?=$logo;?>" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+<!--   <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="assets/vendor/venobox/venobox.css" rel="stylesheet">
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <link href="assets/css/style.css" rel="stylesheet">
+ -->  
 
 
-	table thead td {
-		background-color: #88b988a6;
-		text-align: center;
-	}
-</style>                          
+ <?php include 'css.php';?>
 
 
+</head>
 
-  <div style='background-color: #F3F1F2'>
-                  <div style='max-width: 95%; margin: 0 auto; padding: 10px; font-size: 14px; font-family: Verdana;'>
-                      <br>
-                      <center style="text-align: center;">
-                        <img src='<?=$logo;?>' style="height: 50px;"/>
-                      </center>
-                      <br>
-                      <div style='background-color: #FFFFFF; padding: 15px; margin: 5px 0 5px 0;'>
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="">
+    <div class="container d-flex align-items-center">
+		<div class="row text-center">
+		<div class="col-md-1 col-sm-12 col-xs-12">
+			<h1 class="logo mr-auto"><a href="<?=domain;?>"><img src="<?=$logo;?>" /></a></h1>
+		</div>
+		<div class="col-md-9  col-sm-12 col-xs-12">
+		<h1><span style="color: white;padding: 16px;">SUCCESS IN A CHANGING WORLD</span></h1>
+		</div>
+		<div class="col-md-2  col-sm-12 col-xs-12">
+		<span style="color: white;font-size:24px;">newsalesway.com</span>
+		</div>
+    </div>
+</div>
+  </header><!-- End Header -->
 
 
-
-                       
+ 
+<main id="main" style="background: #ececec; padding:12px;">
+  <div class="container" style="background: #ffffff; padding: 60px;">

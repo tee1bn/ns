@@ -28,6 +28,7 @@ class RegisterController extends controller
 			if ($update) {
 
 				Session::putFlash('success', 'Email verified successfully');
+				$this->sendWelcomeEmail($user);
 
 			}else{
 
@@ -396,24 +397,15 @@ public function generate_username_from_email($email)
 
 
 
-public function sendWelcomeEmail($user_id , $password)
+public function sendWelcomeEmail($user)
 {
-
-
- $new_user= User::find($user_id);
-
-
 		$mailer  = new Mailer();
 		$subject = $this->name." SUCCESSFUL REGISTRATION!!";
 
-		$body    = $this->buildView('emails/registration-welcome-mail', [
-															'firstname' => $new_user->firstname,
-															'user_id' 	=> $new_user->username,
-															'password' 	=> $password,
-																]);
+		$body    = $this->buildView('emails/welcome', compact('user'));
 
-		$to = $new_user->email;
-		$recipient_name = $new_user->firstname;
+		$to = $user->email;
+		$recipient_name = $user->firstname;
 
  	if($mailer->sendMail($to, $subject, $body, $reply='', $recipient_name)){
  		return ;

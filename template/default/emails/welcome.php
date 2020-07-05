@@ -1,30 +1,63 @@
 <?php include 'includes/header.php';?>
 
-  </td></tr></tbody></table>
-
-
-    <div style="font-family: Arial, sans-serif; line-height: 20px; color: #444444; font-size: 13px;">
-      <b style="color: #777777; text-transform: lowercase;"></b>
-
-                       <?php
-
-                                $message =  CMS::fetch('welcome_email');
-
-                                $message = str_replace("[FIRSTNAME]", "<b>$auth->firstname</b>", $message);
-                                $message = str_replace("[LASTNAME]", "<b>$auth->lastname</b>", $message);
-                                $message = str_replace("[FULLNAME]", "<b>$auth->fullname</b>", $message);
-                                $message = str_replace("[USERNAME]", "<b>$auth->username</b>", $message);
-
-                                echo $message;?>
-    </div>
-
-  </td></tr></tbody></table>
-</td></tr></tbody></table>
-    
-
-
-
-
+                     <div class="row">
+                     	<div class="col-md-12" style="font-size: 20px;font-weight: 600; padding: 18px;">
+                     		<span>Dear <?=$user->firstname;?>,</span>
+                     	</div>
+                     </div>
+                     <div class="row">
+                     	<div class="col-md-12">
+                     		<h2 style="font-family: auto; color: #40409c; padding-bottom: 12px;">Herzlich Willkommen bei NEW SALES WAY!</h2>
+                     	</div>
+                     </div>
+                     <div class="row">
+                     	<div class="col-md-12" style="font-size: 20px;font-weight: 700; padding: 18px; color: black;">
+                     		<span>Ihre Registrierung war erfolgreich.</span>
+                     	</div>
+                     </div>
+                     <div class="row" style="padding-bottom: 20px;">
+                     	<div class="col-md-12">
+                     		<h5>lhr NSW Online-Backoffice wurde soeben aktiviert. Derzeit werden Sie als "Basic" Vertriebspartner gefūhrt.Bitte vervolistãndigen Sie Ihr  Profit mit den erforderlichen Unterlagen:</h5>
+                     	</div>
+                     </div>
+                     <div class="row">
+                     	<div class="col-md-12">
+                     		<ul>
+                     			<li><h5>Amtlicher Lichtbildausweis</h5></li>
+                     			<li><h5>Gewerbeschein bzw. Firmenbuchauszug</h5></li>
+                     		</ul>
+                     	</div>
+                     </div>
+                     <div class="row" style="padding-bottom: 20px;">
+                     	<div class="col-md-12">
+                     		<h5>Hierzu steht lhnen unter dem Menūpunkt "<b style="color: black; font-style: italic;">Mein Pofil</b>" die hinzugehõrende Dokumenten-upload Funktion zur Verfūgung.</h5>
+                     	</div>
+                     </div>
+                     <div class="row text-center" style="padding-bottom: 20px;">
+                     	<div class="col-md-12">
+                     		<h5><hr></h5>
+                     	</div>
+                     </div>
+                     <div class="row text-center">
+                     	<div class="col-md-12" style="font-size: 20px;font-weight: 700; padding: 18px; color: black;">
+                     		<h2 style="font-weight: 700;color: green;">STARTEN SIE RICHTIG DURCH!</h2>
+                     	</div>
+                     </div>
+                     <div class="row text-center">
+                     	<div class="col-md-12" style="font-size: 20px;font-weight: 700; padding: 18px; color: black;">
+                     		<h2 style="font-weight: 700;color: #106eea;">Mit den Leistungspaketen von NEW SALES WAY!</h2> 
+                     	</div>
+                     </div>
+                     <div class="row">
+                     	<div class="col-md-1">
+                     	</div>
+                     	<div class="col-md-4 col-sm-12" style="font-size: 20px;font-weight: 700; padding: 18px; color: black;">
+                     		<img src="<?=$this_folder;?>/assets/Work.PNG" class="imge_size"/>
+                     	</div>
+                     	<div class="col-md-6 col-sm-12" style="font-size: 20px;font-weight: 700; padding: 18px; color: black;">
+                     		<span >Starten Sie Ihr Hãndler- und aktivieren Sie hierfūr die Leistungs- Packages von NSW! Ein schlūssel-fertiges Erfolgskonzept - bereit um Sie bestmõalich zu unterstützen!</span>
+                     	</div>
+                     </div>
 
 
 <?php include 'includes/footer.php';?>

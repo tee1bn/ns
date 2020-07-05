@@ -25,6 +25,17 @@ class home extends controller
     public function test2()
     {
 
+        // $this->view('emails/new');
+
+     /*   echo "<br>";
+        echo "<br>";
+        echo "<br>";*/
+
+        $user = User::find(1);
+
+        $this->view('emails/welcome', compact('user'));
+
+        return;
 
         echo "<pre>";
         $order = Orders::find(58);
