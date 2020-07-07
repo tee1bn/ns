@@ -90,8 +90,12 @@ class AutoMatchingController extends controller
 
     		$payment_date_range = MIS::date_range($payment_month, 'month', true);
     		$this->period =  compact('payment_month', 'payment_date_range');
+		}
 
-    	}
+
+		echo "<pre>";
+		print_r($this->period);
+
 
     }
 
@@ -220,9 +224,11 @@ class AutoMatchingController extends controller
 
 
 
-		$this->schedule_due_commissions();
 
 		if ($this->settings['distribute_commissions']== 1) {
+
+			$this->schedule_due_commissions();
+
 		}else{
 			echo "not yet set b admin";
 		}
@@ -319,7 +325,7 @@ class AutoMatchingController extends controller
 	{
 
 
-		$last_settlement = SettlementTracker::where('paid_at','!=', null)->latest()->first();
+	/*	$last_settlement = SettlementTracker::where('paid_at','!=', null)->latest()->first();
 		$last_settlement_date = $last_settlement->period ??  '2019-08-01';
 
 
@@ -338,9 +344,14 @@ class AutoMatchingController extends controller
 
 
 			$last_settlement_month = date("Y-m", strtotime($last_settlement_date));
+			*/
+
+			$commission_date = $this->settings['commission_date'];
+			$date =  $commission_date;
+
 			$this_month  = date("Y-m");
 
-			if ($last_settlement_month >= $this_month ) {
+			if (strtotime($commission_date) >= strtotime($this_month) ) {
 
 				$date = date("Y-m-01", strtotime("-1 month"));
 			}
@@ -355,22 +366,7 @@ class AutoMatchingController extends controller
 	{
 
 
-		$payment_start_day = $this->settings['commission_payouts_start_date'];
-
-
-		$action_start_date = date("Y-m-$payment_start_day");
-		$action_start_time =  strtotime($action_start_date) ;
-		$today = date("Y-m-d");
-
-		//ensure it is time to begin the scheduling
-		$date_condition = (time() >= $action_start_time);
-
-		if (!$date_condition) {
-			return;
-		}
-
 		//deduce payment month
-		// $payment_month = date("Y-m-01", strtotime("last month"));
 		$payment_month = $this->get_date_to_start_schedule();
 
 		$payment_date_range = MIS::date_range($payment_month, 'month', true);

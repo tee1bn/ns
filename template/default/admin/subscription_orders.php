@@ -46,7 +46,7 @@ $page_title = "Package Orders";
                             <tr>
                               <th>#Ref</th>
                               <th>User</th>
-                              <th>Package</th>
+                              <th>Package - Month</th>
                               <th>Amount(<?=$currency;?>)</th>
                               <th>Date</th>
                               <th>Status</th>
@@ -60,7 +60,7 @@ $page_title = "Package Orders";
                             <tr>
                               <td><?=$order->TransactionID;?></td>
                               <td><?=$subscriber->DropSelfLink;?></td>
-                              <td><?=$order->plandetails['package_type'];?></td>
+                                <td><?= $order->plandetails['package_type']; ?> - <?=$order->no_of_month;?> </td>
                               <td><?=$this->money_format($order['price']);?></td>
                               <td><span class="badge badge-primary"><?=date("M j Y h:iA",strtotime($order->created_at));?></span></td>
                               <td><?=$order->paymentstatus;?></td>

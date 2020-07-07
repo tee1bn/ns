@@ -44,7 +44,7 @@ include 'includes/header.php';; ?>
                         <tr>
                             <th>#Ref</th>
                             <th>OrderID</th>
-                            <th>Package</th>
+                            <th>Package -Month</th>
                             <th>Amount(<?= $currency; ?>)</th>
                             <th>Date</th>
                             <th>Status</th>
@@ -58,7 +58,7 @@ include 'includes/header.php';; ?>
                             <tr>
                                 <td><?= $order->id; ?></td>
                                 <td><?= $order->TransactionID; ?></td>
-                                <td><?= $order->plandetails['package_type']; ?></td>
+                                <td><?= $order->plandetails['package_type']; ?> - <?=$order->no_of_month;?> </td>
                                 <td><?= $this->money_format($order['price']); ?></td>
                                 <td>
                                     <span class="badge badge-primary"><?= $order->created_at->toFormattedDateString(); ?></span>
