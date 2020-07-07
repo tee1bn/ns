@@ -65,9 +65,6 @@ $page_title = "Online Shop";
                                                 <div class="col-md-6">
 
                                                     <h3><?=$product->name;?></h3>
-                                                    <span> Basic workshop for partners</span>
-                                                   <!--  <label>Piece</label>
-                                                    <input type="number" class="form-control" name=""> -->
                                                 </div>
 
                                                 <div class="col-md-6 text-right">
