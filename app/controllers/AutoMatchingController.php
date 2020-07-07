@@ -21,7 +21,7 @@ class AutoMatchingController extends controller
 	public $url;
 	public $api_key;
 	public $header;
-	public $period;
+	public $period = null;
 
 	public $all_settings;
 
@@ -519,6 +519,12 @@ class AutoMatchingController extends controller
 	//this adds the set up fee total in the settlement tracker for each user
 	public function include_setup_fee_on_scheduled()
 	{
+
+
+		if ($this->period == null) {
+			$this->prepare_production_month();
+		}
+
 		$period =  $this->period;
 
 		extract($period);
@@ -573,6 +579,9 @@ class AutoMatchingController extends controller
 	public function initiate_pools_commissions()
 	{
 
+		if ($this->period == null) {
+			$this->prepare_production_month();
+		}
 
 		$period =  $this->period;
 
@@ -581,11 +590,14 @@ class AutoMatchingController extends controller
 
 
 
+		$payment_month = $payment_date_range['start_date'];
 
 
 		//ensure setup fee is available before proceeding
 		$scheduled = SettlementTracker::where('period', $payment_month);
 		$setup_fee_not_complete = $scheduled->where('setup_fee', null)->where('user_id','!=', null)->count() > 0;
+
+
 		if ($setup_fee_not_complete) {
 			$this->include_setup_fee_on_scheduled();
 			return;
@@ -855,8 +867,11 @@ class AutoMatchingController extends controller
 
 		$unpaid_users = $unpaid->joinSub($users, 'users', function($join){
 			$join->on('users.id', '=', 'settlement_tracker.user_id');
-		})->take(100)->get();
+		})
+		->select('*','settlement_tracker.id as id')
+		->take(100)->get();
 
+		print_r($unpaid_users->toArray());
 
 		foreach ($unpaid_users as $key => $settlement) {
 

@@ -224,11 +224,11 @@ class SettlementTracker extends Eloquent
 				}
 
 				// ensure  upliner is qualified for commission
-				if (! $upline->is_qualified_for_commission($level)) {
+/*				if (! $upline->is_qualified_for_commission($level)) {
 					continue;
 				}
 
-				$identifier = "license{$upline->id}$this->user_id/$this->period";
+*/				$identifier = "license{$upline->id}$this->user_id/$this->period";
 				$extra = json_encode([
 					'period' => $this->period
 				]);
