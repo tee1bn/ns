@@ -58,8 +58,8 @@ $page_title = "Online Shop";
                                         <div class="col-md-10">
                                             <p></p>
                                             <hr>
-                                           <!--  <h3>Dimontis HUP</h3>
-                                            <span> Basic workshop for partners</span> -->
+                                            <!-- <h3>Dimontis HUP</h3> -->
+                                            <span> Basic workshop for partners</span>
                                             <div class="row">
                                                 
                                                 <div class="col-md-6">
@@ -68,8 +68,9 @@ $page_title = "Online Shop";
                                                 </div>
 
                                                 <div class="col-md-6 text-right">
-                                                    <h3><?=$this->money_format($product->price);?><?=$currency;?></h3>
-                                                    <small>Incl. VAT 20%</small>
+                                                    <h3><?=MIS::money_format($product->price);?><?=$currency;?></h3>
+                                                    <small>Incl. VAT 20%</small><br>
+                                                    <small>Commission Price: <?=MIS::money_format($product->commission_price ?? 0);?><?=$currency;?> </small><br>
                                             </div>
                                             </div>
 
