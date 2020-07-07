@@ -161,7 +161,7 @@ class AutoMatchingController extends controller
 
        		print_r($balances);
 
-		$withdrawal_fee_percent = $settings['withdrawal_fee'];
+		$withdrawal_fee_percent = $settings['withdrawal_fee_percent'];
 
 		print_r($date_range);
 
