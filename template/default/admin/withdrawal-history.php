@@ -1,5 +1,5 @@
 <?php
-$page_title = "Withdrawals";
+$page_title = "Payouts";
 include 'includes/header.php';
 ;?>
 
@@ -11,7 +11,7 @@ include 'includes/header.php';
       <div class="content-header-left col-6 mb-2">
         <?php include 'includes/breadcrumb.php';?>
 
-        <h3 class="content-header-title mb-0">Withdrawals</h3>
+        <h3 class="content-header-title mb-0">Payouts</h3>
       </div>
 
           <div class="content-header-right col-6">
@@ -82,7 +82,7 @@ include 'includes/header.php';
                       <th>User</th>
                       <th>Amount<br> - Fee(<?=$currency;?>) <hr> payable</th>
                       <th>IBAN</th>
-                      <th>Status <br> Date</th>
+                      <th>Status <br>Period <br> Date</th>
                       <th>Action</th>
                       <th>Select</th>
                     </tr>
@@ -110,6 +110,8 @@ include 'includes/header.php';
                      <td><?=$withdrawal->MethodDetailsArray['iban'];?></td>
 
                       <td><?=$withdrawal->DisplayStatus;?>
+                      <br><span class="badge badge-primary"><?=date("F Y" , strtotime($withdrawal->payment_month));?></span>
+
                       <br>
                         <span class="badge badge-primary"><?=date("M j, Y h:ia" , strtotime($withdrawal->created_at));?></span></td>
                       <td>
