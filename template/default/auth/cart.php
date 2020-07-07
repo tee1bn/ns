@@ -58,7 +58,8 @@ $page_title = "Cart";
                                 <div class="card-content collapse show">
                                     <div class="card-body">
                                         <div class="card-text">
-                                                          
+                                          <center ng-hide="$shop.$cart.$items.length>0" style='margin:30px; '><i class="fa fa-spinner fa-spin fa-2x"></i></center>
+
                                             <div ng-repeat="($index, $item) in $shop.$cart.$items" class="media courses-in-cart">
                                                 <a class="media-left pr-1" href="#">
                                                <img class="media-object"

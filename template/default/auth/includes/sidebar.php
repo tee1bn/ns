@@ -46,7 +46,7 @@
     <?php
 
 
-    $main_menu =  Menu::get_menu();   
+      $main_menu =  Menu::get_menu();   
 
 
    ;?>

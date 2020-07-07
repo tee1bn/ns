@@ -173,10 +173,27 @@ class Menu
 
 
       [
-      	'menu' => "<i class='ft-shopping-cart'></i>Online Shop",
+      	'menu' => "<i class='ft-shopping-cart'></i> Shop",
       	'link' =>  "$domain/user/online-shop",
       	'show'=> true,
       	'index'=> 19,
+      	'submenu' => [
+      		[
+      			'menu'       => 'Online Shop',
+      			'link'       => "$domain/user/online-shop",
+      			'show'=>true,
+      			'index'=>19,
+      		],
+
+      		[
+      			'menu'       => 'Orders',
+      			'link'       => "$domain/user/products-orders",
+      			'show'=>true,
+      			'index'=>19,
+      		],                                                    
+
+      	]                                                    
+
       ],
 
 
