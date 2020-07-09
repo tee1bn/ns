@@ -70,7 +70,7 @@ $page_title = "Online Shop";
                                                 <div class="col-md-6 text-right">
                                                     <h3><?=MIS::money_format($product->price);?><?=$currency;?></h3>
                                                     <small>Incl. VAT 20%</small><br>
-                                                    <small>Commission Price: <?=MIS::money_format($product->commission_price ?? 0);?><?=$currency;?> </small><br>
+                                                    <small>Compensation assessment basis: <?=MIS::money_format($product->commission_price ?? 0);?><?=$currency;?> </small><br>
                                             </div>
                                             </div>
 
