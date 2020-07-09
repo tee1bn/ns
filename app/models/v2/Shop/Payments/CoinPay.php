@@ -131,6 +131,12 @@ fclose($myfile);
 
 	public function amountPayable()
 	{
+		$breakdown = $this->shop->paymentBreakdown();
+
+		$amount = $breakdown['total_payable']['value'];
+
+		return $amount;		
+
 		$amount =  $this->order->total_tax_inclusive()['price_inclusive_of_tax'];
 
 		return $amount;

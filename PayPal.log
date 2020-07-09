@@ -3059,3 +3059,17 @@
 
 ================================================================================================================================
 
+[09-07-2020 13:29:17] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/oauth2/token
+[09-07-2020 13:30:57] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/oauth2/token
+[09-07-2020 13:30:58] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[09-07-2020 13:30:58] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/payments/payment
+[09-07-2020 13:30:59] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 400
+[09-07-2020 13:30:59] PayPal\Core\PayPalHttpConnection : ERROR: Got Http response code 400 when accessing https://api.paypal.com/v1/payments/payment. {"name":"VALIDATION_ERROR","details":[{"field":"transactions[0]","issue":"Item amount must add up to specified amount subtotal (or total if amount details not specified)"},{"field":"transactions[0].amount","issue":"Transaction amount details (subtotal, tax, shipping) must add up to specified amount total"}],"message":"Invalid request - see details","information_link":"https://developer.paypal.com/docs/api/payments/#errors","debug_id":"265272729674c"}
+[09-07-2020 13:41:08] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/oauth2/token
+[09-07-2020 13:41:09] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[09-07-2020 13:41:09] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/payments/payment
+[09-07-2020 13:41:11] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[09-07-2020 13:41:11] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/oauth2/token
+[09-07-2020 13:41:12] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[09-07-2020 13:41:12] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/payments/payment
+[09-07-2020 13:41:14] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201

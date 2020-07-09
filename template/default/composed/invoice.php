@@ -123,8 +123,10 @@ $invoice = $order->invoice();
                         <th>#</th>
                          <th style="text-align: left;">Item &amp; Description</th>
                         <th style="text-align: right;">Rate</th>
+                        <th style="text-align: right;">Tax Rate</th>
                         <th style="text-align: right;">Qty</th>
                         <th style="text-align: right;">Amount (<?=$currency;?>)</th>
+                        <th style="text-align: right;">Taxable Value (<?=$currency;?>)</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -140,11 +142,20 @@ $invoice = $order->invoice();
                             <p><?=$summary['rate'];?></p>
                           </td>
                           <td style="text-align: right;">
-                            <?=MIS::money_format($summary['qty'] );?>
+                            <?=$summary['print_tax'];?>
+                            
+                          </td>
+
+                          <td style="text-align: right;">
+                            <?=($summary['qty'] );?>
                           </td>
 
                           <td style="text-align: right;">
                             <?=MIS::money_format($summary['amount'] );?>
+                          </td>
+
+                          <td style="text-align: right;">
+                            <?=MIS::money_format($summary['before_tax'] );?>
                           </td>
                         </tr>
 

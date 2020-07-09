@@ -174,7 +174,7 @@ class SubscriptionPlan extends Eloquent
 												->get();
 
 			$user  			= User::find($user_id);
-			$previous_sub 	= $user->subscription;
+			$previous_sub 	= $user->subscription->payment_plan;
 			$new_sub 		= self::find($subscription_id);
 
 			// $cost =  (@$previous_sub->Finalcost ==null) ?  $new_sub->Finalcost  : ($new_sub->Finalcost - (int)$previous_sub->Finalcost) ;

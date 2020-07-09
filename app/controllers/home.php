@@ -30,6 +30,20 @@ class home extends controller
      /*   echo "<br>";
         echo "<br>";
         echo "<br>";*/
+        echo "<pre>";
+
+            $product = Products::find(41);
+
+            print_r($product->tax_breakdown());
+
+
+            $order = Orders::find(6);
+            $price_breakdown = $order->invoice();
+
+            print_r($order->total_tax_inclusive());
+            print_r($price_breakdown);
+
+        return;
 
         $user = User::find(1);
 

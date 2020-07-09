@@ -9,6 +9,7 @@ use v2\Shop\Contracts\OrderInterface;
 use  v2\Shop\Shop;
 use  v2\Models\Wallet;
 use  Filters\Traits\Filterable;
+use v2\Tax\Tax;
 
 
 
@@ -199,19 +200,56 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 	}
 
 
+
+	public function tax_breakdown()
+	{
+		$tax = new Tax;
+		$tax_payable  =	$tax->setTaxSystem('general_tax');
+		 return $tax->setProduct($this->payment_plan)->setTaxStyleOnPrice('tax_exclusive')
+		 ->calculateApplicableTax()->amount_taxable
+		 ;
+
+	}
+
 	public  function invoice()
 	{
 
+
 		$detail = $this->plandetails;
+
+		$tax = $this->tax_breakdown();
+
+		$rate = $this->payment_plan->price;
+		$qty = $this->no_of_month;
+		$amount = $qty *  $rate;
+
+		$unit_tax = $tax['breakdown']['tax_payable'];
+		$line_tax = $unit_tax * $qty;
+		$print_tax = "$unit_tax 
+		<br><small> {$tax['breakdown']['total_percent_tax']}% {$tax['pricing']} </small>";
+
+		$before_tax = $tax['breakdown']['before_tax'] * $qty;
+
+
+
+
 		$summary = [
 			[
 				'item' => "$this->TransactionID",
 				'description' => "{$detail['package_type']} Package for $this->no_of_month month(s)",
-				'rate' => $this->paymentBreakdownArray['subtotal']['value'],
-				'qty' => 1,
+				'rate' => $rate,
+				'qty' => $qty,
 				'amount' => $this->paymentBreakdownArray['subtotal']['value'],
+
+
+
+				'print_tax' => $print_tax,
+				'line_tax' => $line_tax,
+				'before_tax' => $before_tax,
+				'tax' => $tax,
 			]
 		];
+
 
 		$subtotal = [
 			'subtotal'=> null,

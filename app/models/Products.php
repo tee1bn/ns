@@ -4,6 +4,7 @@ use Illuminate\Database\Capsule\Manager as DB;
 use Illuminate\Database\Eloquent\Model as Eloquent;
 
 use  v2\Models\Market;
+use v2\Tax\Tax;
 
 
 class Products extends Eloquent 
@@ -114,6 +115,17 @@ class Products extends Eloquent
     }
 
 
+    public function tax_breakdown()
+    {
+    	$tax = new Tax;
+    	$tax_payable  =	$tax->setTaxSystem('general_tax');
+    	 return $tax->setProduct($this)
+    	 ->calculateApplicableTax()->amount_taxable
+    	 ;
+
+    }
+
+
 
     public function getViewLinkAttribute()
     {
@@ -132,6 +144,7 @@ class Products extends Eloquent
 
         $domain = Config::domain();
         $thumbnail = "$this->mainimage";
+        $tax = $this->tax_breakdown();
         $market_details = [
             'id' => $this->id,
             'model' => self::class,
@@ -148,6 +161,7 @@ class Products extends Eloquent
             'quickview' =>  $this->quickview(),
             'single_link' =>  $this->ViewLink,
             'thumbnail' =>  $thumbnail,
+            'tax' =>  $tax,
             'unique_name' =>  'product',  // this name is used to identify this item in cart and at delivery
         ];
 

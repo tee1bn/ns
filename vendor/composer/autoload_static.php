@@ -344,6 +344,10 @@ class ComposerStaticInit81eb7d45cb86396167b941f75b6bed30
         'v2\\Shop\\Payments\\Paypal\\Subscription' => __DIR__ . '/../..' . '/app/models/v2/Shop/Payments/Paypal/Subscription.php',
         'v2\\Shop\\Payments\\Paystack' => __DIR__ . '/../..' . '/app/models/v2/Shop/Payments/Paystack.php',
         'v2\\Shop\\Shop' => __DIR__ . '/../..' . '/app/models/v2/Shop/Shop.php',
+        'v2\\Tax\\Contracts\\TaxSystemInterface' => __DIR__ . '/../..' . '/app/models/v2/Tax/Contracts/TaxSystemInterface.php',
+        'v2\\Tax\\Tax' => __DIR__ . '/../..' . '/app/models/v2/Tax/Tax.php',
+        'v2\\Tax\\TaxSystems\\General' => __DIR__ . '/../..' . '/app/models/v2/Tax/TaxSystems/General.php',
+        'v2\\Tax\\TaxSystems\\Indian' => __DIR__ . '/../..' . '/app/models/v2/Tax/TaxSystems/Indian.php',
         'v2\\Traits\\Wallet' => __DIR__ . '/../..' . '/app/models/v2/Traits/Wallet.php',
     );
 

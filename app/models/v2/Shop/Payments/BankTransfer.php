@@ -156,13 +156,6 @@ class BankTransfer implements PaymentMethodInterface
 
 	public function amountPayable()
 	{
-/*
-		$amount =  $this->order->total_tax_inclusive()['price_inclusive_of_tax'];
-
-		return $amount;
-*/
-
-
 		$breakdown = $this->shop->paymentBreakdown();
 
 		$amount = $breakdown['total_payable']['value'];

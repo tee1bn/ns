@@ -652,7 +652,7 @@ class UserController extends controller
             $sieve = $_REQUEST;
             // $sieve = array_merge($sieve, $extra_sieve);
 
-            $query = SubscriptionOrder::latest()->where('user_id', $auth->id);
+            $query = SubscriptionOrder::latest('created_at')->where('user_id', $auth->id);
             // ->where('status', 1);  //in review
             $sieve = array_merge($sieve);
             $page = (isset($_GET['page'])) ? $_GET['page'] : 1;
@@ -666,7 +666,6 @@ class UserController extends controller
             $subscription_orders = $query->Filter($filter)
                 ->offset($skip)
                 ->take($per_page)
-                ->latest()
                 ->get();  //filtered
 
             $this->view('auth/package_orders', compact('subscription_orders', 'sieve', 'data', 'per_page'));

@@ -178,6 +178,14 @@ class PayPal  implements PaymentMethodInterface
 
 	public function amountPayable()
 	{
+
+		$breakdown = $this->shop->paymentBreakdown();
+
+		$amount = $breakdown['total_payable']['value'];
+
+		return $amount;
+
+
 		$amount =  $this->order->total_tax_inclusive()['price_inclusive_of_tax'];
 
 		return $amount;
@@ -187,7 +195,7 @@ class PayPal  implements PaymentMethodInterface
 	{
 		$payment_method = $this->name;
 		$order_ref = $this->order->generateOrderID();
-		$price_breakdown = $this->order->total_tax_inclusive();
+		$price_breakdown = $this->order->invoice();
 		$user = $this->order->user;
 		$domain = Config::domain();
 
@@ -216,7 +224,7 @@ class PayPal  implements PaymentMethodInterface
 		    ->setCurrency($this::$currency)
 		    ->setQuantity(1)
 		    ->setSku("1") // Similar to `item_number` in Classic API
-		    ->setPrice($price_breakdown['price_exclusive_of_tax']);
+		    ->setPrice($price_breakdown['subtotal']['full_lines']['total_before_tax']['value']);
 
 
 		$itemList = new ItemList();
@@ -224,13 +232,13 @@ class PayPal  implements PaymentMethodInterface
 
 
 		$details = new Details();
-		$details->setTax($price_breakdown['total_sum_tax'])
-		    ->setSubtotal($price_breakdown['price_exclusive_of_tax']);
+		$details->setTax($price_breakdown['subtotal']['full_lines']['tax']['value'])
+		    ->setSubtotal($price_breakdown['subtotal']['full_lines']['total_before_tax']['value']);
 
 
 		    $amount = new Amount();
 		    $amount->setCurrency($this::$currency)
-		        ->setTotal($price_breakdown['price_inclusive_of_tax'])
+		        ->setTotal($price_breakdown['subtotal']['full_lines']['total_after_tax']['value'])
 		        ->setDetails($details);
 
 

@@ -95,5 +95,9 @@ return array(
     'v2\\Shop\\Payments\\Paypal\\Subscription' => $baseDir . '/app/models/v2/Shop/Payments/Paypal/Subscription.php',
     'v2\\Shop\\Payments\\Paystack' => $baseDir . '/app/models/v2/Shop/Payments/Paystack.php',
     'v2\\Shop\\Shop' => $baseDir . '/app/models/v2/Shop/Shop.php',
+    'v2\\Tax\\Contracts\\TaxSystemInterface' => $baseDir . '/app/models/v2/Tax/Contracts/TaxSystemInterface.php',
+    'v2\\Tax\\Tax' => $baseDir . '/app/models/v2/Tax/Tax.php',
+    'v2\\Tax\\TaxSystems\\General' => $baseDir . '/app/models/v2/Tax/TaxSystems/General.php',
+    'v2\\Tax\\TaxSystems\\Indian' => $baseDir . '/app/models/v2/Tax/TaxSystems/Indian.php',
     'v2\\Traits\\Wallet' => $baseDir . '/app/models/v2/Traits/Wallet.php',
 );

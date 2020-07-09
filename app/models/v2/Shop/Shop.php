@@ -286,12 +286,12 @@ class Shop
 		$gateway_name = $this->payment_method->name;
 
 
-		$breakdown = [
-				/*'actual_order' => [
-								'value'=> $this->order->amount,
-								'name' => 'Order',
-							],*/
+		$breakdown = $this->order->invoice()['subtotal']['lines'];
 
+		return $breakdown;
+
+		
+		$breakdowna = [
 							'subtotal' => [
 								'value'=> $subtotal,
 								'name' => 'Sub Total',
@@ -305,7 +305,7 @@ class Shop
 
 							'vat' => [
 								'value'=> $vat['value'],
-								'name' => "VAT({$vat['percent']}%)",
+								'name' => "Tax",
 							],
 
 							'stamp_duty' => [
@@ -328,7 +328,6 @@ class Shop
 							],
 
 						];
-						return $breakdown;
 					}
 
 

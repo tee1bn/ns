@@ -52,7 +52,7 @@ include 'includes/header.php';; ?>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php foreach ($this->auth()->subscriptions as $order):
+                        <?php foreach ($subscription_orders as $order):
                             $subscriber = $order->user;
                             ?>
                             <tr>

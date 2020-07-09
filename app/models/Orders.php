@@ -80,24 +80,80 @@ class Orders extends Eloquent  implements OrderInterface
 
 		foreach ($this->order_detail() as $key => $line) {
 
-			$amount = $line['qty'] *  $line['market_details']['price'];
+			$rate = $line['market_details']['tax']['breakdown']['set_price'];
+			$amount = $line['qty'] *  $rate;
+			$tax = $line['market_details']['tax'];
+
+			$unit_tax = $tax['breakdown']['tax_payable'];
+			$line_tax = $unit_tax * $line['qty'];
+			$print_tax = "$unit_tax 
+			<br><small> {$tax['breakdown']['total_percent_tax']}% {$tax['pricing']} </small>";
+
+			$before_tax = $tax['breakdown']['before_tax'] * $line['qty'];
+
 			$summary[] = [
 
 				'item' => $line['market_details']['name'],
 				'description' => "",
-				'rate' => $line['market_details']['price'],
+				'rate' => $rate,
+				'print_tax' => $print_tax,
+				'line_tax' => $line_tax,
+				'before_tax' => $before_tax,
+				'tax' => $tax,
 				'qty' => $line['qty'],
 				'amount' => $amount,
 			];
 		}
 
 
+		$subtotal = collect($summary)->sum('amount');
+		$total_tax = collect($summary)->sum('line_tax');
+
+		$total_before_tax = $subtotal - $total_tax;
+		$total_after_tax = $subtotal;
+
+
+		$lines =  [
+				'subtotal' =>[
+						'name'=> 'Sub Total Before Tax',
+						'value'=> $total_before_tax,
+					],
+				'tax' =>[
+						'name'=> 'Tax',
+						'value'=> $total_tax,
+					],
+				'grand_total' =>[
+						'name'=> 'Grand Total',
+						'value'=> $subtotal,
+					],
+
+				'total_payable' =>[
+						'name'=> 'Total Payable',
+						'value'=> $subtotal,
+					],
+			];
+
+		$extra_lines = [
+
+			'total_before_tax' =>[
+					'name'=> 'Sub Total Before Tax',
+					'value'=> $total_before_tax,
+				],
+
+			'total_after_tax' =>[
+					'name'=> 'Sub Total Before Tax',
+					'value'=> $total_after_tax,
+				],
+		];
+
+		$full_lines = array_merge($lines, $extra_lines);
 
 		$subtotal = [
 			'subtotal'=> null,
-			'lines' => $this->PaymentBreakdownArray,
-
+			'lines'=> $lines,
+			// 'lines' => $this->PaymentBreakdownArray,
 			'total'=> null,
+			'full_lines'=> $full_lines,
 		];
 		
 
@@ -216,20 +272,26 @@ class Orders extends Eloquent  implements OrderInterface
 	public function calculate_vat()
 	{
 
-		$setting = \SiteSettings::find_criteria('site_settings')->settingsArray;
-		$vat_percent =  $setting['vat_percent'];
+		$items = $this->order_detail();
 		
-		$subtotal = $this->total_price();		
-		$vat = $vat_percent * 0.01 * $subtotal;
+		foreach ($items as $key => $item) {
+
+			$percent =$item['market_details']['tax']['component']['vat_percent']['percent'];
+			$qty = $item['qty'];
+			$tax_payable = $item['market_details']['tax']['breakdown']['tax_payable'];
+			$tax_payable_array[] = $tax_payable * $qty;
+		}
+
+		$total_tax = array_sum($tax_payable_array);
 
 
-		$result =[
+	/*	$result =[
 			'value' => $vat,
 			'percent' => $vat_percent,
-		];
+		];*/
 
 		$result =[
-			'value' => 0,
+			'value' => $total_tax,
 			'percent' => 0,
 		];
 
@@ -661,10 +723,9 @@ class Orders extends Eloquent  implements OrderInterface
 
 		$orders =  $this->order_detail();
 		foreach ($orders as $order) {
-
 			$total_price[] = $order['market_details']['price'] *$order['qty'];
-
 		}
+
 
 		$total =  array_sum($total_price);
 		return $total;
