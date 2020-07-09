@@ -90,15 +90,30 @@ include 'includes/header.php';; ?>
                                           </form>
 
 
-                                                 <a href="javascript:void;" class="dropdown-item"  onclick="document.getElementById('payment_proof_input<?= $order->id; ?>').click()" >
-                                                    Upload Proof
-                                                </a>
 
-                                                <?php if ($order->payment_proof != null) : ?>
-                                                    <a class="dropdown-item" target="_blank"
-                                                    href="<?= domain; ?>/<?= $order->payment_proof; ?>">See Proof</a>
-                                                <?php endif; ?>
 
+                                          <?php if(! $order->is_paid()) :?>
+                                          
+
+
+                                             <a href="javascript:void;" class="dropdown-item"  onclick="document.getElementById('payment_proof_input<?= $order->id;?>').click()" >
+                                                Upload Proof
+                                            </a>
+
+
+                                          
+                                          <?php else:?>
+                                          <!-- 
+                                              <a href="<?=domain;?>/user/download_request/<?=$order->id;?>" class="dropdown-item" >
+                                                  Download
+                                              </a> -->
+
+
+                                          <?php endif;?>                                             
+                                          <?php if ($order->payment_proof != null) : ?>
+                                              <a class="dropdown-item" target="_blank"
+                                              href="<?= domain; ?>/<?= $order->payment_proof; ?>">See Proof</a>
+                                          <?php endif; ?>
 
                                             </div>
                                         </div>
