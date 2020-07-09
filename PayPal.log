@@ -3073,3 +3073,11 @@
 [09-07-2020 13:41:12] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
 [09-07-2020 13:41:12] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/payments/payment
 [09-07-2020 13:41:14] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[09-07-2020 15:02:31] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/oauth2/token
+[09-07-2020 15:02:32] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[09-07-2020 15:02:32] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/payments/payment
+[09-07-2020 15:02:33] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201
+[09-07-2020 15:02:33] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/oauth2/token
+[09-07-2020 15:02:34] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 200
+[09-07-2020 15:02:34] PayPal\Core\PayPalHttpConnection : INFO: POST https://api.paypal.com/v1/payments/payment
+[09-07-2020 15:02:36] PayPal\Core\PayPalHttpConnection : INFO: Response Status 	: 201

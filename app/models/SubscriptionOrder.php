@@ -225,10 +225,11 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 
 		$unit_tax = $tax['breakdown']['tax_payable'];
 		$line_tax = $unit_tax * $qty;
-		$print_tax = "$unit_tax 
-		<br><small> {$tax['breakdown']['total_percent_tax']}% {$tax['pricing']} </small>";
+		$print_tax = "$line_tax 
+		<br><small> {$tax['breakdown']['total_percent_tax']}%  {$tax['pricing']} </small>";
 
 		$before_tax = $tax['breakdown']['before_tax'] * $qty;
+		$after_tax = $tax['breakdown']['total_payable'] * $qty;
 
 
 
@@ -239,24 +240,65 @@ class SubscriptionOrder extends Eloquent implements OrderInterface
 				'description' => "{$detail['package_type']} Package for $this->no_of_month month(s)",
 				'rate' => $rate,
 				'qty' => $qty,
-				'amount' => $this->paymentBreakdownArray['subtotal']['value'],
-
-
-
+				'amount' => $amount,
 				'print_tax' => $print_tax,
 				'line_tax' => $line_tax,
 				'before_tax' => $before_tax,
+				'after_tax' => $after_tax,
 				'tax' => $tax,
 			]
 		];
 
 
+		$total_tax = collect($summary)->sum('line_tax');
+		$total_before_tax = collect($summary)->sum('before_tax');
+		$total_after_tax = collect($summary)->sum('after_tax');
+
+		$lines =  [
+				'subtotal' =>[
+						'name'=> 'Sub Total Before Tax',
+						'value'=> $total_before_tax,
+					],
+				'tax' =>[
+						'name'=> 'Tax',
+						'value'=> $total_tax,
+					],
+				'grand_total' =>[
+						'name'=> 'Grand Total',
+						'value'=> $total_after_tax,
+					],
+
+				'total_payable' =>[
+						'name'=> 'Total Payable',
+						'value'=> $total_after_tax,
+					],
+			];
+
+		$extra_lines = [
+
+			'total_before_tax' =>[
+					'name'=> 'Sub Total Before Tax',
+					'value'=> $total_before_tax,
+				],
+
+			'total_after_tax' =>[
+					'name'=> 'Sub Total Before Tax',
+					'value'=> $total_after_tax,
+				],
+		];
+
+		$full_lines = array_merge($lines, $extra_lines);
+
+
 		$subtotal = [
 			'subtotal'=> null,
-			'lines' => $this->PaymentBreakdownArray,
-
-			// 'total'=>$this->paymentBreakdownArray['subtotal']['value'],
+			'lines'=> $lines,
+			// 'lines' => $this->PaymentBreakdownArray,
+			'total'=> null,
+			'full_lines'=> $full_lines,
 		];
+		
+
 
 		$invoice = [
 			'order_id' => $this->TransactionID,

@@ -86,7 +86,7 @@ class Orders extends Eloquent  implements OrderInterface
 
 			$unit_tax = $tax['breakdown']['tax_payable'];
 			$line_tax = $unit_tax * $line['qty'];
-			$print_tax = "$unit_tax 
+			$print_tax = "$line_tax 
 			<br><small> {$tax['breakdown']['total_percent_tax']}% {$tax['pricing']} </small>";
 
 			$before_tax = $tax['breakdown']['before_tax'] * $line['qty'];
@@ -106,10 +106,11 @@ class Orders extends Eloquent  implements OrderInterface
 		}
 
 
+
 		$subtotal = collect($summary)->sum('amount');
 		$total_tax = collect($summary)->sum('line_tax');
 
-		$total_before_tax = $subtotal - $total_tax;
+		$total_before_tax = collect($summary)->sum('before_tax');
 		$total_after_tax = $subtotal;
 
 
