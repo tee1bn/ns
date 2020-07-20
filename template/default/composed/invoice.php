@@ -130,10 +130,10 @@ $invoice = $order->invoice();
                       </tr>
                     </thead>
                     <tbody>
-                      <?php foreach ($invoice['summary'] as $key => $summary) :?>
+                      <?php $i=1; foreach ($invoice['summary'] as $key => $summary) :?>
 
                         <tr>
-                          <th scope="row">1</th>
+                          <th scope="row"><?=$i++;?></th>
                           <td>
                             <p><?=$summary['item'];?> </p>
                             <p><small class="text-mute"> <?=$summary['description'];?></small></p>
