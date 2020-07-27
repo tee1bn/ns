@@ -9,6 +9,7 @@ class Admin extends Eloquent
 	protected $fillable = [ 'username','firstname','lastname', 'phone','email', 'password'];
 	
 	protected $table = 'administrators';
+    protected $hidden = ['password'];
 
 
 

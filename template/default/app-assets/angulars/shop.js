@@ -136,7 +136,7 @@
 			              window.notify();
 			            },
 			            error: function (data) {
-			                 alert("fail"+JSON.stringify(data));
+			                 // alert("fail"+JSON.stringify(data));
 			            }
 
 			           });
