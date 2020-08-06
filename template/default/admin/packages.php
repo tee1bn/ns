@@ -53,13 +53,10 @@ use v2\Models\InvestmentPackage;
 
                   <div class="row">
 
-
                     <div class="form-group col-md-4">
                       <label>Package Type </label>
                       <input type="" name="package_type" required="" value="<?=$plan->package_type;?>" class="form-control">
                     </div>
-
-
 
                     <div class="form-group col-md-2">
                       <label>Price </label>
@@ -76,15 +73,11 @@ use v2\Models\InvestmentPackage;
                       <input type="number" step="0.01" name="percent_vat" required="" value="<?=$plan->percent_vat;?>" class="form-control">
                     </div>
 
-
-
                     <div class="form-group col-md-2">
                       <label>Commission Level  </label>
                       <input type="number" step="1" name="downline_commission_level" required="" value="<?=$plan->downline_commission_level;?>" class="form-control">
                     </div>
                     
-                    
-
                     <div class="form-group col-md-2">
                       <label>Get Pool</label>
                       <input type="number" step="1" name="get_pool" required="" value="<?=$plan->get_pool;?>" class="form-control">

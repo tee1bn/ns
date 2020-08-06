@@ -690,17 +690,16 @@ ELL;
 
           if ($add_self == true) {
             // $query = self::query();
-               $identifier = "/$this->mlm_id";
+               $identifier = "/{$this->$user_column}";
                $mlm_id = $this->mlm_id;
                 $query = self::WhereRaw("(mlm_id = '$mlm_id' OR $user_column like '%$identifier%')")
                 ;
 
           }else{
-               $identifier = "/$this->mlm_id";
+               $identifier = "/{$this->$user_column}";
                 $query = self::where($user_column, 'like', "%$identifier%");
 
           }
-
 
         return $query;
     }

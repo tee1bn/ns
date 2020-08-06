@@ -112,6 +112,8 @@ $page_title = "Placement Team List";
                         </div>
                     </div>
                 </div>
+                
+                
                   <ul class="pagination">
                       <?=$this->pagination_links($list['total'] , $per_page) ;?>
                   </ul>  

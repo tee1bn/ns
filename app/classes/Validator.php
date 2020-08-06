@@ -170,7 +170,7 @@ class Validator
 							break;
 						case 'matches':
 
-						if ($value != $data["$rule_value"]) {
+						if ($value !== $data["$rule_value"]) {
 
 							$this->addError("$rule_value", "{$rule_value}s do not match.");
 						}

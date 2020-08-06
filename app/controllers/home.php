@@ -311,7 +311,7 @@ class home extends controller
         $mailer = new Mailer();
 
         $mailer->sendMail(
-            $email_message,
+            $support_email_address,
             "$project_name Support - Ticket ID: $support_ticket->code",
             $client_email_message,
             "Support");
