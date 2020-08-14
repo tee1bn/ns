@@ -51,8 +51,7 @@ $page_title = "$page_title";
                       <th>#sn</th>
                       <th>#Id</th>
                       <th>Name (Username)</th>
-                      <th>Email</th>
-                      <th>Phone</th>
+                      <th>Email <br> Phone</th>
                       <th>Joined / Status</th>
                       <th>Action</th>
                     </tr>
@@ -63,10 +62,10 @@ $page_title = "$page_title";
                       <td><?=$i;?> </td>
                       <td><?=$user->id;?> </td>
                       <td>
-                        <?=$user->DropSelfLink;?> (<?=$user->username;?>)<br>
+                        <?=$user->DropSelfLink;?>
                        </td>
-                      <td><a href="mailto://<?=$user->email;?>"><?=$user->email;?></a></td>
-                      <td><a href="tel://<?=$user->phone;?>"><?=$user->phone;?></a></td>
+                      <td><a href="mailto://<?=$user->email;?>"><?=$user->email;?></a><br>
+                        <a href="tel://<?=$user->phone;?>"><?=$user->phone;?></a></td>
                       <td><span class="badge badge-secondary"><?=$user->created_at->format('M j, Y H:i:A');?></span>
                         <br/><?=$user->activeStatus;?> </td>
                       <td>
@@ -77,6 +76,23 @@ $page_title = "$page_title";
                               <a class="dropdown-item" target="_blank" href="<?=$user->AdminViewUrl;?>">
                                 <span type='span' class='label label-xs label-primary'>View</span>
                               </a>
+
+
+
+                              <?php if (! $user->has_verified_email()) :?>
+                              <a class="dropdown-item" href="javascript:void(0)'">
+                                <span type='span' class='label label-xs label-primary'> <?=MIS::generate_form(
+                                  ['user_id'=> $user->id],
+                                  "$domain/user_doc_crud/verify_email",
+                                  'Verify Email'
+                                  
+                                  );?></span>
+                              </a>
+                              <?php endif;?>
+
+
+
+
                               <a  class="dropdown-item"  href="javascript:void;"  onclick="$confirm_dialog = 
                                   new ConfirmationDialog('<?=domain;?>/admin/suspending_user/<?=$user->id;?>')">
                                           <span type='span' class='label label-xs label-primary'>Toggle Ban</span>

@@ -105,11 +105,11 @@ class MIS
         }
 
         if ($require_confirmation == true) {
-            $btn = '<button type="button" onclick="$confirm_dialog = new DialogJS(submit_form, [this])"  class="btn btn-sm btn-secondary">' . $button . '</button>';
+            $btn = '<button type="button" onclick="$confirm_dialog = new DialogJS(submit_form, [this])"  class="btn btn-sm btn-outline-secondary">' . $button . '</button>';
 
         } else {
 
-            $btn = '<button type="submit"   class="btn btn-secondary">' . $button . '</button>';
+            $btn = '<button type="submit"   class="btn btn-outline-secondary">' . $button . '</button>';
         }
 
         $form = '';

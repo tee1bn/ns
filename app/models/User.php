@@ -1127,7 +1127,10 @@ ELL;
 
     public function getDropSelfLinkAttribute()
     {
-        return "<a target='_blank' href='{$this->AdminViewUrl}'>{$this->full_name}</a>";
+
+        return  "<a target='_blank' href='{$this->AdminViewUrl}'>{$this->full_name} ($this->username)
+        <br><i class='fa fa-envelope'></i> {$this->email} {$this->emailVerificationStatus}
+         </a>";
     }
 
 

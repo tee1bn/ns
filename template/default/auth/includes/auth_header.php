@@ -52,6 +52,8 @@
 			<div class="card border-grey border-lighten-3 px-2 py-2 m-0">
 				<div class="card-header border-0">
 					<div class="card-title text-center">
+                        <a title="Cancel" href="<?=domain;?>/login/logout"><i class="text-dark float-right fa fa-times"></i></a>
+
                         <a href="<?=domain;?>">
 						  <img src="<?=$logo;?>" style="height: 110px;" alt="branding logo">
                         </a>

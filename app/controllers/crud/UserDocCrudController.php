@@ -22,6 +22,66 @@ class UserDocCrudController extends controller
         # code...
     }
 
+
+    
+    public function verify_phone()
+    {
+
+        $user = User::find($_POST['user_id']);
+        if (($user == null)) {
+            Session::putFlash('danger','User Not Found');
+            Redirect::back();
+        }
+
+
+        DB::beginTransaction(); 
+        try {
+
+                $user->update(['phone_verification' => 1]);
+
+                DB::commit();   
+                Session::putFlash('success',"{$user->username} Phone marked as verified");
+
+            } catch (Exception $e) {
+                DB::rollback(); 
+                Session::putFlash('danger','Something went wrong');
+            }
+
+        // Redirect::back();
+    }
+
+
+    public function verify_email()
+    {
+
+        $user = User::find($_POST['user_id']);
+        if (($user == null)) {
+            Session::putFlash('danger','User Not Found');
+            Redirect::back();
+        }
+
+
+        DB::beginTransaction(); 
+        try {
+
+                $user->update(['email_verification' => 1]);
+
+                DB::commit();   
+                Session::putFlash('success',"{$user->username} Email marked as verified");
+
+            } catch (Exception $e) {
+                DB::rollback(); 
+                Session::putFlash('danger','Something went wrong');
+            }
+
+        // Redirect::back();
+    }
+
+    
+
+
+
+
     public function push_to_state()
     {
         $doc_id = $_POST['doc_id'];
