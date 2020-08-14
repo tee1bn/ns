@@ -177,6 +177,19 @@ $page_title = "User Verification";
                               <a type="button" class="dropdown-item" onclick="open_mod('#processs<?=$document->id;?>');">
                                 Process
                               </a>
+
+                              
+                              <?php if (! $document->user->has_verified_email()) :?>
+                              <a class="dropdown-item" href="javascript:void(0)'">
+                                <span type='span' class='label label-xs label-primary'> <?=MIS::generate_form(
+                                  ['user_id'=> $document->user->id],
+                                  "$domain/user_doc_crud/verify_email",
+                                  'Verify Email'
+                                  
+                                  );?></span>
+                              </a>
+                              <?php endif;?>
+
                              
                           </div>
                         </div>
