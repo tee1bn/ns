@@ -67,10 +67,9 @@ class PaypalAgreement  extends cPaypal{
 
 	public function startAgreement()
 	{
-		$today = date("Y-m-d", strtotime('+1 day')).'T5:45:04Z';
+		$today = date("c" ,  strtotime('+1 hour'));
 
 		$this->agreement = new Agreement();
-
 		$this->agreement->setName('Base Agreement')
 		    ->setDescription('Basic Agreement')
 		    ->setStartDate("$today");
