@@ -133,6 +133,11 @@
 			            contentType: false,
 			            processData: false,
 			            data: $form,
+			            async: true,
+                        headers: {
+                          "cache-control": "no-cache"
+                        },
+			            
 			            success: function(data) {
 							$("#page_preloader").css('display', 'none');
 			              // console.log(data);
