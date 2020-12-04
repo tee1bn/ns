@@ -32,6 +32,12 @@ class home extends controller
         echo "<br>";*/
         echo "<pre>";
 
+
+        print_r($this->auth()->subscription->toArray());
+
+
+        return;
+
             $product = Products::find(41);
 
             print_r($product->tax_breakdown());
